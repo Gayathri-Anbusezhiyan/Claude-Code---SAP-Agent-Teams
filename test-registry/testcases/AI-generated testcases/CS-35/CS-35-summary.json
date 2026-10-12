@@ -1,0 +1,118 @@
+{
+  "userStory": "CS-35",
+  "summary": "Create An Outbound Delivery With A Cold-Chain Shipping Condition For T",
+  "module": "LE/SD",
+  "generatedAt": "2026-08-23T18:12:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 8,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 2,
+    "ERR": 3,
+    "EDGE": 2,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 5,
+    "MEDIUM": 2,
+    "LOW": 0
+  },
+  "automationCandidates": 7,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Create Outbound Delivery with Cold-Chain Shipping Condition and Temperature Monitoring",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-035-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Attempt to Create Outbound Delivery for Material Without Storage Condition Classification",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-035-NEG-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Attempt to Select Non-Qualified Carrier for Cold-Chain Material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationCandidatePartial": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-035-NEG-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt to Save Outbound Delivery Without Selecting Cold-Chain Carrier",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-035-ERR-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Attempt to Save Outbound Delivery Without Temperature Logger Reference",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-035-ERR-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt to Post Goods Issue Without Temperature Monitoring Device Reference",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-035-ERR-003",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Create Outbound Delivery with Minimum Quantity Boundary for Cold-Chain Material",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-035-EDGE-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Create Outbound Delivery with Maximum Length Temperature Logger Reference",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-035-EDGE-002",
+      "acsCovered": ["AC-5"]
+    }
+  ],
+  "testdataFile": "testdata/CS-35/CS-35-testdata.json"
+}

@@ -1,0 +1,399 @@
+{
+  "storyKey": "CS-29",
+  "storyTitle": "Perform Three-Way Match Invoice Verification For A Gmp Material Purchase",
+  "priority": "Critical",
+  "overallRisk": "HIGH",
+  "analysisDate": "2026-08-22",
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "statement": "The user can access the \"Create Supplier Invoice\" Fiori app.",
+      "type": "Functional — Navigation/Authorization",
+      "riskLevel": "Medium",
+      "failureImpact": "User cannot initiate invoice verification process",
+      "testability": "Fully testable",
+      "testTechniques": ["Equivalence Partitioning", "Boundary"]
+    },
+    {
+      "id": "AC-2",
+      "statement": "The system automatically proposes the quantity and value based on the referenced PO and goods receipt.",
+      "type": "Functional — Data Auto-Population",
+      "riskLevel": "High",
+      "failureImpact": "Incorrect invoice amounts proposed → payment errors → financial reconciliation issues",
+      "testability": "Fully testable",
+      "testTechniques": ["State Transition", "Decision Table"]
+    },
+    {
+      "id": "AC-3",
+      "statement": "The system blocks the invoice for payment if the invoiced quantity exceeds the received quantity beyond a configurable tolerance.",
+      "type": "Functional — Business Rule Validation (Three-Way Match Logic)",
+      "riskLevel": "Critical",
+      "failureImpact": "Payment released for undelivered goods → financial loss",
+      "testability": "Fully testable",
+      "testTechniques": ["Boundary Value Analysis", "Equivalence Partitioning", "Decision Table"]
+    },
+    {
+      "id": "AC-4",
+      "statement": "The system blocks the invoice for payment if the invoiced price varies from the PO price beyond a configurable tolerance.",
+      "type": "Functional — Business Rule Validation (Three-Way Match Logic)",
+      "riskLevel": "Critical",
+      "failureImpact": "Payment released at incorrect price → financial loss or overpayment",
+      "testability": "Fully testable",
+      "testTechniques": ["Boundary Value Analysis", "Equivalence Partitioning", "Decision Table"]
+    },
+    {
+      "id": "AC-5",
+      "statement": "Blocked invoices are routed to a resolution workflow visible in \"Manage Blocked Invoices.\"",
+      "type": "Functional — Workflow/Notification",
+      "riskLevel": "High",
+      "failureImpact": "Blocked invoices not visible → no resolution → delayed payments → supplier disputes",
+      "testability": "Fully testable",
+      "testTechniques": ["State Transition", "Use Case"]
+    },
+    {
+      "id": "AC-6",
+      "statement": "Once discrepancies are resolved, the invoice is automatically released for payment.",
+      "type": "Functional — Workflow Completion/State Transition",
+      "riskLevel": "High",
+      "failureImpact": "Invoice remains blocked after resolution → delayed payment → supplier relations impacted",
+      "testability": "Partially testable",
+      "testTechniques": ["State Transition", "Decision Table"]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "HP-1",
+      "type": "HP",
+      "description": "Create supplier invoice for GMP material PO with perfect three-way match (invoice qty = GR qty, invoice price = PO price) → invoice posted and released for payment",
+      "coverage": ["AC-1", "AC-2", "AC-6"],
+      "priority": "P0",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "AP-1",
+      "type": "AP",
+      "description": "Create supplier invoice with quantity variance within tolerance → invoice posted and released (no block)",
+      "coverage": ["AC-1", "AC-2", "AC-3"],
+      "priority": "P1",
+      "risk": "HIGH"
+    },
+    {
+      "id": "AP-2",
+      "type": "AP",
+      "description": "Create supplier invoice with price variance within tolerance → invoice posted and released (no block)",
+      "coverage": ["AC-1", "AC-2", "AC-4"],
+      "priority": "P1",
+      "risk": "HIGH"
+    },
+    {
+      "id": "AP-3",
+      "type": "AP",
+      "description": "Create supplier invoice referencing PO with multiple GRs → system proposes cumulative open quantity",
+      "coverage": ["AC-2"],
+      "priority": "P2",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "AP-4",
+      "type": "AP",
+      "description": "Create supplier invoice referencing PO with partial GR → system proposes only received quantity",
+      "coverage": ["AC-2"],
+      "priority": "P2",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "NEG-1",
+      "type": "NEG",
+      "description": "Unauthorized user attempts to access \"Create Supplier Invoice\" app → access denied",
+      "coverage": ["AC-1"],
+      "priority": "P3",
+      "risk": "LOW"
+    },
+    {
+      "id": "NEG-2",
+      "type": "NEG",
+      "description": "User enters non-existent PO number → error message \"PO not found\"",
+      "coverage": ["AC-2"],
+      "priority": "P2",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "NEG-3",
+      "type": "NEG",
+      "description": "User enters PO with no goods receipt → error message or zero quantity proposed",
+      "coverage": ["AC-2"],
+      "priority": "P2",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "NEG-4",
+      "type": "NEG",
+      "description": "User enters PO already fully invoiced → error message \"PO fully invoiced\"",
+      "coverage": ["AC-2"],
+      "priority": "P3",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "ERR-1",
+      "type": "ERR",
+      "description": "Create supplier invoice with quantity exceeding GR quantity beyond tolerance → invoice blocked, blocking reason \"Quantity variance\"",
+      "coverage": ["AC-3", "AC-5"],
+      "priority": "P0",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "ERR-2",
+      "type": "ERR",
+      "description": "Create supplier invoice with price exceeding PO price beyond tolerance → invoice blocked, blocking reason \"Price variance\"",
+      "coverage": ["AC-4", "AC-5"],
+      "priority": "P0",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "ERR-3",
+      "type": "ERR",
+      "description": "Create supplier invoice with both quantity and price variances beyond tolerance → invoice blocked with multiple blocking reasons",
+      "coverage": ["AC-3", "AC-4", "AC-5"],
+      "priority": "P2",
+      "risk": "HIGH"
+    },
+    {
+      "id": "ERR-4",
+      "type": "ERR",
+      "description": "User posts invoice without required field (e.g., invoice date, posting date) → error message \"Enter [field name]\"",
+      "coverage": ["General mandatory field validation"],
+      "priority": "P3",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "EDGE-1",
+      "type": "EDGE",
+      "description": "Create supplier invoice with quantity exactly at tolerance boundary (GR qty + tolerance) → invoice released (no block)",
+      "coverage": ["AC-3"],
+      "priority": "P1",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "EDGE-2",
+      "type": "EDGE",
+      "description": "Create supplier invoice with quantity at tolerance + 0.01 → invoice blocked",
+      "coverage": ["AC-3"],
+      "priority": "P3",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "EDGE-3",
+      "type": "EDGE",
+      "description": "Create supplier invoice with price exactly at tolerance boundary (PO price + tolerance) → invoice released (no block)",
+      "coverage": ["AC-4"],
+      "priority": "P1",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "EDGE-4",
+      "type": "EDGE",
+      "description": "Create supplier invoice with price at tolerance + 0.01 → invoice blocked",
+      "coverage": ["AC-4"],
+      "priority": "P3",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "EDGE-5",
+      "type": "EDGE",
+      "description": "Create supplier invoice with zero quantity → error message \"Enter quantity\"",
+      "coverage": ["AC-2"],
+      "priority": "P3",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "EDGE-6",
+      "type": "EDGE",
+      "description": "Create supplier invoice with zero price → error message \"Net price must be greater than 0\"",
+      "coverage": ["AC-2"],
+      "priority": "P3",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "EDGE-7",
+      "type": "EDGE",
+      "description": "Create supplier invoice with negative quantity → error message or system rejection",
+      "coverage": ["AC-2"],
+      "priority": "P3",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "EDGE-8",
+      "type": "EDGE",
+      "description": "Create supplier invoice with negative price → error message or system rejection",
+      "coverage": ["AC-2"],
+      "priority": "P3",
+      "risk": "MEDIUM"
+    },
+    {
+      "id": "INT-1",
+      "type": "INT",
+      "description": "Blocked invoice appears in \"Manage Blocked Invoices\" worklist with correct blocking reason and variance details",
+      "coverage": ["AC-5"],
+      "priority": "P0",
+      "risk": "HIGH"
+    },
+    {
+      "id": "INT-2",
+      "type": "INT",
+      "description": "User corrects blocked invoice quantity to match GR → invoice auto-released and visible in payment run",
+      "coverage": ["AC-6"],
+      "priority": "P0",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "INT-3",
+      "type": "INT",
+      "description": "User corrects blocked invoice price to match PO → invoice auto-released and visible in payment run",
+      "coverage": ["AC-6"],
+      "priority": "P1",
+      "risk": "CRITICAL"
+    },
+    {
+      "id": "INT-4",
+      "type": "INT",
+      "description": "User manually releases blocked invoice (if authorized) → invoice status changes to \"Released for Payment\"",
+      "coverage": ["AC-6"],
+      "priority": "P3",
+      "risk": "HIGH"
+    },
+    {
+      "id": "INT-5",
+      "type": "INT",
+      "description": "Payment run includes released invoice → payment document created for supplier",
+      "coverage": ["Post-AC integration"],
+      "priority": "P3",
+      "risk": "HIGH"
+    }
+  ],
+  "scenarioCount": {
+    "HP": 1,
+    "AP": 4,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 8,
+    "INT": 5,
+    "total": 26
+  },
+  "priorityCount": {
+    "P0": 5,
+    "P1": 5,
+    "P2": 5,
+    "P3": 11
+  },
+  "testDataRequirements": {
+    "masterData": [
+      {
+        "entity": "Supplier",
+        "example": "17300002 (Carbon Tec Inc.)",
+        "notes": "Must have payment terms, bank details"
+      },
+      {
+        "entity": "Material",
+        "example": "RMPI001 (Input 1 — WATER)",
+        "notes": "Material type: ROH (Raw material) or HAWA (Trading goods)"
+      },
+      {
+        "entity": "Purchase Order",
+        "example": "4500065467",
+        "notes": "Status: Released, GR posted, not fully invoiced"
+      },
+      {
+        "entity": "Goods Receipt",
+        "example": "5000012345",
+        "notes": "Must be posted to same PO line item"
+      },
+      {
+        "entity": "User Authorization",
+        "example": "AP_CLERK role",
+        "notes": "Authorization objects: F_BKPF_BUK, F_LFA1_BUK"
+      }
+    ],
+    "configurationData": [
+      {
+        "parameter": "Quantity Tolerance (%)",
+        "table": "T169Q",
+        "example": "5%",
+        "impact": "AC-3 boundary"
+      },
+      {
+        "parameter": "Price Tolerance (%)",
+        "table": "T169P",
+        "example": "2%",
+        "impact": "AC-4 boundary"
+      },
+      {
+        "parameter": "Price Tolerance (Absolute)",
+        "table": "T169P",
+        "example": "$10",
+        "impact": "AC-4 boundary (alternative)"
+      }
+    ]
+  },
+  "keyRisks": [
+    {
+      "risk": "Tolerance configuration unknown",
+      "likelihood": "High",
+      "impact": "High",
+      "mitigation": "Query T169Q and T169P tables before test case design; document actual tolerance values"
+    },
+    {
+      "risk": "GR document not available for test PO",
+      "likelihood": "Medium",
+      "impact": "High",
+      "mitigation": "Execute GR posting as part of test data setup; use CS-2 PO if GR already posted"
+    },
+    {
+      "risk": "Blocking not triggered due to misconfigured tolerance",
+      "likelihood": "Low",
+      "impact": "Critical",
+      "mitigation": "Verify tolerance settings in pre-test validation; use multiple test data variants to confirm blocking logic"
+    },
+    {
+      "risk": "Blocked invoice worklist app not accessible",
+      "likelihood": "Low",
+      "impact": "Medium",
+      "mitigation": "Verify \"Manage Blocked Invoices\" app authorization and availability before AC-5 test execution"
+    },
+    {
+      "risk": "Invoice cannot be corrected/released in Fiori",
+      "likelihood": "Medium",
+      "impact": "Medium",
+      "mitigation": "Document alternate resolution paths (MRBR transaction, manual release via MIRO); test both Fiori and GUI workflows"
+    }
+  ],
+  "integrationPoints": [
+    {
+      "integration": "Purchase Order (MM)",
+      "tables": "EKKO/EKPO",
+      "description": "PO data lookup for quantity and price validation"
+    },
+    {
+      "integration": "Goods Receipt (MM)",
+      "tables": "MKPF/MSEG",
+      "description": "GR quantity lookup for three-way match"
+    },
+    {
+      "integration": "Manage Blocked Invoices",
+      "tables": "RBKP (blocking indicators)",
+      "description": "Blocked invoice worklist visibility"
+    },
+    {
+      "integration": "Payment Run",
+      "tables": "Payment proposal",
+      "description": "Blocked invoices must be excluded; released invoices included"
+    }
+  ],
+  "sapModule": "MM / FI",
+  "sapApp": "Create Supplier Invoice",
+  "sapTransaction": "MIRO (backend)",
+  "businessProcess": "Procure-to-Pay (Invoice Verification phase)",
+  "recommendedMinimumTCs": 5,
+  "recommendedTCs": 10,
+  "comprehensiveTCs": 15,
+  "exhaustiveTCs": 26
+}

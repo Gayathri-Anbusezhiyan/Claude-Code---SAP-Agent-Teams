@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-30",
+  "type": "Task",
+  "summary": "Create A Material Master Record For A New Api With A Defined Shelf-Lif",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Material Master Data Specialist, I want to create a Material Master record for a new API with a defined shelf-life profile and batch management indicator, so that the material is correctly controlled through procurement, inventory, and production processes.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Material Master\" Fiori app.\n2. The system requires the batch management indicator to be set for materials flagged as GMP-regulated in the material type configuration.\n3. The system requires entry of total shelf life and minimum remaining shelf life on the Plant Data / Storage view.\n4. The system requires an assigned Quality Management inspection type for GMP-relevant materials.\n5. The material record cannot be released for procurement until all mandatory GMP fields are completed.\n6. A change log captures all subsequent modifications to regulatory-relevant fields for audit purposes.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:16.946+0530",
+  "updated": "2026-08-21T14:11:17.047+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-30",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

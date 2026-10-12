@@ -1,0 +1,447 @@
+{
+  "userStory": "CS-24",
+  "summary": "Create A Subcontracting Purchase Order For Outsourced Fill-Finish Manu",
+  "module": "MM",
+  "analysedAt": "2026-08-21T09:15:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Officer",
+  "businessObject": "Subcontracting Purchase Order",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Create Purchase Order\" Fiori app with item category \"Subcontracting.\"",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system allows the user to specify the components to be provided to the CMO against the subcontracted finished material.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system tracks components issued to the vendor as \"Stock provided to vendor\" inventory.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "Upon goods receipt of the finished product, the system automatically consumes the corresponding component stock at the CMO.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The system triggers a quality inspection lot for the received finished goods per standard GMP receipt rules.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The user can view open component balances at the CMO through the \"Stock Overview\" app.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create subcontracting PO with single component, verify PO created, special stock indicator set, component list populated",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Issue components to vendor (MB1B movement type 541), verify \"Stock provided to vendor\" created",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-6"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Post goods receipt for finished product, verify component auto-consumption and inspection lot creation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "HP-04",
+        "description": "View component balances at CMO via Stock Overview app after issue",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create subcontracting PO with multiple components (2+)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-6"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Partial goods receipt (quantity < PO quantity), verify partial component consumption",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create PO with vendor that does not have subcontracting indicator enabled",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create PO with material that does not have item category \"L\" configured",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to specify component not in BOM for the finished material",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt goods receipt when insufficient component stock at vendor",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Supplier field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Supplier"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Order Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Order Quantity"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Delivery Date field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Delivery Date"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Item Category or wrong category (not \"L\")",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Item Category"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum order quantity (1 unit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-4"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Zero order quantity",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Maximum order quantity (system limit)",
+        "risk": "LOW",
+        "acIds": ["AC-2"],
+        "parameter": "quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Delivery date = today (minimum lead time)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "deliveryDate",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Past delivery date",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "deliveryDate",
+        "boundary": "invalid"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Component quantity override to zero (if system allows manual edit)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "parameter": "componentQuantity",
+        "boundary": "zero"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify integration with MM-IM (special stock creation and component consumption)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"],
+        "linkedIssue": null,
+        "integration": "MM-IM"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify integration with QM (inspection lot creation at GR)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "linkedIssue": null,
+        "integration": "QM"
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify integration with BOM (component explosion from STPO/STKO)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"],
+        "linkedIssue": null,
+        "integration": "PP-BOM"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 2,
+    "NEG": 4,
+    "ERR": 6,
+    "EDGE": 6,
+    "INT": 3,
+    "total": 25
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "supplierId",
+        "label": "Supplier",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing vendor in SAP master with subcontracting indicator"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing material with item category \"L\" (Subcontracting)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid plant code assigned to purchasing org"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Must be > 0, aligned with UoM"
+      },
+      {
+        "name": "deliveryDate",
+        "label": "Delivery Date",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Future date"
+      },
+      {
+        "name": "itemCategory",
+        "label": "Item Category",
+        "dataType": "Dropdown",
+        "mandatory": true,
+        "validRange": "\"L\" (Subcontracting)"
+      },
+      {
+        "name": "components",
+        "label": "Components (in item details)",
+        "dataType": "List of materials",
+        "mandatory": true,
+        "validRange": "Valid component materials from BOM"
+      },
+      {
+        "name": "componentQuantity",
+        "label": "Component Quantity",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Calculated from BOM; editable if needed"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "supplierName",
+        "label": "Supplier Name",
+        "trigger": "Confirm Supplier ID",
+        "source": "Vendor master LFA1"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MARA"
+      },
+      {
+        "name": "purchasingOrganization",
+        "label": "Purchasing Organization",
+        "trigger": "Confirm Supplier ID",
+        "source": "Purchasing info record"
+      },
+      {
+        "name": "purchasingGroup",
+        "label": "Purchasing Group",
+        "trigger": "Confirm Supplier ID",
+        "source": "Purchasing info record"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "trigger": "Confirm Plant",
+        "source": "Plant assignment table"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "Order Unit",
+        "trigger": "Confirm Material ID",
+        "source": "Material master (base UoM)"
+      },
+      {
+        "name": "componentBOMList",
+        "label": "Components",
+        "trigger": "Confirm Material + Plant",
+        "source": "BOM explosion (STPO/STKO)"
+      },
+      {
+        "name": "netPrice",
+        "label": "Net Price",
+        "trigger": "Confirm Material + Supplier",
+        "source": "Purchasing info record or contract"
+      }
+    ],
+    "output": [
+      {
+        "name": "poNumber",
+        "label": "Purchase Order Number",
+        "description": "Unique SAP-generated Subcontracting PO document number",
+        "format": "10-digit numeric, begins with 45"
+      },
+      {
+        "name": "poItemNumber",
+        "label": "PO Item Number",
+        "description": "Line item number for each material",
+        "format": "Sequential (10, 20, 30...)"
+      },
+      {
+        "name": "specialStockIndicator",
+        "label": "Special Stock Indicator",
+        "description": "Stock provided to vendor indicator",
+        "format": "\"O\" (auto-set for subcontracting)"
+      },
+      {
+        "name": "componentStockDocument",
+        "label": "Component Stock Document",
+        "description": "Material document number for component issue (post-creation)",
+        "format": "10-digit numeric, begins with 49"
+      },
+      {
+        "name": "grDocumentNumber",
+        "label": "Goods Receipt Document Number",
+        "description": "Goods receipt document number for finished product",
+        "format": "10-digit numeric, begins with 49"
+      },
+      {
+        "name": "inspectionLotNumber",
+        "label": "Inspection Lot Number",
+        "description": "QM inspection lot number generated at goods receipt",
+        "format": "Numeric"
+      },
+      {
+        "name": "componentConsumptionDocument",
+        "label": "Component Consumption Document",
+        "description": "Material document number for auto-consumed components at GR",
+        "format": "10-digit numeric"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured maximum per UoM",
+        "zeroInvalid": true,
+        "notes": "Drives component quantity calculation"
+      },
+      {
+        "name": "componentQuantity",
+        "label": "Component Quantity",
+        "lowerBoundary": "Calculated from BOM (base)",
+        "upperBoundary": "Manual override up to system max",
+        "zeroInvalid": true,
+        "notes": "Must match BOM ratio or be manually adjusted"
+      },
+      {
+        "name": "deliveryDate",
+        "label": "Delivery Date",
+        "lowerBoundary": "Today + 1 day (minimum lead time)",
+        "upperBoundary": "System-configured future date limit",
+        "zeroInvalid": false,
+        "notes": "Past date invalid; subcontracting typically has longer lead times"
+      }
+    ]
+  }
+}

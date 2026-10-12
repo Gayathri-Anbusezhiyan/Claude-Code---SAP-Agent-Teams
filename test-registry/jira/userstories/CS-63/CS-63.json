@@ -1,0 +1,20 @@
+{
+  "key": "CS-63",
+  "summary": "User Story PP-014",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:46.007Z",
+  "updated": "2026-08-21T08:41:46.085Z",
+  "description": "As a Production Planner, I want the system to generate a Reservation of components against a Planned Order for an upcoming pharmaceutical batch, so that required raw materials are earmarked and protected from being allocated to other production runs.",
+  "acceptanceCriteria": "1. The user can access the \"Stock/Requirements List\" Fiori app.2. The system automatically creates component reservations when a planned order is converted to a process order.3. Reserved quantities are excluded from available stock shown to other planning or sales processes.4. The system displays a shortage warning if reserved component quantities exceed current available stock.5. The planner can manually adjust reservation quantities or dates prior to process order release.6. The system releases the reservation automatically upon backflush consumption or order cancellation.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

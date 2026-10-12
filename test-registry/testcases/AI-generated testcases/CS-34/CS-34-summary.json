@@ -1,0 +1,260 @@
+{
+  "userStory": "CS-34",
+  "summary": "User Story SD-002",
+  "module": "SD",
+  "generatedAt": "2026-08-23T23:45:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 21,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 0,
+    "NEG": 4,
+    "ERR": 5,
+    "EDGE": 5,
+    "INT": 4
+  },
+  "byPriority": {
+    "CRITICAL": 2,
+    "HIGH": 14,
+    "MEDIUM": 4,
+    "LOW": 1
+  },
+  "automationCandidates": 14,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-035",
+      "title": "Create Sales Order for Controlled Substance with Valid Non-Expiring License",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-036",
+      "title": "Create Sales Order for Controlled Substance with Valid License Nearing Expiration",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-002",
+      "acsCovered": ["AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Authorized Compliance User Overrides License Block with Valid Justification",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-003",
+      "acsCovered": ["AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Attempt to Create Sales Order When Customer Has No License on File",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-NEG-001",
+      "acsCovered": ["AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-039",
+      "title": "Attempt to Create Sales Order When Customer License Has Expired",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-NEG-002",
+      "acsCovered": ["AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Attempt to Create Sales Order When License Classification Does Not Match Material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-NEG-003",
+      "acsCovered": ["AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Unauthorized User Attempts License Block Override",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-NEG-004",
+      "acsCovered": ["AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Attempt to Submit Sales Order with Customer ID Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-ERR-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Attempt to Submit Sales Order with Material ID Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-ERR-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Compliance User Attempts Override Without Justification",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-ERR-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to Create Sales Order with Invalid Customer ID",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-ERR-004",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Attempt to Create Sales Order with Invalid Material ID",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-ERR-005",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Create Sales Order When License Expiration Date Equals Today",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-EDGE-001",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Create Sales Order With Warning Threshold Set to 1 Day (Minimum)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-EDGE-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Create Sales Order With Warning Threshold Set to 365 Days (Maximum)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-EDGE-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Create Sales Order When License Expires Exactly on Warning Threshold Day",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-EDGE-004",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-051",
+      "title": "Verify System Behavior With Zero-Day Warning Threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-034-EDGE-005",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-052",
+      "title": "Verify License Check When Customer Master Missing License Fields",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-INT-001",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-053",
+      "title": "Verify License Check When Material Master Missing Controlled Substance Flag",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-INT-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Verify System Behavior When Audit Log Write Fails",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-034-INT-003",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Verify System Behavior When Authorization Check Fails During Override",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-034-INT-004",
+      "acsCovered": ["AC-5"]
+    }
+  ],
+  "testdataFile": "testdata/CS-34/CS-34-testdata.json"
+}

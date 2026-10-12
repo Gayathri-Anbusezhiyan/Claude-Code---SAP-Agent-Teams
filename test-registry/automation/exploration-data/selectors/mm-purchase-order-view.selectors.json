@@ -1,0 +1,210 @@
+{
+  "feature": "mm-purchase-order-view",
+  "explorationDate": "2026-04-16",
+  "appType": "SAP GUI for HTML (ME23N) in iframe",
+  "iframeSelector": "iframe[name*='container'][name*='iframe']",
+  "notes": "ME23N (Display PO) shares identical UI structure with ME22N (Change PO). Same toolbar, header, tabs, grid. Difference: no Save/Check buttons.",
+  "selectors": {
+    "login": {
+      "emailField": {
+        "playwright": "page.getByRole('textbox', { name: 'Email, User ID or Login Name' })",
+        "role": "textbox",
+        "name": "Email, User ID or Login Name"
+      },
+      "passwordField": {
+        "playwright": "page.getByRole('textbox', { name: 'Password' })",
+        "role": "textbox",
+        "name": "Password"
+      },
+      "continueButton": {
+        "playwright": "page.getByRole('button', { name: 'Continue' })",
+        "role": "button",
+        "name": "Continue"
+      }
+    },
+    "launchpad": {
+      "shellBar": {
+        "playwright": "page.getByRole('banner', { name: 'Shell Bar' })",
+        "role": "banner",
+        "name": "Shell Bar"
+      },
+      "openSearchButton": {
+        "playwright": "page.getByRole('button', { name: 'Open Search' })",
+        "role": "button",
+        "name": "Open Search"
+      },
+      "searchBox": {
+        "playwright": "page.getByRole('searchbox', { name: 'Search' })",
+        "role": "searchbox",
+        "name": "Search"
+      },
+      "backButton": {
+        "playwright": "page.getByRole('button', { name: 'Back' })",
+        "role": "button",
+        "name": "Back"
+      },
+      "profileButton": {
+        "playwright": "page.getByRole('button', { name: /Profile of/ })",
+        "role": "button",
+        "namePattern": "Profile of *"
+      }
+    },
+    "search": {
+      "displayPOResult": {
+        "playwright": "page.getByText('Display Purchase Order - Advanced')",
+        "description": "Search result for ME23N app"
+      }
+    },
+    "sapGuiIframe": {
+      "description": "All elements below are INSIDE the SAP GUI iframe. Access via: page.locator('iframe').contentFrame()",
+      "otherPurchaseOrderButton": {
+        "playwright": "frame.getByRole('button', { name: 'Other Purchase Order' })",
+        "role": "button",
+        "name": "Other Purchase Order",
+        "context": "iframe toolbar"
+      },
+      "displayChangeButton": {
+        "playwright": "frame.getByRole('button', { name: 'Display/Change' })",
+        "role": "button",
+        "name": "Display/Change",
+        "context": "iframe toolbar",
+        "notes": "In ME23N, this switches to ME22N (Change mode) if user is authorized"
+      },
+      "menuButton": {
+        "playwright": "frame.getByRole('button', { name: 'Menu' })",
+        "role": "button",
+        "name": "Menu",
+        "context": "iframe toolbar"
+      },
+      "documentOverviewButton": {
+        "playwright": "frame.getByRole('button', { name: 'Document Overview On' })",
+        "role": "button",
+        "name": "Document Overview On",
+        "context": "iframe toolbar"
+      },
+      "messagesButton": {
+        "playwright": "frame.getByRole('button', { name: 'Messages' })",
+        "role": "button",
+        "name": "Messages",
+        "context": "iframe toolbar"
+      },
+      "exitButton": {
+        "playwright": "frame.getByRole('button', { name: 'Exit' })",
+        "role": "button",
+        "name": "Exit",
+        "context": "iframe toolbar"
+      },
+      "printPreviewButton": {
+        "playwright": "frame.getByRole('button', { name: 'Print Preview' })",
+        "role": "button",
+        "name": "Print Preview",
+        "context": "iframe toolbar"
+      },
+      "findButton": {
+        "playwright": "frame.getByRole('button', { name: 'Find' })",
+        "role": "button",
+        "name": "Find",
+        "context": "iframe toolbar"
+      },
+      "saveAsTemplateButton": {
+        "playwright": "frame.getByRole('button', { name: 'Save As Template' })",
+        "role": "button",
+        "name": "Save As Template",
+        "context": "iframe toolbar"
+      }
+    },
+    "selectDocumentDialog": {
+      "description": "Modal dialog inside iframe, opened by 'Other Purchase Order' button. Identical to ME22N.",
+      "purOrderField": {
+        "playwright": "frame.getByRole('textbox', { name: 'Pur. Order' })",
+        "role": "textbox",
+        "name": "Pur. Order",
+        "context": "iframe dialog",
+        "notes": "Active by default. Enter PO number and press Enter."
+      },
+      "purOrderRadio": {
+        "playwright": "frame.getByRole('radio', { name: 'Pur. Order' })",
+        "role": "radio",
+        "name": "Pur. Order",
+        "context": "iframe dialog"
+      },
+      "purchRequisitionRadio": {
+        "playwright": "frame.getByRole('radio', { name: 'Purch. Requisition' })",
+        "role": "radio",
+        "name": "Purch. Requisition",
+        "context": "iframe dialog"
+      },
+      "otherDocumentButton": {
+        "playwright": "frame.getByRole('button', { name: 'Other Document' })",
+        "role": "button",
+        "name": "Other Document",
+        "context": "iframe dialog"
+      },
+      "cancelButton": {
+        "playwright": "frame.getByRole('button', { name: 'Cancel' })",
+        "role": "button",
+        "name": "Cancel",
+        "context": "iframe dialog"
+      }
+    },
+    "poHeader": {
+      "description": "PO header fields inside iframe (all read-only in Display mode)",
+      "orderTypeField": {
+        "playwright": "frame.getByRole('textbox', { name: 'Order Type' })",
+        "role": "textbox",
+        "name": "Order Type",
+        "context": "iframe header"
+      },
+      "purchasingDocumentField": {
+        "playwright": "frame.getByRole('textbox', { name: 'Purchasing Document' })",
+        "role": "textbox",
+        "name": "Purchasing Document",
+        "context": "iframe header"
+      },
+      "supplierField": {
+        "playwright": "frame.getByRole('textbox', { name: 'Supplier' })",
+        "role": "textbox",
+        "name": "Supplier",
+        "context": "iframe header"
+      },
+      "docDateField": {
+        "playwright": "frame.getByRole('textbox', { name: 'Doc. Date' })",
+        "role": "textbox",
+        "name": "Doc. Date",
+        "context": "iframe header"
+      }
+    },
+    "poItemsGrid": {
+      "description": "Items grid columns inside iframe (all read-only in Display mode)",
+      "poQuantityCell": {
+        "playwright": "frame.getByRole('gridcell', { name: /PO Quantity/ })",
+        "role": "gridcell",
+        "namePattern": "PO Quantity",
+        "context": "iframe grid",
+        "notes": "Read-only in ME23N Display mode"
+      }
+    },
+    "signOut": {
+      "signOutListItem": {
+        "playwright": "page.locator('[id*=\"logoutBtn\"]')",
+        "description": "Sign Out list item in profile dialog (8th/last item)",
+        "fallback": "page.getByText('Sign Out')"
+      },
+      "signOutConfirmDialog": {
+        "playwright": "page.getByRole('alertdialog')",
+        "role": "alertdialog",
+        "name": "Sign Out"
+      },
+      "okButton": {
+        "playwright": "page.getByRole('button', { name: 'OK' })",
+        "role": "button",
+        "name": "OK"
+      },
+      "cancelButton": {
+        "playwright": "page.getByRole('button', { name: 'Cancel' })",
+        "role": "button",
+        "name": "Cancel"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-34",
+  "type": "Task",
+  "summary": "User Story SD-002 - Customer pharmacy/wholesaler license validation before order release",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Sales Order Processor, I want the system to validate that the customer's pharmacy or wholesaler license is valid and not expired before releasing a sales order, so that we remain compliant with pharmaceutical distribution regulations.",
+  "acceptanceCriteria": "1. The user can create a Sales Order for a pharmaceutical customer.\n2. The system checks the customer master record for the presence of a valid pharmacy/wholesaler license number and expiration date.\n3. The system blocks release of the Sales Order if the license is missing, expired, or within a configurable warning period (e.g., 30 days before expiration).\n4. The system displays a clear error message indicating the license validation failure and provides the license expiration date.\n5. The user can override the block with appropriate authorization (e.g., for emergency/compassionate use orders).\n6. The system logs all license validation checks and overrides for audit purposes.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:30:45.678+0530",
+  "updated": "2026-08-21T14:30:45.764+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-34",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

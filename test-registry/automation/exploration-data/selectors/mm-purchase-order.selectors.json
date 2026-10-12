@@ -1,0 +1,175 @@
+{
+  "feature": "mm-purchase-order",
+  "explorationDate": "2026-04-07",
+  "selectors": {
+    "login": {
+      "emailField": {
+        "playwright": "page.getByRole('textbox', { name: 'Email, User ID or Login Name' })",
+        "role": "textbox",
+        "name": "Email, User ID or Login Name"
+      },
+      "passwordField": {
+        "playwright": "page.getByRole('textbox', { name: 'Password' })",
+        "role": "textbox",
+        "name": "Password"
+      },
+      "continueButton": {
+        "playwright": "page.getByRole('button', { name: 'Continue' })",
+        "role": "button",
+        "name": "Continue"
+      }
+    },
+    "launchpad": {
+      "guidedTourDialog": {
+        "playwright": "page.getByRole('dialog', { name: 'Start Guided Tour' })",
+        "role": "dialog",
+        "name": "Start Guided Tour"
+      },
+      "leaveTourButton": {
+        "playwright": "page.getByRole('button', { name: 'Leave Tour' })",
+        "role": "button",
+        "name": "Leave Tour"
+      },
+      "openSearchButton": {
+        "playwright": "page.getByRole('button', { name: 'Open Search' })",
+        "role": "button",
+        "name": "Open Search"
+      },
+      "searchBox": {
+        "playwright": "page.getByRole('searchbox', { name: 'Search' })",
+        "role": "searchbox",
+        "name": "Search"
+      },
+      "shellBar": {
+        "playwright": "page.getByRole('banner', { name: 'Shell Bar' })",
+        "role": "banner",
+        "name": "Shell Bar"
+      },
+      "profileButton": {
+        "playwright": "page.getByRole('button', { name: /Profile of/ })",
+        "role": "button",
+        "namePattern": "Profile of *"
+      },
+      "notificationsButton": {
+        "playwright": "page.getByRole('button', { name: 'Notifications' })",
+        "role": "button",
+        "name": "Notifications"
+      },
+      "backButton": {
+        "playwright": "page.getByRole('button', { name: 'Back' })",
+        "role": "button",
+        "name": "Back"
+      },
+      "sapLogoButton": {
+        "playwright": "page.getByRole('button', { name: 'SAP Logo' })",
+        "role": "button",
+        "name": "SAP Logo"
+      }
+    },
+    "search": {
+      "searchResultRow": {
+        "playwright": "page.getByRole('row', { name: 'Manage Purchase Orders' })",
+        "role": "row",
+        "name": "Manage Purchase Orders"
+      }
+    },
+    "poListPage": {
+      "createButton": {
+        "playwright": "page.getByRole('button', { name: 'Create' })",
+        "role": "button",
+        "name": "Create"
+      },
+      "goButton": {
+        "playwright": "page.getByRole('button', { name: 'Go' })",
+        "role": "button",
+        "name": "Go"
+      }
+    },
+    "poCreateForm": {
+      "supplierField": {
+        "playwright": "page.getByRole('textbox', { name: 'Supplier' })",
+        "role": "textbox",
+        "name": "Supplier"
+      },
+      "itemsToolbar": {
+        "playwright": "page.getByRole('toolbar', { name: 'Items', exact: true })",
+        "role": "toolbar",
+        "name": "Items"
+      },
+      "itemsCreateButton": {
+        "playwright": "page.getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')",
+        "description": "Create button scoped inside Items toolbar"
+      },
+      "materialField": {
+        "playwright": "page.getByRole('textbox', { name: 'Material', exact: true })",
+        "role": "textbox",
+        "name": "Material",
+        "exact": true
+      },
+      "orderQuantityField": {
+        "playwright": "page.getByRole('textbox', { name: 'Order Quantity', exact: true })",
+        "role": "textbox",
+        "name": "Order Quantity",
+        "exact": true
+      },
+      "netPriceField": {
+        "playwright": "page.getByRole('textbox', { name: 'Net Order Price' })",
+        "role": "textbox",
+        "name": "Net Order Price"
+      },
+      "plantField": {
+        "playwright": "page.getByRole('textbox', { name: 'Plant' })",
+        "role": "textbox",
+        "name": "Plant"
+      },
+      "orderButton": {
+        "playwright": "page.getByRole('button', { name: 'Order', exact: true })",
+        "role": "button",
+        "name": "Order",
+        "exact": true
+      }
+    },
+    "messages": {
+      "messagesDialog": {
+        "playwright": "page.getByRole('dialog', { name: 'Messages' })",
+        "role": "dialog",
+        "name": "Messages"
+      },
+      "closeButton": {
+        "playwright": "page.getByRole('button', { name: 'Close', exact: true })",
+        "role": "button",
+        "name": "Close",
+        "exact": true
+      }
+    },
+    "poVerification": {
+      "poNumberHeading": {
+        "playwright": "page.getByRole('heading', { level: 2 })",
+        "role": "heading",
+        "level": 2,
+        "description": "PO number as level-2 heading (10-digit number)"
+      }
+    },
+    "signOut": {
+      "signOutListItem": {
+        "playwright": "page.getByText('Sign Out')",
+        "description": "Sign Out listitem in user menu dialog"
+      },
+      "signOutConfirmDialog": {
+        "playwright": "page.getByRole('alertdialog')",
+        "role": "alertdialog",
+        "name": "Sign Out"
+      },
+      "okButton": {
+        "playwright": "page.getByRole('button', { name: 'OK' })",
+        "role": "button",
+        "name": "OK"
+      },
+      "cancelButton": {
+        "playwright": "page.getByRole('button', { name: 'Cancel' })",
+        "role": "button",
+        "name": "Cancel"
+      }
+    }
+  }
+}

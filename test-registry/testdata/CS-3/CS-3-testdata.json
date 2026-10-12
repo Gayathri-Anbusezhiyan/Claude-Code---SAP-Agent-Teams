@@ -1,0 +1,139 @@
+{
+  "userStory": "CS-3",
+  "module": "MM",
+  "feature": "Purchase Order Display and Modification",
+  "generatedAt": "2026-05-12T08:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "resolvedAt": "2026-05-12T09:47:00.000Z",
+  "resolvedBy": "e2e-pipeline-agent/phase3 scriptless execution",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in Step 1 of every test case",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login Step 2",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login Step 4",
+    "SAP_USERNAME_DISPLAY_ONLY": "Add to .env — a SAP user with display-only PO access (no Change authorization) — required by TC-CS-016 (currently BLOCKED)",
+    "SAP_PASSWORD_DISPLAY_ONLY": "Add to .env — password for the display-only user above — required by TC-CS-016 (currently BLOCKED)"
+  },
+  "testDataSets": {
+    "TD-CS-003-001": {
+      "id": "TD-CS-003-001",
+      "name": "Existing Valid Purchase Order — Display Mode View",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-012"],
+      "data": {
+        "poNumber": "4500065467"
+      },
+      "executionNote": "IMPORTANT: In this SAP tenant, 'Manage Purchase Orders' app opens PO DIRECTLY in edit/draft mode — there is no display-only mode accessible from the list page. TC-CS-012 result was FAIL due to this app behavior.",
+      "expectedOutcome": "PO opens; all header and line item details visible — NOTE: fields are editable (not read-only) in this app"
+    },
+    "TD-CS-003-002": {
+      "id": "TD-CS-003-002",
+      "name": "Existing Valid Purchase Order — Edit Mode Quantity Change",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-013"],
+      "data": {
+        "poNumber": "4500065467",
+        "modifiedQuantity": "15"
+      },
+      "expectedOutcome": "PO opened in edit mode; quantity updated to 15; Net Order Value updated to 1.20 USD; PO saved via Order button; returns to list"
+    },
+    "TD-CS-003-NEG-001": {
+      "id": "TD-CS-003-NEG-001",
+      "name": "Non-existent PO Number — Valid Format",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-014"],
+      "data": {
+        "invalidPoNumber": "9999999999"
+      },
+      "executionNote": "Confirmed: 9999999999 returns 'No data found. Try adjusting the search or filter criteria.' — previously tried 4500000001 which EXISTS in this SAP system.",
+      "expectedOutcome": "SAP list shows 'No data found. Try adjusting the search or filter criteria.'; no PO detail opened"
+    },
+    "TD-CS-003-NEG-002": {
+      "id": "TD-CS-003-NEG-002",
+      "name": "Existing PO — Display Mode Read-Only Enforcement",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-015"],
+      "data": {
+        "poNumber": "4500065467"
+      },
+      "executionNote": "TC-CS-015 FAIL: PO opens in edit mode directly; all fields ARE editable. AC-4 (read-only in display mode) cannot be verified with current app behavior.",
+      "expectedOutcome": "REVISED: PO fields are editable (app opens in edit mode). Test expected read-only but actual app behavior is edit mode. Requires URL-level display navigation to test AC-4."
+    },
+    "TD-CS-003-NEG-003": {
+      "id": "TD-CS-003-NEG-003",
+      "name": "Existing PO — Unauthorized Edit Attempt by Display-Only User",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-016"],
+      "data": {
+        "poNumber": "4500065467"
+      },
+      "note": "TC-CS-016 BLOCKED: Requires ENV.SAP_USERNAME_DISPLAY_ONLY and ENV.SAP_PASSWORD_DISPLAY_ONLY in .env. Not yet configured.",
+      "expectedOutcome": "Edit button absent or disabled for display-only user; PO cannot be switched to edit mode"
+    },
+    "TD-CS-003-ERR-001": {
+      "id": "TD-CS-003-ERR-001",
+      "name": "Purchase Order with Goods-Receipted Line Item",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-017"],
+      "data": {
+        "grPoNumber": "{{PO_NUMBER_WITH_GR_POSTING}}"
+      },
+      "note": "TC-CS-017 BLOCKED: grPoNumber not resolved. Requires manual SAP setup — post a GR against a test PO, then update this value. PO 4500000001 (from 2020, status 'Follow-On Documents') is a candidate but not verified for GR line lock.",
+      "expectedOutcome": "In edit mode, quantity field on GR-posted line item is locked; SAP shows explanation tooltip/message"
+    },
+    "TD-CS-003-EDGE-001": {
+      "id": "TD-CS-003-EDGE-001",
+      "name": "Minimum Valid Quantity Boundary (Lower Boundary = 1)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-018"],
+      "data": {
+        "poNumber": "4500065467",
+        "minQuantity": "1"
+      },
+      "expectedOutcome": "Quantity of 1 accepted; PO saved; Net Order Value = 0.08 USD (1 KG × 0.08 USD/KG)"
+    },
+    "TD-CS-003-EDGE-002": {
+      "id": "TD-CS-003-EDGE-002",
+      "name": "Zero Quantity — Invalid Boundary (Zero = 0)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-019"],
+      "data": {
+        "poNumber": "4500065467",
+        "zeroQuantity": "0"
+      },
+      "executionNote": "Confirmed: SAP rejects 0 with message 'Enter PO Quantity' (shown in Messages dialog for Item 00010). PO stays on edit page (does not navigate to list).",
+      "expectedOutcome": "SAP displays 'Enter PO Quantity' in Messages dialog; Order button click keeps PO on edit page; save blocked"
+    },
+    "TD-CS-003-EDGE-003": {
+      "id": "TD-CS-003-EDGE-003",
+      "name": "Invalid PO Number Format (Non-numeric or Too Short)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-020"],
+      "data": {
+        "invalidPoFormat": "INVALID123"
+      },
+      "executionNote": "Confirmed: 'INVALID123' in PO filter returns 'No data found. Try adjusting the search or filter criteria.' — same message as non-existent numeric PO. No explicit format error.",
+      "expectedOutcome": "SAP list shows 'No data found. Try adjusting the search or filter criteria.'; system stable; no PO opened"
+    }
+  },
+  "allPlaceholders": [
+    "{{PO_NUMBER_WITH_GR_POSTING}}"
+  ],
+  "resolvedValues": {
+    "PO_NUMBER_VALID_OPEN": "4500065467",
+    "PO_QUANTITY_MODIFIED": "15",
+    "PO_NUMBER_NON_EXISTENT": "9999999999",
+    "PO_QUANTITY_MIN": "1",
+    "PO_NUMBER_INVALID_FORMAT": "INVALID123",
+    "SUPPLIER_ID_VALID": "17300002",
+    "SUPPLIER_NAME_VALID": "Carbon Tec Inc.",
+    "MATERIAL_ID_VALID": "RMPI001",
+    "MATERIAL_DESCRIPTION_VALID": "Input 1 (WATER)",
+    "UNIT_OF_MEASURE": "KG",
+    "NET_PRICE_VALID": "0.08",
+    "CURRENCY_CODE": "USD",
+    "PURCHASING_ORG_CODE": "1710",
+    "PURCHASING_GROUP_CODE": "001",
+    "PLANT_CODE": "1710",
+    "COMPANY_CODE": "1710"
+  }
+}

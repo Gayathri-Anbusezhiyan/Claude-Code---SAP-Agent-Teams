@@ -1,0 +1,229 @@
+{
+  "userStory": "CS-47",
+  "summary": "Link A Customer Complaint Captured In Sales To A Formal Quality Notifi",
+  "module": "QM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 22,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 3,
+    "NEG": 6,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 10,
+    "HIGH": 5,
+    "MEDIUM": 6,
+    "LOW": 1
+  },
+  "automationCandidates": 20,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Create Quality Notification from Sales Order with complete customer complaint details",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Create Quality Notification from Return Order with complete customer complaint details",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Status transition from Open to Under Investigation to Closed with all required fields",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-AP-001",
+      "acsCovered": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Access complaint report filtered by specific material",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-AP-002",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Access complaint report filtered by specific batch",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-AP-003",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Attempt to create Quality Notification from Sales Order missing material data",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-NEG-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt to create Quality Notification from Sales Order missing batch data",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-NEG-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt to create Quality Notification from Sales Order missing customer data",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-NEG-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Attempt to close Quality Notification without disposition code",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-NEG-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Attempt to close Quality Notification without corrective action",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-NEG-005",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Attempt to close Quality Notification without root cause analysis",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-NEG-006",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Missing Defect Description field when creating Quality Notification",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-ERR-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Missing Disposition Code when attempting to close Quality Notification",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-ERR-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Missing Corrective Action when attempting to close Quality Notification",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-ERR-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-139",
+      "title": "Missing Root Cause Analysis when attempting to close Quality Notification",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-ERR-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-140",
+      "title": "Create Quality Notification with Defect Description at minimum length boundary (20 characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-EDGE-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-141",
+      "title": "Create Quality Notification with Defect Description at maximum length boundary (1000 characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-EDGE-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-142",
+      "title": "Close Quality Notification with Root Cause at minimum closure length boundary (50 characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-EDGE-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-143",
+      "title": "Close Quality Notification with Corrective Action at minimum closure length boundary (50 characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-EDGE-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-144",
+      "title": "Verify Quality Notification status displays correctly on originating Sales Order",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-047-INT-001",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-145",
+      "title": "Verify Quality Notification routes to correct QA team member's worklist",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-047-INT-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-146",
+      "title": "Verify complaint report aggregates data from multiple Quality Notifications",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-047-INT-003",
+      "acsCovered": ["AC-6"]
+    }
+  ],
+  "testdataFile": "testdata/CS-47/CS-47-testdata.json",
+  "testdataGuide": "testdata/CS-47/CS-47-testdata-guide.md",
+  "coverageMatrix": "testcases/AI-generated testcases/CS-47/CS-47-coverage-matrix.md",
+  "qualityGateStatus": "PASS",
+  "gmpComplianceValidated": true
+}

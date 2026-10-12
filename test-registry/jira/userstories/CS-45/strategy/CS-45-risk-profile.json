@@ -1,0 +1,379 @@
+{
+  "userStory": "CS-45",
+  "summary": "Capture Serialization/Track-and-Trace data at outbound delivery",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Warehouse Supervisor",
+  "businessObject": "Outbound Delivery (with serialization data)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can pick and pack an Outbound Delivery for a serialized pharmaceutical material.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system requires the user to scan or enter the unique serial number for each unit of the serialized material.",
+      "type": "MANDATORY_FIELD",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system validates that the serial number is valid, has not already been shipped, and matches the batch number in the delivery.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-4",
+      "text": "The system captures the serial number, batch number, expiration date, and GTIN (Global Trade Item Number) for each unit.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system generates a serialization event record (EPCIS format or equivalent) and uploads it to the Track-and-Trace repository or regulatory reporting system.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system blocks goods issue if serialization data is incomplete or invalid for any unit in the delivery.",
+      "type": "ERROR_HANDLING",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Pick, pack, and scan serialization data for a serialized pharmaceutical delivery (single unit)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Pick, pack, and scan serialization data for multiple units in one delivery (multi-line)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Manual entry of serial number (instead of scanning)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Serial number does not exist in system",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-6"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Serial number already shipped/used",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-6"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Serial number does not match batch number in delivery",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-6"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "GTIN validation failure (incorrect or missing GTIN)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-6"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Serial Number field",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-6"],
+        "field": "Serial Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Batch Number field",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-6"],
+        "field": "Batch Number"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Expiration Date field",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-6"],
+        "field": "Expiration Date"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Incomplete serialization data at goods issue attempt",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "field": "Serialization Data (any field)"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum serial number length (1 character)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "serialNumber",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Maximum serial number length (18 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "serialNumber",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Expiration date = today (boundary: same-day expiry)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "expirationDate",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Expiration date in the past (expired goods)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-6"],
+        "parameter": "expirationDate",
+        "boundary": "invalid"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "GTIN format validation (non-numeric or wrong length)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-6"],
+        "parameter": "gtin",
+        "boundary": "format"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "EPCIS event upload success to Track-and-Trace repository",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-02",
+        "description": "EPCIS event upload failure (timeout/network error)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5", "AC-6"]
+      },
+      {
+        "id": "INT-03",
+        "description": "EPCIS event upload failure (authentication error)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5", "AC-6"]
+      },
+      {
+        "id": "INT-04",
+        "description": "EPCIS event format validation failure (rejected by regulatory system)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5", "AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 5,
+    "INT": 4,
+    "total": 20
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "serialNumber",
+        "label": "Serial Number / Equipment Number",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid serial number from EQUI/SERI tables, not already shipped, 1-18 characters"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid batch for the material in delivery, 1-10 characters"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiry Date / SLED",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Future date, matches batch master (DD.MM.YYYY)"
+      },
+      {
+        "name": "gtin",
+        "label": "Global Trade Item Number",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Valid EAN/UPC from material master, 14 digits exactly"
+      },
+      {
+        "name": "deliveryNumber",
+        "label": "Outbound Delivery",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Existing outbound delivery document, 10 digits"
+      },
+      {
+        "name": "deliveryItem",
+        "label": "Item",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Valid item line in the delivery, 6 digits"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "trigger": "Select delivery item",
+        "source": "Delivery item line (LIPS-MATNR)"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Select delivery item",
+        "source": "Material master (MAKT-MAKTX)"
+      },
+      {
+        "name": "quantity",
+        "label": "Quantity",
+        "trigger": "Select delivery item",
+        "source": "Delivery item quantity (LIPS-LFIMG)"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "UoM",
+        "trigger": "Select delivery item",
+        "source": "Delivery item UoM (LIPS-MEINS)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "trigger": "Select delivery item",
+        "source": "Delivery item plant (LIPS-WERKS)"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "trigger": "Select delivery item",
+        "source": "Delivery item storage location (LIPS-LGORT)"
+      }
+    ],
+    "output": [
+      {
+        "name": "serializationEventId",
+        "label": "Serialization Event ID",
+        "description": "Unique identifier for the EPCIS event",
+        "format": "GUID or numeric sequence"
+      },
+      {
+        "name": "goodsIssueDocument",
+        "label": "Goods Issue Document / Material Document",
+        "description": "SAP Goods Issue document number",
+        "format": "10-digit numeric, begins with 5"
+      },
+      {
+        "name": "trackAndTraceUploadStatus",
+        "label": "Track-and-Trace Upload Status",
+        "description": "Success/Failure status of regulatory system upload",
+        "format": "Enum: SUCCESS, FAILED, PENDING"
+      },
+      {
+        "name": "serialNumberStatus",
+        "label": "Serial Number Status",
+        "description": "Updated status of the serial number",
+        "format": "Enum: SHIPPED, BLOCKED"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "serialNumber",
+        "label": "Serial Number",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "18 characters",
+        "zeroInvalid": true,
+        "notes": "SAP EQUI-SERNR field limit"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "10 characters",
+        "zeroInvalid": true,
+        "notes": "SAP MCHA-CHARG field limit"
+      },
+      {
+        "name": "gtin",
+        "label": "GTIN",
+        "lowerBoundary": "14 digits exactly",
+        "upperBoundary": "14 digits exactly",
+        "zeroInvalid": false,
+        "notes": "Must conform to GS1 standard"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date",
+        "lowerBoundary": "Today or future",
+        "upperBoundary": "System-configured maximum",
+        "zeroInvalid": true,
+        "notes": "Cannot ship expired goods (past date = invalid)"
+      },
+      {
+        "name": "quantityPerSerial",
+        "label": "Quantity per Serial",
+        "lowerBoundary": "1 unit",
+        "upperBoundary": "1 unit",
+        "zeroInvalid": true,
+        "notes": "Pharmaceutical serialization = 1:1 serial-to-unit mapping"
+      }
+    ]
+  }
+}

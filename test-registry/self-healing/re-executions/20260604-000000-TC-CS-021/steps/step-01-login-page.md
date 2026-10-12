@@ -1,0 +1,26 @@
+- generic [ref=e1]:
+  - img [ref=e2]
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img "logo" [ref=e10]
+        - heading "Sign In" [level=1] [ref=e12]
+        - heading "a1vzdfrar" [level=2] [ref=e15]
+      - form [ref=e18]:
+        - group [ref=e21]:
+          - text: Email, User ID or Login Name
+          - textbox "Email, User ID or Login Name" [active] [ref=e22]: sunil.yogi@capgemini.com
+      - button "Continue" [ref=e28] [cursor=pointer]:
+        - generic [ref=e29]: Continue
+  - contentinfo [ref=e30]:
+    - list [ref=e32]:
+      - listitem
+      - listitem [ref=e33]:
+        - link "Privacy Policy" [ref=e35] [cursor=pointer]:
+          - /url: https://accounts.sap.com/ui/public/viewTextResource?scenario=788c7859-5fb6-4b2d-b0aa-d40ba33d6638&resourceType=RESOURCE_PRIVACYPOLICY
+      - listitem [ref=e36]:
+        - link "Legal Disclosure" [ref=e38] [cursor=pointer]:
+          - /url: https://www.sap.com/corporate/en/legal/impressum.html
+      - listitem [ref=e39]:
+        - link "Cookie Statement" [ref=e41] [cursor=pointer]:
+          - /url: https://account.sap.com/core/doc/SAP_IDService-CookieStatement.pdf

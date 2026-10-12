@@ -1,0 +1,492 @@
+{
+  "userStory": "CS-40",
+  "module": "SD",
+  "feature": "Available-to-Promise (ATP) Check with Batch Expiration Logic",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-040-001": {
+      "id": "TD-CS-040-001",
+      "name": "Valid ATP Check — Single Batch with Sufficient Shelf Life",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-158"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID_SLED}}",
+        "batchSLED": "{{BATCH_SLED_VALID}}",
+        "availableQuantity": "{{BATCH_AVAILABLE_QUANTITY}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery; confirmed quantity equals requested quantity; batch with valid SLED is assigned"
+    },
+    "TD-CS-040-002": {
+      "id": "TD-CS-040-002",
+      "name": "Valid ATP Check — Multiple Batches with Sufficient Shelf Life",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-159"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantityMultiple": "{{ATP_QUANTITY_MULTIPLE_BATCHES}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "batchNumber1": "{{BATCH_NUMBER_1_VALID_SLED}}",
+        "batchSLED1": "{{BATCH_SLED_1_VALID}}",
+        "availableQuantity1": "{{BATCH_1_AVAILABLE_QUANTITY}}",
+        "batchNumber2": "{{BATCH_NUMBER_2_VALID_SLED}}",
+        "batchSLED2": "{{BATCH_SLED_2_VALID}}",
+        "availableQuantity2": "{{BATCH_2_AVAILABLE_QUANTITY}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery from multiple batches; confirmed quantity equals requested quantity; multiple batches with valid SLEDs are assigned"
+    },
+    "TD-CS-040-NEG-001": {
+      "id": "TD-CS-040-NEG-001",
+      "name": "Negative — All Batches Nearing Expiration",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-160"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "expiringSLED": "{{BATCH_SLED_EXPIRING}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check rejects delivery; no batches with sufficient shelf life available; ATP status red (not confirmed)"
+    },
+    "TD-CS-040-NEG-002": {
+      "id": "TD-CS-040-NEG-002",
+      "name": "Negative — Requested Quantity Exceeds Valid Batch Stock",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-161"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "excessQuantity": "{{ATP_QUANTITY_EXCESS}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check partially confirms or rejects delivery; confirmed quantity less than requested quantity; ATP status yellow (partial) or red (not confirmed)"
+    },
+    "TD-CS-040-NEG-003": {
+      "id": "TD-CS-040-NEG-003",
+      "name": "Negative — Non-existent Material",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-162"],
+      "data": {
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Material does not exist; ATP check is not triggered; Sales Order NOT created"
+    },
+    "TD-CS-040-NEG-004": {
+      "id": "TD-CS-040-NEG-004",
+      "name": "Negative — Non-existent Customer",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-163"],
+      "data": {
+        "invalidCustomerId": "{{CUSTOMER_ID_INVALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Customer does not exist; ATP check is not triggered; Sales Order NOT created"
+    },
+    "TD-CS-040-NEG-005": {
+      "id": "TD-CS-040-NEG-005",
+      "name": "Negative — Non-Batch-Managed Material",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-164"],
+      "data": {
+        "nonBatchManagedMaterialId": "{{MATERIAL_ID_NON_BATCH_MANAGED}}",
+        "nonBatchManagedMaterialDesc": "{{MATERIAL_DESCRIPTION_NON_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check uses standard available stock logic (not batch expiration logic); warning displayed; batch expiration logic NOT applied"
+    },
+    "TD-CS-040-ERR-001": {
+      "id": "TD-CS-040-ERR-001",
+      "name": "Error — Missing Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-165"],
+      "data": {
+        "emptyValue": "",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "note": "Material field intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Material field as mandatory; prevents submission; Sales Order NOT created"
+    },
+    "TD-CS-040-ERR-002": {
+      "id": "TD-CS-040-ERR-002",
+      "name": "Error — Missing Requested Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-166"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "emptyValue": "",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "note": "Order Quantity field intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Order Quantity field as mandatory; prevents submission; Sales Order NOT created"
+    },
+    "TD-CS-040-ERR-003": {
+      "id": "TD-CS-040-ERR-003",
+      "name": "Error — Missing Customer Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "emptyValue": "",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "note": "Customer field intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Customer field as mandatory; prevents submission; Sales Order NOT created"
+    },
+    "TD-CS-040-ERR-004": {
+      "id": "TD-CS-040-ERR-004",
+      "name": "Error — Missing Requested Delivery Date Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "emptyValue": "",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "note": "Requested Delivery Date field intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Requested Delivery Date field as mandatory; prevents submission; Sales Order NOT created"
+    },
+    "TD-CS-040-ERR-005": {
+      "id": "TD-CS-040-ERR-005",
+      "name": "Error — Missing Plant Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "emptyValue": "",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "note": "Plant field intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Plant field as mandatory; prevents submission; Sales Order NOT created"
+    },
+    "TD-CS-040-EDGE-001": {
+      "id": "TD-CS-040-EDGE-001",
+      "name": "Edge Case — Batch SLED = Delivery Date + Buffer + 1 Day",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "batchSLEDAboveThreshold": "{{BATCH_SLED_ABOVE_THRESHOLD}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery; batch with SLED just above threshold is assigned; ATP status green (confirmed)"
+    },
+    "TD-CS-040-EDGE-002": {
+      "id": "TD-CS-040-EDGE-002",
+      "name": "Edge Case — Batch SLED = Delivery Date + Buffer (Exact Threshold)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "batchSLEDAtThreshold": "{{BATCH_SLED_AT_THRESHOLD}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check result depends on system configuration (inclusive/exclusive threshold); batch may or may not be assigned; ATP status green or red"
+    },
+    "TD-CS-040-EDGE-003": {
+      "id": "TD-CS-040-EDGE-003",
+      "name": "Edge Case — Batch SLED = Delivery Date + Buffer - 1 Day",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "batchSLEDBelowThreshold": "{{BATCH_SLED_BELOW_THRESHOLD}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check rejects delivery; batch with SLED below threshold is excluded; ATP status red (not confirmed)"
+    },
+    "TD-CS-040-EDGE-004": {
+      "id": "TD-CS-040-EDGE-004",
+      "name": "Edge Case — Minimum Shelf Life Buffer = 0 Days",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "shelfLifeBufferZero": "0",
+        "batchSLEDAtDeliveryDate": "{{BATCH_SLED_AT_DELIVERY_DATE}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery with zero buffer; batch with SLED >= delivery date is assigned; ATP status green (confirmed)"
+    },
+    "TD-CS-040-EDGE-005": {
+      "id": "TD-CS-040-EDGE-005",
+      "name": "Edge Case — Minimum Requested Quantity (1 Unit)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "minQuantity": "{{ATP_QUANTITY_MIN}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID_SLED}}",
+        "batchSLED": "{{BATCH_SLED_VALID}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery with minimum quantity; confirmed quantity = 1; ATP status green (confirmed)"
+    },
+    "TD-CS-040-EDGE-006": {
+      "id": "TD-CS-040-EDGE-006",
+      "name": "Edge Case — Maximum Requested Quantity (Entire Available Stock)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "maxQuantity": "{{ATP_QUANTITY_MAX}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID_SLED}}",
+        "batchSLED": "{{BATCH_SLED_VALID}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery with maximum available stock; confirmed quantity = entire available stock; ATP status green (confirmed)"
+    },
+    "TD-CS-040-EDGE-007": {
+      "id": "TD-CS-040-EDGE-007",
+      "name": "Edge Case — Zero Requested Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "zeroQuantity": "0",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "SAP displays error: Order Quantity must be greater than zero; ATP check is not triggered; Sales Order NOT created"
+    },
+    "TD-CS-040-EDGE-008": {
+      "id": "TD-CS-040-EDGE-008",
+      "name": "Edge Case — Requested Delivery Date = Current Date (Today)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDateToday": "{{DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID_SLED}}",
+        "batchSLED": "{{BATCH_SLED_VALID}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check confirms delivery with today's date; batch with valid SLED is assigned; ATP status green (confirmed)"
+    },
+    "TD-CS-040-EDGE-009": {
+      "id": "TD-CS-040-EDGE-009",
+      "name": "Edge Case — Past Requested Delivery Date",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "pastDeliveryDate": "{{DATE_PAST}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "SAP displays error: Delivery date cannot be in the past; ATP check may be blocked or displays warning; Sales Order NOT created or saved with warning"
+    },
+    "TD-CS-040-INT-001": {
+      "id": "TD-CS-040-INT-001",
+      "name": "Integration — ATP Check Retrieves Stock from MM-IM",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID_SLED}}",
+        "availableStockMMIM": "{{MM_IM_AVAILABLE_STOCK}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check retrieves accurate available stock from MM-IM module; confirmed quantity matches MM-IM available stock; integration verified"
+    },
+    "TD-CS-040-INT-002": {
+      "id": "TD-CS-040-INT-002",
+      "name": "Integration — ATP Check Retrieves Batch SLED from Batch Management",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "requestedQuantity": "{{ATP_QUANTITY_STANDARD}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_7D}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID_SLED}}",
+        "batchSLEDFromBatchMgmt": "{{BATCH_MGMT_SLED}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "ATP check retrieves accurate batch SLED data from Batch Management module; assigned batch SLED matches Batch Management master data; integration verified"
+    }
+  },
+  "allPlaceholders": [
+    "{{MATERIAL_ID_BATCH_MANAGED}}",
+    "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+    "{{MATERIAL_ID_INVALID}}",
+    "{{MATERIAL_ID_NON_BATCH_MANAGED}}",
+    "{{MATERIAL_DESCRIPTION_NON_BATCH_MANAGED}}",
+    "{{CUSTOMER_ID_VALID}}",
+    "{{CUSTOMER_NAME_VALID}}",
+    "{{CUSTOMER_ID_INVALID}}",
+    "{{ATP_QUANTITY_STANDARD}}",
+    "{{ATP_QUANTITY_MULTIPLE_BATCHES}}",
+    "{{ATP_QUANTITY_EXCESS}}",
+    "{{ATP_QUANTITY_MIN}}",
+    "{{ATP_QUANTITY_MAX}}",
+    "{{DATE_FUTURE_7D}}",
+    "{{DATE_TODAY}}",
+    "{{DATE_PAST}}",
+    "{{PLANT_CODE}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}",
+    "{{BATCH_NUMBER_VALID_SLED}}",
+    "{{BATCH_SLED_VALID}}",
+    "{{BATCH_AVAILABLE_QUANTITY}}",
+    "{{BATCH_NUMBER_1_VALID_SLED}}",
+    "{{BATCH_SLED_1_VALID}}",
+    "{{BATCH_1_AVAILABLE_QUANTITY}}",
+    "{{BATCH_NUMBER_2_VALID_SLED}}",
+    "{{BATCH_SLED_2_VALID}}",
+    "{{BATCH_2_AVAILABLE_QUANTITY}}",
+    "{{BATCH_SLED_EXPIRING}}",
+    "{{BATCH_SLED_ABOVE_THRESHOLD}}",
+    "{{BATCH_SLED_AT_THRESHOLD}}",
+    "{{BATCH_SLED_BELOW_THRESHOLD}}",
+    "{{BATCH_SLED_AT_DELIVERY_DATE}}",
+    "{{MM_IM_AVAILABLE_STOCK}}",
+    "{{BATCH_MGMT_SLED}}",
+    "{{UNIT_OF_MEASURE}}"
+  ]
+}

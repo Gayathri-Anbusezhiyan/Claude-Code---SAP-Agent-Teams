@@ -1,0 +1,435 @@
+{
+  "userStory": "CS-46",
+  "summary": "Maintain Customer Scheduling Agreement for hospital recurring supply",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 37,
+  "byCoverageType": {
+    "HP": 5,
+    "AP": 3,
+    "NEG": 8,
+    "ERR": 8,
+    "EDGE": 13,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 2,
+    "HIGH": 19,
+    "MEDIUM": 14,
+    "LOW": 2
+  },
+  "automationCandidates": 32,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Create Scheduling Agreement with valid customer, material, total quantity, validity period, and fixed-date delivery schedule",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-HP-001",
+      "acCoverage": ["AC-1", "AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Create Scheduling Agreement with interval-based delivery schedule",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-HP-002",
+      "acCoverage": ["AC-1", "AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Call off delivery against a Scheduling Agreement by confirming a schedule line",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-HP-003",
+      "acCoverage": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Notification triggered when remaining quantity falls below threshold",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-HP-004",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Notification triggered when Scheduling Agreement nears validity end date",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-HP-005",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Attempt to create Scheduling Agreement with non-existent customer ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-001",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt to create Scheduling Agreement with non-existent material ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-002",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt to create Scheduling Agreement with material not enabled for scheduling agreements",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-003",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Attempt to create Scheduling Agreement with customer not assigned to sales organization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-004",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Attempt to create Scheduling Agreement with validity end date before start date",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-005",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Attempt to create Scheduling Agreement with validity start date in the past",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-006",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Attempt to call off quantity exceeding remaining quantity",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-007",
+      "acCoverage": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Attempt to confirm non-existent schedule line",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-NEG-008",
+      "acCoverage": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Missing Customer ID field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-001",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-139",
+      "title": "Missing Material ID field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-002",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-140",
+      "title": "Missing Total Quantity field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-003",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-141",
+      "title": "Missing Validity Start Date field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-004",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-142",
+      "title": "Missing Validity End Date field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-005",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-143",
+      "title": "Missing Delivery Schedule Type selection",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-006",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-144",
+      "title": "Missing Fixed Dates when Fixed Dates schedule type selected",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-007",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-145",
+      "title": "Missing Interval when Interval schedule type selected",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-ERR-008",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-146",
+      "title": "Create Scheduling Agreement with minimum valid total quantity (1 unit)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-001",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-147",
+      "title": "Create Scheduling Agreement with zero total quantity (invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-002",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-148",
+      "title": "Create Scheduling Agreement with maximum allowed total quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-046-EDGE-003",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-149",
+      "title": "Create Scheduling Agreement with minimum interval (1 day)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-004",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-150",
+      "title": "Create Scheduling Agreement with maximum reasonable interval (365 days)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-046-EDGE-005",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-151",
+      "title": "Create Scheduling Agreement with zero interval (invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-006",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-152",
+      "title": "Create Scheduling Agreement with single fixed delivery date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-007",
+      "acCoverage": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-153",
+      "title": "Call off exact remaining quantity (boundary condition)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-008",
+      "acCoverage": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-154",
+      "title": "Call off when cumulative quantity equals total quantity (no remaining)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-046-EDGE-009",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-155",
+      "title": "Notification threshold at 0% (no notification)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-046-EDGE-010",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-156",
+      "title": "Notification threshold at 100% (immediate notification)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-046-EDGE-011",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-157",
+      "title": "Validity period of 1 day (minimum)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-012",
+      "acCoverage": ["AC-1", "AC-3"]
+    },
+    {
+      "id": "TC-CS-158",
+      "title": "Validity start date = today (earliest possible)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-EDGE-013",
+      "acCoverage": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-159",
+      "title": "Create Scheduling Agreement with fixed dates (specific calendar dates)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-AP-001",
+      "acCoverage": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-160",
+      "title": "Create Scheduling Agreement with interval (days between deliveries)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-AP-002",
+      "acCoverage": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-161",
+      "title": "Multiple call-offs against the same Scheduling Agreement (cumulative tracking)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-046-AP-003",
+      "acCoverage": ["AC-4", "AC-5"]
+    }
+  ],
+  "testdataFile": "testdata/CS-46/CS-46-testdata.json",
+  "coverageMatrixFile": "testcases/AI-generated testcases/CS-46/CS-46-coverage-matrix.md",
+  "qualityGates": {
+    "acTraceability": {
+      "status": "PASS",
+      "coverage": "100%",
+      "details": "All 6 acceptance criteria covered"
+    },
+    "hpCoverage": {
+      "status": "PASS",
+      "required": 5,
+      "actual": 5
+    },
+    "negCoverage": {
+      "status": "PASS",
+      "required": 8,
+      "actual": 8
+    },
+    "errCoverage": {
+      "status": "PASS",
+      "required": 8,
+      "actual": 8
+    },
+    "edgeCoverage": {
+      "status": "PASS",
+      "required": 13,
+      "actual": 13
+    },
+    "parameterization": {
+      "status": "PASS",
+      "hardcodedValues": 0
+    },
+    "automationEligibility": {
+      "status": "PASS",
+      "threshold": "50%",
+      "actual": "86%",
+      "count": 32
+    }
+  }
+}

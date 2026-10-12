@@ -1,0 +1,537 @@
+{
+  "userStory": "CS-57",
+  "summary": "Create And Version A Master Recipe For A Pharmaceutical Product With D",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Master Data Specialist",
+  "businessObject": "Master Recipe (Recipe Header, Recipe Operations, In-Process Control Specifications, Recipe Version)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Master Recipes\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system requires the recipe to go through a defined approval workflow before its status changes to \"Released.\"",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "Any change to a released recipe automatically creates a new version, preserving the prior version for audit history.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system prevents a process order from being created against a recipe version that is not in \"Released\" status.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The recipe captures required in-process control checkpoints, target values, and acceptable ranges.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "ERR", "EDGE"],
+      "minTCCount": 5
+    },
+    {
+      "id": "AC-6",
+      "text": "The system logs the requestor, approver, and effective date for every recipe version change.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create new Master Recipe (draft), define operations, add in-process controls, submit for approval, approve via workflow, verify Released status and audit log",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Edit a Released recipe, verify new version created automatically, verify prior version preserved, verify new version in Draft status",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create recipe with multiple operations (3+ operations in sequence)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-5"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Create recipe with multiple in-process control checkpoints per operation",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create Process Order against Draft recipe version — verify system blocks with error",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create Process Order against Obsolete recipe version — verify system blocks with error",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to release recipe without completing approval workflow — verify status remains Draft/In Approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to create recipe with invalid Material Number — verify validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-5"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to add operation with invalid Work Center — verify validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Attempt to add in-process control with invalid Inspection Characteristic — verify validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Material Number",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Material Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Plant",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Base Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Base Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Operation Number",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Operation Number"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Work Center",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Work Center"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing In-Process Checkpoint ID",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "In-Process Checkpoint ID"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Missing Target Value",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Target Value"
+      },
+      {
+        "id": "ERR-08",
+        "description": "Missing Lower Limit",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Lower Limit"
+      },
+      {
+        "id": "ERR-09",
+        "description": "Missing Upper Limit",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Upper Limit"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Base Quantity = minimum valid value (0.001)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "baseQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Base Quantity = maximum valid value (999999999.999)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "baseQuantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Standard Duration = minimum valid value (0.01)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "standardDuration",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Standard Duration = maximum valid value (999999.99)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "standardDuration",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Target Value = Lower Limit (boundary case)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "targetValue",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Target Value = Upper Limit (boundary case)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "targetValue",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Lower Limit > Target Value — verify validation error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "lowerLimit",
+        "boundary": "invalid"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "Upper Limit < Target Value — verify validation error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "upperLimit",
+        "boundary": "invalid"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Validate Material Master integration — create recipe with material from MM module, verify Material Description auto-populates",
+        "risk": "HIGH",
+        "linkedTo": "Material Master (MM)",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Validate Work Center Master integration — add operation with work center from PP module, verify Work Center Description auto-populates",
+        "risk": "HIGH",
+        "linkedTo": "Work Center Master (PP)",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-03",
+        "description": "Validate QM Inspection Characteristic integration — add in-process control with inspection characteristic from QM module, verify characteristic details retrieved",
+        "risk": "HIGH",
+        "linkedTo": "Quality Management (QM)",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-04",
+        "description": "Validate Workflow integration — submit recipe for approval, verify workflow triggers, verify approver notification",
+        "risk": "HIGH",
+        "linkedTo": "Business Workflow",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "INT-05",
+        "description": "Validate Change Document integration — edit released recipe, verify Change Document Number generated in audit log",
+        "risk": "HIGH",
+        "linkedTo": "Change Document System",
+        "acIds": ["AC-3", "AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 6,
+    "ERR": 9,
+    "EDGE": 8,
+    "INT": 5,
+    "total": 32
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in Material Master with Material Type = FERT/HALB"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Existing plant in SAP organization structure"
+      },
+      {
+        "name": "recipeDescription",
+        "label": "Description",
+        "mandatory": true,
+        "validRange": "Text (40 chars)"
+      },
+      {
+        "name": "recipeType",
+        "label": "Recipe Type",
+        "mandatory": true,
+        "validRange": "Standard SAP recipe types (e.g., 1=Standard Recipe, 2=Special Recipe)"
+      },
+      {
+        "name": "baseQuantity",
+        "label": "Base Quantity",
+        "mandatory": true,
+        "validRange": "> 0, per UoM"
+      },
+      {
+        "name": "baseUoM",
+        "label": "Unit of Measure",
+        "mandatory": true,
+        "validRange": "Valid UoM from UoM master"
+      },
+      {
+        "name": "operationNumber",
+        "label": "Operation",
+        "mandatory": true,
+        "validRange": "Unique within recipe, format NNNN"
+      },
+      {
+        "name": "workCenter",
+        "label": "Work Center",
+        "mandatory": true,
+        "validRange": "Existing work center in plant"
+      },
+      {
+        "name": "operationDescription",
+        "label": "Operation Short Text",
+        "mandatory": true,
+        "validRange": "Text (40 chars)"
+      },
+      {
+        "name": "controlKey",
+        "label": "Control Key",
+        "mandatory": true,
+        "validRange": "Valid control key (e.g., PP01=internal processing)"
+      },
+      {
+        "name": "standardDuration",
+        "label": "Standard Time",
+        "mandatory": true,
+        "validRange": "> 0, per time UoM"
+      },
+      {
+        "name": "timeUoM",
+        "label": "Time Unit",
+        "mandatory": true,
+        "validRange": "Valid time UoM (MIN, HR, DAY)"
+      },
+      {
+        "name": "inProcessCheckpointId",
+        "label": "Inspection Characteristic",
+        "mandatory": true,
+        "validRange": "Existing inspection characteristic in QM master"
+      },
+      {
+        "name": "targetValue",
+        "label": "Target Value",
+        "mandatory": true,
+        "validRange": "Within acceptable range"
+      },
+      {
+        "name": "lowerLimit",
+        "label": "Lower Specification Limit",
+        "mandatory": true,
+        "validRange": "< Target Value"
+      },
+      {
+        "name": "upperLimit",
+        "label": "Upper Specification Limit",
+        "mandatory": true,
+        "validRange": "> Target Value"
+      },
+      {
+        "name": "effectiveDate",
+        "label": "Valid From",
+        "mandatory": true,
+        "validRange": "Today or future date"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material Number"
+      },
+      {
+        "name": "plantName",
+        "label": "Plant Name",
+        "trigger": "Confirm Plant"
+      },
+      {
+        "name": "workCenterDescription",
+        "label": "Work Center Description",
+        "trigger": "Confirm Work Center"
+      },
+      {
+        "name": "recipeStatus",
+        "label": "Status",
+        "trigger": "Recipe creation"
+      },
+      {
+        "name": "recipeVersion",
+        "label": "Version",
+        "trigger": "Any change to Released recipe"
+      },
+      {
+        "name": "createdBy",
+        "label": "Created By",
+        "trigger": "Recipe save"
+      },
+      {
+        "name": "createdOn",
+        "label": "Created On",
+        "trigger": "Recipe save"
+      },
+      {
+        "name": "changedBy",
+        "label": "Changed By",
+        "trigger": "Any recipe modification"
+      },
+      {
+        "name": "changedOn",
+        "label": "Changed On",
+        "trigger": "Any recipe modification"
+      },
+      {
+        "name": "approvedBy",
+        "label": "Approved By",
+        "trigger": "Approval workflow completion"
+      },
+      {
+        "name": "approvedOn",
+        "label": "Approved On",
+        "trigger": "Approval workflow completion"
+      }
+    ],
+    "output": [
+      {
+        "name": "recipeId",
+        "label": "Recipe ID",
+        "format": "Alphanumeric, format plant-dependent (e.g., 10000001)"
+      },
+      {
+        "name": "recipeVersion",
+        "label": "Recipe Version",
+        "format": "Numeric counter: 1, 2, 3..."
+      },
+      {
+        "name": "recipeStatus",
+        "label": "Recipe Status",
+        "format": "Code: Draft, In Approval, Released, Obsolete"
+      },
+      {
+        "name": "changeDocumentNumber",
+        "label": "Change Document Number",
+        "format": "10-digit numeric"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "baseQuantity",
+        "label": "Base Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "999999999.999",
+        "zeroInvalid": true
+      },
+      {
+        "name": "standardDuration",
+        "label": "Standard Time",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "999999.99",
+        "zeroInvalid": true
+      },
+      {
+        "name": "targetValue",
+        "label": "Target Value",
+        "lowerBoundary": "Depends on characteristic",
+        "upperBoundary": "Depends on characteristic",
+        "zeroInvalid": false
+      },
+      {
+        "name": "lowerLimit",
+        "label": "Lower Specification Limit",
+        "lowerBoundary": "-999999999.999",
+        "upperBoundary": "< Target Value",
+        "zeroInvalid": false
+      },
+      {
+        "name": "upperLimit",
+        "label": "Upper Specification Limit",
+        "lowerBoundary": "> Target Value",
+        "upperBoundary": "999999999.999",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

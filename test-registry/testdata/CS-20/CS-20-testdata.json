@@ -1,0 +1,317 @@
+{
+  "story": "CS-20",
+  "module": "MM",
+  "feature": "Purchase Requisition Creation with Approval Workflow",
+  "datasets": [
+    {
+      "id": "TD-CS-20-HP-001",
+      "description": "Valid PR with single-level approval threshold",
+      "testCase": "TC-CS-174",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "10",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "500.00",
+        "approverUserId": "{{APPROVER_USER_ID}}",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}",
+        "releaseStatus": "Not Released"
+      }
+    },
+    {
+      "id": "TD-CS-20-HP-002",
+      "description": "Valid PR with multi-level approval threshold (high-value GMP-critical material)",
+      "testCase": "TC-CS-175",
+      "data": {
+        "materialId": "{{MATERIAL_GMP_CRITICAL}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "materialGroup": "{{MATERIAL_GROUP_GMP}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "100",
+        "pricePerUnit": "150.00",
+        "deliveryDate": "{{TODAY_PLUS_14_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "15000.00",
+        "approver1UserId": "{{APPROVER_LEVEL1_USER_ID}}",
+        "approver2UserId": "{{APPROVER_LEVEL2_USER_ID}}",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}",
+        "releaseStatus": "Not Released"
+      }
+    },
+    {
+      "id": "TD-CS-20-AP-001",
+      "description": "PR sent back for revision by approver",
+      "testCase": "TC-CS-176",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "20",
+        "pricePerUnit": "75.00",
+        "deliveryDate": "{{TODAY_PLUS_10_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "1500.00",
+        "approverUserId": "{{APPROVER_USER_ID}}",
+        "approverComments": "Please provide additional justification for quantity",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}",
+        "releaseStatus": "Sent Back"
+      }
+    },
+    {
+      "id": "TD-CS-20-AP-002",
+      "description": "Multi-step approval chain with first approver approved, second pending",
+      "testCase": "TC-CS-177",
+      "data": {
+        "materialId": "{{MATERIAL_GMP_CRITICAL}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "150",
+        "pricePerUnit": "120.00",
+        "deliveryDate": "{{TODAY_PLUS_21_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "18000.00",
+        "approver1UserId": "{{APPROVER_LEVEL1_USER_ID}}",
+        "approver2UserId": "{{APPROVER_LEVEL2_USER_ID}}",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}",
+        "releaseStatus": "Partially Released"
+      }
+    },
+    {
+      "id": "TD-CS-20-NEG-001",
+      "description": "Invalid material ID not existing in plant",
+      "testCase": "TC-CS-178",
+      "data": {
+        "materialId": "{{INVALID_MATERIAL_ID}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "10",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "expectedError": "Material {{INVALID_MATERIAL_ID}} is not maintained for plant {{PLANT_CODE}}"
+      }
+    },
+    {
+      "id": "TD-CS-20-NEG-002",
+      "description": "Attempt to convert PR to PO before approval completed",
+      "testCase": "TC-CS-179",
+      "data": {
+        "prNumber": "{{PR_NUMBER_AWAITING_APPROVAL}}",
+        "releaseStatus": "Not Released",
+        "expectedError": "Purchase Requisition {{PR_NUMBER}} is not fully released"
+      }
+    },
+    {
+      "id": "TD-CS-20-NEG-003",
+      "description": "Approver rejects PR with rejection comments",
+      "testCase": "TC-CS-180",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "30",
+        "pricePerUnit": "80.00",
+        "deliveryDate": "{{TODAY_PLUS_10_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "2400.00",
+        "approverUserId": "{{APPROVER_USER_ID}}",
+        "rejectionComments": "Budget not available for this period",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}",
+        "releaseStatus": "Rejected"
+      }
+    },
+    {
+      "id": "TD-CS-20-ERR-001",
+      "description": "Missing Material field",
+      "testCase": "TC-CS-181",
+      "data": {
+        "materialId": "{{EMPTY_VALUE}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "10",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "expectedError": "Material is a required field"
+      }
+    },
+    {
+      "id": "TD-CS-20-ERR-002",
+      "description": "Missing Quantity field",
+      "testCase": "TC-CS-182",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "{{EMPTY_VALUE}}",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "expectedError": "Quantity is a required field"
+      }
+    },
+    {
+      "id": "TD-CS-20-ERR-003",
+      "description": "Missing Plant field",
+      "testCase": "TC-CS-183",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{EMPTY_VALUE}}",
+        "quantity": "10",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "expectedError": "Plant is a required field"
+      }
+    },
+    {
+      "id": "TD-CS-20-ERR-004",
+      "description": "Missing Delivery Date field",
+      "testCase": "TC-CS-184",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "10",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{EMPTY_VALUE}}",
+        "expectedError": "Delivery Date is a required field"
+      }
+    },
+    {
+      "id": "TD-CS-20-EDGE-001",
+      "description": "PR total value exactly at approval threshold boundary",
+      "testCase": "TC-CS-185",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "100",
+        "pricePerUnit": "100.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "10000.00",
+        "approvalThreshold": "10000.00",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}",
+        "releaseStatus": "Not Released"
+      }
+    },
+    {
+      "id": "TD-CS-20-EDGE-002",
+      "description": "Minimum quantity boundary (quantity = 1)",
+      "testCase": "TC-CS-186",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "1",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "50.00",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}"
+      }
+    },
+    {
+      "id": "TD-CS-20-EDGE-003",
+      "description": "Zero price per unit",
+      "testCase": "TC-CS-187",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "10",
+        "pricePerUnit": "0.00",
+        "deliveryDate": "{{TODAY_PLUS_7_DAYS}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "0.00",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}"
+      }
+    },
+    {
+      "id": "TD-CS-20-EDGE-004",
+      "description": "Delivery date at minimum lead time (today + 1 day)",
+      "testCase": "TC-CS-188",
+      "data": {
+        "materialId": "{{MATERIAL_STANDARD}}",
+        "materialDesc": "{{AUTO_POPULATED}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "10",
+        "pricePerUnit": "50.00",
+        "deliveryDate": "{{TODAY_PLUS_1_DAY}}",
+        "purchasingOrg": "{{AUTO_POPULATED}}",
+        "uom": "{{AUTO_POPULATED}}",
+        "totalValue": "500.00",
+        "releaseStrategyCode": "{{AUTO_POPULATED}}"
+      }
+    },
+    {
+      "id": "TD-CS-20-INT-001",
+      "description": "Fiori My Inbox task creation and delivery to approver",
+      "testCase": "TC-CS-189",
+      "data": {
+        "prNumber": "{{PR_NUMBER_CREATED}}",
+        "approverUserId": "{{APPROVER_USER_ID}}",
+        "approverEmail": "{{APPROVER_EMAIL}}",
+        "taskId": "{{AUTO_POPULATED}}",
+        "taskTitle": "Approve Purchase Requisition {{PR_NUMBER_CREATED}}",
+        "taskActions": ["Approve", "Reject", "Send Back"]
+      }
+    },
+    {
+      "id": "TD-CS-20-INT-002",
+      "description": "Notification delivery to requisitioner upon approval completion",
+      "testCase": "TC-CS-190",
+      "data": {
+        "prNumber": "{{PR_NUMBER_APPROVED}}",
+        "requisitionerUserId": "{{ENV.SAP_USERNAME}}",
+        "requisitionerEmail": "{{REQUISITIONER_EMAIL}}",
+        "notificationTitle": "Purchase Requisition {{PR_NUMBER_APPROVED}} has been approved",
+        "releaseStatus": "Released"
+      }
+    },
+    {
+      "id": "TD-CS-20-INT-003",
+      "description": "Notification delivery to requisitioner upon PR rejection",
+      "testCase": "TC-CS-191",
+      "data": {
+        "prNumber": "{{PR_NUMBER_REJECTED}}",
+        "requisitionerUserId": "{{ENV.SAP_USERNAME}}",
+        "requisitionerEmail": "{{REQUISITIONER_EMAIL}}",
+        "notificationTitle": "Purchase Requisition {{PR_NUMBER_REJECTED}} has been rejected",
+        "rejectionComments": "{{APPROVER_REJECTION_COMMENTS}}",
+        "releaseStatus": "Rejected"
+      }
+    }
+  ],
+  "placeholders": {
+    "{{MATERIAL_STANDARD}}": "Standard material ID (non-GMP-critical) — to be resolved from SAP tenant",
+    "{{MATERIAL_GMP_CRITICAL}}": "GMP-critical material ID — to be resolved from SAP tenant",
+    "{{MATERIAL_GROUP_GMP}}": "Material group code for GMP-critical materials — to be resolved from SAP configuration",
+    "{{PLANT_CODE}}": "Valid plant code — to be resolved from SAP tenant",
+    "{{INVALID_MATERIAL_ID}}": "Material ID that does NOT exist in the plant — e.g., INVALID001",
+    "{{APPROVER_USER_ID}}": "User ID of single-level approver — to be resolved from SAP user master",
+    "{{APPROVER_LEVEL1_USER_ID}}": "User ID of first-level approver (multi-level) — to be resolved from SAP user master",
+    "{{APPROVER_LEVEL2_USER_ID}}": "User ID of second-level approver (multi-level) — to be resolved from SAP user master",
+    "{{APPROVER_EMAIL}}": "Email address of approver user — to be resolved from SAP user profile",
+    "{{REQUISITIONER_EMAIL}}": "Email address of requisitioner user — to be resolved from SAP user profile",
+    "{{TODAY_PLUS_1_DAY}}": "Dynamic date: current date + 1 day (format: YYYY-MM-DD)",
+    "{{TODAY_PLUS_7_DAYS}}": "Dynamic date: current date + 7 days (format: YYYY-MM-DD)",
+    "{{TODAY_PLUS_10_DAYS}}": "Dynamic date: current date + 10 days (format: YYYY-MM-DD)",
+    "{{TODAY_PLUS_14_DAYS}}": "Dynamic date: current date + 14 days (format: YYYY-MM-DD)",
+    "{{TODAY_PLUS_21_DAYS}}": "Dynamic date: current date + 21 days (format: YYYY-MM-DD)",
+    "{{PR_NUMBER_AWAITING_APPROVAL}}": "PR number of an existing PR that is not yet fully approved — to be created in prerequisite test",
+    "{{PR_NUMBER_CREATED}}": "PR number created in test step — dynamically captured",
+    "{{PR_NUMBER_APPROVED}}": "PR number of an approved PR — to be created in prerequisite test",
+    "{{PR_NUMBER_REJECTED}}": "PR number of a rejected PR — to be created in prerequisite test",
+    "{{APPROVER_REJECTION_COMMENTS}}": "Comments entered by approver during rejection — dynamically captured",
+    "{{EMPTY_VALUE}}": "Leave field blank/empty (no value entered)",
+    "{{AUTO_POPULATED}}": "Value is auto-filled by SAP — do not enter manually; verify after trigger action"
+  }
+}

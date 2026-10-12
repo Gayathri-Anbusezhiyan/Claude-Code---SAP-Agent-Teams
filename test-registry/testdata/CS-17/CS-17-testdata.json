@@ -1,0 +1,313 @@
+{
+  "userStory": "CS-17",
+  "module": "MM",
+  "feature": "Source List Management (Approved Vendor List)",
+  "generatedAt": "2026-08-21T09:05:00.000Z",
+  "testDataSets": {
+    "TD-CS-017-001": {
+      "id": "TD-CS-017-001",
+      "name": "Valid Source List — Single Approved Vendor",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "Source list record created with unique record number; status Active; vendor designated as approved"
+    },
+    "TD-CS-017-002": {
+      "id": "TD-CS-017-002",
+      "name": "Valid Source List — Multiple Approved Vendors",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId1": "{{VENDOR_ID_APPROVED_1}}",
+        "vendorName1": "{{VENDOR_NAME_APPROVED_1}}",
+        "vendorId2": "{{VENDOR_ID_APPROVED_2}}",
+        "vendorName2": "{{VENDOR_NAME_APPROVED_2}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "Two source list records created for the same material-plant with different vendors; both status Active"
+    },
+    "TD-CS-017-003": {
+      "id": "TD-CS-017-003",
+      "name": "Valid Source List — Indefinite Validity",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "Source list record created with indefinite validity (no end date); status Active"
+    },
+    "TD-CS-017-NEG-001": {
+      "id": "TD-CS-017-NEG-001",
+      "name": "PO Creation Blocked — Non-Approved Vendor",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_SOURCE_LIST_RESTRICTED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "nonApprovedVendorId": "{{VENDOR_ID_NON_APPROVED}}",
+        "nonApprovedVendorName": "{{VENDOR_NAME_NON_APPROVED}}",
+        "approvedVendorId": "{{VENDOR_ID_APPROVED}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "PO creation is blocked; error message displayed indicating vendor not approved in source list; no PO number generated"
+    },
+    "TD-CS-017-NEG-002": {
+      "id": "TD-CS-017-NEG-002",
+      "name": "Error Message Verification — Non-Approved Vendor",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_SOURCE_LIST_RESTRICTED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "nonApprovedVendorId": "{{VENDOR_ID_NON_APPROVED}}",
+        "nonApprovedVendorName": "{{VENDOR_NAME_NON_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Error/warning message displayed identifying material as requiring vendor qualification; message references source list restriction"
+    },
+    "TD-CS-017-ERR-001": {
+      "id": "TD-CS-017-ERR-001",
+      "name": "Missing Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "System highlights Material field as mandatory; submission blocked; no source list record created"
+    },
+    "TD-CS-017-ERR-002": {
+      "id": "TD-CS-017-ERR-002",
+      "name": "Missing Vendor Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "System highlights Vendor field as mandatory; submission blocked; no source list record created"
+    },
+    "TD-CS-017-ERR-003": {
+      "id": "TD-CS-017-ERR-003",
+      "name": "Missing Plant Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "System highlights Plant field as mandatory; submission blocked; no source list record created"
+    },
+    "TD-CS-017-ERR-004": {
+      "id": "TD-CS-017-ERR-004",
+      "name": "Missing Validity Start Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "System highlights Valid From field as mandatory; submission blocked; no source list record created"
+    },
+    "TD-CS-017-ERR-005": {
+      "id": "TD-CS-017-ERR-005",
+      "name": "Invalid Material ID — Non-Existent",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "Error message indicates Material does not exist; Material field marked with error indicator; no material description auto-populated; submission blocked"
+    },
+    "TD-CS-017-ERR-006": {
+      "id": "TD-CS-017-ERR-006",
+      "name": "Invalid Vendor ID — Non-Existent",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "invalidVendorId": "{{VENDOR_ID_INVALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "Error message indicates Vendor does not exist; Vendor field marked with error indicator; no vendor name auto-populated; submission blocked"
+    },
+    "TD-CS-017-EDGE-001": {
+      "id": "TD-CS-017-EDGE-001",
+      "name": "Validity Start Date — Today (Minimum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDateToday": "{{DATE_TODAY}}",
+        "validityEndDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "Source list record created with validity start date equal to today; status Active"
+    },
+    "TD-CS-017-EDGE-002": {
+      "id": "TD-CS-017-EDGE-002",
+      "name": "Validity End Date — Start + 1 Day (Minimum Duration)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-033"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDateMinDuration": "{{DATE_TODAY_PLUS_1}}"
+      },
+      "expectedOutcome": "Source list record created with 1-day validity period; status Active"
+    },
+    "TD-CS-017-EDGE-003": {
+      "id": "TD-CS-017-EDGE-003",
+      "name": "Validity End Date — Past (Expired)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-034"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDatePast": "{{DATE_PAST_60_DAYS}}",
+        "validityEndDatePast": "{{DATE_PAST_30_DAYS}}"
+      },
+      "expectedOutcome": "Source list record created with expired dates; status Expired or Inactive; not enforced for current PO creation"
+    },
+    "TD-CS-017-EDGE-004": {
+      "id": "TD-CS-017-EDGE-004",
+      "name": "Validity End Date — Far Future (Long-Term)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-035"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDateLongTerm": "{{DATE_FUTURE_10_YEARS}}"
+      },
+      "expectedOutcome": "Source list record created with long-term validity (10+ years); status Active"
+    },
+    "TD-CS-017-EDGE-005": {
+      "id": "TD-CS-017-EDGE-005",
+      "name": "Notification Lead Time — 1 Day (Minimum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-036"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDateShortTerm": "{{DATE_FUTURE_5_DAYS}}",
+        "notificationLeadTimeMin": "1"
+      },
+      "expectedOutcome": "Source list record created with 1-day notification lead time; notification sent 1 day before expiry"
+    },
+    "TD-CS-017-EDGE-006": {
+      "id": "TD-CS-017-EDGE-006",
+      "name": "Notification Lead Time — 365 Days (Maximum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-037"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDateLongTerm": "{{DATE_FUTURE_2_YEARS}}",
+        "notificationLeadTimeMax": "365"
+      },
+      "expectedOutcome": "Source list record created with 365-day notification lead time; notification sent 365 days before expiry"
+    },
+    "TD-CS-017-INT-001": {
+      "id": "TD-CS-017-INT-001",
+      "name": "Notification Workflow Integration — 30-Day Lead Time",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-038"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_GMP_CRITICAL}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "vendorId": "{{VENDOR_ID_APPROVED}}",
+        "vendorName": "{{VENDOR_NAME_APPROVED}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "validityStartDate": "{{DATE_TODAY}}",
+        "validityEndDateShortTerm": "{{DATE_FUTURE_35_DAYS}}",
+        "notificationLeadTime": "30"
+      },
+      "expectedOutcome": "Source list record created; notification sent 30 days before expiry to Procurement team; notification contains material, vendor, plant, expiry date details"
+    }
+  }
+}

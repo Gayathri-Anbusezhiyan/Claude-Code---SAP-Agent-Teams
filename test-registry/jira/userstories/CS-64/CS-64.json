@@ -1,0 +1,20 @@
+{
+  "key": "CS-64",
+  "summary": "Review A Batch Release Dashboard Showing All Batches Pending Final Qa",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:46.871Z",
+  "updated": "2026-08-21T08:41:46.966Z",
+  "description": "As a QA Manager, I want to review a Batch Release Dashboard showing all batches pending final QA disposition, so that I can prioritize review activities and prevent unreleased batches from causing distribution delays.",
+  "acceptanceCriteria": "1. The user can access a \"Batch Release\" analytical Fiori app.2. The dashboard lists all batches currently in Quality Inspection status with days pending and associated process order.3. The user can drill down into a batch to view its complete compiled batch record and any open deviations.4. The system highlights batches approaching a committed customer ship date to flag release priority.5. The QA manager can record the final disposition (Release, Reject, Rework) directly from the dashboard.6. The system automatically updates the batch's stock status upon disposition, making it available to Sales & Distribution where applicable.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-10",
+  "type": "Story",
+  "summary": "As a Quality Doc SME, I want to complete the final review task to close the Send for Review workflow so that the document review cycle is formally completed",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "High",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "groomed",
+    "requirement-sourced"
+  ],
+  "components": [],
+  "description": "## Background\n\nAfter the Reviewer has completed their review task and recorded their verdict, the workflow returns to the Quality Doc SME for final confirmation. The SME must log back in, locate the final review task assigned to them, and close it with the verdict \"No Changes Required – Review Complete\". This is the final step of the Send for Review and Verification workflow, formally completing the review cycle.\n\n## What This Story Covers\n\nThe ability for the Quality Doc SME to log in to Veeva Vault QualityDocs (in a fresh session after the Reviewer has completed their task), navigate to the Home view, locate their assigned final review workflow task, complete it by selecting the verdict \"No Changes Required – Review Complete\", and click Complete to close the workflow. Also covers the post-workflow logout.\n\n## Roles\n\n* **Primary actor:** Quality Doc SME — completes the final review task to formally close the workflow\n* **Supporting roles:** None (Reviewer has already completed their task)\n\n## Preconditions\n\n* CS-9 (STORY-002) has been completed: the Reviewer has completed their review task and submitted it\n* The document is in Review Completed state and the Quality Doc SME has been assigned a final review workflow task\n* The Quality Doc SME has valid credentials (QualDocSme.01 account) to log in\n\n## Workflow Context\n\nState before: Document is in Review Completed; Quality Doc SME has an assigned final review task  \nState after: Workflow is closed; document is in Final Review Complete state\n\n## Notes\n\n* The SME logs in again using the QualDocSme.01 account — this is a fresh session, distinct from the session used in CS-8 (STORY-001).\n* The final review task is accessed from the Home view, identical in navigation pattern to the Reviewer's task in CS-9 (STORY-002).\n* The Review Context field is described for the reviewer's task only. The SME final review task form may or may not include a Review Context field — only the Verdict field is asserted.\n* Covers: RP-FUNC-009, RP-FUNC-010, RP-FUNC-011, RP-ROLE-003, RP-ROLE-006, RP-WFLOW-007, RP-WFLOW-008, RP-WFLOW-009, RP-WFLOW-010, RP-BIZ-005, RP-DATA-006, RP-DATA-009, RP-DATA-012\n\n## Acceptance Criteria\n\n### Happy Path\n\n* The Quality Doc SME can log in to Veeva Vault QualityDocs using valid credentials and is presented with the QualityDocs interface\n* After login, the Quality Doc SME can navigate to the Home view\n* The Quality Doc SME's most recently assigned final review workflow task is visible in the Home view\n* The Quality Doc SME can open the final review task\n* The task completion form displays a Verdict field\n* The Quality Doc SME can select \"No Changes Required – Review Complete\" from the Verdict field options\n* The Quality Doc SME can click Complete to submit the final review task\n* After submission, the task is marked as complete and the workflow is closed\n* The document transitions to Final Review Complete state (workflow ended)\n* The Quality Doc SME can log out of the application successfully\n\n### Alternative Paths\n\n* If the SME has multiple tasks in their Home view, they can identify the most recent one corresponding to the final review step\n\n### Validation and Error Cases\n\n* The Verdict field is mandatory; the system does not allow the final review task to be submitted without a verdict selection\n* Only the Quality Doc SME assigned to this workflow can complete this final review task; the Reviewer cannot perform this action\n\n### Business Rules\n\n* The SME must complete the final review task with Verdict \"No Changes Required – Review Complete\" as specified (RP-BIZ-005)\n* The final review task is only available after the Reviewer has completed their review task — the workflow is strictly sequential (RP-NFR-001)\n* The SME session is a fresh login separate from the Reviewer session (RP-BIZ-007)\n* Any authenticated user can log out of the application upon completing their workflow actions (RP-ROLE-006)\n\n",
+  "acceptanceCriteria": null,
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-05-22T18:55:04.492+0530",
+  "updated": "2026-05-22T18:55:04.612+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-10",
+  "fetchedAt": "2026-08-21T08:55:02.086Z"
+}

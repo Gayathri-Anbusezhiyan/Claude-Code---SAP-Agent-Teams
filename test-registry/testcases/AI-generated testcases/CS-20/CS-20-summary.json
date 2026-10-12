@@ -1,0 +1,293 @@
+{
+  "userStory": "CS-20",
+  "summary": "Create A Purchase Requisition That Automatically Routes For Approval B",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "totalTestCases": 18,
+  "tcIdRange": {
+    "start": "TC-CS-174",
+    "end": "TC-CS-191"
+  },
+  "coverageSummary": {
+    "scenarioTypes": {
+      "HP": 2,
+      "AP": 2,
+      "NEG": 3,
+      "ERR": 4,
+      "EDGE": 4,
+      "INT": 3
+    },
+    "acceptanceCriteria": {
+      "total": 6,
+      "covered": 6,
+      "coveragePercentage": 100
+    },
+    "priorities": {
+      "CRITICAL": 3,
+      "HIGH": 9,
+      "MEDIUM": 6,
+      "LOW": 0
+    },
+    "automation": {
+      "YES": 13,
+      "NO": 5,
+      "automationPercentage": 72
+    }
+  },
+  "testCases": [
+    {
+      "id": "TC-CS-174",
+      "title": "Create Purchase Requisition with Single-Level Approval Requirement",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "datasetId": "TD-CS-20-HP-001",
+      "acsValidated": ["AC-1", "AC-2", "AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Create Purchase Requisition with Multi-Level Approval for High-Value GMP-Critical Material",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "LARGE",
+      "datasetId": "TD-CS-20-HP-002",
+      "acsValidated": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Approver Sends Purchase Requisition Back for Revision",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "datasetId": "TD-CS-20-AP-001",
+      "acsValidated": ["AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Multi-Step Approval Chain with Partial Release Status",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "datasetId": "TD-CS-20-AP-002",
+      "acsValidated": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Attempt to Create Purchase Requisition with Non-Existent Material in Plant",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-NEG-001",
+      "acsValidated": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Attempt to Convert Purchase Requisition to PO Before Approval Completion",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "datasetId": "TD-CS-20-NEG-002",
+      "acsValidated": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Approver Rejects Purchase Requisition with Rejection Comments",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "datasetId": "TD-CS-20-NEG-003",
+      "acsValidated": ["AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Attempt to Submit Purchase Requisition with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-ERR-001",
+      "acsValidated": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Attempt to Submit Purchase Requisition with Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-ERR-002",
+      "acsValidated": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "Attempt to Submit Purchase Requisition with Plant Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-ERR-003",
+      "acsValidated": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Attempt to Submit Purchase Requisition with Delivery Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-ERR-004",
+      "acsValidated": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-185",
+      "title": "Create Purchase Requisition with Total Value Exactly at Approval Threshold Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "MEDIUM",
+      "datasetId": "TD-CS-20-EDGE-001",
+      "acsValidated": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-186",
+      "title": "Create Purchase Requisition with Minimum Quantity Boundary Value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-EDGE-002",
+      "acsValidated": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-187",
+      "title": "Create Purchase Requisition with Zero Price Per Unit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-EDGE-003",
+      "acsValidated": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-188",
+      "title": "Create Purchase Requisition with Delivery Date at Minimum Lead Time",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-EDGE-004",
+      "acsValidated": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-189",
+      "title": "Verify Fiori My Inbox Task Creation and Delivery to Approver",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "datasetId": "TD-CS-20-INT-001",
+      "acsValidated": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-190",
+      "title": "Verify Notification Delivery to Requisitioner Upon Approval Completion",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-INT-002",
+      "acsValidated": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-191",
+      "title": "Verify Notification Delivery to Requisitioner Upon PR Rejection",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "SMALL",
+      "datasetId": "TD-CS-20-INT-003",
+      "acsValidated": ["AC-6"]
+    }
+  ],
+  "qualityGates": {
+    "acTraceability": {
+      "gate": "100% — every AC covered by >= 1 TC",
+      "actual": "6/6 (100%)",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "gate": "All 2 HP scenarios generated",
+      "actual": "2/2 (100%)",
+      "status": "PASS"
+    },
+    "apCoverage": {
+      "gate": "All 2 AP scenarios generated",
+      "actual": "2/2 (100%)",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "gate": "All 3 NEG scenarios generated",
+      "actual": "3/3 (100%)",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "gate": "All 4 ERR scenarios generated",
+      "actual": "4/4 (100%)",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "gate": "All 4 EDGE TCs generated",
+      "actual": "4/4 (100%)",
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "gate": "All 3 INT scenarios generated",
+      "actual": "3/3 (100%)",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "gate": "0 hardcoded SAP values",
+      "actual": "0 hardcoded values",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "gate": ">= 9 TCs flagged as Automation Candidate: YES",
+      "actual": "13 TCs",
+      "status": "PASS"
+    },
+    "overallStatus": "ALL GATES PASSED (9/9)"
+  },
+  "files": {
+    "testCases": "test-registry/testcases/AI-generated testcases/CS-20/testcases/TC-CS-{174-191}.md",
+    "coverageMatrix": "test-registry/testcases/AI-generated testcases/CS-20/CS-20-coverage-matrix.md",
+    "summary": "test-registry/testcases/AI-generated testcases/CS-20/CS-20-summary.json",
+    "testData": "test-registry/testdata/CS-20/CS-20-testdata.json",
+    "testDataGuide": "test-registry/testdata/CS-20/CS-20-testdata-guide.md"
+  }
+}

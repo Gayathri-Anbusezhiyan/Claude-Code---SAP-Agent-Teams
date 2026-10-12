@@ -1,0 +1,253 @@
+{
+  "userStory": "CS-39",
+  "summary": "Process A Free Goods (Sample) Order For A Healthcare Provider",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 22,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 6,
+    "ERR": 4,
+    "EDGE": 6,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 13,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 18,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-039",
+      "title": "Create Free Goods Order with Single Sample Item for Healthcare Provider",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-039-001"
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Create Free Goods Order with Batch-Managed Sample Material",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-039-002"
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Create Free Goods Order with Multiple Sample Items",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-039-AP-001"
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Create Free Goods Order with Automatic Delivery Document Creation",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-039-AP-002"
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Attempt to Create Free Goods Order with Invalid Customer ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-NEG-001"
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Attempt to Create Free Goods Order with Customer Not Classified as Healthcare Provider",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-NEG-002"
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to Create Free Goods Order with Material Not Configured for Free Goods",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-NEG-003"
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Attempt to Create Free Goods Order with Non-Zero Pricing",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-NEG-004"
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Attempt to Create Free Goods Order with Past Delivery Date",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-NEG-005"
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Attempt to Add Batch-Managed Material Without Batch Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-NEG-006"
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Attempt to Submit Free Goods Order with Customer Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-ERR-001"
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Attempt to Submit Free Goods Order with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-ERR-002"
+    },
+    {
+      "id": "TC-CS-051",
+      "title": "Attempt to Submit Free Goods Order with Order Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-ERR-003"
+    },
+    {
+      "id": "TC-CS-052",
+      "title": "Attempt to Submit Free Goods Order with Delivery Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-ERR-004"
+    },
+    {
+      "id": "TC-CS-053",
+      "title": "Create Free Goods Order with Minimum Order Quantity (1 Unit)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-EDGE-001"
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Create Free Goods Order with Maximum Order Quantity (Regulatory Limit)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL — max quantity may vary per regulatory configuration",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-EDGE-002"
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Attempt to Create Free Goods Order with Zero Order Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-EDGE-003"
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Create Free Goods Order with Delivery Date = Today (Same-Day Delivery)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-EDGE-004"
+    },
+    {
+      "id": "TC-CS-057",
+      "title": "Create Free Goods Order with Batch Minimum Shelf Life Remaining",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL — batch expiry verification may require specific batch configuration",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-039-EDGE-005"
+    },
+    {
+      "id": "TC-CS-058",
+      "title": "Attempt to Create Free Goods Order with Expired Batch",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL — expired batch availability may vary",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-039-EDGE-006"
+    },
+    {
+      "id": "TC-CS-059",
+      "title": "Verify Compliance Tracking Log Entry Created After Free Goods Order Creation",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL — compliance log verification may require API or database check",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-039-INT-001"
+    },
+    {
+      "id": "TC-CS-060",
+      "title": "Verify Delivery Document Created and Linked to Free Goods Sales Order",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-039-INT-002"
+    }
+  ],
+  "testdataFile": "testdata/CS-39/CS-39-testdata.json"
+}

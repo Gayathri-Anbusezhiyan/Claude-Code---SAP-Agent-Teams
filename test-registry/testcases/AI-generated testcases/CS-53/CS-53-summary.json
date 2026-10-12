@@ -1,0 +1,247 @@
+{
+  "userStory": "CS-53",
+  "summary": "Review And Electronically Sign Off The Electronic Batch Record (Ebr) G",
+  "module": "PP-QM",
+  "generatedAt": "2026-08-24T14:30:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 20,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 7,
+    "EDGE": 2,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 10,
+    "MEDIUM": 6,
+    "LOW": 0
+  },
+  "automationCandidates": 13,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Review and approve batch record with all in-spec results and no deviations",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-001",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-1", "AC-2", "AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Review and approve batch record with out-of-spec result and documented approved deviation",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-002",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Retrieve archived batch record for regulatory inspection",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-003",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Review batch record, add comments, and approve",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-004",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Attempt to approve batch record with missing mandatory in-process control result",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-NEG-001",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Attempt to approve batch record with out-of-spec result and NO documented deviation",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-NEG-002",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt to access Review Batch Records app without QA authorization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-NEG-003",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt to transfer batch to Unrestricted-Use stock before batch record approval",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-NEG-004",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Missing Process Order Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-ERR-001",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Missing Batch Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-ERR-002",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Missing Electronic Signature Password",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-ERR-003",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Invalid Electronic Signature Password",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-ERR-004",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Non-existent Process Order Number",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-ERR-005",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Non-existent Batch Number",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-ERR-006",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-139",
+      "title": "Process Order not in TECO status (not technically complete)",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-ERR-007",
+      "estimatedEffort": "MEDIUM",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-140",
+      "title": "Batch record with zero deviations (all in-spec) — boundary lower",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-EDGE-001",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-141",
+      "title": "Batch record with maximum allowed reviewer comments length — boundary upper",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-53-EDGE-002",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-142",
+      "title": "Verify PP-QM integration — process order confirmations and inspection results compiled into batch record",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-INT-001",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-143",
+      "title": "Verify MM-QM integration — batch release decision enables Unrestricted-Use stock transfer",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-INT-002",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-144",
+      "title": "Verify 21 CFR Part 11 compliance — electronic signature includes timestamp, user ID, and audit trail",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-53-INT-003",
+      "estimatedEffort": "LARGE",
+      "acsCovered": ["AC-4"]
+    }
+  ],
+  "testdataFile": "testdata/CS-53/CS-53-testdata.json"
+}

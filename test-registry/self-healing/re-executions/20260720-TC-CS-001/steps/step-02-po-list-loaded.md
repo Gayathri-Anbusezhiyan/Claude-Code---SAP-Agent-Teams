@@ -1,0 +1,34 @@
+- generic [active] [ref=f7e1]:
+  - generic:
+    - status
+    - status
+  - generic:
+    - alert
+    - alert
+  - generic [ref=f7e21]:
+    - banner "Shell Bar" [ref=f7e27]:
+      - generic [ref=f7e28]:
+        - generic:
+          - button "Open Menu" [ref=f7e30] [cursor=pointer]
+          - button "Back" [ref=f7e844] [cursor=pointer]
+        - link [ref=f7e35] [cursor=pointer]:
+          - /url: "#Shell-home"
+      - generic [ref=f7e38]:
+        - generic [ref=f7e658] [cursor=pointer]:
+          - heading "Manage Purchase Orders" [level=1]
+          - button "Manage Purchase Orders" [ref=f7e1511]:
+            - generic [ref=f7e1512]: 
+        - toolbar [ref=f7e41]:
+          - generic "Open Search" [ref=f7e1515] [cursor=pointer]:
+            - button "Open Search" [ref=f7e1516]
+          - button "0 Notifications" [ref=f7e669] [cursor=pointer]
+          - button "Joule" [ref=f7e681] [cursor=pointer]
+          - button "Help" [ref=f7e683] [cursor=pointer]
+      - button [ref=f7e48] [cursor=pointer]:
+        - img "Avatar T0U" [ref=f7e52]
+    - generic [ref=f7e59]:
+      - text: 
+      - main "Shell Content" [ref=f7e106]:                        
+    - contentinfo
+  - generic:
+    - region "Notification"

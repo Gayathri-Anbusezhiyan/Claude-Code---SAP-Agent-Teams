@@ -1,0 +1,373 @@
+{
+  "userStory": "CS-63",
+  "module": "PP",
+  "feature": "Component Reservation Management — Stock/Requirements List and Reservation Automation",
+  "generatedAt": "2026-08-24T10:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-063-001": {
+      "id": "TD-CS-063-001",
+      "name": "Access Stock/Requirements List — View Existing Reservations",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-151"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "existingReservationNumber": "{{RESERVATION_NUMBER_EXISTING}}"
+      },
+      "expectedOutcome": "Stock/Requirements List displays existing reservations for the specified material and plant"
+    },
+    "TD-CS-063-002": {
+      "id": "TD-CS-063-002",
+      "name": "Convert Planned Order to Process Order — Automatic Reservation Creation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-152"],
+      "data": {
+        "plannedOrderNumber": "{{PLANNED_ORDER_NUMBER_VALID}}",
+        "finishedProductMaterial": "{{FINISHED_PRODUCT_MATERIAL_WITH_BOM}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_FROM_BOM}}",
+        "requiredQuantity": "{{BOM_REQUIRED_QUANTITY}}"
+      },
+      "expectedOutcome": "Process order created; component reservations automatically generated from BOM"
+    },
+    "TD-CS-063-003": {
+      "id": "TD-CS-063-003",
+      "name": "Verify Reserved Quantities Excluded from Available Stock",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-153"],
+      "data": {
+        "componentMaterial": "{{COMPONENT_MATERIAL_WITH_RESERVATION}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "physicalStock": "{{PHYSICAL_STOCK_QUANTITY}}",
+        "reservedQuantity": "{{RESERVED_QUANTITY_ACTIVE}}",
+        "expectedAvailableStock": "{{AVAILABLE_STOCK_CALCULATED}}"
+      },
+      "expectedOutcome": "Available Stock = Physical Stock - Reserved Quantity; calculation accurate"
+    },
+    "TD-CS-063-004": {
+      "id": "TD-CS-063-004",
+      "name": "Execute Backflush Consumption — Automatic Reservation Release",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-154"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "reservationNumber": "{{RESERVATION_NUMBER_LINKED_TO_ORDER}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_BACKFLUSH}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_CONFIRMED}}"
+      },
+      "expectedOutcome": "Backflush confirmation posted; reservation automatically released and updated to Completed status"
+    },
+    "TD-CS-063-AP-001": {
+      "id": "TD-CS-063-AP-001",
+      "name": "Manually Adjust Reservation Quantity",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-155"],
+      "data": {
+        "reservationNumber": "{{RESERVATION_NUMBER_OPEN}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_ADJUSTABLE}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "originalQuantity": "{{ORIGINAL_RESERVED_QUANTITY}}",
+        "adjustedQuantity": "{{ADJUSTED_RESERVED_QUANTITY}}"
+      },
+      "expectedOutcome": "Reservation quantity successfully updated from original to adjusted value; status remains Open"
+    },
+    "TD-CS-063-AP-002": {
+      "id": "TD-CS-063-AP-002",
+      "name": "Manually Adjust Reservation Date",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-156"],
+      "data": {
+        "reservationNumber": "{{RESERVATION_NUMBER_OPEN}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_ADJUSTABLE}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "originalRequirementDate": "{{ORIGINAL_REQUIREMENT_DATE}}",
+        "adjustedRequirementDate": "{{ADJUSTED_REQUIREMENT_DATE}}"
+      },
+      "expectedOutcome": "Reservation requirement date successfully updated; status remains Open"
+    },
+    "TD-CS-063-AP-003": {
+      "id": "TD-CS-063-AP-003",
+      "name": "Cancel Process Order — Automatic Reservation Release",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-157"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_CANCELLABLE}}",
+        "reservationNumber": "{{RESERVATION_NUMBER_LINKED_TO_ORDER}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_RESERVED}}",
+        "plant": "{{PLANT_CODE_PP}}"
+      },
+      "expectedOutcome": "Process order cancelled; reservation automatically released and updated to Cancelled status"
+    },
+    "TD-CS-063-NEG-001": {
+      "id": "TD-CS-063-NEG-001",
+      "name": "Shortage Warning — Required Quantity Exceeds Available Stock",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-158"],
+      "data": {
+        "finishedProductMaterial": "{{FINISHED_PRODUCT_MATERIAL_WITH_BOM}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_LOW_STOCK}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "currentAvailableStock": "{{AVAILABLE_STOCK_LOW}}",
+        "requiredQuantity": "{{BOM_REQUIRED_QUANTITY_HIGH}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Shortage warning displayed; component shortage is calculated and flagged"
+    },
+    "TD-CS-063-NEG-002": {
+      "id": "TD-CS-063-NEG-002",
+      "name": "Error — Planned Order with No BOM",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-159"],
+      "data": {
+        "plannedOrderNumberNoBOM": "{{PLANNED_ORDER_NUMBER_NO_BOM}}",
+        "finishedProductMaterialNoBOM": "{{FINISHED_PRODUCT_MATERIAL_NO_BOM}}",
+        "plant": "{{PLANT_CODE_PP}}"
+      },
+      "expectedOutcome": "Error message displayed: BOM missing or inactive; conversion blocked; no reservation created"
+    },
+    "TD-CS-063-NEG-003": {
+      "id": "TD-CS-063-NEG-003",
+      "name": "Authorization Failure — Stock/Requirements List Access",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-160"],
+      "data": {
+        "unauthorizedUserEmail": "{{UNAUTHORIZED_USER_EMAIL}}",
+        "unauthorizedUserPassword": "{{UNAUTHORIZED_USER_PASSWORD}}"
+      },
+      "expectedOutcome": "Authorization error displayed; user prevented from accessing Stock/Requirements List"
+    },
+    "TD-CS-063-ERR-001": {
+      "id": "TD-CS-063-ERR-001",
+      "name": "Missing Mandatory Field — Planned Order Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-161"],
+      "data": {
+        "plannedOrderNumber": ""
+      },
+      "note": "plannedOrderNumber intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Planned Order Number is mandatory; conversion blocked"
+    },
+    "TD-CS-063-ERR-002": {
+      "id": "TD-CS-063-ERR-002",
+      "name": "Missing Mandatory Field — Material Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-162"],
+      "data": {
+        "materialNumber": "",
+        "plant": "{{PLANT_CODE_PP}}",
+        "requirementDate": "{{REQUIREMENT_DATE_FUTURE}}",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "note": "materialNumber intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Material is mandatory; reservation creation blocked"
+    },
+    "TD-CS-063-ERR-003": {
+      "id": "TD-CS-063-ERR-003",
+      "name": "Missing Mandatory Field — Plant",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-163"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "",
+        "requirementDate": "{{REQUIREMENT_DATE_FUTURE}}",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "note": "plant intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Plant is mandatory; reservation creation blocked"
+    },
+    "TD-CS-063-ERR-004": {
+      "id": "TD-CS-063-ERR-004",
+      "name": "Missing Mandatory Field — Requirement Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-164"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "requirementDate": "",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "note": "requirementDate intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Requirement Date is mandatory; reservation creation blocked"
+    },
+    "TD-CS-063-ERR-005": {
+      "id": "TD-CS-063-ERR-005",
+      "name": "Missing Mandatory Field — Reservation Quantity (during adjustment)",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-165"],
+      "data": {
+        "reservationNumber": "{{RESERVATION_NUMBER_OPEN}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_ADJUSTABLE}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "reservationQuantity": ""
+      },
+      "note": "reservationQuantity intentionally empty to test mandatory field enforcement during adjustment",
+      "expectedOutcome": "Error message: Reservation Quantity is mandatory; adjustment blocked"
+    },
+    "TD-CS-063-EDGE-001": {
+      "id": "TD-CS-063-EDGE-001",
+      "name": "Reservation Quantity — Minimum Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-166"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "requirementDate": "{{REQUIREMENT_DATE_FUTURE}}",
+        "minQuantity": "{{RESERVATION_QUANTITY_MIN}}"
+      },
+      "expectedOutcome": "Reservation created successfully with minimum valid quantity (e.g., 0.001 or 1 depending on UoM)"
+    },
+    "TD-CS-063-EDGE-002": {
+      "id": "TD-CS-063-EDGE-002",
+      "name": "Reservation Quantity — Maximum Boundary (Planned Quantity)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "requirementDate": "{{REQUIREMENT_DATE_FUTURE}}",
+        "plannedQuantity": "{{PLANNED_ORDER_QUANTITY}}",
+        "maxQuantity": "{{RESERVATION_QUANTITY_MAX}}"
+      },
+      "expectedOutcome": "Reservation created successfully with quantity equal to planned quantity (maximum valid boundary)"
+    },
+    "TD-CS-063-EDGE-003": {
+      "id": "TD-CS-063-EDGE-003",
+      "name": "Requirement Date — Current Date (Earliest Valid Date)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "currentDate": "{{DATE_CURRENT}}",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Reservation created successfully with requirement date set to current date"
+    },
+    "TD-CS-063-EDGE-004": {
+      "id": "TD-CS-063-EDGE-004",
+      "name": "Requirement Date — End of Planning Horizon (Furthest Valid Date)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "planningHorizonEndDate": "{{DATE_PLANNING_HORIZON_END}}",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Reservation created successfully with requirement date set to end of planning horizon"
+    },
+    "TD-CS-063-EDGE-005": {
+      "id": "TD-CS-063-EDGE-005",
+      "name": "Available Stock — Exactly Zero (Boundary for Shortage Warning)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "requirementDate": "{{REQUIREMENT_DATE_FUTURE}}",
+        "zeroAvailableStock": "0",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Shortage warning displayed; available stock is zero; reservation may be created but flagged"
+    },
+    "TD-CS-063-INT-001": {
+      "id": "TD-CS-063-INT-001",
+      "name": "Integration — Reservation Prevents Sales Order Allocation (PP→SD)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "componentMaterial": "{{COMPONENT_MATERIAL_SHARED}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "reservedQuantity": "{{RESERVED_QUANTITY_ACTIVE}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "salesOrderQuantity": "{{SALES_ORDER_QUANTITY}}"
+      },
+      "expectedOutcome": "ATP check in sales order excludes reserved quantity; sales order allocation is blocked or reduced"
+    },
+    "TD-CS-063-INT-002": {
+      "id": "TD-CS-063-INT-002",
+      "name": "Integration — Backflush Goods Issue Releases Reservation (PP→MM)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "reservationNumber": "{{RESERVATION_NUMBER_LINKED_TO_ORDER}}",
+        "componentMaterial": "{{COMPONENT_MATERIAL_BACKFLUSH}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "goodsIssueQuantity": "{{GOODS_ISSUE_QUANTITY}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_CONFIRMED}}"
+      },
+      "expectedOutcome": "Backflush goods issue posted (MM); reservation automatically released; material document created"
+    },
+    "TD-CS-063-INT-003": {
+      "id": "TD-CS-063-INT-003",
+      "name": "Integration — Shortage Warning Reflects Real-Time Stock Updates (MM→PP)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "componentMaterial": "{{COMPONENT_MATERIAL_DYNAMIC_STOCK}}",
+        "plant": "{{PLANT_CODE_PP}}",
+        "initialStock": "{{INITIAL_AVAILABLE_STOCK}}",
+        "goodsIssueQuantity": "{{GOODS_ISSUE_QUANTITY_EXTERNAL}}",
+        "expectedUpdatedStock": "{{UPDATED_AVAILABLE_STOCK_CALCULATED}}",
+        "reservationQuantity": "{{RESERVATION_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Stock update from warehouse (MM) is reflected in Stock/Requirements List (PP); shortage warning is recalculated"
+    }
+  },
+  "allPlaceholders": [
+    "{{ADJUSTED_REQUIREMENT_DATE}}",
+    "{{ADJUSTED_RESERVED_QUANTITY}}",
+    "{{AVAILABLE_STOCK_CALCULATED}}",
+    "{{AVAILABLE_STOCK_LOW}}",
+    "{{BOM_REQUIRED_QUANTITY}}",
+    "{{BOM_REQUIRED_QUANTITY_HIGH}}",
+    "{{COMPONENT_MATERIAL_ADJUSTABLE}}",
+    "{{COMPONENT_MATERIAL_BACKFLUSH}}",
+    "{{COMPONENT_MATERIAL_DYNAMIC_STOCK}}",
+    "{{COMPONENT_MATERIAL_FROM_BOM}}",
+    "{{COMPONENT_MATERIAL_LOW_STOCK}}",
+    "{{COMPONENT_MATERIAL_RESERVED}}",
+    "{{COMPONENT_MATERIAL_SHARED}}",
+    "{{COMPONENT_MATERIAL_WITH_RESERVATION}}",
+    "{{CUSTOMER_ID_VALID}}",
+    "{{DATE_CURRENT}}",
+    "{{DATE_PLANNING_HORIZON_END}}",
+    "{{FINISHED_PRODUCT_MATERIAL_NO_BOM}}",
+    "{{FINISHED_PRODUCT_MATERIAL_WITH_BOM}}",
+    "{{GOODS_ISSUE_QUANTITY}}",
+    "{{GOODS_ISSUE_QUANTITY_EXTERNAL}}",
+    "{{INITIAL_AVAILABLE_STOCK}}",
+    "{{MATERIAL_NUMBER_PP_COMPONENT}}",
+    "{{ORDER_QUANTITY_STANDARD}}",
+    "{{ORIGINAL_REQUIREMENT_DATE}}",
+    "{{ORIGINAL_RESERVED_QUANTITY}}",
+    "{{PHYSICAL_STOCK_QUANTITY}}",
+    "{{PLANNED_ORDER_NUMBER_NO_BOM}}",
+    "{{PLANNED_ORDER_NUMBER_VALID}}",
+    "{{PLANNED_ORDER_QUANTITY}}",
+    "{{PLANT_CODE_PP}}",
+    "{{PROCESS_ORDER_NUMBER_CANCELLABLE}}",
+    "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+    "{{REQUIREMENT_DATE_FUTURE}}",
+    "{{RESERVATION_NUMBER_EXISTING}}",
+    "{{RESERVATION_NUMBER_LINKED_TO_ORDER}}",
+    "{{RESERVATION_NUMBER_OPEN}}",
+    "{{RESERVATION_QUANTITY_MAX}}",
+    "{{RESERVATION_QUANTITY_MIN}}",
+    "{{RESERVATION_QUANTITY_STANDARD}}",
+    "{{RESERVED_QUANTITY_ACTIVE}}",
+    "{{SALES_ORDER_QUANTITY}}",
+    "{{UNAUTHORIZED_USER_EMAIL}}",
+    "{{UNAUTHORIZED_USER_PASSWORD}}",
+    "{{UPDATED_AVAILABLE_STOCK_CALCULATED}}",
+    "{{YIELD_QUANTITY_CONFIRMED}}"
+  ]
+}

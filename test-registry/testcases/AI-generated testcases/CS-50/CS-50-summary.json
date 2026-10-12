@@ -1,0 +1,215 @@
+{
+  "userStory": "CS-50",
+  "summary": "Create A Process Order For A Validated Master Recipe To Manufacture A",
+  "module": "PP",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 11,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 2,
+    "ERR": 5,
+    "EDGE": 3,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 7,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 11,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Create Process Order with Approved Master Recipe and Verify BOM, Routing, Batch Number, and IPC Steps",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-50-HP-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Attempt to Select Master Recipe with Draft Status and Verify System Prevents Selection",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-50-NEG-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Attempt to Release Process Order When Component Material is on Quality Hold and Verify System Prevents Release",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-50-NEG-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Attempt to Create Process Order with Missing Master Recipe Field and Verify System Prevents Submission",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-50-ERR-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Attempt to Create Process Order with Missing Plant Field and Verify System Prevents Submission",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-50-ERR-002",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Attempt to Create Process Order with Missing Order Quantity Field and Verify System Prevents Submission",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-50-ERR-003",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt to Create Process Order with Missing Production Start Date Field and Verify System Prevents Submission",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-50-ERR-004",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt to Create Process Order with Missing Material Number Field and Verify System Prevents Submission",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-50-ERR-005",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Create Process Order with Order Quantity at Minimum Lot Size Boundary and Verify Success",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-50-EDGE-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Create Process Order with Order Quantity at Maximum Lot Size Boundary and Verify Success",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-50-EDGE-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Create Process Order with Production Start Date at Current Date Boundary and Verify Success",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-50-EDGE-003",
+      "acsCovered": []
+    }
+  ],
+  "testdataFile": "testdata/CS-50/CS-50-testdata.json",
+  "testdataGuideFile": "testdata/CS-50/CS-50-testdata-guide.md",
+  "qualityGateResults": {
+    "acTraceability": "PASS",
+    "hpCoverage": "PASS",
+    "negCoverage": "PASS",
+    "errCoverage": "PASS",
+    "edgeCoverage": "PASS",
+    "parameterization": "PASS",
+    "automationEligibility": "PASS",
+    "overallStatus": "PASS"
+  },
+  "acceptanceCriteriaCoverage": {
+    "total": 6,
+    "covered": 6,
+    "percentage": 100,
+    "details": [
+      {
+        "id": "AC-1",
+        "text": "The user can access the \"Create Process Order\" Fiori app.",
+        "coveredBy": ["TC-CS-125"]
+      },
+      {
+        "id": "AC-2",
+        "text": "The system only allows selection of a master recipe with an \"Approved/Released\" status.",
+        "coveredBy": ["TC-CS-125", "TC-CS-126", "TC-CS-128"]
+      },
+      {
+        "id": "AC-3",
+        "text": "The system automatically pulls the Bill of Material (active ingredients and excipients) and routing/operations from the released recipe.",
+        "coveredBy": ["TC-CS-125", "TC-CS-133", "TC-CS-134"]
+      },
+      {
+        "id": "AC-4",
+        "text": "The process order is assigned a unique batch number linked to the finished product batch record.",
+        "coveredBy": ["TC-CS-125"]
+      },
+      {
+        "id": "AC-5",
+        "text": "The system prevents release of the process order if any component material is on quality hold.",
+        "coveredBy": ["TC-CS-127"]
+      },
+      {
+        "id": "AC-6",
+        "text": "The order displays required in-process control (IPC) steps as defined in the master recipe.",
+        "coveredBy": ["TC-CS-125"]
+      }
+    ]
+  },
+  "riskCoverage": {
+    "overallRisk": "CRITICAL",
+    "criticalRiskScenarios": 3,
+    "highRiskScenarios": 5,
+    "mediumRiskScenarios": 3,
+    "lowRiskScenarios": 0
+  },
+  "regulatoryCompliance": {
+    "gmpCompliant": true,
+    "fdaRegulation": "21 CFR Part 11 (Electronic Records)",
+    "emaCompliance": true,
+    "validationsCovered": [
+      "Approved/Released master recipe validation",
+      "Batch number generation and traceability",
+      "Quality hold enforcement",
+      "In-process control (IPC) steps documentation",
+      "BOM/routing traceability"
+    ]
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "userStory": "CS-58",
+  "summary": "Record Environmental Monitoring Readings (E.G., Cleanroom Particle Cou",
+  "module": "PP",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 24,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 5,
+    "ERR": 5,
+    "EDGE": 9,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 11,
+    "MEDIUM": 9,
+    "LOW": 0
+  },
+  "automationCandidates": 24,
+  "automationFullYes": 18,
+  "automationPartial": 6,
+  "testCases": [
+    {
+      "id": "TC-CS-167",
+      "title": "Record Environmental Readings with All In-Range Values for Active Process Order",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-058-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Record Environmental Readings for Multiple Operations Within Same Process Order",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-058-002",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Attempt to Record Particle Count Above Acceptable Range",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-058-NEG-001",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Attempt to Record Temperature Below Acceptable Range",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-058-NEG-002",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Attempt to Record Humidity Above Acceptable Range",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-058-NEG-003",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Attempt to Access Non-Environmentally-Controlled Operation",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-NEG-004",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Attempt to Record Readings for Inactive or Completed Process Order",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-NEG-005",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Attempt Confirmation with Missing Particle Count Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-ERR-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Attempt Confirmation with Missing Temperature Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-ERR-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Attempt Confirmation with Missing Humidity Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-ERR-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Attempt to Access Non-Existent Process Order Number",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-ERR-004",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Attempt to Access Invalid Operation Number Not Part of Process Order",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-ERR-005",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Record Particle Count at Exact Lower Boundary (0 particles/m³)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Record Particle Count at Exact Upper Boundary (3520 particles/m³)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Record Particle Count at Upper Boundary Plus One (3521 particles/m³)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-003",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Record Temperature at Exact Lower Boundary (18.0°C)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-004",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "Record Temperature at Exact Upper Boundary (25.0°C)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-005",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Record Temperature at Lower Boundary Minus 0.1°C (17.9°C)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-006",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-185",
+      "title": "Record Humidity at Exact Lower Boundary (30.0%)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-007",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-186",
+      "title": "Record Humidity at Exact Upper Boundary (60.0%)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-008",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-187",
+      "title": "Record Humidity at Lower Boundary Minus 0.1% (29.9%)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-058-EDGE-009",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-188",
+      "title": "Verify Deviation Record Automatically Created in QM Module for Out-of-Range Reading",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-058-INT-001",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-189",
+      "title": "Verify Environmental Readings Appear in Compiled Electronic Batch Record (EBR)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-058-INT-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-190",
+      "title": "Verify Trend Report Displays Environmental Data Across Multiple Batches and Production Suites",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-058-INT-003",
+      "acsCovered": ["AC-6"]
+    }
+  ],
+  "testdataFile": "testdata/CS-58/CS-58-testdata.json"
+}

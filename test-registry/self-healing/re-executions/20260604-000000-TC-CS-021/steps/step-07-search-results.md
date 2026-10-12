@@ -1,0 +1,75 @@
+- generic [ref=e1]:
+  - generic:
+    - status
+    - status
+    - img [ref=e3]
+    - img [ref=e27]
+  - generic [ref=e34]:
+    - banner "Shell Bar" [ref=e36]:
+      - generic [ref=e37]:
+        - button "" [ref=e38] [cursor=pointer]:
+          - generic [ref=e39]: 
+        - button "Back" [ref=e486] [cursor=pointer]:
+          - generic [ref=e487]: 
+        - generic [ref=e42] [cursor=pointer]:
+          - heading "Search" [level=1]
+          - button "Search" [ref=e488]:
+            - generic [ref=e44]: Search
+            - generic [ref=e490]: 
+      - generic [ref=e464]:
+        - generic [ref=e466] [cursor=pointer]:
+          - combobox "Search In" [ref=e467]: All
+          - textbox [ref=e468]: All
+          - generic [ref=e469]: All
+          - generic [ref=e470]: 
+        - generic "Search" [ref=e472]:
+          - searchbox "Search" [ref=e474]: Manage Purchase Orders
+        - button "Search" [ref=e492] [cursor=pointer]:
+          - generic [ref=e478]: 
+      - generic [ref=e49]:
+        - button "Joule" [ref=e447] [cursor=pointer]:
+          - generic [ref=e448]: 
+        - button "Open Help" [ref=e449] [cursor=pointer]:
+          - generic [ref=e450]: 
+        - button "Notifications" [ref=e438] [cursor=pointer]:
+          - generic [ref=e439]: 
+        - button "Profile of Trial 0034157 User" [ref=e50] [cursor=pointer]:
+          - generic: 
+    - generic [ref=e54]:
+      - text: 
+      - main "Content" [ref=e106]:
+        - text:         
+        - generic [ref=e497]:
+          - generic [ref=e499]:
+            - button "Show Filters" [ref=e500] [cursor=pointer]:
+              - generic [ref=e502]: 
+            - navigation "Data Sources" [ref=e504]:
+              - tablist [ref=e505]:
+                - tab "All" [selected] [ref=e506] [cursor=pointer]:
+                  - generic [ref=e509]: All
+                - tab "Apps" [ref=e511] [cursor=pointer]:
+                  - generic [ref=e514]: Apps
+            - button "Share" [ref=e518] [cursor=pointer]:
+              - generic [ref=e520]: 
+          - generic [ref=e522]:
+            - generic [ref=e524]:
+              - separator "Resize between pane 1 and pane 2" [ref=e525]: 
+              - generic [ref=e527]:
+                - heading "Results (1)" [level=2] [ref=e531]:
+                  - generic [ref=e536]: Results (1)
+                - list [ref=e543]:
+                  - listitem [ref=e544]:
+                    - list [ref=e547]:
+                      - listitem [active] [ref=e548]:
+                        - link [ref=e553] [cursor=pointer]:
+                          - /url: https://my429998.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e8bc3755f84d8126e10000000a4450e5&sap-ushell-config=lean#PurchaseOrder-manage
+                          - generic [ref=e558]: Manage Purchase Orders
+                          - generic [ref=e563]: 
+              - text: 
+            - navigation:
+              - text: 
+              - listbox "Pane Switcher"
+              - text: 
+    - contentinfo
+  - generic:
+    - region "Notification"

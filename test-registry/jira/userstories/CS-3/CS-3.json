@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-3",
+  "type": "Story",
+  "summary": "View and Modify an Existing Purchase Order",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [],
+  "components": [],
+  "description": "As a **Procurement Officer or Buyer**, I want to open an existing Purchase Order to either review its full details in read-only mode or make changes to it (such as updating quantities), so that I have a single workflow for both auditing orders and responding to business changes without creating a new PO.",
+  "acceptanceCriteria": "- The user can access the Purchase Order application (\"Display\" or \"Change\" mode) from the SAP Fiori launchpad.\n\n- A specific Purchase Order can be retrieved by entering its PO number.\n\n- All PO details — including supplier, line items, materials, quantities, prices, delivery dates, and current status — are visible when the order is opened.\n\n- In display mode, no fields are editable and the order is strictly read-only.\n\n- A user with edit authorization can switch the order from display mode to edit mode.\n\n- In edit mode, relevant fields (such as order quantity) are modifiable.\n\n- Changes made to the Purchase Order are saved and persisted in the system upon confirmation.\n\n- A success message confirming the PO has been changed is displayed after a successful save.\n\n- The system displays a clear error message when an invalid or non-existent PO number is entered.\n\n- Fields that cannot be changed due to the order's processing status (e.g., already goods-receipted) are locked, with a relevant explanation shown to the user.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-05-12T13:57:32.127+0530",
+  "updated": "2026-05-12T13:58:36.802+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-3",
+  "fetchedAt": "2026-08-21T08:55:02.118Z"
+}

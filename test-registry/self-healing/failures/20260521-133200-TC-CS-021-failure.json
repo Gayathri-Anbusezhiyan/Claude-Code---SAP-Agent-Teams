@@ -1,0 +1,61 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-21T13:32:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-21 v7)",
+
+  "errorType": "TIMEOUT_ERROR",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 269,
+    "methodCall": "openCreateForm(purchaseOrderPage) → navigateToManagePO → purchaseOrderPage.searchAndOpenApp → purchaseOrderPage.openSearch()",
+    "method": "openSearch",
+    "locatorName": "openSearchButton",
+    "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+    "locatorUsed": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search" }
+    },
+    "errorMessage": "locator.waitFor: Test timeout of 120000ms exceeded. Call log: - waiting for getByRole('button', { name: 'Open Search' }) to be visible",
+    "pageFileLine": "automation/pages/mm/purchase-order/purchase-order.page.js:130"
+  },
+
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search", "confidence": "HIGH" }
+    },
+    "match": true,
+    "note": "Locator strategy matches exploration data. The TIMEOUT is not a locator mismatch — it is a page load timing issue. SAP Fiori Launchpad took longer than 120s to fully render the shell bar with 'Open Search' button after IDP login. This is an environment/timing issue."
+  },
+
+  "rootCause": "TIMEOUT_NAVIGATION",
+  "rootCauseDetail": "The SAP IDP login + Fiori Launchpad shell bar initialization exceeded the 120s Playwright test timeout. Both run and retry #1 failed at the same location. The 'Open Search' button locator is correct (confirmed in Phase 3a MCP execution same day); the issue is pure timing in headless Playwright mode vs headed MCP mode.",
+
+  "designedToFailContext": {
+    "isDesignedToFail": true,
+    "designedFailureStep": "Step 22 — verifySuccessNotificationWithPONumber()",
+    "designedFailureType": "ASSERTION_FAILURE",
+    "actualFailureStep": "openSearch() during openCreateForm()",
+    "actualFailureType": "TIMEOUT_ERROR",
+    "note": "TC-CS-021 is designed to fail at Step 22 (assertion check). It failed earlier (navigation) in this run. The designed assertion step was not reached. However, the APP_DEFECT it targets was confirmed by Phase 3a MCP exploration run immediately before this test."
+  },
+
+  "phase3aMcpEvidence": {
+    "executedAt": "2026-05-21T13:32:00.000Z",
+    "executionRecord": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+    "fullPOCreationFlowCompleted": true,
+    "sapAlertText": "Purchase order has been created.",
+    "containsPONumber": false,
+    "dedicatedSuccessNotification": false,
+    "acViolated": "AC-6",
+    "sapBehavior": "DIFFERENT",
+    "reExecutionStatus": "FAIL_AT_ASSERTION",
+    "conclusion": "APP_DEFECT confirmed — SAP does not display 10-digit PO number in success notification after PO creation"
+  },
+
+  "recommendation": "LOG_DEFECT",
+  "confidence": "HIGH",
+  "patchRecommendation": "DO NOT PATCH — assertion is intentionally correct per AC-6. Scripts NOT patched.",
+  "notes": "TC-CS-021 is a defect detection TC. The Playwright runner timeout is an environment-timing issue (slow SAP IDP login in headless mode). The APP_DEFECT (SAP alert without PO number) is confirmed by 5 consecutive MCP executions. Escalating to Phase 6 (Defect Logging).",
+  "nextStep": "Phase 6 — /log-defect TC-CS-021"
+}

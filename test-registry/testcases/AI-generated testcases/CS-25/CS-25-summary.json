@@ -1,0 +1,276 @@
+{
+  "userStory": "CS-25",
+  "summary": "Perform A Batch-Specific Physical Inventory Count For Cold-Chain-Store",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 20,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 5,
+    "ERR": 6,
+    "EDGE": 5,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 7,
+    "HIGH": 9,
+    "MEDIUM": 4,
+    "LOW": 0
+  },
+  "bySeverity": {
+    "CRITICAL": 7,
+    "MAJOR": 11,
+    "MINOR": 2,
+    "TRIVIAL": 0
+  },
+  "automationCandidates": 19,
+  "testCases": [
+    {
+      "id": "TC-CS-199",
+      "title": "Perform batch-specific physical inventory count with variance within tolerance and verify audit trail",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-001",
+      "acCoverage": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-200",
+      "title": "Perform batch-specific physical inventory count with variance exceeding tolerance requiring reason code and supervisor approval",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-002",
+      "acCoverage": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-201",
+      "title": "Perform physical inventory count with multiple batches in same storage location and verify variance calculation per batch",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-AP-001",
+      "acCoverage": ["AC-2", "AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-202",
+      "title": "Perform batch-specific physical inventory count with zero variance and verify no approval required",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-AP-002",
+      "acCoverage": ["AC-3", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-203",
+      "title": "Attempt to create count document with non-existent storage location",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-NEG-001",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-204",
+      "title": "Attempt to create count document with non-existent batch number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-NEG-002",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-205",
+      "title": "Attempt to enter negative counted quantity",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-NEG-003",
+      "acCoverage": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-206",
+      "title": "Attempt to post count with variance exceeding tolerance without documented reason",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-NEG-004",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-207",
+      "title": "Attempt to post count with variance exceeding tolerance without supervisor approval",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-NEG-005",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-208",
+      "title": "Attempt to create count document with missing Storage Location field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-ERR-001",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-209",
+      "title": "Attempt to post count document with missing Counted Quantity field",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-ERR-002",
+      "acCoverage": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-210",
+      "title": "Attempt to create count document with missing Plant field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-ERR-003",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-211",
+      "title": "Attempt to create count document with missing Batch Number field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-ERR-004",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-212",
+      "title": "Attempt to post count with variance exceeding tolerance with missing Reason Code field",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-ERR-005",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-213",
+      "title": "Attempt to post count with variance exceeding tolerance with missing Supervisor Approval field",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-ERR-006",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-214",
+      "title": "Perform batch-specific physical inventory count with minimum counted quantity boundary (zero stock count)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-EDGE-001",
+      "acCoverage": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-215",
+      "title": "Perform batch-specific physical inventory count with maximum counted quantity boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-25-EDGE-002",
+      "acCoverage": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-216",
+      "title": "Perform batch-specific physical inventory count with variance exactly at tolerance threshold boundary (not exceeding)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-EDGE-003",
+      "acCoverage": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-217",
+      "title": "Perform batch-specific physical inventory count with variance exactly one unit above tolerance threshold (exceeding)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-EDGE-004",
+      "acCoverage": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-218",
+      "title": "Perform batch-specific physical inventory count with complete inventory loss (counted quantity zero, book quantity greater than zero)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-25-EDGE-005",
+      "acCoverage": ["AC-3", "AC-4", "AC-5"]
+    }
+  ],
+  "testdataFile": "test-registry/testdata/CS-25/CS-25-testdata.json",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "actual": "100%",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "2",
+      "actual": "2",
+      "status": "PASS"
+    },
+    "apCoverage": {
+      "threshold": "2",
+      "actual": "2",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "5",
+      "actual": "5",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "6",
+      "actual": "6",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "5",
+      "actual": "5",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded SAP values",
+      "actual": "0 hardcoded values",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 10 TCs",
+      "actual": "19 TCs (95%)",
+      "status": "PASS"
+    }
+  },
+  "overallQualityStatus": "ALL GATES PASS"
+}

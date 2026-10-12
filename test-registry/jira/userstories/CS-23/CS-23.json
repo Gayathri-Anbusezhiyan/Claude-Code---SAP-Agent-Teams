@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-23",
+  "type": "Task",
+  "summary": "User Story MM-008",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Material Planner, I want the system to calculate replenishment requirements for GMP materials using MRP while respecting minimum remaining shelf-life rules, so that newly procured stock always has sufficient shelf life for downstream production use.",
+  "acceptanceCriteria": "1. The user can access the \"Stock/Requirements List\" or run MRP via \"Schedule MRP Runs\" Fiori app.\n2. The system considers the minimum remaining shelf-life requirement defined in the material master when proposing new procurement.\n3. Batches that do not meet the minimum remaining shelf-life are excluded from available stock in the MRP availability check.\n4. The system generates planned orders or purchase requisitions reflecting adjusted lead times where shelf-life constraints apply.\n5. The planner can review and convert planning proposals directly from the Stock/Requirements List.\n6. The system issues an exception message when existing stock is approaching the minimum shelf-life threshold.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:10.676+0530",
+  "updated": "2026-08-21T14:11:10.757+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-23",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

@@ -1,0 +1,260 @@
+{
+  "userStory": "CS-10",
+  "summary": "As a Quality Doc SME, I want to complete the final review task to close the Send for Review workflow so that the document review cycle is formally completed",
+  "module": "Veeva Vault QualityDocs",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Doc SME",
+  "businessObject": "Workflow Task / Quality Document",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "implicitLinkedIssues": [
+    {
+      "key": "CS-9",
+      "relationship": "precondition",
+      "description": "Reviewer must complete review task before SME final review task becomes available"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The Quality Doc SME can log in to Veeva Vault QualityDocs using valid credentials and is presented with the QualityDocs interface",
+      "type": "NAVIGATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "After login, the Quality Doc SME can navigate to the Home view",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "The Quality Doc SME's most recently assigned final review workflow task is visible in the Home view",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "The Quality Doc SME can open the final review task",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The task completion form displays a Verdict field",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The Quality Doc SME can select \"No Changes Required – Review Complete\" from the Verdict field options",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "The Quality Doc SME can click Complete to submit the final review task",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-8",
+      "text": "After submission, the task is marked as complete and the workflow is closed",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-9",
+      "text": "The document transitions to Final Review Complete state (workflow ended)",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-10",
+      "text": "The Quality Doc SME can log out of the application successfully",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-11",
+      "text": "If the SME has multiple tasks in their Home view, they can identify the most recent one corresponding to the final review step",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["AP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-12",
+      "text": "The Verdict field is mandatory; the system does not allow the final review task to be submitted without a verdict selection",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-13",
+      "text": "Only the Quality Doc SME assigned to this workflow can complete this final review task; the Reviewer cannot perform this action",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "SME logs in with valid credentials, navigates to Home view, locates most recent final review task, opens task, selects verdict 'No Changes Required – Review Complete', clicks Complete to submit, verifies task marked complete and workflow closed, verifies document transitioned to Final Review Complete state, logs out successfully",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9", "AC-10"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "SME has multiple workflow tasks in Home view and successfully identifies the most recent final review task corresponding to the current workflow instance",
+        "risk": "MEDIUM",
+        "acIds": ["AC-11"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "User with Reviewer role (not Quality Doc SME) attempts to complete the SME final review task and is prevented by role-based authorization check",
+        "risk": "HIGH",
+        "acIds": ["AC-13"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "SME attempts to submit final review task without selecting a Verdict from the dropdown and system displays mandatory field error",
+        "risk": "HIGH",
+        "acIds": ["AC-12"],
+        "field": "Verdict"
+      }
+    ],
+    "EDGE": [],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify that the SME final review task only becomes available after CS-9 (Reviewer review task) has been completed — enforce sequential workflow ordering per RP-NFR-001",
+        "risk": "HIGH",
+        "linkedIssue": "CS-9",
+        "acIds": []
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 1,
+    "ERR": 1,
+    "EDGE": 0,
+    "INT": 1,
+    "total": 5
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "username",
+        "label": "Username / Email",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid QualDocSme.01 account credentials"
+      },
+      {
+        "name": "password",
+        "label": "Password",
+        "dataType": "Confidential",
+        "mandatory": true,
+        "validRange": "Matching password for QualDocSme.01 account"
+      },
+      {
+        "name": "verdict",
+        "label": "Verdict",
+        "dataType": "Dropdown (picklist)",
+        "mandatory": true,
+        "validRange": "\"No Changes Required – Review Complete\" (exact value per RP-BIZ-005)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "taskAssignment",
+        "label": "Assigned To",
+        "trigger": "Workflow initiation",
+        "source": "Workflow engine assigns to Quality Doc SME role holder upon Reviewer task completion"
+      },
+      {
+        "name": "documentState",
+        "label": "Document Lifecycle State",
+        "trigger": "Task submission",
+        "source": "Workflow engine updates to 'Final Review Complete' upon verdict submission"
+      },
+      {
+        "name": "workflowStatus",
+        "label": "Workflow State",
+        "trigger": "Task completion",
+        "source": "Workflow engine marks as 'Closed' after SME task completion"
+      }
+    ],
+    "output": [
+      {
+        "name": "taskCompletionStatus",
+        "label": "Task Completion Status",
+        "description": "Indicates final review task is complete",
+        "format": "Boolean / State (Complete)"
+      },
+      {
+        "name": "workflowClosureStatus",
+        "label": "Workflow Closure Status",
+        "description": "Indicates entire Send for Review workflow is closed",
+        "format": "State (Closed)"
+      },
+      {
+        "name": "documentLifecycleState",
+        "label": "Document Lifecycle State",
+        "description": "Document state after workflow completion",
+        "format": "Enum ('Final Review Complete')"
+      }
+    ],
+    "boundary": []
+  }
+}

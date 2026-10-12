@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-33",
+  "type": "Task",
+  "summary": "User Story SD-001 - FEFO batch determination for pharmaceutical sales orders",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Sales Order Processor, I want the system to automatically determine batches using FEFO (First-Expiry-First-Out) for pharmaceutical sales orders, so that products with the nearest expiration dates are shipped first.",
+  "acceptanceCriteria": "1. The user can create a Sales Order for a pharmaceutical material that is batch-managed.\n2. The system automatically determines the batch with the nearest expiration date for the order quantity.\n3. The system excludes batches that have expired or are within the minimum remaining shelf-life threshold (configurable by material).\n4. The system splits the order across multiple batches if a single batch does not have sufficient quantity.\n5. The system displays the selected batch number(s) and expiration date(s) in the Sales Order line items.\n6. The system sends a warning if no batch with sufficient remaining shelf-life is available for the order quantity.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:29:52.345+0530",
+  "updated": "2026-08-21T14:29:52.431+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-33",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

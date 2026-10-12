@@ -1,0 +1,20 @@
+{
+  "key": "CS-52",
+  "summary": "Confirm Yield And Scrap Quantities Against A Process Order Operation",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:36.354Z",
+  "updated": "2026-08-21T08:41:36.428Z",
+  "description": "As a Production Supervisor, I want to confirm yield and scrap quantities against a Process Order operation, so that actual production output and losses are accurately recorded and reconciled against the planned batch size.",
+  "acceptanceCriteria": "1. The user can access the \"Confirm Process Order\" Fiori app.2. The user can enter yield quantity, scrap quantity, and scrap reason code at each relevant operation.3. The system calculates and displays the yield variance percentage against the planned batch quantity.4. A yield variance exceeding a configured tolerance triggers a mandatory deviation record before the order can be technically completed.5. The system updates the finished goods batch quantity based on confirmed yield.6. A report is available showing yield trends by material, line, and shift for continuous improvement analysis.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

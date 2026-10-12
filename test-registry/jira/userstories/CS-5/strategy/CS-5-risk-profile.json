@@ -1,0 +1,304 @@
+{
+  "userStory": "CS-5",
+  "summary": "Agentic Feature Usage Summary Dashboard",
+  "module": "Custom Application (Non-SAP)",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "REWS leader (executive leadership role)",
+  "businessObject": "AI Agent Usage Summary Dashboard (analytics/reporting interface)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Given a user navigates to the dashboard, When the page loads, Then the 4 KPI cards must render with data",
+      "type": "NAVIGATION, SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "Given the region breakdown table is displayed, When the data is populated, Then the rows must be sorted by Interaction Count in descending order",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "Given the user views the capabilities list, When the data is populated, Then it must display exactly the top 5 capabilities ranked by usage count",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "Given the user views the users list, When the data is populated, Then it must display exactly the top 5 users ranked by interaction count",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "Given the user selects a combination of filters (e.g., \"LATAM\" and \"Facilities Support\"), When the resulting data is empty, Then the affected components must display a \"No data available\" message instead of a generic error or 0",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "Given the user interacts with the UI, When they apply a filter, Then all applicable components on the page must re-fetch and update to reflect the filtered context",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "User navigates to dashboard → page loads → all 4 KPI cards render with aggregated data",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "HP-02",
+        "description": "User views region breakdown table → rows are sorted by Interaction Count descending",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-03",
+        "description": "User views capabilities list → exactly top 5 capabilities displayed, ranked by usage count",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-04",
+        "description": "User views users list → exactly top 5 users displayed, ranked by interaction count",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "HP-05",
+        "description": "User applies a single filter (e.g., Region = \"APAC\") → all components re-fetch and update with filtered data",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "HP-06",
+        "description": "User applies multiple filters (e.g., Timeframe = \"60-day\", Region = \"EMEA\", Capability = \"Desk Booking\") → all components re-fetch and update with filtered data",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "User applies filter combinations sequentially (e.g., first Region, then Capability, then Timeframe) → all components update correctly after each change",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "User selects filter combination that yields zero results (e.g., \"LATAM\" + \"Facilities Support\" with no data) → affected components display \"No data available\" message",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Database contains fewer than 5 capabilities → capabilities list displays all available (e.g., 3 items) without error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "capabilities count",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Database contains fewer than 5 users → users list displays all available (e.g., 2 items) without error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "users count",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Multiple capabilities have identical usage counts → system applies deterministic tie-breaking (e.g., alphabetical order) for consistent ranking",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "usage count",
+        "boundary": "tie-breaking"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Multiple users have identical interaction counts → system applies deterministic tie-breaking (e.g., alphabetical by user ID) for consistent ranking",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "interaction count",
+        "boundary": "tie-breaking"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "All regions have zero interactions → region breakdown table displays \"No data available\"",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "region interaction count",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "All capabilities have zero usage → capabilities list displays \"No data available\"",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "capability usage count",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "All users have zero interactions → users list displays \"No data available\"",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "user interaction count",
+        "boundary": "zero"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 6,
+    "AP": 1,
+    "NEG": 1,
+    "ERR": 0,
+    "EDGE": 7,
+    "INT": 0,
+    "total": 15
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "timeframe",
+        "label": "Timeframe Toggle",
+        "mandatory": false,
+        "validRange": "30-day, 60-day (defaults to 30-day)"
+      },
+      {
+        "name": "region",
+        "label": "Region Dropdown",
+        "mandatory": false,
+        "validRange": "APAC, EMEA, AMER, LATAM, All Regions (defaults to All Regions)"
+      },
+      {
+        "name": "capability",
+        "label": "Capability Dropdown",
+        "mandatory": false,
+        "validRange": "Desk Booking, Facilities Support, All Capabilities (defaults to All Capabilities)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "totalInteractions",
+        "label": "Total Interactions (KPI Card 1)",
+        "trigger": "Page load / Filter change"
+      },
+      {
+        "name": "totalActiveUsers",
+        "label": "Total Active Users (KPI Card 2)",
+        "trigger": "Page load / Filter change"
+      },
+      {
+        "name": "topPerformingRegion",
+        "label": "Top Performing Region (KPI Card 3)",
+        "trigger": "Page load / Filter change"
+      },
+      {
+        "name": "topCapability",
+        "label": "Top Capability (KPI Card 4)",
+        "trigger": "Page load / Filter change"
+      },
+      {
+        "name": "regionBreakdownRows",
+        "label": "Region Breakdown Table Rows",
+        "trigger": "Page load / Filter change"
+      },
+      {
+        "name": "top5Capabilities",
+        "label": "Top 5 Capabilities List",
+        "trigger": "Page load / Filter change"
+      },
+      {
+        "name": "top5Users",
+        "label": "Top 5 Users List",
+        "trigger": "Page load / Filter change"
+      }
+    ],
+    "output": [
+      {
+        "name": "totalInteractionsValue",
+        "label": "Total Interactions",
+        "format": "Integer (formatted with commas for readability)"
+      },
+      {
+        "name": "totalActiveUsersValue",
+        "label": "Total Active Users",
+        "format": "Integer"
+      },
+      {
+        "name": "topRegionName",
+        "label": "Top Performing Region Name",
+        "format": "String (APAC / EMEA / AMER / LATAM)"
+      },
+      {
+        "name": "topCapabilityName",
+        "label": "Top Capability Name",
+        "format": "String (e.g., Desk Booking)"
+      },
+      {
+        "name": "emptyStateMessage",
+        "label": "Empty State Message",
+        "format": "String: \"No data available\""
+      }
+    ],
+    "boundary": [
+      {
+        "name": "interactionCount",
+        "label": "Interaction Count",
+        "lowerBoundary": "0 (valid — triggers empty state)",
+        "upperBoundary": "system-dependent (no enforced max)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "activeUserCount",
+        "label": "Active User Count",
+        "lowerBoundary": "0 (valid — triggers empty state)",
+        "upperBoundary": "system-dependent",
+        "zeroInvalid": false
+      },
+      {
+        "name": "topNListSize",
+        "label": "Top N Lists (capabilities, users)",
+        "lowerBoundary": "0 items (valid — triggers empty state)",
+        "upperBoundary": "5 items (fixed limit)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

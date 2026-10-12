@@ -1,0 +1,555 @@
+{
+  "userStory": "CS-46",
+  "summary": "Maintain Customer Scheduling Agreement for hospital recurring supply",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Contract Administrator",
+  "businessObject": "Scheduling Agreement (SAP SD document type)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Scheduling Agreement specifying the customer (hospital), material (pharmaceutical product), total quantity, validity period, and delivery schedule.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system allows the user to define delivery schedules as fixed dates (e.g., first Monday of each month) or intervals (e.g., every 14 days).",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system automatically creates delivery schedule lines for each scheduled delivery date within the validity period.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "The system allows the hospital to call off deliveries against the Scheduling Agreement by confirming the delivery schedule lines.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system tracks the cumulative quantity called off and remaining quantity under the Scheduling Agreement.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system sends a notification to the Sales team when the Scheduling Agreement is nearing its validity end date or when the remaining quantity falls below a threshold.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 3
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Scheduling Agreement with valid customer, material, total quantity, validity period, and fixed-date delivery schedule",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create Scheduling Agreement with interval-based delivery schedule (e.g., every 14 days)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Call off delivery against a Scheduling Agreement by confirming a schedule line",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Notification triggered when remaining quantity falls below threshold",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "HP-05",
+        "description": "Notification triggered when Scheduling Agreement nears validity end date",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create Scheduling Agreement with fixed dates (specific calendar dates)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Create Scheduling Agreement with interval (days between deliveries)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Multiple call-offs against the same Scheduling Agreement (cumulative tracking)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create Scheduling Agreement with non-existent customer ID",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create Scheduling Agreement with non-existent material ID",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to create Scheduling Agreement with material not enabled for scheduling agreements",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to create Scheduling Agreement with customer not assigned to sales organization",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to create Scheduling Agreement with validity end date before start date",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Attempt to create Scheduling Agreement with validity start date in the past",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-07",
+        "description": "Attempt to call off quantity exceeding remaining quantity under Scheduling Agreement",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "NEG-08",
+        "description": "Attempt to confirm schedule line that does not exist or is already fully called off",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Customer ID field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Customer ID"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material ID field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material ID"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Total Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Total Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Validity Start Date field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Validity Start Date"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Validity End Date field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Validity End Date"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Delivery Schedule Type selection",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Delivery Schedule Type"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Missing Fixed Dates when Fixed Dates schedule type selected",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Fixed Dates"
+      },
+      {
+        "id": "ERR-08",
+        "description": "Missing Interval when Interval schedule type selected",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Interval"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Create Scheduling Agreement with minimum valid total quantity (1 unit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "Total Quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Create Scheduling Agreement with zero total quantity (invalid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "Total Quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Create Scheduling Agreement with maximum allowed total quantity",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "Total Quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Create Scheduling Agreement with minimum interval (1 day)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Interval",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Create Scheduling Agreement with maximum reasonable interval (365 days)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Interval",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Create Scheduling Agreement with zero interval (invalid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Interval",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Create Scheduling Agreement with single fixed delivery date (minimum)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "Fixed Dates Count",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "Call off exact remaining quantity (boundary condition)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4", "AC-5"],
+        "parameter": "Call-off Quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-09",
+        "description": "Call off when cumulative quantity equals total quantity (no remaining)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "Cumulative Quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-10",
+        "description": "Notification threshold at 0% (no notification)",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "Notification Threshold",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-11",
+        "description": "Notification threshold at 100% (immediate notification)",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "Notification Threshold",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-12",
+        "description": "Validity period of 1 day (minimum)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-3"],
+        "parameter": "Validity Period",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-13",
+        "description": "Validity start date = today (earliest possible)",
+        "risk": "LOW",
+        "acIds": ["AC-1"],
+        "parameter": "Validity Start Date",
+        "boundary": "lower"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 5,
+    "AP": 3,
+    "NEG": 8,
+    "ERR": 8,
+    "EDGE": 13,
+    "INT": 0,
+    "total": 37
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "customerId",
+        "label": "Sold-To Party",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP master (KNA1)"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing material in SAP master (MARA), enabled for scheduling agreements"
+      },
+      {
+        "name": "totalQuantity",
+        "label": "Target Quantity",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Must be > 0, per UoM"
+      },
+      {
+        "name": "validityStartDate",
+        "label": "Valid From",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Valid date (YYYY-MM-DD), >= today"
+      },
+      {
+        "name": "validityEndDate",
+        "label": "Valid To",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Valid date, must be > Valid From"
+      },
+      {
+        "name": "scheduleType",
+        "label": "Schedule Type",
+        "dataType": "Selection",
+        "mandatory": true,
+        "validRange": "Fixed Dates or Interval"
+      },
+      {
+        "name": "fixedDates",
+        "label": "Delivery Dates",
+        "dataType": "Date List",
+        "mandatory": false,
+        "validRange": "List of dates within validity period (if Fixed Dates selected)"
+      },
+      {
+        "name": "interval",
+        "label": "Interval (Days)",
+        "dataType": "Numeric",
+        "mandatory": false,
+        "validRange": "1-365 days between deliveries (if Interval selected)"
+      },
+      {
+        "name": "notificationThreshold",
+        "label": "Threshold Quantity",
+        "dataType": "Numeric",
+        "mandatory": false,
+        "validRange": "Percentage or absolute quantity for notification trigger"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-To Party Name",
+        "trigger": "Confirm Customer ID",
+        "source": "Customer master KNA1"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MARA"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Org",
+        "trigger": "Confirm Customer ID",
+        "source": "Customer sales area data KNVV"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distr. Channel",
+        "trigger": "Confirm Customer ID",
+        "source": "Customer sales area data KNVV"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "trigger": "Confirm Customer ID",
+        "source": "Customer sales area data KNVV"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "UoM",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MARA"
+      },
+      {
+        "name": "scheduleLines",
+        "label": "Schedule Lines",
+        "trigger": "Schedule Type + Dates/Interval + Validity Period",
+        "source": "System calculation based on schedule definition"
+      }
+    ],
+    "output": [
+      {
+        "name": "schedulingAgreementNumber",
+        "label": "Scheduling Agreement Number",
+        "description": "Unique SAP-generated Scheduling Agreement document number",
+        "format": "10-digit numeric, e.g., 5500000123"
+      },
+      {
+        "name": "scheduleLineIds",
+        "label": "Delivery Schedule Line IDs",
+        "description": "Line item numbers for each scheduled delivery",
+        "format": "Sequential line numbers (10, 20, 30...)"
+      },
+      {
+        "name": "cumulativeQuantity",
+        "label": "Cumulative Quantity Called Off",
+        "description": "Total quantity confirmed for delivery across all call-offs",
+        "format": "Numeric, updated with each call-off"
+      },
+      {
+        "name": "remainingQuantity",
+        "label": "Remaining Quantity",
+        "description": "Calculated: Total Quantity - Cumulative Quantity Called Off",
+        "format": "Numeric, decreases with each call-off"
+      },
+      {
+        "name": "notificationStatus",
+        "label": "Notification Status",
+        "description": "Indicates if threshold notification has been triggered",
+        "format": "Boolean or status flag"
+      },
+      {
+        "name": "notificationMessage",
+        "label": "Notification Message",
+        "description": "Notification sent to Sales team",
+        "format": "Text message with agreement number, remaining qty, or validity end date"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "totalQuantity",
+        "label": "Target Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured maximum per UoM",
+        "zeroInvalid": true,
+        "notes": "Must be positive"
+      },
+      {
+        "name": "validityStartDate",
+        "label": "Valid From",
+        "lowerBoundary": "today's date",
+        "upperBoundary": "max future date allowed by SAP",
+        "zeroInvalid": false,
+        "notes": "Cannot create agreements for past periods"
+      },
+      {
+        "name": "validityEndDate",
+        "label": "Valid To",
+        "lowerBoundary": "Validity Start Date + 1 day",
+        "upperBoundary": "max future date allowed by SAP",
+        "zeroInvalid": false,
+        "notes": "Must be after start date"
+      },
+      {
+        "name": "interval",
+        "label": "Interval (Days)",
+        "lowerBoundary": "1",
+        "upperBoundary": "365",
+        "zeroInvalid": true,
+        "notes": "Reasonable interval range"
+      },
+      {
+        "name": "notificationThreshold",
+        "label": "Threshold Quantity",
+        "lowerBoundary": "1% or 1 unit",
+        "upperBoundary": "100% or total quantity",
+        "zeroInvalid": false,
+        "notes": "Percentage or absolute value"
+      },
+      {
+        "name": "fixedDatesCount",
+        "label": "Fixed Dates Count",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured max schedule lines",
+        "zeroInvalid": true,
+        "notes": "At least one delivery date required"
+      },
+      {
+        "name": "callOffQuantity",
+        "label": "Call-off Quantity per Line",
+        "lowerBoundary": "1",
+        "upperBoundary": "remaining quantity on that line",
+        "zeroInvalid": true,
+        "notes": "Cannot call off zero or exceed remaining"
+      }
+    ]
+  }
+}

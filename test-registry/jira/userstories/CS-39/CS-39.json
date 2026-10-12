@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-39",
+  "type": "Task",
+  "summary": "Process Free Goods (Sample) order for healthcare provider",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Sales Representative, I want to process a Free Goods (Sample) order for a healthcare provider, so that physicians can evaluate the pharmaceutical product before prescribing it to patients, while ensuring compliance with promotional sample regulations.",
+  "acceptanceCriteria": "1. The user can create a Sales Order with an order type designated for \"Free Goods\" or \"Promotional Samples\".\n2. The system automatically sets the pricing condition to zero for all line items in the Free Goods order.\n3. The system requires the user to specify a reason code for the free goods (e.g., \"New Product Launch\", \"Physician Sample\", \"Patient Assistance\").\n4. The system validates that the customer is an approved healthcare provider eligible to receive promotional samples.\n5. The system tracks the cumulative quantity of free goods shipped to each healthcare provider for compliance reporting.\n6. The system prevents processing of Free Goods orders if the healthcare provider has exceeded the annual sample limit or if the material is restricted from promotional sampling.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:35:11.248+0530",
+  "updated": "2026-08-21T14:35:11.334+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-39",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

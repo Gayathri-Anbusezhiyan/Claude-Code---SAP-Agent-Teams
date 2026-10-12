@@ -1,0 +1,45 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-21T16:05:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-21 v6)",
+  "errorType": "TIMEOUT_ERROR",
+  "expectedErrorType": "ASSERTION_FAILURE",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 271,
+    "methodCall": "purchaseOrderPage.searchAndOpenApp('Manage Purchase Orders') → openSearch()",
+    "method": "openSearch",
+    "locatorUsed": "[title='Open Search']",
+    "locatorSource": "HARDCODED in page.js:109 — not using resolveLocator()",
+    "errorMessage": "TimeoutError: page.waitForSelector: Timeout 90000ms exceeded. waiting for locator('[title=\"Open Search\"]') to be visible",
+    "stackTrace": "at PurchaseOrderPage.openSearch (purchase-order.page.js:109)"
+  },
+  "explorationComparison": {
+    "phase3aLocator": {
+      "strategy": "role",
+      "value": "button",
+      "name": "Open Search",
+      "mcpGeneratedCode": "await page.getByRole('button', { name: 'Open Search' }).click()"
+    },
+    "scriptLocator": {
+      "strategy": "css",
+      "value": "[title='Open Search']",
+      "source": "hardcoded in openSearch() method"
+    },
+    "match": false,
+    "note": "Phase 3a MCP exploration confirmed Open Search button has accessible name 'Open Search' via role — NOT a title attribute. The [title='Open Search'] selector does not match. Script must use getByRole('button', { name: 'Open Search' }) or [aria-label='Open Search']."
+  },
+  "recommendation": "SELF_HEAL",
+  "healType": "LOCATOR_PATCH",
+  "confidence": "HIGH",
+  "notes": "TIMEOUT_ERROR is NOT the designed-to-fail failure for TC-CS-021. The test failed at the navigation step, not at the assertion step (Step 22). Root cause: [title='Open Search'] selector does not match the Open Search shell bar button. Phase 3a MCP confirmed the button has role=button with accessible name 'Open Search'. Patch: replace [title='Open Search'] with getByRole('button', { name: 'Open Search' }) in openSearch(). After patching, TC-CS-021 should reach Step 22 and fail with ASSERTION_FAILURE (the designed-to-fail behavior), revealing the APP_DEFECT.",
+  "patchPlan": {
+    "file": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "method": "openSearch",
+    "changeFrom": "await this.page.waitForSelector('[title=\"Open Search\"]', { state: 'visible', timeout: 90000 });\nawait this.page.locator('[title=\"Open Search\"]').click();",
+    "changeTo": "const searchBtn = this.page.getByRole('button', { name: 'Open Search' });\nawait searchBtn.waitFor({ state: 'visible', timeout: 90000 });\nawait searchBtn.click();"
+  },
+  "nextStep": "Patch openSearch() → re-run TC-CS-021 → expect ASSERTION_FAILURE (designed-to-fail) → classify as APP_DEFECT → escalate to Phase 6"
+}

@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-19",
+  "type": "Task",
+  "summary": "Place A Specific Batch Of Raw Material On Quality Hold",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Plant Manager, I want to place a specific batch of raw material on Quality Hold, so that no further goods movements can consume that batch while a deviation investigation is in progress.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Stock\" or \"Batch Where-Used List\" Fiori app.\n2. The user can select a specific batch and change its stock status to \"Blocked\" or \"Quality Inspection.\"\n3. Once blocked, the system prevents any goods issue transaction against that batch, including production order consumption.\n4. The system logs the reason code and the user who initiated the hold, along with a timestamp.\n5. The system allows an authorized QA user to release the hold once the investigation is closed, restoring the batch to Unrestricted-Use stock.\n6. A notification is sent to Production Planning when a batch used in an active process order is placed on hold.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:06.898+0530",
+  "updated": "2026-08-21T14:11:06.991+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-19",
+  "fetchedAt": "2026-08-21T09:01:00.000Z"
+}

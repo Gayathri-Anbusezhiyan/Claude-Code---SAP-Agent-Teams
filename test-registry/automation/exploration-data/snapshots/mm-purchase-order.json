@@ -1,0 +1,120 @@
+{
+  "feature": "mm-purchase-order",
+  "explorationDate": "2026-04-07",
+  "exploredBy": "Playwright MCP Server",
+  "environment": "SAP S/4HANA Cloud - my429998",
+  "browser": "Chromium",
+  "phases": [
+    {
+      "phase": "login",
+      "url": "https://accounts.sap.com (IDP redirect from my429998.s4hana.cloud.sap)",
+      "description": "SAP IDP/IAS two-step login flow",
+      "elements": [
+        { "role": "textbox", "name": "Email, User ID or Login Name", "description": "Email/username input on first login step" },
+        { "role": "button", "name": "Continue", "description": "Continue button (used twice: after email and after password)" },
+        { "role": "textbox", "name": "Password", "description": "Password input on second login step" }
+      ],
+      "notes": "Login is two-step: enter email → Continue → enter password → Continue. Redirects to accounts.sap.com IDP."
+    },
+    {
+      "phase": "launchpad-home",
+      "url": "https://my429998.s4hana.cloud.sap/ui#Shell-home",
+      "description": "SAP Fiori Launchpad home after login",
+      "elements": [
+        { "role": "dialog", "name": "Start Guided Tour", "description": "Guided tour popup shown on first login" },
+        { "role": "button", "name": "Leave Tour", "description": "Button to dismiss the guided tour popup" },
+        { "role": "banner", "name": "Shell Bar", "description": "Top shell bar containing navigation and actions" },
+        { "role": "button", "name": "Open Search", "description": "Button to reveal the search bar (search is hidden by default)" },
+        { "role": "button", "name": "Joule", "description": "AI assistant button in shell bar" },
+        { "role": "button", "name": "Open Help", "description": "Help button in shell bar" },
+        { "role": "button", "name": "Notifications", "description": "Notifications button in shell bar" },
+        { "role": "button", "name": "Profile of Trial 0027199 User", "description": "User profile button (dynamic name includes user)" }
+      ],
+      "notes": "Search field is NOT visible by default. Must click 'Open Search' button first. Guided tour popup appears on first login."
+    },
+    {
+      "phase": "search",
+      "url": "https://my429998.s4hana.cloud.sap/ui#Shell-home",
+      "description": "Enterprise search for Manage Purchase Orders",
+      "elements": [
+        { "role": "searchbox", "name": "Search", "description": "Search input revealed after clicking Open Search" },
+        { "role": "dialog", "name": "Available Values", "description": "Search results dialog that appears after pressing Enter" },
+        { "role": "row", "name": "Manage Purchase Orders", "description": "Search result row for the PO app" }
+      ],
+      "notes": "After typing and pressing Enter, results appear in a dialog 'Available Values' with row elements."
+    },
+    {
+      "phase": "po-list-page",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage",
+      "description": "Manage Purchase Orders list page",
+      "elements": [
+        { "role": "button", "name": "Create", "description": "Create button to start a new purchase order" },
+        { "role": "button", "name": "Go", "description": "Go button on filter bar" }
+      ],
+      "notes": "Standard Fiori list report page with filter bar and table."
+    },
+    {
+      "phase": "po-create-header",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage (create mode)",
+      "description": "New PO form - header section",
+      "elements": [
+        { "role": "textbox", "name": "Supplier", "description": "Supplier input field in PO header" },
+        { "role": "textbox", "name": "Currency", "description": "Currency field (auto-populated after supplier entry)" },
+        { "role": "textbox", "name": "Language Key", "description": "Language field (auto-populated)" },
+        { "role": "textbox", "name": "Purchasing Group", "description": "Purchasing group (auto-populated)" },
+        { "role": "textbox", "name": "Purchasing Organization", "description": "Purchasing org (auto-populated)" },
+        { "role": "textbox", "name": "Company Code", "description": "Company code (auto-populated)" }
+      ],
+      "notes": "After entering supplier and pressing Enter, SAP auto-populates Currency, Language, Purchasing Group, Purchasing Org, Company Code. Footer shows 'Draft updated'."
+    },
+    {
+      "phase": "po-create-items",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage (create mode)",
+      "description": "New PO form - item line entry",
+      "elements": [
+        { "role": "toolbar", "name": "Items", "description": "Items toolbar containing the Create button for adding line items" },
+        { "role": "button", "name": "Create", "context": "Inside Items toolbar", "description": "Create button inside Items toolbar (use toolbar.getByLabel('Create'))" },
+        { "role": "textbox", "name": "Material", "exact": true, "description": "Material number input in item row" },
+        { "role": "textbox", "name": "Order Quantity", "exact": true, "description": "Order quantity input in item row" },
+        { "role": "textbox", "name": "Net Order Price", "description": "Net price input in item row" },
+        { "role": "textbox", "name": "Plant", "description": "Plant input in item row (REQUIRED field)" }
+      ],
+      "notes": "Plant is a REQUIRED field. Without it, Order fails with validation error 'Enter Plant'. Items Create button is scoped inside 'Items' toolbar to distinguish from header Create."
+    },
+    {
+      "phase": "po-order",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage (create mode)",
+      "description": "Clicking Order button to create the PO",
+      "elements": [
+        { "role": "button", "name": "Order", "exact": true, "description": "Order button in footer toolbar to create the PO" },
+        { "role": "dialog", "name": "Messages", "description": "Validation error dialog (shown when required fields are missing)" },
+        { "role": "button", "name": "Close", "exact": true, "context": "Messages dialog", "description": "Close button to dismiss Messages dialog" }
+      ],
+      "notes": "If validation fails, a Messages dialog appears with error list. Close it, fix errors, then click Order again."
+    },
+    {
+      "phase": "po-verification",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage&/... (display mode)",
+      "description": "PO created successfully - verification page",
+      "elements": [
+        { "role": "heading", "level": 2, "name": "4500063389", "description": "PO number heading (10-digit number)" },
+        { "role": "generic", "name": "Standard PO", "description": "PO type label next to heading" }
+      ],
+      "notes": "PO number is a 10-digit number displayed as a level-2 heading. Page title also includes PO number. Example: '4500063389 (Standard PO) - Purchase Order'."
+    },
+    {
+      "phase": "sign-out",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage",
+      "description": "Sign out flow",
+      "elements": [
+        { "role": "button", "name": "Profile of Trial 0027199 User", "description": "Profile button (dynamic name pattern: 'Profile of <user>')" },
+        { "role": "dialog", "description": "User menu dialog that opens after clicking profile" },
+        { "role": "listitem", "name": "Sign Out", "description": "Sign Out option as last listitem in user menu dialog" },
+        { "role": "alertdialog", "name": "Sign Out Are you sure you want to sign out?", "description": "Sign out confirmation dialog" },
+        { "role": "button", "name": "OK", "context": "Sign Out dialog", "description": "OK button to confirm sign out" },
+        { "role": "button", "name": "Cancel", "context": "Sign Out dialog", "description": "Cancel button to stay signed in" }
+      ],
+      "notes": "After clicking OK, redirects to /sap/public/bc/icf/logoff page."
+    }
+  ]
+}

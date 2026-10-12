@@ -1,0 +1,326 @@
+{
+  "userStory": "CS-64",
+  "summary": "Review A Batch Release Dashboard Showing All Batches Pending Final Qa",
+  "module": "PP/QM",
+  "analysedAt": "2026-08-21T12:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "QA Manager",
+  "businessObject": "Batch, Quality Inspection, Process Order, Batch Record, Stock Status",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access a \"Batch Release\" analytical Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The dashboard lists all batches currently in Quality Inspection status with days pending and associated process order.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The user can drill down into a batch to view its complete compiled batch record and any open deviations.",
+      "type": "NAVIGATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system highlights batches approaching a committed customer ship date to flag release priority.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["DT", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The QA manager can record the final disposition (Release, Reject, Rework) directly from the dashboard.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system automatically updates the batch's stock status upon disposition, making it available to Sales & Distribution where applicable.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "INT", "NEG"],
+      "minTCCount": 3
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Batch Release Dashboard and view batches in QI status with days pending and process orders",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Drill down into a batch with open deviations, review compiled batch record, and return to dashboard",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Identify a batch approaching customer ship date (highlighted), record Release disposition, verify stock status updated to Unrestricted",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Record Reject disposition on a batch, verify stock status remains Blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5", "AC-6"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Record Rework disposition on a batch, verify stock status remains in Quality Inspection",
+        "risk": "HIGH",
+        "acIds": ["AC-5", "AC-6"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Drill down into a batch with no open deviations, confirm empty deviation list",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Access dashboard when no batches are in Quality Inspection status — verify empty state message",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Select a batch with no associated customer ship date — verify no priority highlight",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt disposition action without selecting a batch — verify validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Batch Number for drill-down",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Batch Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Disposition selection when attempting to record",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Disposition"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Batch with 0 days pending (just entered QI status today) — verify days pending = 0",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "daysPending",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Batch with ship date in the past (overdue) — verify highest priority highlight",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "customerShipDate",
+        "boundary": "past"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Batch with ship date = today — verify immediate priority highlight",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "customerShipDate",
+        "boundary": "today"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Batch with ship date far in future (30+ days) — verify no priority highlight",
+        "risk": "LOW",
+        "acIds": ["AC-4"],
+        "parameter": "customerShipDate",
+        "boundary": "future"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify Released batch becomes available in SD for sales order picking",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "linkedIssue": null,
+        "integration": "QM → MM → SD"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify Rejected batch is excluded from SD available-to-promise (ATP)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "linkedIssue": null,
+        "integration": "QM → MM → SD"
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify process order linkage displayed correctly for batches created via production order",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "linkedIssue": null,
+        "integration": "PP → QM"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 2,
+    "EDGE": 4,
+    "INT": 3,
+    "total": 18
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing batch in Quality Inspection status"
+      },
+      {
+        "name": "disposition",
+        "label": "Disposition / Final Decision",
+        "dataType": "Enum",
+        "mandatory": true,
+        "validRange": "Release, Reject, Rework"
+      },
+      {
+        "name": "comments",
+        "label": "Disposition Comments",
+        "dataType": "Text",
+        "mandatory": false,
+        "validRange": "Free text, 255 char max"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "daysPending",
+        "label": "Days Pending QA",
+        "trigger": "Dashboard load",
+        "source": "Calculated from QI status timestamp to current date"
+      },
+      {
+        "name": "processOrder",
+        "label": "Process Order",
+        "trigger": "Batch selection",
+        "source": "Batch master MCHA-CHARG linked to process order AFKO-AUFNR"
+      },
+      {
+        "name": "batchStatus",
+        "label": "Status",
+        "trigger": "Batch selection",
+        "source": "Quality inspection status from MCHA-CLABS"
+      },
+      {
+        "name": "customerShipDate",
+        "label": "Ship Date",
+        "trigger": "Batch selection",
+        "source": "Sales order VBEP-MBDAT linked via material and plant"
+      },
+      {
+        "name": "compiledBatchRecord",
+        "label": "Batch Record / Batch Documentation",
+        "trigger": "Drill-down",
+        "source": "QM batch record tables (QALS, QAVE)"
+      },
+      {
+        "name": "openDeviations",
+        "label": "Deviations",
+        "trigger": "Drill-down",
+        "source": "QM notifications QMFE filtered by batch"
+      },
+      {
+        "name": "stockStatus",
+        "label": "Stock Status",
+        "trigger": "Post-disposition",
+        "source": "MCHA-CLABS updated after disposition"
+      }
+    ],
+    "output": [
+      {
+        "name": "dispositionTimestamp",
+        "label": "Disposition Timestamp",
+        "format": "ISO8601 timestamp"
+      },
+      {
+        "name": "dispositionUser",
+        "label": "Disposition User",
+        "format": "SAP User ID"
+      },
+      {
+        "name": "stockStatusUpdate",
+        "label": "Stock Status Update",
+        "format": "Unrestricted/Blocked/Quality Inspection"
+      },
+      {
+        "name": "sdAvailability",
+        "label": "SD Availability",
+        "format": "Boolean"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "daysPending",
+        "label": "Days Pending",
+        "lowerBoundary": "0",
+        "upperBoundary": "No max, but aging alerts typical at 7/14/30 days",
+        "zeroInvalid": false,
+        "notes": "Date calculation field"
+      },
+      {
+        "name": "shipDateThreshold",
+        "label": "Ship Date Threshold",
+        "lowerBoundary": "Past dates (overdue, highest priority)",
+        "upperBoundary": "Future dates (lower priority)",
+        "zeroInvalid": false,
+        "notes": "Days to ship date calculation"
+      }
+    ]
+  }
+}

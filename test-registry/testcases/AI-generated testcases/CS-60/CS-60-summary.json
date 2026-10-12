@@ -1,0 +1,293 @@
+{
+  "userStory": "CS-60",
+  "summary": "Maintain A Resource/Work Center Master For Validated Production Equipm",
+  "module": "PP",
+  "generatedAt": "2026-08-24T10:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 24,
+  "byCoverageType": {
+    "HP": 4,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 5,
+    "INT": 5
+  },
+  "byPriority": {
+    "CRITICAL": 7,
+    "HIGH": 10,
+    "MEDIUM": 6,
+    "LOW": 1
+  },
+  "automationCandidates": 17,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-053",
+      "title": "Create Work Center with Valid Calibration Date and Verify Capacity Planning Eligibility",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-5"]
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Update Existing Work Center with New Calibration Expiration Date",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Verify Alert Generated When Calibration Expiration is Within Alert Lead-Time Threshold",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Verify Batch Record Captures Work Center ID and Calibration Status at Production Confirmation",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-004",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-057",
+      "title": "Mark Work Center as Out of Service and Verify Automatic Exclusion from Capacity Planning",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-AP-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-058",
+      "title": "Requalify Work Center and Verify Re-inclusion in Capacity Planning",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-AP-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-059",
+      "title": "Configure Custom Alert Lead-Time and Verify Alert Timing",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-AP-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-060",
+      "title": "Attempt to Schedule Process Order Operation on Work Center with Expired Calibration",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-NEG-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-061",
+      "title": "Attempt to Schedule Process Order Operation on Work Center Marked Out of Service",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-NEG-002",
+      "acsCovered": ["AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-062",
+      "title": "Enter Past Date as Calibration Expiration Date and Verify Validation Error",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-NEG-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-063",
+      "title": "Attempt to Submit Work Center with Work Center ID Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-ERR-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-064",
+      "title": "Attempt to Submit Work Center with Plant Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-ERR-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-065",
+      "title": "Attempt to Submit Work Center with Category Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-ERR-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-066",
+      "title": "Attempt to Submit Work Center with Equipment Number Field Empty When Calibration Tracking Required",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-ERR-004",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-067",
+      "title": "Create Work Center with Calibration Expiration Date Equal to Today",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-EDGE-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-068",
+      "title": "Configure Alert Lead-Time to Zero Days and Verify Alert on Expiration Day Only",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-EDGE-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-069",
+      "title": "Configure Alert Lead-Time to 999 Days and Verify Maximum Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-EDGE-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-070",
+      "title": "Create Work Center with Available Capacity Equal to 1 Minute",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-060-EDGE-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-071",
+      "title": "Create Work Center with Calibration Expiration Date Exactly Equal to Alert Lead-Time Days from Today",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-EDGE-005",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-072",
+      "title": "Verify Calibration Date in Equipment Master Propagates to Work Center Master",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-INT-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-073",
+      "title": "Verify Process Order Scheduling Engine Queries Work Center Calibration Status Before Assignment",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-INT-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-074",
+      "title": "Verify Alert Notification Created in PM Notifications and Routed to Maintenance Planner",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-INT-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-075",
+      "title": "Verify Batch Record Captures Equipment ID and Calibration Status from Work Center at Production Confirmation",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-INT-004",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-076",
+      "title": "Verify Background Job Scans Work Centers and Generates Alerts Based on Configurable Lead-Time",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-060-INT-005",
+      "acsCovered": ["AC-4"]
+    }
+  ],
+  "testdataFile": "testdata/CS-60/CS-60-testdata.json"
+}

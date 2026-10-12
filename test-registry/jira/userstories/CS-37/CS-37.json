@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-37",
+  "type": "Task",
+  "summary": "Process Return Order for customer complaint about defective pharmaceutical",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Customer Service Representative, I want to process a Return Order for a customer complaint about a defective pharmaceutical product, so that the defective batch can be investigated and the customer can receive a credit or replacement.",
+  "acceptanceCriteria": "1. The user can create a Return Order referencing the original Sales Order and Delivery.\n2. The system allows the user to specify a reason code for the return (e.g., \"Defective Product\", \"Quality Complaint\", \"Packaging Damage\").\n3. The system captures the batch number, lot number, and expiration date from the returned product.\n4. The system creates a Return Delivery document for goods receipt of the returned product.\n5. The system places the returned batch in a \"Quality Inspection\" stock type for investigation by Quality Assurance.\n6. The system creates a quality notification or complaint record linked to the Return Order for investigation and root cause analysis.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:33:24.580+0530",
+  "updated": "2026-08-21T14:33:24.666+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-37",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

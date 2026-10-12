@@ -1,0 +1,54 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "reExecutedAt": "2026-05-19T08:41:55.000Z",
+  "reExecutedBy": "self-healing-agent (using Phase 3a MCP exploration as re-execution evidence)",
+  "pipelineRun": "/e2e-automation-v2 CS-2",
+  "browserMode": "headed",
+
+  "note": "TC-CS-021 was fully executed via Playwright MCP during Phase 3a (explore-and-capture). That execution reached the critical assertion step (Step 22) and is used as the re-execution evidence for Phase 5.",
+
+  "sourceExecutionFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+
+  "reExecutionStatus": "ASSERTION_FAIL",
+  "stepsExecuted": 26,
+  "stepsCompleted": 22,
+
+  "criticalStep": {
+    "stepNumber": 22,
+    "description": "Observe system response immediately after clicking Order",
+    "triedStrategies": [
+      {
+        "strategy": "Observe role=alert after clicking Order button",
+        "outcome": "FOUND",
+        "alertText": "Purchase order has been created.",
+        "containsPONumber": false
+      }
+    ],
+    "finalOutcome": "FAIL",
+    "sapBehavior": "DIFFERENT"
+  },
+
+  "sapBehaviorAnalysis": {
+    "expected": "A dedicated success notification containing the 10-digit PO number (e.g., 'Purchase Order 4500065XXX created successfully')",
+    "actual": "role=alert with text 'Purchase order has been created.' — no PO number anywhere in the notification",
+    "pattern": "SAP transitions immediately to Manage Purchase Orders list page after alert dismisses",
+    "poNumberLocation": "NOT in alert; PO number would appear in the document heading if user navigates back to the PO",
+    "acViolated": "AC-6: A unique Standard Purchase Order number is generated and displayed upon successful order submission",
+    "sapBehaviorType": "DIFFERENT"
+  },
+
+  "decision": "APP_DEFECT",
+  "scriptPatchRecommendation": {
+    "patch": true,
+    "patchDescription": "Fix openSearch() timing issue: add waitForSelector for the shell bar to be fully loaded before attempting to click Open Search. This allows the Playwright runner to reach Step 22 and surface the ASSERTION_FAILURE directly.",
+    "patchFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "patchMethod": "openSearch()",
+    "patchNote": "Patching the navigation bug does not affect the designed-to-fail outcome — TC-CS-021 will still FAIL at Step 22 after the navigation is fixed."
+  },
+
+  "escalation": {
+    "escalateTo": "LOG_DEFECT",
+    "reason": "SAP behavior confirmed to violate AC-6. PO number is NOT displayed in success notification."
+  }
+}

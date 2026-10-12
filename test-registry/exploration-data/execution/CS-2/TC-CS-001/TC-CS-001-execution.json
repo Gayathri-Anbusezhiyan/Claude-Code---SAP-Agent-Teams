@@ -1,0 +1,441 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "appName": "Manage Purchase Orders",
+  "executedAt": "2026-07-08T14:42:00.000Z",
+  "executedBy": "automation-agent/skills/explore-and-capture (Phase 1 re-run)",
+  "status": "PASS",
+  "stepCount": 26,
+  "poNumberCreated": "4500065360",
+  "steps": [
+    {
+      "step": 1,
+      "description": "Navigate to SAP Fiori URL",
+      "action": "browser_navigate",
+      "url": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e%E2%80%A6#Shell-home",
+      "result": "Redirected to SAP IDP login page",
+      "pageUrl": "https://accounts.sap.com/saml2/idp/sso",
+      "pageTitle": "apm0bxjlz: Sign In"
+    },
+    {
+      "step": 2,
+      "description": "Enter username",
+      "action": "browser_type",
+      "element": "usernameInput",
+      "selector": "getByRole('textbox', { name: 'Email, User ID or Login Name' })",
+      "ref": "f2e29",
+      "value": "sunil.yogi@capgemini.com",
+      "result": "PASS"
+    },
+    {
+      "step": 3,
+      "description": "Click Continue (after username)",
+      "action": "browser_click",
+      "element": "continueButton",
+      "selector": "getByRole('button', { name: 'Continue' })",
+      "ref": "f2e35",
+      "result": "PASS",
+      "pageTransition": "Password screen displayed"
+    },
+    {
+      "step": 4,
+      "description": "Enter password",
+      "action": "browser_type",
+      "element": "passwordInput",
+      "selector": "getByRole('textbox', { name: 'Password' })",
+      "ref": "f3e37",
+      "value": "SAP12345@1",
+      "result": "PASS"
+    },
+    {
+      "step": 5,
+      "description": "Click Continue (after password)",
+      "action": "browser_click",
+      "element": "continueButton",
+      "selector": "getByRole('button', { name: 'Continue' })",
+      "ref": "f3e56",
+      "result": "PASS",
+      "pageUrl": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e%E2%80%A6#Shell-home",
+      "pageTitle": "Home"
+    },
+    {
+      "step": 6,
+      "description": "Wait for Fiori home page to load",
+      "action": "wait",
+      "duration": 3000,
+      "result": "PASS",
+      "note": "No guided tour popup appeared in this session"
+    },
+    {
+      "step": 7,
+      "description": "Click Open Search button",
+      "action": "browser_click",
+      "element": "openSearchButton",
+      "selector": "getByRole('button', { name: 'Open Search' })",
+      "ref": "f7e50",
+      "result": "PASS"
+    },
+    {
+      "step": 8,
+      "description": "Type 'Manage Purchase Orders' in search",
+      "action": "browser_type + browser_press_key(Enter)",
+      "element": "searchInput",
+      "selector": "getByRole('combobox', { name: 'Search', exact: true })",
+      "ref": "f7e796",
+      "value": "Manage Purchase Orders",
+      "result": "PASS",
+      "pageUrl": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e%E2%80%A6#Action-search&/top=10&filter=...",
+      "pageTitle": "Search for Manage Purchase Orders"
+    },
+    {
+      "step": 9,
+      "description": "Click Manage Purchase Orders app tile",
+      "action": "browser_click",
+      "element": "appTile",
+      "selector": "getByLabel('Manage Purchase Orders Navigation Tile')",
+      "ref": "f7e1093",
+      "result": "PASS",
+      "pageUrl": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e%E2%80%A6#PurchaseOrder-manage",
+      "pageTitle": "Manage Purchase Orders"
+    },
+    {
+      "step": 10,
+      "description": "Click Create PO button",
+      "action": "browser_click",
+      "element": "createPOButton",
+      "selector": "getByRole('button', { name: 'Create' })",
+      "ref": "f7e1697",
+      "result": "PASS",
+      "pageUrl": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e%E2%80%A6#PurchaseOrder-manage&/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'fa163e41-e880-1fe1-9edb-7ca409ea924b',IsActiveEntity=false)",
+      "pageTitle": "New Purchase Order - Purchase Order"
+    },
+    {
+      "step": 11,
+      "description": "Enter Supplier ID",
+      "action": "browser_type",
+      "element": "supplierInput",
+      "selector": "getByRole('textbox', { name: 'Supplier' })",
+      "ref": "f7e2919",
+      "value": "17300002",
+      "result": "PASS"
+    },
+    {
+      "step": 12,
+      "description": "Press Enter to confirm Supplier",
+      "action": "browser_press_key(Enter)",
+      "result": "PASS",
+      "autoPopulated": {
+        "note": "SAP auto-populates supplier details after Enter, but not captured in this execution. Expected: supplierName='Carbon Tec Inc.', purchasingOrg='1710', purchasingGroup='001', companyCode='1710'"
+      }
+    },
+    {
+      "step": 13,
+      "description": "Click Items Create button",
+      "action": "browser_click",
+      "element": "itemsCreateButton",
+      "selector": "getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')",
+      "ref": "f7e3002",
+      "result": "PASS",
+      "note": "First line item row created"
+    },
+    {
+      "step": 14,
+      "description": "Enter Material ID",
+      "action": "browser_type",
+      "element": "materialInput",
+      "selector": "getByRole('textbox', { name: 'Material', exact: true })",
+      "value": "RMPI001",
+      "result": "PASS"
+    },
+    {
+      "step": 15,
+      "description": "Press Enter to confirm Material",
+      "action": "browser_press_key(Enter)",
+      "result": "PASS",
+      "autoPopulated": {
+        "note": "SAP auto-populates material description and UoM after Enter. Expected: materialDesc='Input 1 (WATER)', uom='KG'"
+      }
+    },
+    {
+      "step": 16,
+      "description": "Enter Order Quantity",
+      "action": "browser_type",
+      "element": "orderQuantityInput",
+      "selector": "getByRole('textbox', { name: 'Order Quantity', exact: true })",
+      "value": "10",
+      "result": "PASS",
+      "note": "exact: true required to avoid matching 'Order Price Unit Order Quantity'"
+    },
+    {
+      "step": 17,
+      "description": "Press Tab to move to Net Order Price",
+      "action": "browser_press_key(Tab)",
+      "result": "PASS"
+    },
+    {
+      "step": 18,
+      "description": "Enter Net Order Price",
+      "action": "browser_type",
+      "element": "netPriceInput",
+      "selector": "getByRole('textbox', { name: 'Net Order Price' })",
+      "value": "0.08",
+      "result": "PASS"
+    },
+    {
+      "step": 19,
+      "description": "Press Enter to confirm price",
+      "action": "browser_press_key(Enter)",
+      "result": "PASS",
+      "note": "Console errors reduced from 57 to 11 after price confirmation - SAP validation complete"
+    },
+    {
+      "step": 20,
+      "description": "Enter Plant",
+      "action": "browser_type",
+      "element": "plantInput",
+      "selector": "getByRole('textbox', { name: 'Plant' })",
+      "value": "1710",
+      "result": "PASS"
+    },
+    {
+      "step": 21,
+      "description": "Press Enter to confirm Plant",
+      "action": "browser_press_key(Enter)",
+      "result": "PASS",
+      "note": "Line item fully configured"
+    },
+    {
+      "step": 22,
+      "description": "Click Order button to submit PO",
+      "action": "browser_click",
+      "element": "orderButton",
+      "selector": "getByRole('button', { name: 'Order', description: 'Default Action' })",
+      "result": "PASS",
+      "pageUrl": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e%E2%80%A6#PurchaseOrder-manage&/C_PurchaseOrderTP(PurchaseOrder='4500065360',DraftUUID=guid'00000000-0000-0000-0000-000000000000',IsActiveEntity=true)",
+      "pageTitle": "4500065360 (Standard PO) - Purchase Order",
+      "note": "URL changed to IsActiveEntity=true, PO number appears in page title"
+    },
+    {
+      "step": 23,
+      "description": "Verify PO creation success",
+      "action": "observation",
+      "result": "PASS",
+      "poNumber": "4500065360",
+      "extractionMethod": "Page title contains PO number",
+      "note": "No visible alert/toast notification. PO number extracted from page title."
+    },
+    {
+      "step": 24,
+      "description": "Click User Profile button",
+      "action": "browser_click",
+      "element": "userProfileButton",
+      "selector": "getByRole('button', { name: 'Avatar T0U' })",
+      "ref": "f7e55",
+      "result": "PASS"
+    },
+    {
+      "step": 25,
+      "description": "Click Sign Out",
+      "action": "browser_click",
+      "element": "signOutButton",
+      "selector": "getByText('Sign Out')",
+      "result": "PASS",
+      "note": "CSS selector [id$='-logoutBtn'] did NOT work - used getByText instead"
+    },
+    {
+      "step": 26,
+      "description": "Confirm sign out",
+      "action": "browser_click",
+      "element": "signOutConfirmOK",
+      "selector": "getByRole('button', { name: 'OK' })",
+      "result": "PASS",
+      "pageUrl": "https://apm0bxjlz.accounts.ondemand.com/saml2/idp/slo/apm0bxjlz.accounts.ondemand.com",
+      "pageTitle": "Exception Report"
+    }
+  ],
+  "capturedSelectors": {
+    "usernameInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Email, User ID or Login Name" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='email']" }
+      ]
+    },
+    "passwordInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Password" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='password']" }
+      ]
+    },
+    "continueButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Continue" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button[type='submit']" }
+      ]
+    },
+    "openSearchButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Open Search" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']" }
+      ]
+    },
+    "searchInput": {
+      "primary": { "strategy": "role", "role": "combobox", "name": "Search", "exact": true },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='search']" }
+      ]
+    },
+    "managePOAppTile": {
+      "primary": { "strategy": "label", "value": "Manage Purchase Orders Navigation Tile" },
+      "fallbacks": [
+        { "strategy": "text", "value": "Manage Purchase Orders" }
+      ]
+    },
+    "createPOButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Create" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button:has-text('Create')" }
+      ]
+    },
+    "supplierInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Supplier" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Supplier']" }
+      ]
+    },
+    "itemsCreateButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Create", "toolbar": "Items" },
+      "selector": "getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')",
+      "fallbacks": [
+        { "strategy": "css", "value": "[id$='ItemsFacet::addEntry']" }
+      ]
+    },
+    "materialInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Material", "exact": true },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Material']" }
+      ]
+    },
+    "orderQuantityInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Order Quantity", "exact": true },
+      "note": "exact: true REQUIRED - label appears in composite 'Order Price Unit Order Quantity'",
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='OrderQuantity']" }
+      ]
+    },
+    "netPriceInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Net Order Price" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='NetPrice']" }
+      ]
+    },
+    "plantInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Plant" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Plant']" }
+      ]
+    },
+    "orderButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Order", "description": "Default Action" },
+      "note": "description: 'Default Action' REQUIRED to disambiguate from 'Purchase Order' title button",
+      "fallbacks": [
+        { "strategy": "text", "value": "button:has-text('Order')" }
+      ]
+    },
+    "userProfileButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Avatar T0U" },
+      "fallbacks": [
+        { "strategy": "role", "role": "button", "nameContains": "Avatar" }
+      ]
+    },
+    "signOutButton": {
+      "primary": { "strategy": "text", "value": "Sign Out" },
+      "note": "CSS selector [id$='-logoutBtn'] FAILED in this execution",
+      "fallbacks": [
+        { "strategy": "css", "value": "[id$='-logoutBtn']" },
+        { "strategy": "role", "role": "listitem", "nameContains": "Sign Out" }
+      ]
+    },
+    "signOutConfirmOK": {
+      "primary": { "strategy": "role", "role": "button", "name": "OK" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button:has-text('OK')" }
+      ]
+    }
+  },
+  "dynamicPopups": [],
+  "observedMessages": {
+    "successIndicator": {
+      "method": "Page title change",
+      "pattern": "\\d{10} \\(Standard PO\\) - Purchase Order",
+      "location": "Page title and URL",
+      "note": "No visible alert/toast. PO number appears in title after successful creation."
+    }
+  },
+  "sapAutoPopulatedValues": {
+    "supplier_17300002": {
+      "supplierName": "Carbon Tec Inc.",
+      "purchasingOrg": "1710",
+      "purchasingGroup": "001",
+      "companyCode": "1710",
+      "note": "Auto-populated after pressing Enter on supplier field (not visually captured in this run)"
+    },
+    "material_RMPI001": {
+      "materialDescription": "Input 1 (WATER)",
+      "uom": "KG",
+      "note": "Auto-populated after pressing Enter on material field (not visually captured in this run)"
+    }
+  },
+  "issues": [],
+  "explorationNotes": [
+    "Order button requires description: 'Default Action' to disambiguate from title button",
+    "Sign Out CSS selector [id$='-logoutBtn'] failed - used getByText('Sign Out') instead",
+    "No guided tour popup in this session",
+    "No visible success alert/toast after PO creation - only page title change",
+    "PO number: 4500065360 extracted from page title",
+    "URL changed from IsActiveEntity=false to IsActiveEntity=true after Order click"
+  ],
+  "healed": [
+    {
+      "timestamp": "2026-07-20T07:30:00.000Z",
+      "patchFile": "self-healing/patches/20260720-TC-CS-001-patch.md",
+      "changeType": "INTERACTION_UPDATE",
+      "element": "navigateToApp method",
+      "issue": "SAP Guided Tour appears non-deterministically and creates ambiguous locators (Create button matched 2 elements)",
+      "fix": "Added dismissGuidedTour() method to proactively dismiss tour after app navigation",
+      "filesModified": [
+        "automation/pages/mm/purchase-order/purchase-order.page.js"
+      ],
+      "triggeredBy": "self-healing-agent/skills/patch-scripts"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:00.000Z",
+      "patchFile": "self-healing/patches/20260731-TC-CS-001-patch.md",
+      "changeType": "LOCATOR_UPDATE",
+      "element": "orderButton",
+      "issue": "Role-based selector getByRole('button', { name: 'Order' }) resolved to 2 elements: shell title button + footer Order button",
+      "oldStrategy": "role button 'Order' with description 'Default Action'",
+      "newStrategy": "CSS text selector button:has-text('Order')",
+      "fix": "Changed submitPurchaseOrder() to use CSS text selector directly instead of role-based locator",
+      "filesModified": [
+        "automation/pages/mm/purchase-order/purchase-order.page.js"
+      ],
+      "triggeredBy": "self-healing-agent/skills/patch-scripts"
+    },
+    {
+      "timestamp": "2026-07-31T16:30:00.000Z",
+      "patchFile": "self-healing/patches/20260731-163000-TC-CS-001-search-patch.md",
+      "changeType": "LOCATOR_UPDATE",
+      "element": "searchCombobox",
+      "issue": "CSS selector input[type='search'] not finding search box - element is actually a combobox with ARIA role",
+      "oldStrategy": "CSS input[type='search']",
+      "newStrategy": "role combobox 'Search' exact:true",
+      "fix": "Promoted role-based selector to primary, demoted CSS to fallback",
+      "filesModified": [
+        "automation/pages/mm/purchase-order/purchase-order.locators.js"
+      ],
+      "triggeredBy": "self-healing-agent/skills/patch-scripts"
+    }
+  ]
+}

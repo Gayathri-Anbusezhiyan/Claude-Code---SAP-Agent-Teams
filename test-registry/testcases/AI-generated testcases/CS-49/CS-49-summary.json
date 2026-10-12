@@ -1,0 +1,258 @@
+{
+  "userStory": "CS-49",
+  "summary": "Generate Export Documentation, Including A Certificate Of Analysis Ref",
+  "module": "SD",
+  "generatedAt": "2026-08-24T10:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 21,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 2,
+    "NEG": 7,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 3,
+    "HIGH": 15,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 17,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Create Export Delivery with All Master Data Complete and Generate Export Documentation Package Successfully",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-HP-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+      "estimatedEffort": "LARGE"
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Create Multi-Line Export Delivery with Multiple Materials and Batches and Verify Consolidated Export Documentation with All CoA References",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-AP-001",
+      "acsCovered": ["AC-2", "AC-3", "AC-6"],
+      "estimatedEffort": "LARGE"
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Retrieve Archived Export Documents After Goods Issue for Customs Audit Purposes",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-AP-002",
+      "acsCovered": ["AC-6"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Attempt Export Delivery Creation and Documentation Generation When Batch Has No Certificate of Analysis Attached",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-001",
+      "acsCovered": ["AC-2", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Attempt Export Documentation Generation When Material Master Is Missing HS Code",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-002",
+      "acsCovered": ["AC-3", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Attempt Export Documentation Generation When Material Master Is Missing Country of Origin",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-003",
+      "acsCovered": ["AC-3", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt Export Delivery and PGI When Export License Is Required But Missing in Master Data",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-004",
+      "acsCovered": ["AC-5", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt Export Delivery and PGI When Export License Is Expired",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-005",
+      "acsCovered": ["AC-5", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Attempt Post Goods Issue Before All Mandatory Export Documents Are Generated",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-006",
+      "acsCovered": ["AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Attempt PGI When Mandatory Export Document Type Is Configured But Generation Failed",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-NEG-007",
+      "acsCovered": ["AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Attempt Export Delivery Creation with Sales Order Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-ERR-001",
+      "acsCovered": ["AC-1", "AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Attempt Export Delivery Creation with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-ERR-002",
+      "acsCovered": ["AC-2", "AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Attempt Export Delivery Creation with Batch Field Empty for Batch-Managed Material",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-ERR-003",
+      "acsCovered": ["AC-2"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Attempt Export Delivery Creation with Shipping Point Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-ERR-004",
+      "acsCovered": ["AC-1"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-139",
+      "title": "Export Delivery with License Expiring Today (Valid Boundary - PGI Allowed)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-049-EDGE-001",
+      "acsCovered": ["AC-5"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-140",
+      "title": "Export Delivery with License Expiring Tomorrow (Valid with Warning)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-049-EDGE-002",
+      "acsCovered": ["AC-5"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-141",
+      "title": "Export Delivery with Minimum Valid Quantity (Decimal Precision Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-EDGE-003",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-142",
+      "title": "Export Delivery with Maximum Number of Line Items (999 Lines - Boundary Upper)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-EDGE-004",
+      "acsCovered": ["AC-2", "AC-3"],
+      "estimatedEffort": "LARGE"
+    },
+    {
+      "id": "TC-CS-143",
+      "title": "QM Inspection Lot Exists But CoA Document Generation Pending in QM Module",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-049-INT-001",
+      "acsCovered": ["AC-2"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-144",
+      "title": "DMS Archive Link Interface Unavailable - Document Archival Fails",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-049-INT-002",
+      "acsCovered": ["AC-6"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-145",
+      "title": "Material Master Maintained But Plant-Specific Export Data Missing",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-049-INT-003",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "MEDIUM"
+    }
+  ],
+  "testdataFile": "testdata/CS-49/CS-49-testdata.json"
+}

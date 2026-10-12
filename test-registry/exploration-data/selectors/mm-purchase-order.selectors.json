@@ -1,0 +1,294 @@
+{
+  "module": "MM",
+  "app": "purchase-order",
+  "capturedAt": "2026-05-12T09:47:00.000Z",
+  "capturedBy": "e2e-pipeline-agent/phase3",
+  "stories": ["CS-2", "CS-3"],
+  "note": "Selectors use stable CSS ID patterns where refs are unreliable (refs invalidate on DOM re-render). JS helpers are provided for fields only locatable via DOM traversal.",
+  "selectors": {
+    "login": {
+      "usernameInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Email, User ID or Login Name",
+        "description": "SAP IDP email/username field (pre-filled with last username on revisit)"
+      },
+      "passwordInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Password",
+        "description": "SAP IDP password field"
+      },
+      "continueButton": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Continue",
+        "description": "IDP Continue button (after email and after password)"
+      }
+    },
+    "shellBar": {
+      "searchButton": {
+        "strategy": "css",
+        "value": "[title=\"Open Search\"]",
+        "description": "Shell bar search icon — opens app search overlay. Use [title='Open Search'] CSS selector — role-based may not match reliably.",
+        "fallback": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Open Search"
+        }
+      },
+      "searchInput": {
+        "strategy": "role",
+        "role": "searchbox",
+        "name": "Search",
+        "description": "Search input field in the shell bar overlay — appears after clicking Open Search"
+      },
+      "profileButton": {
+        "strategy": "role",
+        "role": "button",
+        "nameContains": "Profile",
+        "description": "User profile button in shell bar top-right. Name contains 'Profile'."
+      }
+    },
+    "listPage": {
+      "createPOButton": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Create PO",
+        "description": "Create PO toolbar button on the Purchase Orders list page"
+      },
+      "purchaseOrderFilterInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Purchase Order:",
+        "description": "Purchase Order number filter field in the filter bar on the list page. After filling, press Enter to create a token, then click Go."
+      },
+      "goButton": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Go",
+        "description": "Emphasized, exact: true — Execute search with current filter values. Use { name: 'Go', description: 'Emphasized', exact: true }.",
+        "playwrightSelector": "getByRole('button', { name: 'Go', description: 'Emphasized', exact: true })"
+      },
+      "removeFilterToken": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Remove",
+        "description": "Remove a filter token from the tokenizer input. Use getByLabel('Remove')."
+      },
+      "editButtonInRow": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Edit",
+        "description": "Inline Edit button in each PO row. Clicking opens the PO directly in draft/edit mode (IsActiveEntity=false). Same effect as clicking the PO number text."
+      },
+      "poNumberLinkInRow": {
+        "strategy": "role",
+        "role": "link",
+        "name": "Purchase Order Standard PO",
+        "description": "WARNING: Clicking this link opens a QUICK DETAIL DIALOG, not the full PO page. Use getByText(poNumber, { exact: true }) or the Edit button to navigate to the full PO."
+      },
+      "poNumberText": {
+        "strategy": "text",
+        "playwrightSelector": "getByText('{{PO_NUMBER}}', { exact: true })",
+        "description": "Clicking the PO number text directly opens the PO in DRAFT/EDIT mode (IsActiveEntity=false). No display-only view is shown first."
+      },
+      "noDataMessage": {
+        "strategy": "text",
+        "value": "No data found. Try adjusting the search or filter criteria.",
+        "description": "Message shown when no POs match the filter. Appears for both non-existent PO numbers AND invalid format inputs."
+      }
+    },
+    "createEditPage": {
+      "draftIndicator": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Draft",
+        "description": "Draft indicator button visible when a PO is open in edit mode. Confirms the page is in draft/edit state."
+      },
+      "supplierInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Supplier",
+        "description": "Supplier input on PO header. After filling, press Enter to trigger auto-population of supplier name and org fields.",
+        "afterFill": "Press Enter to confirm and trigger supplier auto-population"
+      },
+      "itemsCreateButton": {
+        "strategy": "css-id",
+        "cssIdFragment": "ItemsFacet::addEntry",
+        "description": "Create button in the Items section toolbar. ONLY visible/clickable when no items exist yet. For subsequent rows, use Ctrl+Enter.",
+        "fullIdPattern": "[id$='ItemsFacet::addEntry']"
+      },
+      "itemsRowMaterialInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Material",
+        "description": "Material input in the first/active line item row. After filling, press Enter to trigger auto-population."
+      },
+      "itemsRowQuantityInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Order Quantity",
+        "exact": true,
+        "description": "Order Quantity input in the line item row. Use { name: 'Order Quantity', exact: true } to avoid matching 'Order Price Unit Order Quantity'. After fill, press Enter to confirm and update Net Order Value.",
+        "playwrightSelector": "getByRole('textbox', { name: 'Order Quantity', exact: true })",
+        "validation": {
+          "zeroRejected": true,
+          "zeroErrorMessage": "Enter PO Quantity",
+          "minValid": "1"
+        }
+      },
+      "itemsRowNetPriceInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Net Order Price",
+        "description": "Net Order Price input in the line item row. Must be > 0 in this SAP configuration."
+      },
+      "itemsRowPlantInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Plant",
+        "description": "Plant input in the line item row"
+      },
+      "itemsRowDeliveryDateInput": {
+        "strategy": "role",
+        "role": "textbox",
+        "name": "Delivery Date",
+        "description": "Delivery Date input in the line item row. May be pre-populated by SAP."
+      },
+      "addSecondRowShortcut": {
+        "strategy": "keyboard",
+        "key": "Control+Enter",
+        "description": "After first line item exists, press Ctrl+Enter (with focus on the items grid) to add a new empty row."
+      },
+      "orderButton": {
+        "strategy": "text",
+        "playwrightSelector": "locator('button:has-text(\"Order\")')",
+        "description": "Primary footer action — submits/saves the PO. Also triggers all validations. After clicking, SAP navigates back to the list page if successful.",
+        "note": "Role-based selector may match multiple elements. Use has-text('Order') on the footer button."
+      },
+      "successAlert": {
+        "strategy": "role",
+        "role": "alert",
+        "playwrightSelector": "getByRole('alert')",
+        "description": "After clicking Order (successful PO creation), SAP shows a role=alert element with text 'Purchase order has been created.' — system then navigates to the list page. IMPORTANT: this message does NOT contain the PO number.",
+        "observedText": "Purchase order has been created.",
+        "containsPONumber": false,
+        "capturedInTC": "TC-CS-021",
+        "note": "For TC-CS-021 assertion: the alert text does not include the 10-digit PO number — this is the intentional failure for defect logging pipeline testing."
+      },
+      "discardDraftButton": {
+        "strategy": "text",
+        "playwrightSelector": "locator('button:has-text(\"Discard Draft\")')",
+        "description": "Footer button to discard the in-progress draft PO. Shows confirmation dialog."
+      },
+      "discardDraftConfirmButton": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Discard",
+        "exact": true,
+        "description": "Confirm discard button in the 'Discard all changes?' confirmation dialog. Use { name: 'Discard', exact: true }.",
+        "playwrightSelector": "getByRole('button', { name: 'Discard', exact: true })"
+      },
+      "messagesButton": {
+        "strategy": "role",
+        "role": "button",
+        "namePattern": "Messages",
+        "description": "Footer messages indicator button. Name includes message count (e.g. 'Messages 3'). Opens Messages dialog. Use getByRole('button', { name: 'Messages' }) — partial match works.",
+        "playwrightSelector": "getByRole('button', { name: 'Messages' })"
+      },
+      "messagesDialog": {
+        "strategy": "role",
+        "role": "dialog",
+        "name": "Messages",
+        "description": "Messages dialog that shows validation errors. Open via Ctrl+Shift+M or click Messages button."
+      }
+    },
+    "signOut": {
+      "signOutListItem": {
+        "strategy": "text",
+        "playwrightSelector": "locator('[id$=\"-logoutBtn\"]')",
+        "description": "Sign Out item in the profile dropdown menu. WARNING: The full ID (e.g. __list88-8-logoutBtn) is dynamic and changes between sessions. Use CSS suffix selector [id$='-logoutBtn'] as primary strategy.",
+        "fallback": {
+          "strategy": "role",
+          "role": "listitem",
+          "nameContains": "Sign Out"
+        }
+      },
+      "signOutConfirmOK": {
+        "strategy": "role",
+        "role": "button",
+        "name": "OK",
+        "description": "OK button in the sign-out confirmation alertdialog.",
+        "playwrightSelector": "getByRole('button', { name: 'OK' })"
+      }
+    }
+  },
+  "behavioralFindings": {
+    "noPODisplayMode": {
+      "finding": "CRITICAL — No display-only mode accessible from Manage Purchase Orders list",
+      "detail": "Clicking PO number text OR Edit button always opens PO in draft/edit mode (IsActiveEntity=false). There is no intermediate display-only view.",
+      "impact": "AC-4 (read-only enforcement) cannot be tested via list navigation. Display mode requires URL navigation with IsActiveEntity=true.",
+      "story": "CS-3"
+    },
+    "automaticApproval": {
+      "finding": "PO transitions In Approval → Sent within seconds after clicking Order",
+      "detail": "This SAP tenant has automatic PO approval active. After saving a change, PO immediately shows 'Automatic approval in process', then becomes 'Sent' within 5–10 seconds.",
+      "impact": "Tests that modify quantity can run sequentially without needing long approval waits.",
+      "story": "CS-2, CS-3"
+    },
+    "zeroQuantityValidation": {
+      "finding": "Zero order quantity is rejected with message 'Enter PO Quantity'",
+      "detail": "When Order Quantity = 0 is submitted via Order button, SAP shows Messages dialog with 'Enter PO Quantity' error for the affected line item. Page stays on PO (does not navigate to list).",
+      "story": "CS-3",
+      "tcId": "TC-CS-019"
+    },
+    "successAlertNoPONumber": {
+      "finding": "After Order click, SAP alert 'Purchase order has been created.' does NOT include PO number",
+      "detail": "SAP shows role=alert with text 'Purchase order has been created.' and navigates to the list page. The PO number is not present in this alert. To find the newly created PO number, a search by supplier/date would be needed. TC-CS-021 intentionally asserts the PO number IS in the notification — this will FAIL, triggering defect logging.",
+      "story": "CS-2",
+      "tcId": "TC-CS-021",
+      "capturedAt": "2026-05-18"
+    },
+    "invalidFilterBehavior": {
+      "finding": "Invalid/non-existent PO filter shows 'No data found' — not an explicit error message",
+      "detail": "Both non-existent PO number (9999999999) and invalid format text (INVALID123) return 'No data found. Try adjusting the search or filter criteria.' There is no distinct error for 'PO does not exist' vs 'invalid format'.",
+      "story": "CS-3",
+      "tcId": "TC-CS-014, TC-CS-020"
+    }
+  },
+  "confirmedTestData": {
+    "PO_NUMBER_VALID_OPEN": "4500065467",
+    "PO_NUMBER_NON_EXISTENT": "9999999999",
+    "PO_NUMBER_INVALID_FORMAT": "INVALID123",
+    "PO_QUANTITY_MIN": "1",
+    "PO_QUANTITY_MODIFIED": "15",
+    "PO_QUANTITY_STANDARD": "10",
+    "NET_PRICE_VALID": "0.08",
+    "CURRENCY_CODE": "USD",
+    "SUPPLIER_ID_VALID": "17300002",
+    "SUPPLIER_NAME_VALID": "Carbon Tec Inc.",
+    "MATERIAL_ID_VALID": "RMPI001",
+    "MATERIAL_DESCRIPTION_VALID": "Input 1 (WATER)",
+    "UNIT_OF_MEASURE": "KG",
+    "PLANT_CODE": "1710",
+    "PURCHASING_ORG_CODE": "1710",
+    "PURCHASING_GROUP_CODE": "001",
+    "COMPANY_CODE": "1710"
+  },
+  "multiRowStrategy": {
+    "description": "For TCs requiring multiple line items, use this approach to target the Nth row:",
+    "jsPattern": "const rows = document.querySelectorAll('[role=\"row\"]'); const dataRows = Array.from(rows).filter(r => r.querySelectorAll('input').length > 0); const targetRow = dataRows[N]; const inputs = targetRow.querySelectorAll('input[type=\"text\"]');",
+    "note": "Row index 0 = first data row (skip header row). Input order within a row: [0]=item number, [1]=material, [2]=short text, [3]=quantity, [4]=UoM... Order may vary. Identify by placeholder attribute or surrounding label."
+  },
+  "jsHelpers": {
+    "setInputValue": {
+      "description": "Set a value in a SAP UI5 input field that ignores direct .value assignment",
+      "code": "const el = /* find input */; el.focus(); document.execCommand('selectAll'); document.execCommand('insertText', false, 'VALUE'); el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true }));"
+    },
+    "findSupplierInput": {
+      "description": "Locate the supplier text input on the PO header form",
+      "code": "document.querySelectorAll('input[type=\"text\"]').find(i => i.id.includes('Supplier') && !i.id.includes('listReport') && !i.id.includes('value-'))"
+    }
+  }
+}

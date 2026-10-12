@@ -1,0 +1,343 @@
+{
+  "userStory": "CS-48",
+  "summary": "Maintain Tiered Pricing Conditions For A Pharmaceutical Product Based",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 31,
+  "byCoverageType": {
+    "HP": 6,
+    "AP": 3,
+    "NEG": 5,
+    "ERR": 7,
+    "EDGE": 10,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 11,
+    "MEDIUM": 15,
+    "LOW": 0
+  },
+  "automationCandidates": 29,
+  "testCases": [
+    {
+      "id": "TC-CS-029",
+      "title": "Access Manage Pricing Conditions app and create valid single-tier pricing condition record",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Create multi-tier pricing condition with 3 quantity breakpoints",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-002",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-031",
+      "title": "Apply tiered pricing automatically at sales order entry for customer in configured pricing group",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-003",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "Manually override price within configured tolerance without requiring approval",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-033",
+      "title": "System displays condition record with validity period on sales order pricing screen",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-005",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-034",
+      "title": "System flags condition records nearing validity end date for renewal review",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-006",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-035",
+      "title": "Create condition with indefinite validity period",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-007",
+      "acsCovered": ["AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-036",
+      "title": "Manually override price beyond tolerance with supervisor approval",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "automationNote": "Requires multi-user session orchestration for supervisor approval workflow",
+      "testDataset": "TD-CS-48-008",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Supervisor rejects manual price override request",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationNote": "Requires multi-user session orchestration for supervisor rejection workflow",
+      "testDataset": "TD-CS-48-009",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Attempt to create condition for non-existent material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-010",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-039",
+      "title": "Attempt to create pricing condition record using invalid customer pricing group",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-011",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Attempt order entry with no matching price tier for customer pricing group",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-012",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Attempt to apply expired pricing condition record at sales order entry",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-013",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Attempt manual price override beyond tolerance without supervisor approval",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-014",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Attempt to create pricing condition record with missing Material field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-015",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Attempt to create pricing condition record with missing Customer Pricing Group field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-016",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to create pricing condition record with missing Condition Type field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-017",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Attempt to create pricing condition record with missing Scale Quantity field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-018",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Attempt to create pricing condition record with missing Price Amount field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-019",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Attempt to create pricing condition record with missing Valid From date",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-020",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Attempt to create pricing condition record with missing Valid To date",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-021",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Create pricing condition record with minimum quantity tier boundary (quantity = 1)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-022",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-051",
+      "title": "Create pricing condition record with maximum quantity tier boundary (quantity = 999999)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-023",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-052",
+      "title": "Verify pricing determination with order quantity exactly at tier breakpoint",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-024",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-053",
+      "title": "Attempt to create pricing condition record with zero quantity (invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-025",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Attempt to create pricing condition record with zero price amount (invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-026",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Attempt to create pricing condition record with Valid To date equal to Valid From date (invalid period)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-027",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Attempt to create new pricing condition record with Valid From date in the past",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-028",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-057",
+      "title": "Verify sales order with manual price override at exact tolerance threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-029",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-058",
+      "title": "Attempt sales order with manual price override just above tolerance threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-030",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-059",
+      "title": "Verify condition record alert at exact expiry alert window threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-48-031",
+      "acsCovered": ["AC-6"]
+    }
+  ],
+  "testdataFile": "testdata/CS-48/CS-48-testdata.json",
+  "testdataGuideFile": "testdata/CS-48/CS-48-testdata-guide.md",
+  "strategyFile": "test-registry/jira/userstories/CS-48/strategy/CS-48-strategy.md",
+  "riskProfileFile": "test-registry/jira/userstories/CS-48/strategy/CS-48-risk-profile.json",
+  "coverageMatrixFile": "testcases/AI-generated testcases/CS-48/CS-48-coverage-matrix.md"
+}

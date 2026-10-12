@@ -1,0 +1,341 @@
+{
+  "userStory": "CS-41",
+  "summary": "User Story SD-009 - Export compliance denied-party screening",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Sales Order Processor",
+  "businessObject": "Sales Order (international pharmaceutical orders)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Sales Order for an international customer (ship-to country different from company country).",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically screens the customer (Sold-To, Ship-To, Bill-To, Payer) against government-maintained denied-party lists (e.g., OFAC, BIS, EU sanctions).",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "INT"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system blocks release of the Sales Order if the customer or any party matches a denied-party list entry.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system displays a clear error message indicating the export compliance violation and provides the matched party name and list source.",
+      "type": "ERROR_HANDLING",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system logs all denied-party screening checks and matches for audit and regulatory reporting.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system allows authorized users (e.g., Export Compliance Officer) to review and override false-positive matches with documented justification.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["AP", "NEG", "ERR"],
+      "minTCCount": 3
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create international Sales Order, all parties pass denied-party screening, order released",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create international Sales Order, screening match found (false positive), Export Compliance Officer reviews and overrides with documented justification",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Create international Sales Order, Sold-To Party matches denied-party list, order blocked, error message displayed",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Create international Sales Order, Ship-To Party matches denied-party list, order blocked, error message displayed",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Create international Sales Order, Bill-To Party matches denied-party list, order blocked, error message displayed",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Create international Sales Order, Payer matches denied-party list, order blocked, error message displayed",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Unauthorized user attempts to override denied-party screening match",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Export Compliance Officer attempts override without documented justification",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "field": "Override Justification"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Create international Sales Order with minimum quantity (boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Create international Sales Order with zero quantity (invalid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Override justification text at minimum length (10 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "parameter": "overrideJustification",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Override justification text exceeding maximum length (255 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "parameter": "overrideJustification",
+        "boundary": "upper"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Denied-party screening service unavailable, system handles gracefully",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Denied-party screening service timeout, system retries or escalates",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "INT-03",
+        "description": "Denied-party screening service returns incomplete data",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 5,
+    "ERR": 1,
+    "EDGE": 4,
+    "INT": 3,
+    "total": 15
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "soldToParty",
+        "label": "Sold-To Party",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP master (KNA1)"
+      },
+      {
+        "name": "shipToParty",
+        "label": "Ship-To Party",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP master (KNA1), country ≠ company country"
+      },
+      {
+        "name": "billToParty",
+        "label": "Bill-To Party",
+        "mandatory": false,
+        "validRange": "Existing customer in SAP master (KNA1)"
+      },
+      {
+        "name": "payer",
+        "label": "Payer",
+        "mandatory": false,
+        "validRange": "Existing customer in SAP master (KNA1)"
+      },
+      {
+        "name": "material",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Pharmaceutical material with export classification"
+      },
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "> 0, per UoM"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "mandatory": true,
+        "validRange": "Configured for international trade"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "mandatory": true,
+        "validRange": "Standard distribution channel"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "mandatory": true,
+        "validRange": "Pharmaceutical division"
+      },
+      {
+        "name": "overrideJustification",
+        "label": "Justification Text",
+        "mandatory": false,
+        "validRange": "Documented reason for override (audit trail), 10-255 characters"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "soldToPartyName",
+        "label": "Name 1",
+        "trigger": "Confirm Sold-To Party"
+      },
+      {
+        "name": "shipToPartyName",
+        "label": "Name 1",
+        "trigger": "Confirm Ship-To Party"
+      },
+      {
+        "name": "shipToCountry",
+        "label": "Country",
+        "trigger": "Confirm Ship-To Party"
+      },
+      {
+        "name": "companyCountry",
+        "label": "Company Country",
+        "trigger": "Sales Organization selection"
+      },
+      {
+        "name": "currency",
+        "label": "Document Currency",
+        "trigger": "Sold-To Party selection"
+      },
+      {
+        "name": "screeningStatus",
+        "label": "Screening Status",
+        "trigger": "Denied-party check execution"
+      },
+      {
+        "name": "blockedStatus",
+        "label": "Overall Block Status",
+        "trigger": "Screening match detected"
+      }
+    ],
+    "output": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "screeningResult",
+        "label": "Screening Result",
+        "format": "PASS / FAIL / ERROR"
+      },
+      {
+        "name": "matchedPartyName",
+        "label": "Matched Party Name",
+        "format": "Text (if match found)"
+      },
+      {
+        "name": "matchedListSource",
+        "label": "Matched List Source",
+        "format": "Text (if match found) — e.g., OFAC SDN, BIS DPL"
+      },
+      {
+        "name": "screeningLogEntry",
+        "label": "Audit log record",
+        "format": "System log entry with timestamp, user, result"
+      },
+      {
+        "name": "overrideApprovalNumber",
+        "label": "Override Approval Number",
+        "format": "Alphanumeric (if override executed)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      },
+      {
+        "name": "overrideJustification",
+        "label": "Justification Text",
+        "lowerBoundary": "10 characters",
+        "upperBoundary": "255 characters",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-29",
+  "type": "Task",
+  "summary": "Perform Three-Way Match Invoice Verification For A Gmp Material Purcha",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As an Accounts Payable Clerk, I want to perform three-way match Invoice Verification for a GMP material purchase order, so that payment is only released when quantities and prices on the PO, Goods Receipt, and Vendor Invoice all agree.",
+  "acceptanceCriteria": "1. The user can access the \"Create Supplier Invoice\" Fiori app.\n2. The system automatically proposes the quantity and value based on the referenced PO and goods receipt.\n3. The system blocks the invoice for payment if the invoiced quantity exceeds the received quantity beyond a configurable tolerance.\n4. The system blocks the invoice for payment if the invoiced price varies from the PO price beyond a configurable tolerance.\n5. Blocked invoices are routed to a resolution workflow visible in \"Manage Blocked Invoices.\"\n6. Once discrepancies are resolved, the invoice is automatically released for payment.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:16.035+0530",
+  "updated": "2026-08-21T14:11:16.132+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-29",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

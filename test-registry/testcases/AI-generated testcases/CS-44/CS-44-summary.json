@@ -1,0 +1,139 @@
+{
+  "userStory": "CS-44",
+  "summary": "User Story SD-012",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 11,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 8,
+    "MEDIUM": 2,
+    "LOW": 0
+  },
+  "automationCandidates": 10,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Create Sales Order for Customer with Outstanding Balance Within Credit Limit",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-001"
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Create Sales Order for Customer at Exactly Credit Limit Boundary",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-AP-001"
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Create Sales Order When Customer Balance Exceeds Credit Limit",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-NEG-001"
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt to Create Sales Order for Customer with No Credit Limit Defined",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-NEG-002"
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Attempt to Create Sales Order for Non-existent Customer",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-044-NEG-003"
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt to Submit Sales Order with Customer ID Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-044-ERR-001"
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Attempt to Submit Sales Order with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-044-ERR-002"
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Attempt to Submit Sales Order with Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-044-ERR-003"
+    },
+    {
+      "id": "TC-CS-029",
+      "title": "Create Sales Order for Customer with Zero Credit Limit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-EDGE-001"
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Create Sales Order for Customer with Negative Outstanding Balance",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-EDGE-002"
+    },
+    {
+      "id": "TC-CS-031",
+      "title": "Create Sales Order with Order Value Exactly Equaling Remaining Credit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-044-EDGE-003"
+    }
+  ],
+  "testdataFile": "testdata/CS-44/CS-44-testdata.json"
+}

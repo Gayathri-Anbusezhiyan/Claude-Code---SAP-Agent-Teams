@@ -1,0 +1,179 @@
+{
+  "userStory": "CS-42",
+  "summary": "Generate A Billing Document Only After The Delivery's Batch And Quality Release Status Is Confirmed",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 15,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 5,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 9,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 12,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Create Billing Document for Delivery with Approved Batch and Released Quality Status",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-001"
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Attempt Billing for Delivery with Batch Status Restricted or Blocked",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-NEG-001"
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Attempt Billing for Delivery with Quality Inspection Status Not Released",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-NEG-002"
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt Billing for Non-existent Delivery",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-042-NEG-003"
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Attempt Billing for Delivery Already Fully Billed (Duplicate Billing)",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-NEG-004"
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt Billing for Delivery with No Quality Inspection Lot Created",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-NEG-005"
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Attempt to Submit Billing Document with Delivery Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-042-ERR-001"
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Attempt to Submit Billing Document with Billing Type Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-042-ERR-002"
+    },
+    {
+      "id": "TC-CS-029",
+      "title": "Attempt to Create Billing Document with Invalid Delivery Reference Format",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-042-ERR-003"
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Create Billing Document for Delivery with Multiple Batches (Partial Release Scenario)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-EDGE-001"
+    },
+    {
+      "id": "TC-CS-031",
+      "title": "Verify Billing Behavior When Quality Status Changes During Billing Process (Concurrent Update)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-EDGE-002"
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "Create Billing Document with Minimum Billing Quantity (Partial Billing Allowed)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-EDGE-003"
+    },
+    {
+      "id": "TC-CS-033",
+      "title": "Create Billing Document with Billing Date at Posting Period Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-042-EDGE-004"
+    },
+    {
+      "id": "TC-CS-034",
+      "title": "Verify SD-QM Integration — Quality Status Lookup from QALS (Inspection Lot)",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-INT-001"
+    },
+    {
+      "id": "TC-CS-035",
+      "title": "Verify SD-MM Integration — Batch Status Validation from MCH1 (Batch Master)",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-042-INT-002"
+    }
+  ],
+  "testdataFile": "testdata/CS-42/CS-42-testdata.json"
+}

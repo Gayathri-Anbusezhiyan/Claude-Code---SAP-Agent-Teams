@@ -1,0 +1,320 @@
+{
+  "userStory": "CS-18",
+  "module": "MM",
+  "feature": "Batch-Managed Goods Receipt with Expiration Tracking",
+  "generatedAt": "2026-08-21T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-18-001": {
+      "id": "TD-CS-18-001",
+      "name": "Valid Batch-Managed GR — Manual Entry of All Batch Data",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-039"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "Material Document created; batch master record created with manual batch data; inventory updated"
+    },
+    "TD-CS-18-002": {
+      "id": "TD-CS-18-002",
+      "name": "Valid Batch-Managed GR — Auto-Calculated Expiration Date",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-040"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialIdAutoCalc": "{{MATERIAL_ID_BATCH_MANAGED_WITH_SHELF_LIFE}}",
+        "materialDescAutoCalc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED_WITH_SHELF_LIFE}}",
+        "batchNumberAutoCalc": "{{BATCH_NUMBER_NEW_AUTO_CALC}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "Material Document created; expiration date auto-calculated by SAP; batch master record created"
+    },
+    "TD-CS-18-AP-001": {
+      "id": "TD-CS-18-AP-001",
+      "name": "Valid Batch-Managed GR — Manual Override of Auto-Calculated Expiration Date",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialIdAutoCalc": "{{MATERIAL_ID_BATCH_MANAGED_WITH_SHELF_LIFE}}",
+        "materialDescAutoCalc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED_WITH_SHELF_LIFE}}",
+        "batchNumberOverride": "{{BATCH_NUMBER_NEW_OVERRIDE}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDateOverride": "{{EXPIRATION_DATE_MANUAL_OVERRIDE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "Material Document created; manually overridden expiration date accepted; batch master record created with overridden date"
+    },
+    "TD-CS-18-NEG-001": {
+      "id": "TD-CS-18-NEG-001",
+      "name": "Invalid GR — Expiration Date Already Passed",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expiredDate": "{{EXPIRATION_DATE_PAST_EXPIRED}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP rejects GR posting; error message indicates expiration date has already passed; no Material Document created"
+    },
+    "TD-CS-18-NEG-002": {
+      "id": "TD-CS-18-NEG-002",
+      "name": "Invalid GR — Expiration Date Earlier Than Manufacturing Date",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDateBeforeMfg": "{{EXPIRATION_DATE_BEFORE_MFG_DATE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP rejects GR posting; error message indicates expiration date cannot be earlier than manufacturing date; no Material Document created"
+    },
+    "TD-CS-18-NEG-003": {
+      "id": "TD-CS-18-NEG-003",
+      "name": "Invalid GR — Manufacturing Date in the Future",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "futureMfgDate": "{{MFG_DATE_FUTURE}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP rejects GR posting; error message indicates manufacturing date cannot be in the future; no Material Document created"
+    },
+    "TD-CS-18-ERR-001": {
+      "id": "TD-CS-18-ERR-001",
+      "name": "Missing Mandatory Field — Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-045"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "emptyValue": "",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "note": "Batch field intentionally empty (emptyValue = blank string)",
+      "expectedOutcome": "SAP prevents submission; error highlights Batch as mandatory; no Material Document created"
+    },
+    "TD-CS-18-ERR-002": {
+      "id": "TD-CS-18-ERR-002",
+      "name": "Missing Mandatory Field — Manufacturing Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-046"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "emptyValue": "",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "note": "Manufacturing Date field intentionally empty",
+      "expectedOutcome": "SAP prevents submission; error highlights Manufacturing Date as mandatory; no Material Document created"
+    },
+    "TD-CS-18-ERR-003": {
+      "id": "TD-CS-18-ERR-003",
+      "name": "Missing Mandatory Field — Expiration Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-047"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "emptyValue": "",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "note": "Expiration Date field intentionally empty (material without shelf-life profile)",
+      "expectedOutcome": "SAP prevents submission; error highlights Expiration Date as mandatory; no Material Document created"
+    },
+    "TD-CS-18-EDGE-001": {
+      "id": "TD-CS-18-EDGE-001",
+      "name": "Minimum Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-048"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "minQuantity": "{{GR_QUANTITY_MIN}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP accepts minimum quantity; Material Document created; batch created with minimum quantity"
+    },
+    "TD-CS-18-EDGE-002": {
+      "id": "TD-CS-18-EDGE-002",
+      "name": "Zero Quantity — Invalid Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-049"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "zeroQuantity": "0",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP rejects zero quantity; validation error displayed; no Material Document created"
+    },
+    "TD-CS-18-EDGE-003": {
+      "id": "TD-CS-18-EDGE-003",
+      "name": "Manufacturing Date = Today (Upper Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-050"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "mfgDateToday": "{{MFG_DATE_TODAY}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP accepts today's date as manufacturing date; Material Document created; batch created with today's mfg date"
+    },
+    "TD-CS-18-EDGE-004": {
+      "id": "TD-CS-18-EDGE-004",
+      "name": "Expiration Date = Mfg Date + 1 Day (Lower Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-051"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDateMfgPlus1": "{{EXPIRATION_DATE_MFG_PLUS_1_DAY}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "SAP accepts minimal shelf life (mfg + 1 day); Material Document created; batch created with minimal expiration period"
+    },
+    "TD-CS-18-INT-001": {
+      "id": "TD-CS-18-INT-001",
+      "name": "Batch Display Integration — Verify Batch Data Visible",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-052"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_BATCH_MANAGED}}",
+        "poItem": "{{PO_ITEM_NUMBER}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_NEW}}",
+        "quantity": "{{GR_QUANTITY_STANDARD}}",
+        "manufacturingDate": "{{MFG_DATE_PAST}}",
+        "expirationDate": "{{EXPIRATION_DATE_FUTURE}}",
+        "vendorBatch": "{{VENDOR_BATCH_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "Material Document created; batch master record created; batch data visible in Display Batch app; integration confirmed"
+    }
+  },
+  "allPlaceholders": [
+    "{{PO_NUMBER_BATCH_MANAGED}}",
+    "{{PO_ITEM_NUMBER}}",
+    "{{MATERIAL_ID_BATCH_MANAGED}}",
+    "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+    "{{MATERIAL_ID_BATCH_MANAGED_WITH_SHELF_LIFE}}",
+    "{{MATERIAL_DESCRIPTION_BATCH_MANAGED_WITH_SHELF_LIFE}}",
+    "{{BATCH_NUMBER_NEW}}",
+    "{{BATCH_NUMBER_NEW_AUTO_CALC}}",
+    "{{BATCH_NUMBER_NEW_OVERRIDE}}",
+    "{{GR_QUANTITY_STANDARD}}",
+    "{{GR_QUANTITY_MIN}}",
+    "{{MFG_DATE_PAST}}",
+    "{{MFG_DATE_TODAY}}",
+    "{{MFG_DATE_FUTURE}}",
+    "{{EXPIRATION_DATE_FUTURE}}",
+    "{{EXPIRATION_DATE_PAST_EXPIRED}}",
+    "{{EXPIRATION_DATE_BEFORE_MFG_DATE}}",
+    "{{EXPIRATION_DATE_MANUAL_OVERRIDE}}",
+    "{{EXPIRATION_DATE_MFG_PLUS_1_DAY}}",
+    "{{VENDOR_BATCH_NUMBER}}",
+    "{{PLANT_CODE}}",
+    "{{STORAGE_LOCATION_CODE}}"
+  ]
+}

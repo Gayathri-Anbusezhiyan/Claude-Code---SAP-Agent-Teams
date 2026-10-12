@@ -1,0 +1,297 @@
+{
+  "userStory": "CS-31",
+  "summary": "Review And Approve A Change Request Affecting An Approved Vendor'S Man",
+  "module": "MM",
+  "analysedAt": "2026-08-21T00:00:00Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Assurance Manager",
+  "businessObject": "Vendor Change Request (affecting manufacturing site)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"My Inbox\" Fiori app to review pending vendor change requests.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system flags any change to a vendor's registered manufacturing site as requiring QA approval before it takes effect.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The requestor can attach supporting documentation (e.g., site audit report) to the change request.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-4",
+      "text": "The system prevents purchase orders from being created against the changed vendor record until QA approval is granted.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG", "INT"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The system logs the approver, decision, and timestamp for audit trail purposes.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "Rejected changes return the vendor record to its previous approved state automatically.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "QA Manager reviews pending vendor manufacturing site change request in My Inbox, attaches site audit report, approves change, system updates vendor master and logs audit trail",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "QA Manager reviews pending vendor manufacturing site change request, rejects change with comments, system restores vendor to previous approved state and logs rejection",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "QA Manager approves vendor manufacturing site change without attaching supporting documentation (optional)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2", "AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Procurement user attempts to create PO against vendor with pending manufacturing site change before QA approval - system blocks PO creation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "User without QA approval authorization attempts to access and approve change request - system denies access or approval action",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Vendor manufacturing site change is submitted but workflow does not trigger QA approval flag",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Vendor ID in change request",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Vendor"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Approval Decision (neither Approve nor Reject selected)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Approval Decision"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Attachment file upload fails due to unsupported file type",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "field": "Attachment"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Attachment file upload fails due to size exceeding 10MB limit",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "field": "Attachment"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Attachment file size at minimum boundary (1 KB)",
+        "risk": "LOW",
+        "acIds": ["AC-3"],
+        "parameter": "attachmentSize",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Attachment file size at maximum boundary (10 MB)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "attachmentSize",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Approval comments at maximum character length (1000 characters)",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "parameter": "commentsLength",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Multiple concurrent approval requests for same vendor",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-4"],
+        "parameter": "concurrentRequests",
+        "boundary": "concurrent"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 0,
+    "total": 14
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "vendorId",
+        "label": "Vendor",
+        "mandatory": true,
+        "validRange": "Existing approved vendor in SAP master with pending manufacturing site change"
+      },
+      {
+        "name": "changeRequestId",
+        "label": "Change Request",
+        "mandatory": true,
+        "validRange": "Valid change request in 'Pending QA Approval' workflow status"
+      },
+      {
+        "name": "approvalDecision",
+        "label": "Approve/Reject",
+        "mandatory": true,
+        "validRange": "Approve OR Reject"
+      },
+      {
+        "name": "approvalComments",
+        "label": "Comments",
+        "mandatory": false,
+        "validRange": "Free text, max 1000 characters"
+      },
+      {
+        "name": "attachmentFile",
+        "label": "Attachment",
+        "mandatory": false,
+        "validRange": "PDF, DOCX, XLSX, PNG, JPG; max 10MB"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "vendorName",
+        "label": "Vendor Name",
+        "trigger": "Load change request"
+      },
+      {
+        "name": "currentManufacturingSite",
+        "label": "Current Site",
+        "trigger": "Load change request"
+      },
+      {
+        "name": "requestedManufacturingSite",
+        "label": "New Site",
+        "trigger": "Load change request"
+      },
+      {
+        "name": "requestorName",
+        "label": "Requested By",
+        "trigger": "Load change request"
+      },
+      {
+        "name": "requestDate",
+        "label": "Requested On",
+        "trigger": "Load change request"
+      },
+      {
+        "name": "changeRequestStatus",
+        "label": "Status",
+        "trigger": "Open change request in inbox"
+      }
+    ],
+    "output": [
+      {
+        "name": "approvalDecision",
+        "label": "Approval Decision",
+        "format": "Enum: 'Approved', 'Rejected'"
+      },
+      {
+        "name": "approvalTimestamp",
+        "label": "Approval Timestamp",
+        "format": "ISO8601 timestamp"
+      },
+      {
+        "name": "approverUserId",
+        "label": "Approver User ID",
+        "format": "Alphanumeric SAP user ID"
+      },
+      {
+        "name": "workflowLogEntry",
+        "label": "Workflow Log Entry",
+        "format": "System-generated workflow log entry in SWWWIHEAD/SWWLOGHIST"
+      },
+      {
+        "name": "vendorRecordStatus",
+        "label": "Vendor Record Status",
+        "format": "'Approved' (if approved), 'Approved' with previous site (if rejected)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "attachmentSize",
+        "label": "Attachment File Size",
+        "lowerBoundary": "1 KB",
+        "upperBoundary": "10 MB",
+        "zeroInvalid": true
+      },
+      {
+        "name": "commentsLength",
+        "label": "Approval Comments Length",
+        "lowerBoundary": "0 characters",
+        "upperBoundary": "1000 characters",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

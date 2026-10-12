@@ -1,0 +1,413 @@
+{
+  "userStory": "CS-55",
+  "module": "PP/QM",
+  "feature": "Quality Deviation Recording from In-Process Control Results",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-055-001": {
+      "id": "TD-CS-055-001",
+      "name": "Deviation Lifecycle — Complete CAPA with USE_AS_IS Disposition",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultOutOfSpec": "{{INSPECTION_RESULT_OUT_OF_SPEC}}",
+        "specLowerLimit": "{{SPEC_LOWER_LIMIT}}",
+        "specUpperLimit": "{{SPEC_UPPER_LIMIT}}",
+        "notificationType": "QN",
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}",
+        "dispositionDecision": "USE_AS_IS"
+      },
+      "expectedOutcome": "Deviation created with status OUTSTANDING; process order operation placed on HOLD; CAPA documented; deviation closed with USE_AS_IS disposition; process order hold released"
+    },
+    "TD-CS-055-002": {
+      "id": "TD-CS-055-002",
+      "name": "Trend Report — View Deviation Frequency",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "materialFilterOptional": "{{MATERIAL_FILTER_OPTIONAL}}",
+        "operationFilterOptional": "{{OPERATION_FILTER_OPTIONAL}}",
+        "rootCauseFilterOptional": "{{ROOT_CAUSE_FILTER_OPTIONAL}}",
+        "dateRangeFrom": "{{DATE_RANGE_FROM}}",
+        "dateRangeTo": "{{DATE_RANGE_TO}}"
+      },
+      "expectedOutcome": "Trend report generated showing deviation frequency aggregated by material, operation, and root cause"
+    },
+    "TD-CS-055-003": {
+      "id": "TD-CS-055-003",
+      "name": "Deviation with USE_AS_IS Disposition",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultOutOfSpec": "{{INSPECTION_RESULT_OUT_OF_SPEC}}",
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}",
+        "dispositionUseAsIs": "USE_AS_IS"
+      },
+      "expectedOutcome": "Deviation closed with USE_AS_IS disposition; batch proceeds without rework"
+    },
+    "TD-CS-055-004": {
+      "id": "TD-CS-055-004",
+      "name": "Deviation with REWORK Disposition",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultOutOfSpec": "{{INSPECTION_RESULT_OUT_OF_SPEC}}",
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}",
+        "dispositionRework": "REWORK"
+      },
+      "expectedOutcome": "Deviation closed with REWORK disposition; batch must be reworked before proceeding"
+    },
+    "TD-CS-055-005": {
+      "id": "TD-CS-055-005",
+      "name": "Deviation with SCRAP Disposition",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultOutOfSpec": "{{INSPECTION_RESULT_OUT_OF_SPEC}}",
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}",
+        "dispositionScrap": "SCRAP"
+      },
+      "expectedOutcome": "Deviation closed with SCRAP disposition; batch is scrapped; process order cancelled or TECO"
+    },
+    "TD-CS-055-NEG-001": {
+      "id": "TD-CS-055-NEG-001",
+      "name": "In-Spec Result — Deviation NOT Required",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultInSpec": "{{INSPECTION_RESULT_IN_SPEC}}",
+        "specLowerLimit": "{{SPEC_LOWER_LIMIT}}",
+        "specUpperLimit": "{{SPEC_UPPER_LIMIT}}"
+      },
+      "expectedOutcome": "System prevents deviation creation; error message: Result is within specification — deviation not required"
+    },
+    "TD-CS-055-NEG-002": {
+      "id": "TD-CS-055-NEG-002",
+      "name": "Process Order Advance Blocked by Outstanding Deviation",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "deviationNumber": "{{DEVIATION_NUMBER_OUTSTANDING}}",
+        "nextOperationNumber": "{{NEXT_OPERATION_NUMBER}}"
+      },
+      "expectedOutcome": "System prevents operation confirmation; error message: Operation on hold — deviation must be closed"
+    },
+    "TD-CS-055-NEG-003": {
+      "id": "TD-CS-055-NEG-003",
+      "name": "Close Deviation Without Root Cause",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "deviationNumber": "{{DEVIATION_NUMBER_OUTSTANDING}}",
+        "dispositionDecision": "USE_AS_IS",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System prevents deviation closure; validation error: Root Cause is mandatory"
+    },
+    "TD-CS-055-NEG-004": {
+      "id": "TD-CS-055-NEG-004",
+      "name": "Close Deviation Without Disposition",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "deviationNumber": "{{DEVIATION_NUMBER_OUTSTANDING}}",
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System prevents deviation closure; validation error: Disposition Decision is mandatory"
+    },
+    "TD-CS-055-ERR-001": {
+      "id": "TD-CS-055-ERR-001",
+      "name": "Missing Root Cause Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System prevents save; validation error: Root Cause is mandatory"
+    },
+    "TD-CS-055-ERR-002": {
+      "id": "TD-CS-055-ERR-002",
+      "name": "Missing Impact Assessment Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System prevents save; validation error: Impact Assessment is mandatory"
+    },
+    "TD-CS-055-ERR-003": {
+      "id": "TD-CS-055-ERR-003",
+      "name": "Missing Corrective Action Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System prevents save; validation error: Corrective Action is mandatory"
+    },
+    "TD-CS-055-ERR-004": {
+      "id": "TD-CS-055-ERR-004",
+      "name": "Missing Preventive Action Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System prevents save; validation error: Preventive Action is mandatory"
+    },
+    "TD-CS-055-ERR-005": {
+      "id": "TD-CS-055-ERR-005",
+      "name": "Missing Disposition Decision at Closure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "deviationNumber": "{{DEVIATION_NUMBER_OUTSTANDING}}"
+      },
+      "expectedOutcome": "System prevents deviation closure; validation error: Disposition Decision is mandatory"
+    },
+    "TD-CS-055-EDGE-001": {
+      "id": "TD-CS-055-EDGE-001",
+      "name": "Root Cause Text Minimum Length (10 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseMinLength": "{{ROOT_CAUSE_MIN_LENGTH}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System accepts 10-character Root Cause Description (minimum valid length); deviation saved successfully"
+    },
+    "TD-CS-055-EDGE-002": {
+      "id": "TD-CS-055-EDGE-002",
+      "name": "Root Cause Text Maximum Length (255 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseMaxLength": "{{ROOT_CAUSE_MAX_LENGTH}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System accepts 255-character Root Cause Description (maximum valid length); prevents entry beyond 255 characters; deviation saved successfully"
+    },
+    "TD-CS-055-EDGE-003": {
+      "id": "TD-CS-055-EDGE-003",
+      "name": "Impact Assessment Text Minimum Length (10 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-141"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessmentMinLength": "{{IMPACT_ASSESSMENT_MIN_LENGTH}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System accepts 10-character Impact Assessment (minimum valid length); deviation saved successfully"
+    },
+    "TD-CS-055-EDGE-004": {
+      "id": "TD-CS-055-EDGE-004",
+      "name": "Impact Assessment Text Maximum Length (1000 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-142"],
+      "data": {
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessmentMaxLength": "{{IMPACT_ASSESSMENT_MAX_LENGTH}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System accepts 1000-character Impact Assessment (maximum valid length); prevents entry beyond 1000 characters; deviation saved successfully"
+    },
+    "TD-CS-055-EDGE-005": {
+      "id": "TD-CS-055-EDGE-005",
+      "name": "In-Process Result At Lower Spec Limit (In-Spec)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-143"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultAtLowerSpec": "{{INSPECTION_RESULT_AT_LOWER_SPEC}}",
+        "specLowerLimit": "{{SPEC_LOWER_LIMIT}}",
+        "specUpperLimit": "{{SPEC_UPPER_LIMIT}}"
+      },
+      "expectedOutcome": "System treats result as IN-SPEC; Create Deviation button disabled; no deviation required"
+    },
+    "TD-CS-055-EDGE-006": {
+      "id": "TD-CS-055-EDGE-006",
+      "name": "In-Process Result At Upper Spec Limit (In-Spec)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-144"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultAtUpperSpec": "{{INSPECTION_RESULT_AT_UPPER_SPEC}}",
+        "specLowerLimit": "{{SPEC_LOWER_LIMIT}}",
+        "specUpperLimit": "{{SPEC_UPPER_LIMIT}}"
+      },
+      "expectedOutcome": "System treats result as IN-SPEC; Create Deviation button disabled; no deviation required"
+    },
+    "TD-CS-055-EDGE-007": {
+      "id": "TD-CS-055-EDGE-007",
+      "name": "In-Process Result 0.01 Below Lower Spec Limit (Out-of-Spec)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-145"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultBelowLowerSpec": "{{INSPECTION_RESULT_BELOW_LOWER_SPEC}}",
+        "specLowerLimit": "{{SPEC_LOWER_LIMIT}}",
+        "specUpperLimit": "{{SPEC_UPPER_LIMIT}}"
+      },
+      "expectedOutcome": "System treats result as OUT-OF-SPEC; Create Deviation button enabled; deviation creation triggered"
+    },
+    "TD-CS-055-EDGE-008": {
+      "id": "TD-CS-055-EDGE-008",
+      "name": "In-Process Result 0.01 Above Upper Spec Limit (Out-of-Spec)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-146"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultAboveUpperSpec": "{{INSPECTION_RESULT_ABOVE_UPPER_SPEC}}",
+        "specLowerLimit": "{{SPEC_LOWER_LIMIT}}",
+        "specUpperLimit": "{{SPEC_UPPER_LIMIT}}"
+      },
+      "expectedOutcome": "System treats result as OUT-OF-SPEC; Create Deviation button enabled; deviation creation triggered"
+    },
+    "TD-CS-055-INT-001": {
+      "id": "TD-CS-055-INT-001",
+      "name": "Fiori App Integration — In-Process Results to Deviation Creation",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-147"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultOutOfSpec": "{{INSPECTION_RESULT_OUT_OF_SPEC}}"
+      },
+      "expectedOutcome": "Create Deviation button accessible from In-Process Inspection Results app; navigation to Create Quality Notification app successful; context data pre-populated"
+    },
+    "TD-CS-055-INT-002": {
+      "id": "TD-CS-055-INT-002",
+      "name": "QM to PP Integration — Process Order Hold Status Update",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-148"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "characteristic": "{{CHARACTERISTIC_CODE_VALID}}",
+        "inspectionResultOutOfSpec": "{{INSPECTION_RESULT_OUT_OF_SPEC}}",
+        "rootCauseCode": "{{ROOT_CAUSE_CODE_VALID}}",
+        "rootCauseDescription": "{{ROOT_CAUSE_DESCRIPTION_VALID}}",
+        "impactAssessment": "{{IMPACT_ASSESSMENT_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "preventiveAction": "{{PREVENTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "Deviation creation triggers process order operation hold status update via QM to PP backend callback; operation status changes to HOLD"
+    },
+    "TD-CS-055-INT-003": {
+      "id": "TD-CS-055-INT-003",
+      "name": "QM to PP Integration — Process Order Release After Deviation Closure",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-149"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "deviationNumber": "{{DEVIATION_NUMBER_OUTSTANDING}}",
+        "dispositionDecision": "USE_AS_IS"
+      },
+      "expectedOutcome": "Deviation closure triggers process order operation hold release via QM to PP backend callback; operation status changes from HOLD to RELEASED"
+    },
+    "TD-CS-055-INT-004": {
+      "id": "TD-CS-055-INT-004",
+      "name": "Analytics Integration — Trend Report Data Aggregation",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-150"],
+      "data": {
+        "dateRangeFrom": "{{DATE_RANGE_FROM}}",
+        "dateRangeTo": "{{DATE_RANGE_TO}}",
+        "material1": "{{MATERIAL_ID_1}}",
+        "material2": "{{MATERIAL_ID_2}}",
+        "operation1": "{{OPERATION_NUMBER_1}}",
+        "operation2": "{{OPERATION_NUMBER_2}}",
+        "rootCause1": "{{ROOT_CAUSE_CODE_1}}",
+        "rootCause2": "{{ROOT_CAUSE_CODE_2}}"
+      },
+      "expectedOutcome": "Trend report aggregates data from multiple deviations across materials, operations, and root causes; report displays multi-dimensional deviation frequency data"
+    }
+  }
+}

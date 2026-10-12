@@ -1,0 +1,134 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "timestamp": "2026-07-20T07:30:00.000Z",
+  "reExecutedBy": "self-healing-agent/skills/re-execute-scriptless",
+  "failureReportRef": "self-healing/failures/20260720-TC-CS-001-failure.json",
+  "reExecutionStatus": "PASS",
+  "failingStepAnalysis": {
+    "originalFailingStep": {
+      "stepNumber": 9,
+      "tcStepDescription": "Click the 'Create' button (Create PO) in the application toolbar",
+      "pageMethod": "clickCreate",
+      "pageMethodLine": 87,
+      "locatorName": "createPOButton",
+      "locatorUsed": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Create"
+        }
+      },
+      "errorMessage": "strict mode violation: getByRole('button', { name: 'Create' }) resolved to 2 elements",
+      "errorType": "LOCATOR_FAILURE"
+    },
+    "rootCause": {
+      "summary": "SAP Guided Tour creates ambiguous locator",
+      "details": [
+        "The SAP Guided Tour dialog appears non-deterministically after login (session-based or config-driven)",
+        "When the tour appears, it creates a hotspot overlay element: <div role='button' aria-label='Create Purchase Order'>",
+        "The script's generic locator getByRole('button', { name: 'Create' }) matches BOTH the actual Create button AND the tour hotspot",
+        "During exploration (2026-07-08), the tour did NOT appear, so the locator was unambiguous and passed",
+        "During test runner execution (2026-07-20), the tour DID appear, causing the strict mode violation"
+      ],
+      "evidenceFromReExecution": "Tour dialog appeared at step 2 (PO list page load). After dismissing tour with 'Leave Tour' button, the Create button locator resolved to exactly 1 element and worked correctly."
+    },
+    "resolutionSteps": [
+      {
+        "step": 1,
+        "action": "Detected Guided Tour dialog on PO list page",
+        "ref": "f7e1777",
+        "dialogTitle": "Create Purchase Order",
+        "dialogContent": "You can use various filter options to display purchase orders. To create a new purchase order, choose Create in the upper right screen area.",
+        "result": "DETECTED"
+      },
+      {
+        "step": 2,
+        "action": "Clicked 'Leave Tour' button to dismiss tour",
+        "locator": "getByRole('button', { name: 'Leave Tour' })",
+        "ref": "f7e1781",
+        "result": "PASS"
+      },
+      {
+        "step": 3,
+        "action": "Verified Create button locator now unambiguous",
+        "locator": "getByRole('button', { name: 'Create' })",
+        "ref": "f7e1722",
+        "elementsFound": 1,
+        "result": "PASS"
+      },
+      {
+        "step": 4,
+        "action": "Clicked Create button",
+        "result": "PASS",
+        "pageTransition": "New Purchase Order creation form opened"
+      }
+    ],
+    "workingLocator": {
+      "strategy": "role",
+      "role": "button",
+      "name": "Create"
+    },
+    "workingRef": "f7e1722",
+    "workingCondition": "Tour must be dismissed first",
+    "resolutionNote": "The original locator IS correct. The issue is that the guided tour must be proactively dismissed after navigating to the app, BEFORE attempting to click the Create button."
+  },
+  "stepsExecuted": 26,
+  "sapBehavior": "CORRECT",
+  "sapBehaviorNotes": "PO was created successfully. All fields were accepted and auto-populated correctly. PO number generated and displayed in page title and URL. SAP is functioning as expected.",
+  "sapFinalState": {
+    "poNumber": "4500066120",
+    "pageTitle": "4500066120 (Standard PO) - Purchase Order",
+    "pageUrl": "...IsActiveEntity=true",
+    "urlPattern": "/C_PurchaseOrderTP(PurchaseOrder='4500066120',DraftUUID=guid'00000000-0000-0000-0000-000000000000',IsActiveEntity=true)",
+    "status": "Created",
+    "successIndicator": "Page title changed from 'New Purchase Order' to '4500066120 (Standard PO)', URL changed from IsActiveEntity=false to IsActiveEntity=true"
+  },
+  "recommendation": "PATCH_SCRIPTS",
+  "patchStrategy": {
+    "approach": "Add proactive guided tour dismissal logic",
+    "targetFiles": [
+      "automation/pages/mm/purchase-order/purchase-order.fixtures.js",
+      "automation/pages/mm/purchase-order/purchase-order.page.js"
+    ],
+    "changes": [
+      {
+        "file": "automation/pages/mm/purchase-order/purchase-order.page.js",
+        "method": "navigateToApp",
+        "action": "Add guided tour detection and dismissal after app loads",
+        "logic": "After app tile click, wait for page load, then check for guided tour dialog and click 'Leave Tour' if present"
+      },
+      {
+        "file": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+        "locator": "createPOButton",
+        "action": "NO CHANGE NEEDED",
+        "note": "The locator is correct. The issue is environmental (guided tour presence), not the locator itself."
+      }
+    ],
+    "priority": "HIGH",
+    "estimatedEffort": "15 minutes"
+  },
+  "secondaryFailure": {
+    "description": "Retry attempt failed during sign-out confirmation",
+    "pageMethod": "confirmSignOut",
+    "errorMessage": "Timeout 30000ms exceeded clicking OK button",
+    "rootCause": "Same root cause: guided tour overlay blocked pointer events",
+    "note": "After dismissing tour proactively in this re-execution, sign-out worked without issues"
+  },
+  "snapshots": [
+    "self-healing/re-executions/20260720-TC-CS-001/steps/step-01-search-opened.md",
+    "self-healing/re-executions/20260720-TC-CS-001/steps/step-02-po-list-loaded.md",
+    "self-healing/re-executions/20260720-TC-CS-001/steps/step-03-supplier-entered.md",
+    "self-healing/re-executions/20260720-TC-CS-001/steps/step-05-po-created.md"
+  ],
+  "explorationComparison": {
+    "explorationDate": "2026-07-08T14:42:00.000Z",
+    "explorationStatus": "PASS",
+    "explorationNote": "No guided tour popup in this session",
+    "difference": "Exploration run did NOT encounter the guided tour, so the Create button locator was unambiguous. Current run DID encounter the tour, confirming the non-deterministic nature of the tour appearance.",
+    "implication": "The tour appearance is session-based or configuration-driven. Scripts must handle both cases (tour present / tour absent)."
+  },
+  "nextStep": "Execute /patch-scripts TC-CS-001 to apply the fix"
+}

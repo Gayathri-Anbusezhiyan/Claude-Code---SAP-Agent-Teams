@@ -1,0 +1,18 @@
+{
+  "issueKey": "CS-1",
+  "type": "Epic",
+  "summary": "Sales Order Management",
+  "epicName": "Sales Order Management",
+  "status": "To Do",
+  "priority": "Critical",
+  "assignee": { "displayName": "Pabbathi Sai Chand Reddy", "accountId": "61aaf98ac15977006a033317" },
+  "reporter": { "displayName": "Pabbathi Sai Chand Reddy", "accountId": "61aaf98ac15977006a033317" },
+  "labels": [],
+  "components": [],
+  "description": "As a Sales Team, we want a complete Sales Order management capability in SAP S/4HANA Cloud Fiori that allows sales representatives to create new Standard Sales Orders for customers with full pricing and logistics completion, and to view or modify existing ones, so that the organization can formally accept and track customer orders, initiate the order-to-cash process, and respond to customer change requests efficiently while maintaining a complete and auditable order history.",
+  "comments": [],
+  "created": "2026-05-10T18:38:17.357+0530",
+  "updated": "2026-05-10T18:48:57.833+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-1",
+  "fetchedAt": "2026-05-12T08:00:00.000Z"
+}

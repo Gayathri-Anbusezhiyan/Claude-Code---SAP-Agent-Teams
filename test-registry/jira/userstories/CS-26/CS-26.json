@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-26",
+  "type": "Task",
+  "summary": "Generate A Batch Traceability Report Showing All Goods Movements For A",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Compliance Officer, I want to generate a Batch Traceability Report showing all goods movements for a specific raw material batch, so that I can respond to a regulatory recall inquiry within the required timeframe.",
+  "acceptanceCriteria": "1. The user can access the \"Batch Where-Used List\" or equivalent traceability Fiori app.\n2. The user can search by batch number, material, or vendor batch reference.\n3. The system displays all goods receipts, transfers, consumption, and issues associated with the batch, including dates and quantities.\n4. The system displays downstream linkage to any process orders or deliveries that consumed the batch.\n5. The report can be exported to Excel/PDF for inclusion in a regulatory response package.\n6. The system completes the search and generates results within an acceptable performance threshold for time-critical recall situations.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:13.336+0530",
+  "updated": "2026-08-21T14:11:13.407+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-26",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

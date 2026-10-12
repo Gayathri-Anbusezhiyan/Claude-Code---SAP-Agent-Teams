@@ -1,0 +1,20 @@
+{
+  "key": "CS-18",
+  "summary": "Receive Materials Into Batch-Managed Stock And Capture The Manufacturi",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:05.855Z",
+  "updated": "2026-08-21T08:41:05.980Z",
+  "description": "As a Warehouse Operator, I want to receive materials into Batch-managed stock and capture the manufacturing date, expiration date, and vendor batch number, so that the material can be tracked and issued according to First-Expiry-First-Out (FEFO) rules.",
+  "acceptanceCriteria": "1. The user can access the \"Post Goods Receipt\" Fiori app.2. For batch-managed materials, the system requires entry of a batch number, manufacturing date, and expiration date before the goods receipt can be posted.3. The system automatically calculates the expiration date based on the shelf-life profile maintained in the material master, if not manually overridden.4. The system creates a new batch master record capturing vendor batch number, manufacturing date, and expiration date.5. The system prevents goods receipt posting if the calculated expiration date has already passed.6. The batch classification data is visible in the \"Display Batch\" app for downstream traceability.",
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

@@ -1,0 +1,299 @@
+{
+  "userStory": "CS-29",
+  "module": "MM/FI",
+  "feature": "Three-Way Match Invoice Verification",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "testDataSets": {
+    "TD-CS-29-HP-001": {
+      "id": "TD-CS-29-HP-001",
+      "name": "Perfect Three-Way Match — Invoice Quantity and Price Match GR and PO",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-110"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_001}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantity": "{{GR_QUANTITY}}",
+        "invoicePrice": "{{PO_PRICE}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "supplierName": "{{SUPPLIER_NAME}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "grQuantity": "{{GR_QUANTITY}}",
+        "poPrice": "{{PO_PRICE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully with status Released for Payment"
+    },
+    "TD-CS-29-ERR-001": {
+      "id": "TD-CS-29-ERR-001",
+      "name": "Quantity Exceeds Tolerance — Invoice Blocked for Quantity Variance",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-111"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_002}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantityExceeds": "{{GR_QUANTITY_PLUS_TOLERANCE_PLUS_ONE}}",
+        "invoicePrice": "{{PO_PRICE}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "grQuantity": "{{GR_QUANTITY}}",
+        "quantityTolerancePct": "{{QUANTITY_TOLERANCE_PCT}}",
+        "maxAllowedQuantity": "{{GR_QUANTITY_PLUS_TOLERANCE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted but blocked for payment; blocking reason: Quantity variance"
+    },
+    "TD-CS-29-ERR-002": {
+      "id": "TD-CS-29-ERR-002",
+      "name": "Price Exceeds Tolerance — Invoice Blocked for Price Variance",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-112"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_003}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantity": "{{GR_QUANTITY}}",
+        "invoicePriceExceeds": "{{PO_PRICE_PLUS_TOLERANCE_PLUS_POINT_01}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "poPrice": "{{PO_PRICE}}",
+        "priceTolerancePct": "{{PRICE_TOLERANCE_PCT}}",
+        "maxAllowedPrice": "{{PO_PRICE_PLUS_TOLERANCE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted but blocked for payment; blocking reason: Price variance"
+    },
+    "TD-CS-29-INT-001": {
+      "id": "TD-CS-29-INT-001",
+      "name": "Blocked Invoice Worklist Visibility",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-113"],
+      "data": {
+        "blockedInvoiceNumber": "{{BLOCKED_INVOICE_NUMBER_FROM_ERR_001_OR_ERR_002}}",
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "supplierName": "{{SUPPLIER_NAME}}",
+        "blockingReason": "{{BLOCKING_REASON_QUANTITY_OR_PRICE}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Blocked invoice visible in Manage Blocked Invoices worklist with correct blocking reason"
+    },
+    "TD-CS-29-INT-002": {
+      "id": "TD-CS-29-INT-002",
+      "name": "Quantity Correction Releases Invoice",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-114"],
+      "data": {
+        "blockedInvoiceNumber": "{{BLOCKED_INVOICE_NUMBER_FROM_ERR_001}}",
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "invoiceQuantityIncorrect": "{{GR_QUANTITY_PLUS_TOLERANCE_PLUS_ONE}}",
+        "grQuantity": "{{GR_QUANTITY}}",
+        "invoiceQuantityCorrected": "{{GR_QUANTITY}}",
+        "blockingReasonOriginal": "Quantity variance",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice quantity corrected; invoice auto-released for payment"
+    },
+    "TD-CS-29-INT-003": {
+      "id": "TD-CS-29-INT-003",
+      "name": "Price Correction Releases Invoice",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-117"],
+      "data": {
+        "blockedInvoiceNumber": "{{BLOCKED_INVOICE_NUMBER_FROM_ERR_002}}",
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "invoicePriceIncorrect": "{{PO_PRICE_PLUS_TOLERANCE_PLUS_POINT_01}}",
+        "poPrice": "{{PO_PRICE}}",
+        "invoicePriceCorrected": "{{PO_PRICE}}",
+        "blockingReasonOriginal": "Price variance",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice price corrected; invoice auto-released for payment"
+    },
+    "TD-CS-29-AP-001": {
+      "id": "TD-CS-29-AP-001",
+      "name": "Quantity Within Tolerance — Invoice Released",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-115"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_004}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantityWithinTol": "{{GR_QUANTITY_PLUS_TOLERANCE_MINUS_POINT_01}}",
+        "invoicePrice": "{{PO_PRICE}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "grQuantity": "{{GR_QUANTITY}}",
+        "quantityTolerancePct": "{{QUANTITY_TOLERANCE_PCT}}",
+        "maxAllowedQuantity": "{{GR_QUANTITY_PLUS_TOLERANCE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully with status Released for Payment (within tolerance)"
+    },
+    "TD-CS-29-AP-002": {
+      "id": "TD-CS-29-AP-002",
+      "name": "Price Within Tolerance — Invoice Released",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-116"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_005}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantity": "{{GR_QUANTITY}}",
+        "invoicePriceWithinTol": "{{PO_PRICE_PLUS_TOLERANCE_MINUS_POINT_01}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "poPrice": "{{PO_PRICE}}",
+        "priceTolerancePct": "{{PRICE_TOLERANCE_PCT}}",
+        "maxAllowedPrice": "{{PO_PRICE_PLUS_TOLERANCE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully with status Released for Payment (within tolerance)"
+    },
+    "TD-CS-29-EDGE-001": {
+      "id": "TD-CS-29-EDGE-001",
+      "name": "Quantity Exactly at Tolerance Boundary — Invoice Released",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-118"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_006}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantityAtBoundary": "{{GR_QUANTITY_PLUS_TOLERANCE}}",
+        "invoicePrice": "{{PO_PRICE}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "grQuantity": "{{GR_QUANTITY}}",
+        "quantityTolerancePct": "{{QUANTITY_TOLERANCE_PCT}}",
+        "maxAllowedQuantity": "{{GR_QUANTITY_PLUS_TOLERANCE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully; quantity at boundary is acceptable"
+    },
+    "TD-CS-29-EDGE-002": {
+      "id": "TD-CS-29-EDGE-002",
+      "name": "Price Exactly at Tolerance Boundary — Invoice Released",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-119"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_007}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantity": "{{GR_QUANTITY}}",
+        "invoicePriceAtBoundary": "{{PO_PRICE_PLUS_TOLERANCE}}",
+        "amount": "{{CALCULATED_AMOUNT}}",
+        "poPrice": "{{PO_PRICE}}",
+        "priceTolerancePct": "{{PRICE_TOLERANCE_PCT}}",
+        "maxAllowedPrice": "{{PO_PRICE_PLUS_TOLERANCE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully; price at boundary is acceptable"
+    },
+    "TD-CS-29-AP-003": {
+      "id": "TD-CS-29-AP-003",
+      "name": "PO with Multiple GRs — Cumulative Quantity Proposed",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-120"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_MULTIPLE_GRS}}",
+        "gr1Quantity": "{{GR1_QUANTITY}}",
+        "gr2Quantity": "{{GR2_QUANTITY}}",
+        "totalGrQuantity": "{{GR1_QUANTITY_PLUS_GR2_QUANTITY}}",
+        "invoiceQuantity": "{{GR1_QUANTITY_PLUS_GR2_QUANTITY}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_008}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoicePrice": "{{PO_PRICE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully; system proposes cumulative GR quantity from multiple GRs"
+    },
+    "TD-CS-29-AP-004": {
+      "id": "TD-CS-29-AP-004",
+      "name": "PO with Partial GR — Only Received Quantity Proposed",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-121"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_PARTIAL_GR}}",
+        "poTotalQuantity": "{{PO_TOTAL_QUANTITY}}",
+        "grQuantity": "{{GR_PARTIAL_QUANTITY}}",
+        "invoiceQuantity": "{{GR_PARTIAL_QUANTITY}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_009}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoicePrice": "{{PO_PRICE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted successfully; system proposes only partial GR quantity, not full PO quantity"
+    },
+    "TD-CS-29-NEG-001": {
+      "id": "TD-CS-29-NEG-001",
+      "name": "Non-Existent PO Number — Error Message",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-122"],
+      "data": {
+        "invalidPoNumber": "{{PO_NUMBER_NON_EXISTENT}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_010}}"
+      },
+      "expectedOutcome": "Error message: PO does not exist; no invoice created"
+    },
+    "TD-CS-29-NEG-002": {
+      "id": "TD-CS-29-NEG-002",
+      "name": "PO with No Goods Receipt — Error Message",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-123"],
+      "data": {
+        "poNumberNoGR": "{{PO_NUMBER_WITHOUT_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_011}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Error message: No goods receipt available for invoicing; no invoice created"
+    },
+    "TD-CS-29-ERR-003": {
+      "id": "TD-CS-29-ERR-003",
+      "name": "Both Quantity and Price Exceed Tolerance — Multiple Blocking Reasons",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-124"],
+      "data": {
+        "poNumber": "{{PO_NUMBER_WITH_GR}}",
+        "invoiceNumber": "{{INVOICE_NUMBER_UNIQUE_012}}",
+        "invoiceDate": "{{INVOICE_DATE_CURRENT}}",
+        "postingDate": "{{POSTING_DATE_CURRENT}}",
+        "invoiceQuantityExceeds": "{{GR_QUANTITY_PLUS_TOLERANCE_PLUS_ONE}}",
+        "invoicePriceExceeds": "{{PO_PRICE_PLUS_TOLERANCE_PLUS_POINT_01}}",
+        "grQuantity": "{{GR_QUANTITY}}",
+        "poPrice": "{{PO_PRICE}}",
+        "supplierId": "{{SUPPLIER_ID}}",
+        "materialId": "{{MATERIAL_ID}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "Invoice posted but blocked for payment; blocking reasons: Quantity variance AND Price variance"
+    }
+  }
+}

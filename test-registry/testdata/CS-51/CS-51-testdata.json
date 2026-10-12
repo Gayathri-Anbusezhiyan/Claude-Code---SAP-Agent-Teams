@@ -1,0 +1,257 @@
+{
+  "userStory": "CS-51",
+  "module": "PP",
+  "feature": "Process Order Goods Issue with Batch Backflush",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-051-001": {
+      "id": "TD-CS-051-001",
+      "name": "Single Batch Consumption — FEFO-Proposed Batch Exact Quantity",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_FEFO_PRIMARY}}",
+        "batchAvailableQty": "{{BATCH_AVAILABLE_QTY_EXACT}}",
+        "batchExpirationDate": "{{BATCH_SLED_EARLIEST}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed; Material Document 261 created; Batch consumed; Genealogy linkage recorded"
+    },
+    "TD-CS-051-002": {
+      "id": "TD-CS-051-002",
+      "name": "Primary Batch Consumption — FEFO Logic Validation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "primaryBatchNumber": "{{BATCH_NUMBER_PRIMARY_EARLIEST_SLED}}",
+        "primaryBatchSLED": "{{BATCH_SLED_PRIMARY_EARLIEST}}",
+        "primaryBatchAvailableQty": "{{BATCH_AVAILABLE_QTY_PRIMARY}}",
+        "secondaryBatchNumber": "{{BATCH_NUMBER_SECONDARY_LATER_SLED}}",
+        "secondaryBatchSLED": "{{BATCH_SLED_SECONDARY_LATER}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed; FEFO logic selects primary batch (earliest SLED); Material Document 261 created; Genealogy linkage recorded"
+    },
+    "TD-CS-051-003": {
+      "id": "TD-CS-051-003",
+      "name": "Multiple Batches — Substitute Batch with Warning",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "primaryBatchNumber": "{{BATCH_NUMBER_PRIMARY_INSUFFICIENT}}",
+        "primaryBatchPartialQty": "{{BATCH_AVAILABLE_QTY_PARTIAL}}",
+        "substituteBatchNumber": "{{BATCH_NUMBER_SUBSTITUTE}}",
+        "substituteBatchAvailableQty": "{{BATCH_AVAILABLE_QTY_SUBSTITUTE}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}",
+        "remainingQuantity": "{{REMAINING_QTY_AFTER_PRIMARY}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed; Warning displayed; Two batches consumed (primary partial + substitute); Material Document 261 with two lines; Genealogy linkage for both batches"
+    },
+    "TD-CS-051-004": {
+      "id": "TD-CS-051-004",
+      "name": "Manual Batch Override — Non-FEFO Batch Selected",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "fefoProposedBatch": "{{BATCH_NUMBER_FEFO_PROPOSED}}",
+        "fefoProposedBatchQty": "{{BATCH_AVAILABLE_QTY_FEFO}}",
+        "manualOverrideBatch": "{{BATCH_NUMBER_MANUAL_OVERRIDE}}",
+        "manualOverrideBatchQty": "{{BATCH_AVAILABLE_QTY_OVERRIDE}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed; Manual override batch consumed (not FEFO batch); Material Document 261 created; Genealogy linkage for manual batch only"
+    },
+    "TD-CS-051-NEG-001": {
+      "id": "TD-CS-051-NEG-001",
+      "name": "Negative — Batch on Quality Hold (QI Blocked)",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "qualityHoldBatchNumber": "{{BATCH_NUMBER_QUALITY_HOLD}}",
+        "qualityHoldStatus": "{{BATCH_STATUS_QI_BLOCKED}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}"
+      },
+      "expectedOutcome": "Error: Batch on quality hold rejected; NO Material Document created; Process order NOT confirmed; Inventory unchanged"
+    },
+    "TD-CS-051-NEG-002": {
+      "id": "TD-CS-051-NEG-002",
+      "name": "Negative — Expired Batch (SLED < System Date)",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatchNumber": "{{BATCH_NUMBER_EXPIRED}}",
+        "expiredBatchSLED": "{{BATCH_SLED_EXPIRED_PAST}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}"
+      },
+      "expectedOutcome": "Error: Expired batch rejected; NO Material Document created; Process order NOT confirmed; Inventory unchanged"
+    },
+    "TD-CS-051-ERR-001": {
+      "id": "TD-CS-051-ERR-001",
+      "name": "Error — Missing Process Order Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "emptyValue": "",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}"
+      },
+      "expectedOutcome": "Error: Mandatory field 'Order' is empty; Process order NOT loaded; NO Material Document created"
+    },
+    "TD-CS-051-ERR-002": {
+      "id": "TD-CS-051-ERR-002",
+      "name": "Error — Missing Yield Quantity",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "emptyValue": "",
+        "postingDate": "{{POSTING_DATE_TODAY}}"
+      },
+      "expectedOutcome": "Error: Mandatory field 'Yield' is empty; Process order NOT confirmed; NO Material Document created"
+    },
+    "TD-CS-051-ERR-003": {
+      "id": "TD-CS-051-ERR-003",
+      "name": "Error — Missing Posting Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "emptyValue": ""
+      },
+      "expectedOutcome": "Error: Mandatory field 'Posting Date' is empty; Process order NOT confirmed; NO Material Document created"
+    },
+    "TD-CS-051-ERR-004": {
+      "id": "TD-CS-051-ERR-004",
+      "name": "Error — Process Order in Incorrect Status",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "invalidStatusProcessOrderNumber": "{{PROCESS_ORDER_NUMBER_LOCKED_OR_CLOSED}}",
+        "invalidProcessOrderStatus": "{{PROCESS_ORDER_STATUS_INVALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}"
+      },
+      "expectedOutcome": "Error: Process order status invalid for confirmation (Locked/Closed); Process order NOT confirmed; NO Material Document created"
+    },
+    "TD-CS-051-EDGE-001": {
+      "id": "TD-CS-051-EDGE-001",
+      "name": "Edge — Minimum Yield Quantity (Lower Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "minYieldQuantity": "{{YIELD_QUANTITY_MINIMUM}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_FEFO_PRIMARY}}",
+        "minRequiredComponentQty": "{{REQUIRED_COMPONENT_QTY_MINIMUM}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed with minimum yield; Material Document 261 created; Minimum component quantity consumed; Inventory precision maintained"
+    },
+    "TD-CS-051-EDGE-002": {
+      "id": "TD-CS-051-EDGE-002",
+      "name": "Edge — Batch Quantity Exactly Matches Required Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "exactBatchNumber": "{{BATCH_NUMBER_EXACT_MATCH}}",
+        "exactBatchAvailableQty": "{{BATCH_AVAILABLE_QTY_EXACT_MATCH}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_EXACT_MATCH}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed; Batch fully consumed (zero remaining); NO substitute batch required; Material Document 261 created"
+    },
+    "TD-CS-051-EDGE-003": {
+      "id": "TD-CS-051-EDGE-003",
+      "name": "Edge — Batch Expiration Date Today (SLED = System Date)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "expiringTodayBatchNumber": "{{BATCH_NUMBER_EXPIRES_TODAY}}",
+        "expiringTodayBatchSLED": "{{BATCH_SLED_TODAY}}",
+        "batchAvailableQty": "{{BATCH_AVAILABLE_QTY_STANDARD}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "System behavior depends on config: EITHER (a) batch accepted and consumed, OR (b) batch rejected due to same-day expiry boundary"
+    },
+    "TD-CS-051-EDGE-004": {
+      "id": "TD-CS-051-EDGE-004",
+      "name": "Edge — Zero Available Quantity for FEFO-Proposed Batch",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_RELEASED}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "postingDate": "{{POSTING_DATE_TODAY}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID_BATCH_MANAGED}}",
+        "zeroBatchNumber": "{{BATCH_NUMBER_ZERO_QTY}}",
+        "zeroBatchSLED": "{{BATCH_SLED_EARLIEST}}",
+        "substituteBatchNumber": "{{BATCH_NUMBER_SUBSTITUTE_SECOND}}",
+        "substituteBatchAvailableQty": "{{BATCH_AVAILABLE_QTY_SUBSTITUTE}}",
+        "substituteBatchSLED": "{{BATCH_SLED_SECOND_EARLIEST}}",
+        "requiredComponentQty": "{{REQUIRED_COMPONENT_QTY_STANDARD}}",
+        "finishedProductBatch": "{{FINISHED_PRODUCT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "Process order confirmed; Warning displayed; Zero-qty batch skipped; Substitute batch consumed; Material Document 261 created"
+    }
+  }
+}

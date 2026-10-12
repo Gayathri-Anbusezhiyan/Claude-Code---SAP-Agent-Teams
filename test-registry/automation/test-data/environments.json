@@ -1,0 +1,49 @@
+{
+  "sap": {
+    "baseUrl": "https://my429998.s4hana.cloud.sap",
+    "launchpadPath": "/ui#Shell-home",
+    "client": "100",
+    "language": "en",
+    "credentials": {
+      "usernameEnvVar": "SAP_USERNAME",
+      "passwordEnvVar": "SAP_PASSWORD"
+    },
+    "timeouts": {
+      "navigation": 90000,
+      "action": 30000,
+      "assertion": 15000,
+      "ui5Ready": 30000,
+      "busyIndicator": 30000
+    },
+    "modules": {
+      "mm": {
+        "name": "Materials Management",
+        "apps": {
+          "purchase-order": "#PurchaseOrder-manage",
+          "purchase-requisition": "#PurchaseRequisition-manage",
+          "goods-receipt": "#GoodsReceipt-manage"
+        }
+      },
+      "sd": {
+        "name": "Sales & Distribution",
+        "apps": {
+          "sales-order": "#SalesOrder-manage",
+          "billing-document": "#BillingDocument-manage"
+        }
+      },
+      "fi": {
+        "name": "Finance",
+        "apps": {
+          "journal-entry": "#JournalEntry-manage",
+          "supplier-invoice": "#SupplierInvoice-manage"
+        }
+      },
+      "pp": {
+        "name": "Production Planning",
+        "apps": {
+          "production-order": "#ProductionOrder-manage"
+        }
+      }
+    }
+  }
+}

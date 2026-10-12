@@ -1,0 +1,171 @@
+{
+  "userStory": "CS-50",
+  "module": "PP",
+  "feature": "Process Order Creation (Pharmaceutical Manufacturing)",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-50-HP-001": {
+      "id": "TD-CS-50-HP-001",
+      "name": "Valid Process Order — Approved Master Recipe with BOM, Routing, and IPC Steps",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "productionVersion": "{{PRODUCTION_VERSION}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "supplierName": "{{SUPPLIER_NAME}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_FINISHED_PRODUCT}}"
+      },
+      "expectedOutcome": "Process Order created with unique Process Order number and Batch number; BOM, Routing, and IPC steps auto-populated; status CRTD or REL"
+    },
+    "TD-CS-50-NEG-001": {
+      "id": "TD-CS-50-NEG-001",
+      "name": "Invalid Master Recipe — Draft Status (Not Approved/Released)",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "draftMasterRecipeId": "{{MASTER_RECIPE_ID_DRAFT}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "System displays error: Recipe status must be Approved/Released; Master Recipe field highlighted as invalid; no Process Order created"
+    },
+    "TD-CS-50-NEG-002": {
+      "id": "TD-CS-50-NEG-002",
+      "name": "Quality Hold — Component Material on Quality Hold/Blocked Status",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}",
+        "componentMaterialOnHold": "{{COMPONENT_MATERIAL_ID_ON_HOLD}}",
+        "companyCode": "{{COMPANY_CODE}}"
+      },
+      "expectedOutcome": "System displays error: Component material {material number} is on quality hold; Process Order creation blocked; no Process Order or Batch number generated"
+    },
+    "TD-CS-50-ERR-001": {
+      "id": "TD-CS-50-ERR-001",
+      "name": "Missing Master Recipe Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "emptyValue": "",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Enter Master Recipe; Master Recipe field highlighted as mandatory; submission blocked"
+    },
+    "TD-CS-50-ERR-002": {
+      "id": "TD-CS-50-ERR-002",
+      "name": "Missing Plant Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "emptyValue": "",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Enter Plant; Plant field highlighted as mandatory; submission blocked"
+    },
+    "TD-CS-50-ERR-003": {
+      "id": "TD-CS-50-ERR-003",
+      "name": "Missing Order Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "emptyValue": "",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Enter Order Quantity; Order Quantity field highlighted as mandatory; submission blocked"
+    },
+    "TD-CS-50-ERR-004": {
+      "id": "TD-CS-50-ERR-004",
+      "name": "Missing Production Start Date Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "emptyValue": ""
+      },
+      "expectedOutcome": "System displays error: Enter Production Start Date; Production Start Date field highlighted as mandatory; submission blocked"
+    },
+    "TD-CS-50-ERR-005": {
+      "id": "TD-CS-50-ERR-005",
+      "name": "Missing Material Number Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Enter Material; Material Number field highlighted as mandatory; submission blocked"
+    },
+    "TD-CS-50-EDGE-001": {
+      "id": "TD-CS-50-EDGE-001",
+      "name": "Order Quantity at Minimum Lot Size Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "minQuantity": "{{ORDER_QUANTITY_MIN_LOT_SIZE}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Process Order created successfully with order quantity equal to minimum lot size; no error or warning displayed"
+    },
+    "TD-CS-50-EDGE-002": {
+      "id": "TD-CS-50-EDGE-002",
+      "name": "Order Quantity at Maximum Lot Size Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "maxQuantity": "{{ORDER_QUANTITY_MAX_LOT_SIZE}}",
+        "productionStartDate": "{{PRODUCTION_START_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Process Order created successfully with order quantity equal to maximum lot size; no error or warning displayed"
+    },
+    "TD-CS-50-EDGE-003": {
+      "id": "TD-CS-50-EDGE-003",
+      "name": "Production Start Date at Current Date Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "masterRecipeId": "{{MASTER_RECIPE_ID_APPROVED}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE_PHARMA}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "currentDate": "{{CURRENT_DATE}}"
+      },
+      "expectedOutcome": "Process Order created successfully with production start date equal to current system date; no error or warning displayed"
+    }
+  }
+}

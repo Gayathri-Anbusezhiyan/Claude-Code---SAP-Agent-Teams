@@ -1,0 +1,259 @@
+{
+  "userStory": "CS-40",
+  "summary": "User Story SD-008",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 23,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 0,
+    "NEG": 5,
+    "ERR": 5,
+    "EDGE": 9,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 2,
+    "HIGH": 16,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 17,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-158",
+      "title": "Perform ATP Check Confirming Delivery from Valid Batches with Sufficient Shelf Life",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-001"
+    },
+    {
+      "id": "TC-CS-159",
+      "title": "Perform ATP Check Confirming Delivery from Multiple Valid Batches",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-002"
+    },
+    {
+      "id": "TC-CS-160",
+      "title": "Attempt ATP Check When All Batches Are Nearing Expiration",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-NEG-001"
+    },
+    {
+      "id": "TC-CS-161",
+      "title": "Attempt ATP Check When Requested Quantity Exceeds Valid Batch Stock",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-NEG-002"
+    },
+    {
+      "id": "TC-CS-162",
+      "title": "Attempt ATP Check with Non-existent Material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-NEG-003"
+    },
+    {
+      "id": "TC-CS-163",
+      "title": "Attempt ATP Check with Non-existent Customer",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-NEG-004"
+    },
+    {
+      "id": "TC-CS-164",
+      "title": "Attempt ATP Check with Non-Batch-Managed Material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-NEG-005"
+    },
+    {
+      "id": "TC-CS-165",
+      "title": "Attempt ATP Check with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-ERR-001"
+    },
+    {
+      "id": "TC-CS-166",
+      "title": "Attempt ATP Check with Requested Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-ERR-002"
+    },
+    {
+      "id": "TC-CS-167",
+      "title": "Attempt ATP Check with Customer Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-ERR-003"
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Attempt ATP Check with Requested Delivery Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-ERR-004"
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Attempt ATP Check with Plant Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-ERR-005"
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Perform ATP Check with Batch SLED Exactly One Day Above Delivery Date Plus Buffer",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-EDGE-001"
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Perform ATP Check with Batch SLED Exactly at Delivery Date Plus Buffer Threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-EDGE-002"
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Attempt ATP Check with Batch SLED Exactly One Day Below Delivery Date Plus Buffer",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-EDGE-003"
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Perform ATP Check with Minimum Shelf Life Buffer Zero Days",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-EDGE-004"
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Perform ATP Check with Minimum Requested Quantity of One Unit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-EDGE-005"
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Perform ATP Check with Maximum Requested Quantity Equal to Entire Available Stock",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-EDGE-006"
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Attempt ATP Check with Zero Requested Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-EDGE-007"
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Perform ATP Check with Requested Delivery Date Equal to Current Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-EDGE-008"
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Attempt ATP Check with Past Requested Delivery Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-040-EDGE-009"
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Verify ATP Check Retrieves Accurate Available Stock from MM-IM",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-INT-001"
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Verify ATP Check Retrieves Accurate Batch SLED Data from Batch Management",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-040-INT-002"
+    }
+  ],
+  "testdataFile": "testdata/CS-40/CS-40-testdata.json"
+}

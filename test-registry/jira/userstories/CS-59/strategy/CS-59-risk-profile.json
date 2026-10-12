@@ -1,0 +1,266 @@
+{
+  "userStory": "CS-59",
+  "summary": "Initiate A Rework Order For A Batch That Failed Final Inspection But I",
+  "module": "PP + QM",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Supervisor",
+  "businessObject": "Rework Order (Process Order with rework type), Batch",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Create Process Order\" Fiori app with an order type designated for rework.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system only allows a rework order to be created against a batch with a documented QA disposition approving rework.",
+      "type": "BUSINESS_RULE, VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The rework order references the original batch and captures the approved rework procedure/recipe.",
+      "type": "VALIDATION_POSITIVE, MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system maintains full batch traceability linking the reworked batch to the original failed batch.",
+      "type": "INTEGRATION, SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The reworked batch is subject to the same quality inspection and in-process control requirements as standard production.",
+      "type": "BUSINESS_RULE, INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The batch record for the reworked batch documents the original failure and the approved rework justification.",
+      "type": "SUCCESS_CONFIRMATION, VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create rework order for approved batch with full traceability and QM inspection",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt rework order creation for batch without QA disposition",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt rework order creation for batch with QA disposition rejecting rework",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt rework order creation for non-existent batch",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Batch Number field",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Batch Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Rework Procedure/Recipe field",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Rework Procedure/Recipe"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Rework Justification field",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "field": "Rework Justification"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum quantity boundary",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Zero quantity",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "quantity",
+        "boundary": "zero"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 2,
+    "INT": 0,
+    "total": 9
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "orderType",
+        "label": "Order Type",
+        "mandatory": true,
+        "validRange": "Configured rework order type (e.g., ZRW1)"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch with QA disposition approving rework"
+      },
+      {
+        "name": "material",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Material master maintained for plant"
+      },
+      {
+        "name": "quantity",
+        "label": "Quantity",
+        "mandatory": true,
+        "validRange": "> 0, within batch available quantity"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid plant in org structure"
+      },
+      {
+        "name": "reworkProcedure",
+        "label": "Recipe / Master Recipe",
+        "mandatory": true,
+        "validRange": "Approved rework recipe in recipe management"
+      },
+      {
+        "name": "reworkJustification",
+        "label": "Rework Reason / Text",
+        "mandatory": true,
+        "validRange": "Free text explaining approved rework basis"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "UoM",
+        "trigger": "Confirm Material"
+      },
+      {
+        "name": "originalBatchStatus",
+        "label": "Batch Status",
+        "trigger": "Confirm Batch"
+      },
+      {
+        "name": "qaDispositionStatus",
+        "label": "UD Decision / Usage Decision",
+        "trigger": "Confirm Batch"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "trigger": "Confirm Plant"
+      },
+      {
+        "name": "productionScheduler",
+        "label": "MRP Controller",
+        "trigger": "Confirm Material + Plant"
+      }
+    ],
+    "output": [
+      {
+        "name": "reworkOrderNumber",
+        "label": "Rework Order Number",
+        "format": "12-digit numeric (e.g., 000001234567)"
+      },
+      {
+        "name": "reworkedBatchNumber",
+        "label": "Reworked Batch Number",
+        "format": "10-char alphanumeric, system-generated or user-assigned"
+      },
+      {
+        "name": "batchGenealogyRecord",
+        "label": "Batch Genealogy Record",
+        "format": "System table entries in MCH_WHO_MAT, MCH_IBASE"
+      },
+      {
+        "name": "inspectionLotNumber",
+        "label": "Inspection Lot Number",
+        "format": "12-digit numeric"
+      },
+      {
+        "name": "reworkOrderStatus",
+        "label": "Rework Order Status",
+        "format": "REL (Released) or CRTD (Created)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "quantity",
+        "label": "Quantity",
+        "lowerBoundary": "0.001 (minimum positive, UoM-dependent)",
+        "upperBoundary": "Available batch quantity",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

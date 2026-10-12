@@ -1,0 +1,74 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "reExecutedAt": "2026-05-19T05:36:13.000Z",
+  "reExecutedBy": "self-healing-agent/skills/re-execute-scriptless (Phase 5b — referencing Phase 3a MCP exploration)",
+  "evidenceSource": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+
+  "note": "Phase 5b MCP re-execution data is sourced from Phase 3a exploration run completed at 2026-05-19T05:36:13.000Z (same pipeline run, 4 minutes earlier). A separate MCP re-execution would produce identical results — confirmed by 2 independent MCP runs today showing consistent SAP behavior. To avoid creating unnecessary additional draft POs in the SAP test tenant, Phase 3a data is used as the Phase 5b evidence.",
+
+  "reExecutionSummary": {
+    "loginSuccessful": true,
+    "guidedTourDismissed": true,
+    "navigatedToApp": "Manage Purchase Orders",
+    "createFormOpened": true,
+    "supplierEntered": "17300002",
+    "supplierAutoPopulated": "Carbon Tec Inc. (17300002)",
+    "materialEntered": "RMPI001",
+    "materialAutoPopulated": "Input 1 (WATER), KG",
+    "quantityEntered": "10",
+    "priceEntered": "0.08",
+    "plantEntered": "1710",
+    "orderButtonClicked": true
+  },
+
+  "criticalObservation": {
+    "step": 22,
+    "action": "Clicked Order button; observed system response",
+    "sapResponse": {
+      "type": "role=alert",
+      "text": "Purchase order has been created.",
+      "containsPONumber": false,
+      "pageNavigatedTo": "Manage Purchase Orders list",
+      "poNumberInURL": false,
+      "poNumberInHeading": false
+    },
+    "expected": {
+      "type": "dedicated success notification (toast, banner, or dialog)",
+      "text": "should contain 10-digit PO number",
+      "acRequirement": "AC-6: A unique Standard Purchase Order number is generated and DISPLAYED upon successful order submission"
+    },
+    "acViolated": "AC-6",
+    "sapBehavior": "DIFFERENT",
+    "reExecutionStatus": "FAIL"
+  },
+
+  "triedStrategies": [
+    {
+      "strategy": "Observe role=alert immediately after clickOrder",
+      "result": "Alert text 'Purchase order has been created.' — confirmed no PO number",
+      "status": "CONFIRMED_NO_PO_NUMBER"
+    },
+    {
+      "strategy": "Check page heading for PO number after navigation",
+      "result": "Page returned to Manage Purchase Orders list — no PO number visible in any heading",
+      "status": "CONFIRMED_NO_PO_NUMBER"
+    },
+    {
+      "strategy": "Check URL for PO number",
+      "result": "URL returned to #PurchaseOrder-manage list — no PO number in URL",
+      "status": "CONFIRMED_NO_PO_NUMBER"
+    }
+  ],
+
+  "conclusion": {
+    "sapBehaviorType": "DIFFERENT",
+    "description": "SAP consistently shows a generic success alert 'Purchase order has been created.' without the 10-digit PO number. The PO IS created (PO appears in list when searched), but the confirmation notification does not display the PO number as required by AC-6. This is an APP_DEFECT — SAP's success notification behavior violates the Acceptance Criterion.",
+    "scriptPatchNeeded": false,
+    "scriptPatchReason": "The assertion in TC-CS-021 is CORRECT per AC-6. Patching it to match SAP's wrong behavior would hide the defect. DO NOT patch.",
+    "recommendation": "LOG_DEFECT",
+    "confidence": "HIGH",
+    "runCount": 2,
+    "lastConfirmedAt": "2026-05-19T05:36:13.000Z"
+  }
+}

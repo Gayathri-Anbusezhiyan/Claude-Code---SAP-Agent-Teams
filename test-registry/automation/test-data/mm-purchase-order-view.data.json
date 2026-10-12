@@ -1,0 +1,65 @@
+{
+  "feature": "mm-purchase-order-view",
+  "testData": {
+    "TC-CS-002": {
+      "description": "Display Purchase Order in Read-Only Mode (CS-3 HP-01)",
+      "scenarioType": "HAPPY_PATH",
+      "sourceStory": "CS-3",
+      "sourceDataset": "TD-CS-003-HP-002",
+      "input": {
+        "appName": "Display Purchase Order",
+        "purchaseOrderNumber": "4500063731"
+      },
+      "expected": {
+        "poTitleContains": "Standard PO 4500063731",
+        "poType": "Standard PO",
+        "readOnly": true,
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "phase3Verification": {
+        "status": "PASS",
+        "poTitle": "Standard PO 4500063731 Created by Trial 0030517 User",
+        "source": "TC_MM_PO_VIEW_001 execution — 2026-05-12"
+      }
+    },
+    "TC-CS-003": {
+      "description": "Attempt to Open PO with Invalid PO Number (CS-3 NEG-01)",
+      "scenarioType": "NEGATIVE",
+      "sourceStory": "CS-3",
+      "sourceDataset": "TD-CS-003-NEG-001",
+      "input": {
+        "appName": "Display Purchase Order",
+        "purchaseOrderNumber": "{{PO_NUMBER_INVALID}}"
+      },
+      "expected": {
+        "errorShown": true,
+        "poLoaded": false,
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "phase3Verification": {
+        "status": "SKIPPED",
+        "reason": "PO_NUMBER_INVALID placeholder unresolved"
+      },
+      "unresolvedPlaceholders": ["PO_NUMBER_INVALID"]
+    },
+    "TC_MM_PO_VIEW_001": {
+      "description": "View/Display Purchase Order",
+      "input": {
+        "appName": "Display Purchase Order",
+        "purchaseOrderNumber": "4500063731"
+      },
+      "expected": {
+        "poTitleContains": "Standard PO 4500063731",
+        "poType": "Standard PO",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff",
+        "signOutPageText": "You have been logged off"
+      },
+      "scriptlessVerification": {
+        "source": "test-results/scriptless/2026-04-16T06-00-00/execution-data.json",
+        "poNumber": "4500063731",
+        "poTitle": "Standard PO 4500063731 Created by Trial 0030517 User",
+        "signOutUrl": "/sap/public/bc/icf/logoff"
+      }
+    }
+  }
+}

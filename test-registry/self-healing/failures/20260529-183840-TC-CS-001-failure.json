@@ -1,0 +1,67 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-29T18:38:40.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "TIMEOUT_ERROR",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 27,
+    "methodCall": "await purchaseOrderPage.searchAndOpenApp('Manage Purchase Orders')",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "failingMethod": "openSearch",
+    "methodLine": 148,
+    "locatorUsed": {
+      "type": "role",
+      "selector": "getByRole('button', { name: 'Open Search' })"
+    },
+    "errorMessage": "TimeoutError: locator.waitFor: Timeout 15000ms exceeded. Call log: - waiting for getByRole('button', { name: 'Open Search' }) to be visible",
+    "stackTrace": "at PurchaseOrderPage.openSearch (c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\automation\\pages\\mm\\purchase-order\\purchase-order.page.js:148:21)\nat PurchaseOrderPage.searchAndOpenApp (c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\automation\\pages\\mm\\purchase-order\\purchase-order.page.js:154:5)\nat c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\automation\\tests\\mm-purchase-order.spec.js:27:5"
+  },
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']", "confidence": "HIGH" }
+      ]
+    },
+    "scriptLocator": {
+      "type": "role",
+      "selector": "getByRole('button', { name: 'Open Search' })"
+    },
+    "match": "EXACT",
+    "note": "Script uses the same locator as exploration primary. Issue is not the locator strategy but timing/visibility."
+  },
+  "rootCauseAnalysis": {
+    "category": "PATCH_INEFFECTIVE",
+    "observations": [
+      "TC-CS-021 patch (applied 2026-05-29 18:29:29) added prerequisite action: click Open Menu → wait 1000ms → close menu",
+      "Patch successfully executed prerequisite steps (no error before line 148)",
+      "Timeout occurred at Step 4 waiting for 'Open Search' button visibility",
+      "15-second timeout expired — button still not in DOM or not visible",
+      "Same failure on retry attempt"
+    ],
+    "possibleCauses": [
+      "1000ms wait after Open Menu click is insufficient for SAP shell bar re-render",
+      "Closing the navigation menu immediately (Step 3) may interfere with button visibility",
+      "Shell bar re-render timing may vary between test runs or sessions",
+      "The patch logic worked during MCP manual re-execution but fails in automated Playwright runs"
+    ]
+  },
+  "recommendation": "SELF_HEAL_REFINE_PATCH",
+  "confidence": "HIGH",
+  "notes": "The previous patch for TC-CS-021 introduced a prerequisite action but the timing/sequencing is incorrect. Need to re-execute via MCP to observe actual timing requirements and determine if closing the navigation menu is interfering with button visibility.",
+  "nextStep": "Run re-execute-scriptless to verify exact timing and sequencing that works reliably",
+  "evidence": {
+    "screenshot": "test-results\\mm-purchase-order-MM-—-Man-b8691-ingle-Line-Item-HAPPY-PATH--sap-chromium\\test-failed-1.png",
+    "video": "test-results\\mm-purchase-order-MM-—-Man-b8691-ingle-Line-Item-HAPPY-PATH--sap-chromium\\video.webm",
+    "trace": "test-results\\mm-purchase-order-MM-—-Man-b8691-ingle-Line-Item-HAPPY-PATH--sap-chromium-retry1\\trace.zip"
+  },
+  "relatedPatches": [
+    {
+      "patchFile": "self-healing/patches/20260529-182929-TC-CS-021-patch.md",
+      "tcId": "TC-CS-021",
+      "status": "INEFFECTIVE — patch logic flawed"
+    }
+  ]
+}

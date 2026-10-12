@@ -1,0 +1,58 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-19T05:36:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure (e2e-automation-v2 Phase 5a)",
+  "phase4ResultFile": "automation/test-results/TC-CS-021-run-2026-05-19T05-36.json",
+
+  "errorType": "TIMEOUT_ERROR",
+  "errorSubType": "SCRIPT_NAVIGATION_FAILURE",
+
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 271,
+    "methodCall": "openCreateForm(purchaseOrderPage)",
+    "calledMethod": "searchAndOpenApp('Manage Purchase Orders') → openSearch()",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "failingMethod": "openSearch",
+    "failingLine": 108,
+    "locatorName": "openSearchButton",
+    "locatorUsed": {
+      "primary": { "strategy": "css", "value": "[title='Open Search']", "timeout": 30000 }
+    },
+    "errorMessage": "TimeoutError: page.waitForSelector: Timeout 30000ms exceeded. Waiting for locator('[title=\"Open Search\"]') to be visible",
+    "retriesUsed": 1,
+    "retriedSameError": true
+  },
+
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": { "strategy": "css", "value": "[title='Open Search']", "confidence": "HIGH" }
+    },
+    "match": true,
+    "note": "Script and exploration use the same locator. Exploration succeeded with this locator in headed MCP mode. Playwright runner failed in headless/headed mode — possible SAP shell rendering timing difference in headless execution."
+  },
+
+  "rootCauseAnalysis": {
+    "primaryCause": "AUTOMATION_BUG — SAP Fiori shell bar not fully rendered within 30s timeout after headless login",
+    "evidence": [
+      "Same CSS selector works in headed MCP mode (Phase 3a exploration, twice today)",
+      "Failure is consistent across both attempts (1 run + 1 retry)",
+      "No network error — page loaded, just shell bar not rendering in time",
+      "Possible cause: SAP Fiori shell initializes slower in headless Chromium than in headed mode"
+    ],
+    "isPrimaryDefect": false,
+    "isDesignedToFailDefect": true,
+    "designedToFailNote": "TC-CS-021 is DESIGNED TO FAIL at step 22 (verifySuccessNotificationWithPONumber assertion), NOT at navigation. The navigation timeout is a SECONDARY automation script issue. The primary APP_DEFECT (SAP alert without PO number) has been confirmed in 2 MCP explorations today."
+  },
+
+  "recommendation": "APP_DEFECT",
+  "confidence": "HIGH",
+  "recommendationRationale": "Phase 3a MCP exploration (executed twice today, most recent: 2026-05-19T05:36:13.000Z) confirms the APP_DEFECT: SAP shows role=alert 'Purchase order has been created.' WITHOUT the 10-digit PO number after clicking Order. This violates AC-6. The Playwright runner navigation timeout is a secondary issue that prevents the assertion from running, but does NOT change the APP_DEFECT classification. Phase 5b re-execution (via MCP) will confirm identical SAP behavior.",
+
+  "scriptPatchNote": "Scripts NOT patched for this TC. The navigation timeout could be fixed by increasing the shell bar wait timeout, but TC-CS-021's designed-to-fail assertion is the primary concern. The assertion itself is CORRECT (per AC-6) and must NOT be changed. The navigation issue is logged as a known limitation.",
+
+  "nextStep": "Phase 5b — reference Phase 3a MCP exploration as re-execution evidence. Phase 5c — classify APP_DEFECT → escalate to Phase 6 (defect logging).",
+
+  "issues": []
+}

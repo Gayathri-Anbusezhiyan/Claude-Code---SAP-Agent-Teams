@@ -1,0 +1,166 @@
+- region "Items" [ref=f7e1986]:
+  - generic [ref=f7e1998]:
+    - toolbar [ref=f7e2001]:
+      - heading "Items" [level=3] [ref=f7e2002]
+      - separator [ref=f7e2003]
+      - generic [ref=f7e2006]:
+        - generic [ref=f7e2007]: Standard
+        - button "View Standard" [ref=f7e2010] [cursor=pointer]:
+          - generic [ref=f7e2011]: 
+      - generic [ref=f7e2015]:
+        - searchbox "Search" [ref=f7e2016]
+        - generic [ref=f7e2017] [cursor=pointer]: 
+      - button "Add from Document" [ref=f7e2018] [cursor=pointer]
+      - button "Block" [disabled] [ref=f7e2021]
+      - button "Unblock" [disabled] [ref=f7e2024]
+      - button "Restore" [disabled] [ref=f7e2027]
+      - button "Delete" [disabled] [ref=f7e2030]
+      - button "Copy" [disabled] [ref=f7e2033]
+      - button "Create" [ref=f7e2036] [cursor=pointer]
+      - button "Copy to Clipboard" [disabled] [ref=f7e2039]:
+        - generic [ref=f7e2040]: 
+      - button "Settings" [ref=f7e2042] [cursor=pointer]:
+        - generic [ref=f7e2043]: 
+      - group "Export Table Split Button Press Enter to trigger action and Arrow Down to open menu" [disabled] [ref=f7e2046]:
+        - generic [ref=f7e2047]:
+          - button "excel-attachment" [disabled] [ref=f7e2048]:
+            - generic [ref=f7e2049]: 
+          - button "Open Menu" [disabled] [ref=f7e2051]:
+            - generic [ref=f7e2052]: 
+    - grid "Items" [ref=f7e2055]:
+      - row [ref=f7e2060]:
+        - columnheader "Item" [ref=f7e2061] [cursor=pointer]
+        - columnheader "Item Category" [ref=f7e2067] [cursor=pointer]
+        - columnheader "Material" [ref=f7e2073] [cursor=pointer]
+        - columnheader "Short Text" [ref=f7e2079] [cursor=pointer]
+        - columnheader "Material Group" [ref=f7e2085] [cursor=pointer]
+        - columnheader "Plant" [ref=f7e2091] [cursor=pointer]
+        - columnheader "Order Quantity" [ref=f7e2097] [cursor=pointer]
+        - columnheader "Net Order Price" [ref=f7e2103] [cursor=pointer]
+        - columnheader "Price Unit" [ref=f7e2109] [cursor=pointer]
+        - columnheader "Net Order Value" [ref=f7e2115] [cursor=pointer]
+        - columnheader "Revision Level" [ref=f7e2121] [cursor=pointer]
+        - columnheader "Supplier Material Number" [ref=f7e2127] [cursor=pointer]
+        - columnheader "Status" [ref=f7e2133] [cursor=pointer]
+        - columnheader "Row Actions" [ref=f7e2139]
+      - generic [ref=f7e2140]:
+        - table [ref=f7e2780]:
+          - rowgroup [ref=f7e2781]:
+            - row [ref=f7e2782]:
+              - gridcell [ref=f7e2783]
+              - gridcell [ref=f7e2784]: 
+              - gridcell [ref=f7e2785]: 
+              - gridcell [ref=f7e2786]
+              - gridcell [ref=f7e2787]: 
+              - gridcell [ref=f7e2788]: 
+              - gridcell [ref=f7e2789]: 
+              - gridcell [ref=f7e2790]
+              - gridcell [ref=f7e2791]: 
+              - gridcell [ref=f7e2792]
+              - gridcell [ref=f7e2793]: 
+              - gridcell [ref=f7e2794]
+              - gridcell [ref=f7e2795]: 
+              - gridcell [ref=f7e2796] [cursor=pointer]
+              - gridcell [ref=f7e2797]: 
+            - row [ref=f7e2798]:
+              - gridcell [ref=f7e2799]
+              - gridcell [ref=f7e2800]: 
+              - gridcell [ref=f7e2801]: 
+              - gridcell [ref=f7e2802]
+              - gridcell [ref=f7e2803]: 
+              - gridcell [ref=f7e2804]: 
+              - gridcell [ref=f7e2805]: 
+              - gridcell [ref=f7e2806]
+              - gridcell [ref=f7e2807]: 
+              - gridcell [ref=f7e2808]
+              - gridcell [ref=f7e2809]: 
+              - gridcell [ref=f7e2810]
+              - gridcell [ref=f7e2811]: 
+              - gridcell [ref=f7e2812] [cursor=pointer]
+              - gridcell [ref=f7e2813]: 
+            - row [ref=f7e2814]:
+              - gridcell [ref=f7e2815]
+              - gridcell [ref=f7e2816]: 
+              - gridcell [ref=f7e2817]: 
+              - gridcell [ref=f7e2818]
+              - gridcell [ref=f7e2819]: 
+              - gridcell [ref=f7e2820]: 
+              - gridcell [ref=f7e2821]: 
+              - gridcell [ref=f7e2822]
+              - gridcell [ref=f7e2823]: 
+              - gridcell [ref=f7e2824]
+              - gridcell [ref=f7e2825]: 
+              - gridcell [ref=f7e2826]
+              - gridcell [ref=f7e2827]: 
+              - gridcell [ref=f7e2828] [cursor=pointer]
+              - gridcell [ref=f7e2829]: 
+            - row [ref=f7e2830]:
+              - gridcell [ref=f7e2831]
+              - gridcell [ref=f7e2832]: 
+              - gridcell [ref=f7e2833]: 
+              - gridcell [ref=f7e2834]
+              - gridcell [ref=f7e2835]: 
+              - gridcell [ref=f7e2836]: 
+              - gridcell [ref=f7e2837]: 
+              - gridcell [ref=f7e2838]
+              - gridcell [ref=f7e2839]: 
+              - gridcell [ref=f7e2840]
+              - gridcell [ref=f7e2841]: 
+              - gridcell [ref=f7e2842]
+              - gridcell [ref=f7e2843]: 
+              - gridcell [ref=f7e2844] [cursor=pointer]
+              - gridcell [ref=f7e2845]: 
+            - row [ref=f7e2846]:
+              - gridcell [ref=f7e2847]
+              - gridcell [ref=f7e2848]: 
+              - gridcell [ref=f7e2849]: 
+              - gridcell [ref=f7e2850]
+              - gridcell [ref=f7e2851]: 
+              - gridcell [ref=f7e2852]: 
+              - gridcell [ref=f7e2853]: 
+              - gridcell [ref=f7e2854]
+              - gridcell [ref=f7e2855]: 
+              - gridcell [ref=f7e2856]
+              - gridcell [ref=f7e2857]: 
+              - gridcell [ref=f7e2858]
+              - gridcell [ref=f7e2859]: 
+              - gridcell [ref=f7e2860] [cursor=pointer]
+              - gridcell [ref=f7e2861]: 
+            - row [ref=f7e2862]:
+              - gridcell [ref=f7e2863]
+              - gridcell [ref=f7e2864]: 
+              - gridcell [ref=f7e2865]: 
+              - gridcell [ref=f7e2866]
+              - gridcell [ref=f7e2867]: 
+              - gridcell [ref=f7e2868]: 
+              - gridcell [ref=f7e2869]: 
+              - gridcell [ref=f7e2870]
+              - gridcell [ref=f7e2871]: 
+              - gridcell [ref=f7e2872]
+              - gridcell [ref=f7e2873]: 
+              - gridcell [ref=f7e2874]
+              - gridcell [ref=f7e2875]: 
+              - gridcell [ref=f7e2876] [cursor=pointer]
+              - gridcell [ref=f7e2877]: 
+        - generic [ref=f7e2878]:
+          - row [ref=f7e2879]
+          - row [ref=f7e2880]
+          - row [ref=f7e2881]
+          - row [ref=f7e2882]
+          - row [ref=f7e2883]
+          - row [ref=f7e2884]
+        - row [ref=f7e2885]
+        - row [ref=f7e2886]
+        - row [ref=f7e2887]
+        - row [ref=f7e2888]
+        - row [ref=f7e2889]
+        - row [ref=f7e2890]
+        - gridcell "There are no entries yet When there are, you’ll see them here." [ref=f7e2891]:
+          - figure [ref=f7e2892]:
+            - generic [ref=f7e2893]:
+              - img "There are no entries yet" [ref=f7e2894]
+              - generic [ref=f7e2896]:
+                - heading "There are no entries yet" [level=2] [ref=f7e2897]
+                - generic [ref=f7e2898]: When there are, you’ll see them here.
+    - separator "Items" [ref=f7e2156]:
+      - generic [ref=f7e2158]: 

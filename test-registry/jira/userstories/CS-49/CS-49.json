@@ -1,0 +1,21 @@
+{
+  "key": "CS-49",
+  "summary": "Generate Export Documentation, Including A Certificate Of Analysis Ref",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:33.827Z",
+  "updated": "2026-08-21T08:41:33.909Z",
+  "description": "As a Logistics Coordinator, I want to generate export documentation, including a Certificate of Analysis reference, for an international shipment of a finished pharmaceutical product, so that customs clearance and regulatory import requirements at the destination are satisfied.",
+  "acceptanceCriteria": "1. The user can access the \"Create Outbound Deliveries\" Fiori app with export documentation output.2. The system attaches or references the Certificate of Analysis associated with the shipped batch.3. The system generates required export documents (commercial invoice, packing list) reflecting HS codes and country-of-origin data from the material master.4. The delivery cannot be goods-issued for export until all mandatory export document types have been generated.5. The system flags shipments requiring an export license and blocks goods issue if the license is missing or expired.6. All generated export documents are archived and retrievable against the delivery for customs audit purposes.",
+  "labels": [
+    "&",
+    "Distribution",
+    "Sales"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

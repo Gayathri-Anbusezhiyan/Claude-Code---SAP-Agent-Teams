@@ -1,0 +1,160 @@
+{
+  "userStory": "CS-31",
+  "module": "MM",
+  "feature": "Vendor Change Request Approval Workflow",
+  "generatedAt": "2026-08-23T23:45:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-031-001": {
+      "id": "TD-CS-031-001",
+      "name": "Valid Vendor Change Request — Approve with Audit Report Attachment",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_VALID}}",
+        "changeRequestId": "{{CHANGE_REQUEST_ID_PENDING}}",
+        "approvalDecision": "Approve",
+        "approvalComments": "{{APPROVAL_COMMENTS_STANDARD}}",
+        "auditReportFile": "{{AUDIT_REPORT_FILE_VALID}}",
+        "newManufacturingSite": "{{NEW_MANUFACTURING_SITE_ADDRESS}}",
+        "poSupplierId": "{{VENDOR_ID_VALID}}"
+      },
+      "expectedOutcome": "Change request approved; vendor manufacturing site updated; PO creation unblocked; audit trail logged"
+    },
+    "TD-CS-031-NEG-001": {
+      "id": "TD-CS-031-NEG-001",
+      "name": "Reject Vendor Change Request — Verify Automatic Rollback",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "vendorIdReject": "{{VENDOR_ID_FOR_REJECTION}}",
+        "changeRequestIdReject": "{{CHANGE_REQUEST_ID_FOR_REJECTION}}",
+        "rejectionDecision": "Reject",
+        "rejectionComments": "{{REJECTION_COMMENTS}}",
+        "currentManufacturingSite": "{{CURRENT_MANUFACTURING_SITE}}",
+        "proposedManufacturingSite": "{{PROPOSED_MANUFACTURING_SITE}}"
+      },
+      "expectedOutcome": "Change request rejected; vendor manufacturing site reverts to original value; audit trail logged with rejection"
+    },
+    "TD-CS-031-NEG-002": {
+      "id": "TD-CS-031-NEG-002",
+      "name": "Attempt PO Creation Against Vendor with Pending Change Request",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-033"],
+      "data": {
+        "vendorIdPending": "{{VENDOR_ID_WITH_PENDING_CHANGE}}",
+        "pendingChangeRequestId": "{{CHANGE_REQUEST_ID_PENDING_STATUS}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "SAP blocks PO creation; error message displayed indicating pending vendor change request; no PO created"
+    },
+    "TD-CS-031-ERR-001": {
+      "id": "TD-CS-031-ERR-001",
+      "name": "Missing Mandatory Field — Approval Decision",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-034"],
+      "data": {
+        "vendorIdError": "{{VENDOR_ID_VALID}}",
+        "changeRequestIdError": "{{CHANGE_REQUEST_ID_ERROR_TEST}}",
+        "emptyDecision": "",
+        "optionalComments": "{{OPTIONAL_COMMENTS}}"
+      },
+      "note": "emptyDecision intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Decision field as mandatory; prevents submission; change request remains pending"
+    },
+    "TD-CS-031-ERR-002": {
+      "id": "TD-CS-031-ERR-002",
+      "name": "Missing Mandatory Field — Vendor ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-035"],
+      "data": {
+        "emptyVendorId": "",
+        "changeRequestIdMissingVendor": "{{CHANGE_REQUEST_ID_MISSING_VENDOR}}",
+        "approvalDecisionErr": "Approve"
+      },
+      "note": "emptyVendorId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Vendor ID field as mandatory; prevents submission; change request remains pending or error state"
+    },
+    "TD-CS-031-EDGE-001": {
+      "id": "TD-CS-031-EDGE-001",
+      "name": "Maximum Length Approval Comments — 255 Characters",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-036"],
+      "data": {
+        "vendorIdEdge": "{{VENDOR_ID_EDGE_TEST}}",
+        "changeRequestIdEdge": "{{CHANGE_REQUEST_ID_EDGE_TEST}}",
+        "approvalDecisionEdge": "Approve",
+        "maxLengthComments": "{{COMMENTS_MAX_LENGTH_255}}"
+      },
+      "expectedOutcome": "Change request approved; all 255 characters stored and displayed correctly; no truncation"
+    },
+    "TD-CS-031-EDGE-002": {
+      "id": "TD-CS-031-EDGE-002",
+      "name": "Maximum Size Attachment Upload — 10 MB",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-037"],
+      "data": {
+        "vendorIdMaxAttach": "{{VENDOR_ID_MAX_ATTACH_TEST}}",
+        "changeRequestIdMaxAttach": "{{CHANGE_REQUEST_ID_MAX_ATTACH_TEST}}",
+        "approvalDecisionMaxAttach": "Approve",
+        "commentsMaxAttach": "{{APPROVAL_COMMENTS_MAX_ATTACH}}",
+        "maxSizeAttachment": "{{ATTACHMENT_FILE_10MB}}"
+      },
+      "expectedOutcome": "Change request approved; 10 MB file uploaded and stored successfully; file retrievable"
+    },
+    "TD-CS-031-EDGE-003": {
+      "id": "TD-CS-031-EDGE-003",
+      "name": "No Attachment Provided — Optional Field",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-038"],
+      "data": {
+        "vendorIdNoAttach": "{{VENDOR_ID_NO_ATTACH_TEST}}",
+        "changeRequestIdNoAttach": "{{CHANGE_REQUEST_ID_NO_ATTACH_TEST}}",
+        "approvalDecisionNoAttach": "Approve",
+        "commentsNoAttach": "{{APPROVAL_COMMENTS_NO_ATTACH}}",
+        "noAttachment": null
+      },
+      "note": "noAttachment is null — no file attached, testing optional field behavior",
+      "expectedOutcome": "Change request approved without attachment; no error; audit trail logged"
+    }
+  },
+  "allPlaceholders": [
+    "{{VENDOR_ID_VALID}}",
+    "{{VENDOR_ID_FOR_REJECTION}}",
+    "{{VENDOR_ID_WITH_PENDING_CHANGE}}",
+    "{{VENDOR_ID_EDGE_TEST}}",
+    "{{VENDOR_ID_MAX_ATTACH_TEST}}",
+    "{{VENDOR_ID_NO_ATTACH_TEST}}",
+    "{{CHANGE_REQUEST_ID_PENDING}}",
+    "{{CHANGE_REQUEST_ID_FOR_REJECTION}}",
+    "{{CHANGE_REQUEST_ID_PENDING_STATUS}}",
+    "{{CHANGE_REQUEST_ID_ERROR_TEST}}",
+    "{{CHANGE_REQUEST_ID_MISSING_VENDOR}}",
+    "{{CHANGE_REQUEST_ID_EDGE_TEST}}",
+    "{{CHANGE_REQUEST_ID_MAX_ATTACH_TEST}}",
+    "{{CHANGE_REQUEST_ID_NO_ATTACH_TEST}}",
+    "{{APPROVAL_COMMENTS_STANDARD}}",
+    "{{REJECTION_COMMENTS}}",
+    "{{OPTIONAL_COMMENTS}}",
+    "{{APPROVAL_COMMENTS_MAX_ATTACH}}",
+    "{{APPROVAL_COMMENTS_NO_ATTACH}}",
+    "{{COMMENTS_MAX_LENGTH_255}}",
+    "{{AUDIT_REPORT_FILE_VALID}}",
+    "{{ATTACHMENT_FILE_10MB}}",
+    "{{NEW_MANUFACTURING_SITE_ADDRESS}}",
+    "{{CURRENT_MANUFACTURING_SITE}}",
+    "{{PROPOSED_MANUFACTURING_SITE}}",
+    "{{MATERIAL_ID_VALID}}",
+    "{{PO_QUANTITY_STANDARD}}",
+    "{{NET_PRICE_VALID}}",
+    "{{PLANT_CODE}}"
+  ]
+}

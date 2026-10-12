@@ -1,0 +1,471 @@
+{
+  "userStoryKey": "CS-58",
+  "userStoryTitle": "Record and Monitor Environmental Conditions During Production Operations",
+  "testDataSets": [
+    {
+      "datasetId": "TD-CS-058-001",
+      "description": "Happy Path - All environmental parameters within acceptable range",
+      "category": "positive",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. All parameters within acceptable range. No deviation triggered."
+    },
+    {
+      "datasetId": "TD-CS-058-002",
+      "description": "Alternate Path - Record environmental conditions for multiple operations sequentially",
+      "category": "positive",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber1": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText1": "{{OPERATION_SHORT_TEXT_1}}",
+        "productionSuite1": "{{PRODUCTION_SUITE_1}}",
+        "particleCount1": "{{PARTICLE_COUNT_VALID}}",
+        "temperature1": "{{TEMPERATURE_VALID}}",
+        "humidity1": "{{HUMIDITY_VALID}}",
+        "operationNumber2": "{{OPERATION_ENVIRONMENTAL_2}}",
+        "operationShortText2": "{{OPERATION_SHORT_TEXT_2}}",
+        "productionSuite2": "{{PRODUCTION_SUITE_2}}",
+        "particleCount2": "{{PARTICLE_COUNT_MIN}}",
+        "temperature2": "{{TEMPERATURE_MAX}}",
+        "humidity2": "{{HUMIDITY_MIN}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully for both operations. All parameters within acceptable range for both operations."
+    },
+    {
+      "datasetId": "TD-CS-058-NEG-001",
+      "description": "Negative - Particle count exceeds upper limit",
+      "category": "negative",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_OUT_OF_RANGE}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Warning message displayed: Particle count exceeds acceptable limit (3520). Deviation record created automatically. Environmental data still saved."
+    },
+    {
+      "datasetId": "TD-CS-058-NEG-002",
+      "description": "Negative - Temperature below minimum threshold",
+      "category": "negative",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_OUT_OF_RANGE_LOW}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Warning message displayed: Temperature below acceptable limit (18.0°C). Deviation record created automatically. Environmental data still saved."
+    },
+    {
+      "datasetId": "TD-CS-058-NEG-003",
+      "description": "Negative - Humidity exceeds upper limit",
+      "category": "negative",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_OUT_OF_RANGE_HIGH}}"
+      },
+      "expectedOutcome": "Warning message displayed: Humidity exceeds acceptable limit (60.0%). Deviation record created automatically. Environmental data still saved."
+    },
+    {
+      "datasetId": "TD-CS-058-NEG-004",
+      "description": "Negative - Operation does not require environmental monitoring",
+      "category": "negative",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_NON_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT_NON_ENV}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Error message displayed: Environmental monitoring is not required for this operation. Record button disabled or not displayed."
+    },
+    {
+      "datasetId": "TD-CS-058-NEG-005",
+      "description": "Negative - Process Order is not in active status",
+      "category": "negative",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_INACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION_INACTIVE}}",
+        "material": "{{MATERIAL_INACTIVE}}",
+        "batch": "{{BATCH_INACTIVE}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Error message displayed: Process Order is not in active status. Environmental conditions cannot be recorded."
+    },
+    {
+      "datasetId": "TD-CS-058-ERR-001",
+      "description": "Error - Mandatory field Particle Count is missing",
+      "category": "error",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Error message displayed: Particle Count is mandatory. Please enter a value. Record cannot be saved."
+    },
+    {
+      "datasetId": "TD-CS-058-ERR-002",
+      "description": "Error - Mandatory field Temperature is missing",
+      "category": "error",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Error message displayed: Temperature is mandatory. Please enter a value. Record cannot be saved."
+    },
+    {
+      "datasetId": "TD-CS-058-ERR-003",
+      "description": "Error - Mandatory field Humidity is missing",
+      "category": "error",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": ""
+      },
+      "expectedOutcome": "Error message displayed: Humidity is mandatory. Please enter a value. Record cannot be saved."
+    },
+    {
+      "datasetId": "TD-CS-058-ERR-004",
+      "description": "Error - Process Order does not exist in system",
+      "category": "error",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_NONEXISTENT}}",
+        "processOrderDescription": "",
+        "material": "",
+        "batch": "",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "",
+        "productionSuite": "",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Error message displayed: Process Order does not exist. Please check the Process Order number."
+    },
+    {
+      "datasetId": "TD-CS-058-ERR-005",
+      "description": "Error - Operation does not exist for the Process Order",
+      "category": "error",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_INVALID}}",
+        "operationShortText": "",
+        "productionSuite": "",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Error message displayed: Operation does not exist for this Process Order. Please check the operation number."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-001",
+      "description": "Edge - Particle count at lower boundary (0)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_MIN}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. Particle count at lower boundary (0) is within acceptable range."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-002",
+      "description": "Edge - Particle count at upper boundary (3520)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_MAX}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. Particle count at upper boundary (3520) is within acceptable range."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-003",
+      "description": "Edge - Particle count just above upper boundary (3521)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-181"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_UPPER_PLUS_1}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Warning message displayed: Particle count exceeds acceptable limit (3520). Deviation record created automatically."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-004",
+      "description": "Edge - Temperature at lower boundary (18.0°C)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-182"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_MIN}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. Temperature at lower boundary (18.0°C) is within acceptable range."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-005",
+      "description": "Edge - Temperature at upper boundary (25.0°C)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-183"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_MAX}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. Temperature at upper boundary (25.0°C) is within acceptable range."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-006",
+      "description": "Edge - Temperature just below lower boundary (17.9°C)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-184"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_LOWER_MINUS}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Warning message displayed: Temperature below acceptable limit (18.0°C). Deviation record created automatically."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-007",
+      "description": "Edge - Humidity at lower boundary (30.0%)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-185"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_MIN}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. Humidity at lower boundary (30.0%) is within acceptable range."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-008",
+      "description": "Edge - Humidity at upper boundary (60.0%)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-186"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_MAX}}"
+      },
+      "expectedOutcome": "Environmental conditions recorded successfully. Humidity at upper boundary (60.0%) is within acceptable range."
+    },
+    {
+      "datasetId": "TD-CS-058-EDGE-009",
+      "description": "Edge - Humidity just below lower boundary (29.9%)",
+      "category": "edge",
+      "usedByTestCases": ["TC-CS-187"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_LOWER_MINUS}}"
+      },
+      "expectedOutcome": "Warning message displayed: Humidity below acceptable limit (30.0%). Deviation record created automatically."
+    },
+    {
+      "datasetId": "TD-CS-058-INT-001",
+      "description": "Integration - Verify deviation record is created when particle count is out of range",
+      "category": "integration",
+      "usedByTestCases": ["TC-CS-188"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_OUT_OF_RANGE}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}",
+        "deviationRecordNumber": "{{DEVIATION_RECORD_NUMBER}}"
+      },
+      "expectedOutcome": "Deviation record created automatically with reference to Process Order, Operation, and out-of-range parameter. Deviation record accessible from Manage Deviations app."
+    },
+    {
+      "datasetId": "TD-CS-058-INT-002",
+      "description": "Integration - Verify environmental data is recorded in Electronic Batch Record (EBR)",
+      "category": "integration",
+      "usedByTestCases": ["TC-CS-189"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}"
+      },
+      "expectedOutcome": "Environmental data recorded successfully and visible in Electronic Batch Record for the Process Order and Operation."
+    },
+    {
+      "datasetId": "TD-CS-058-INT-003",
+      "description": "Integration - Verify environmental trend report displays recorded data",
+      "category": "integration",
+      "usedByTestCases": ["TC-CS-190"],
+      "data": {
+        "processOrder": "{{PROCESS_ORDER_ACTIVE}}",
+        "processOrderDescription": "{{PROCESS_ORDER_DESCRIPTION}}",
+        "material": "{{MATERIAL}}",
+        "batch": "{{BATCH}}",
+        "operationNumber": "{{OPERATION_ENVIRONMENTAL}}",
+        "operationShortText": "{{OPERATION_SHORT_TEXT}}",
+        "productionSuite": "{{PRODUCTION_SUITE}}",
+        "particleCount": "{{PARTICLE_COUNT_VALID}}",
+        "temperature": "{{TEMPERATURE_VALID}}",
+        "humidity": "{{HUMIDITY_VALID}}",
+        "dateFrom": "{{DATE_FROM}}",
+        "dateTo": "{{DATE_TO}}"
+      },
+      "expectedOutcome": "Environmental trend report displays recorded environmental data for the specified date range. Charts and graphs show particle count, temperature, and humidity trends."
+    }
+  ]
+}

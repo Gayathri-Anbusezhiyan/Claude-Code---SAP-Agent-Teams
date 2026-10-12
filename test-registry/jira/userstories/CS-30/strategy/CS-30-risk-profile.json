@@ -1,0 +1,343 @@
+{
+  "userStory": "CS-30",
+  "summary": "Create A Material Master Record For A New Api With A Defined Shelf-Lif",
+  "module": "MM",
+  "analysedAt": "2026-08-21T09:15:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Material Master Data Specialist",
+  "businessObject": "Material Master (GMP-regulated API)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Material Master\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system requires the batch management indicator to be set for materials flagged as GMP-regulated in the material type configuration.",
+      "type": "BUSINESS_RULE + MANDATORY_FIELD",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system requires entry of total shelf life and minimum remaining shelf life on the Plant Data / Storage view.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "ERR", "EDGE"],
+      "minTCCount": 7
+    },
+    {
+      "id": "AC-4",
+      "text": "The system requires an assigned Quality Management inspection type for GMP-relevant materials.",
+      "type": "MANDATORY_FIELD + INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The material record cannot be released for procurement until all mandatory GMP fields are completed.",
+      "type": "BUSINESS_RULE + VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["DT", "EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "A change log captures all subsequent modifications to regulatory-relevant fields for audit purposes.",
+      "type": "SUCCESS_CONFIRMATION + BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create complete GMP-regulated API Material Master with all mandatory fields including batch management indicator, total shelf life, minimum remaining shelf life, and QM inspection type; verify material is released for procurement and change log is generated",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create GMP material without setting batch management indicator",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-5"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create GMP material without assigning QM inspection type",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to release material for procurement with incomplete GMP fields (missing shelf-life or QM type)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Total Shelf Life on Plant Data/Storage view",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-5"],
+        "field": "Total Shelf Life"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Minimum Remaining Shelf Life on Plant Data/Storage view",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-5"],
+        "field": "Minimum Remaining Shelf Life"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Batch Management Indicator for GMP material",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-5"],
+        "field": "Batch Management Indicator"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing QM Inspection Type for GMP material",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"],
+        "field": "QM Inspection Type"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Total Shelf Life = 1 day (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "Total Shelf Life",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Total Shelf Life = 3650 days (maximum boundary, typical system limit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "Total Shelf Life",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Minimum Remaining Shelf Life = 1 day (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "Minimum Remaining Shelf Life",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Minimum Remaining Shelf Life = Total Shelf Life - 1 (maximum valid boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "Minimum Remaining Shelf Life",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Minimum Remaining Shelf Life = Total Shelf Life (invalid — should fail validation)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "parameter": "Minimum Remaining Shelf Life",
+        "boundary": "invalid_equal"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 5,
+    "INT": 0,
+    "total": 13
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialType",
+        "label": "Material Type",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Must be GMP-regulated type (e.g., FERT, HALB, ROH with GMP flag in config)"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Unique identifier; auto-generated if internal numbering enabled"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "dataType": "Text",
+        "mandatory": true,
+        "validRange": "Max 40 characters (short text) or 80 characters (long text)"
+      },
+      {
+        "name": "baseUnitOfMeasure",
+        "label": "Base Unit of Measure",
+        "dataType": "UoM Code",
+        "mandatory": true,
+        "validRange": "Valid UoM from SAP T006 (e.g., KG, L, PC, EA)"
+      },
+      {
+        "name": "batchManagementIndicator",
+        "label": "Batch Management",
+        "dataType": "Checkbox/Flag",
+        "mandatory": true,
+        "validRange": "True/False; must be True for GMP materials"
+      },
+      {
+        "name": "totalShelfLife",
+        "label": "Total Shelf Life",
+        "dataType": "Numeric (days)",
+        "mandatory": true,
+        "validRange": "Integer > 0, typically 1–3650 days"
+      },
+      {
+        "name": "minimumRemainingShelfLife",
+        "label": "Min. Remaining Shelf Life",
+        "dataType": "Numeric (days)",
+        "mandatory": true,
+        "validRange": "Integer > 0 and < Total Shelf Life"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid plant code from SAP T001W"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "dataType": "Alphanumeric",
+        "mandatory": false,
+        "validRange": "Valid storage location for the plant from SAP T001L"
+      },
+      {
+        "name": "qmInspectionType",
+        "label": "QM Inspection Type",
+        "dataType": "Code",
+        "mandatory": true,
+        "validRange": "Valid QM inspection type from SAP quality management configuration"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialGroup",
+        "label": "Material Group",
+        "trigger": "Material Type selection",
+        "source": "Material type master configuration"
+      },
+      {
+        "name": "valuationClass",
+        "label": "Valuation Class",
+        "trigger": "Material Type + Plant selection",
+        "source": "Material type and plant combination in config"
+      },
+      {
+        "name": "profitCenter",
+        "label": "Profit Center",
+        "trigger": "Plant assignment",
+        "source": "Plant master data T001W"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "trigger": "Plant assignment",
+        "source": "Plant-to-company code assignment T001K"
+      }
+    ],
+    "output": [
+      {
+        "name": "materialNumber",
+        "label": "Material Number",
+        "description": "Unique SAP-generated material identifier (if auto-numbering)",
+        "format": "Alphanumeric, length varies by numbering range config (e.g., 18-digit for internal, custom for external)"
+      },
+      {
+        "name": "creationDate",
+        "label": "Creation Date",
+        "description": "System timestamp of material creation",
+        "format": "Date (YYYY-MM-DD)"
+      },
+      {
+        "name": "createdBy",
+        "label": "Created By",
+        "description": "User ID who created the material",
+        "format": "SAP User ID"
+      },
+      {
+        "name": "changeLogEntry",
+        "label": "Change Log Entry",
+        "description": "Audit log record for each modification to regulatory-relevant fields",
+        "format": "Table entry in change documents (CDHDR/CDPOS) containing: Material, Field Name, Old Value, New Value, Change Date, Changed By"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "totalShelfLife",
+        "label": "Total Shelf Life",
+        "lowerBoundary": "1 day",
+        "upperBoundary": "3650 days (typical max; system-configured)",
+        "zeroInvalid": true,
+        "notes": "Must be positive integer"
+      },
+      {
+        "name": "minimumRemainingShelfLife",
+        "label": "Min. Remaining Shelf Life",
+        "lowerBoundary": "1 day",
+        "upperBoundary": "Total Shelf Life - 1 (must be less than total)",
+        "zeroInvalid": true,
+        "notes": "Must be positive integer and < Total Shelf Life"
+      },
+      {
+        "name": "materialDescriptionShort",
+        "label": "Material Description (short text)",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "40 characters",
+        "zeroInvalid": true,
+        "notes": "Length constraint per SAP field MAKTX"
+      },
+      {
+        "name": "materialDescriptionLong",
+        "label": "Material Description (long text)",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "80 characters",
+        "zeroInvalid": false,
+        "notes": "Optional long description field"
+      }
+    ]
+  }
+}

@@ -1,0 +1,433 @@
+{
+  "userStory": "CS-57",
+  "summary": "Create And Version A Master Recipe For A Pharmaceutical Product With D",
+  "module": "PP",
+  "generatedAt": "2026-08-24T10:30:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 32,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 6,
+    "ERR": 9,
+    "EDGE": 8,
+    "INT": 5
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 19,
+    "MEDIUM": 8,
+    "LOW": 0
+  },
+  "automationCandidates": 28,
+  "automationPartial": 4,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-167",
+      "title": "Create new Master Recipe with approval workflow and verify Released status",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Edit Released recipe and verify automatic version creation",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-002",
+      "acsCovered": ["AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Create Master Recipe with multiple operations in sequence",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-AP-001",
+      "acsCovered": ["AC-1", "AC-5"]
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Create Master Recipe with multiple in-process control checkpoints per operation",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-AP-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Attempt to create Process Order against Draft recipe version",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-NEG-001",
+      "acsCovered": ["AC-4"],
+      "automationNotes": "Requires Process Order app automation or OData API call"
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Attempt to create Process Order against Obsolete recipe version",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-NEG-002",
+      "acsCovered": ["AC-4"],
+      "automationNotes": "Requires Process Order app automation or OData API call"
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Attempt to release recipe without completing approval workflow",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-NEG-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Attempt to create recipe with invalid Material Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-NEG-004",
+      "acsCovered": ["AC-1", "AC-5"]
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Attempt to add operation with invalid Work Center",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-NEG-005",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Attempt to add in-process control with invalid Inspection Characteristic",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-NEG-006",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Attempt to create Master Recipe with Material Number field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Attempt to create Master Recipe with Plant field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Attempt to create Master Recipe with Base Quantity field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Attempt to add operation with Operation Number field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Attempt to add operation with Work Center field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-005",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Attempt to add in-process control with Inspection Characteristic field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-006",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "Attempt to add in-process control with Target Value field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-007",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Attempt to add in-process control with Lower Limit field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-008",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-185",
+      "title": "Attempt to add in-process control with Upper Limit field empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-57-ERR-009",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-186",
+      "title": "Create Master Recipe with Base Quantity at minimum valid value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-187",
+      "title": "Create Master Recipe with Base Quantity at maximum valid value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-188",
+      "title": "Create Master Recipe with Standard Duration at minimum valid value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-189",
+      "title": "Create Master Recipe with Standard Duration at maximum valid value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-190",
+      "title": "Create in-process control with Target Value equal to Lower Limit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-005",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-191",
+      "title": "Create in-process control with Target Value equal to Upper Limit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-006",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-192",
+      "title": "Attempt to create in-process control with Lower Limit greater than Target Value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-007",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-193",
+      "title": "Attempt to create in-process control with Upper Limit less than Target Value",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-EDGE-008",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-194",
+      "title": "Verify Material Master integration and Material Description auto-population",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-INT-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-195",
+      "title": "Verify Work Center Master integration and Work Center Description auto-population",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-INT-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-196",
+      "title": "Verify QM Inspection Characteristic integration and characteristic details retrieval",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-57-INT-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-197",
+      "title": "Verify Workflow integration and approver notification upon recipe submission",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-INT-004",
+      "acsCovered": ["AC-2"],
+      "automationNotes": "Requires Workflow Inbox app automation or Workflow API call"
+    },
+    {
+      "id": "TC-CS-198",
+      "title": "Verify Change Document integration and Change Document Number generation",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-57-INT-005",
+      "acsCovered": ["AC-3", "AC-6"],
+      "automationNotes": "Requires Change Document System query or OData API call"
+    }
+  ],
+  "testdataFile": "testdata/CS-57/CS-57-testdata.json",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "result": "6/6 ACs covered",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "2/2",
+      "result": "2/2",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "6/6",
+      "result": "6/6",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "9/9",
+      "result": "9/9",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "8/8",
+      "result": "8/8",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "result": "0 found",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 16 TCs (50%)",
+      "result": "28/32 (87.5%)",
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "threshold": "5/5",
+      "result": "5/5",
+      "status": "PASS"
+    },
+    "apCoverage": {
+      "threshold": "2/2",
+      "result": "2/2",
+      "status": "PASS"
+    }
+  }
+}

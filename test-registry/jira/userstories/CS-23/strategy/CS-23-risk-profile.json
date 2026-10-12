@@ -1,0 +1,305 @@
+{
+  "userStory": "CS-23",
+  "summary": "User Story MM-008",
+  "module": "MM",
+  "analysedAt": "2026-08-24T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Material Planner",
+  "businessObject": "MRP Run, Planned Order, Purchase Requisition, Stock/Requirements List, GMP Material with Shelf-Life Management",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Stock/Requirements List\" or run MRP via \"Schedule MRP Runs\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system considers the minimum remaining shelf-life requirement defined in the material master when proposing new procurement.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "Batches that do not meet the minimum remaining shelf-life are excluded from available stock in the MRP availability check.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system generates planned orders or purchase requisitions reflecting adjusted lead times where shelf-life constraints apply.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The planner can review and convert planning proposals directly from the Stock/Requirements List.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system issues an exception message when existing stock is approaching the minimum shelf-life threshold.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Stock/Requirements List for GMP material and run MRP for a plant with GMP materials having min shelf-life constraints, resulting in planned order/PR generation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Run MRP for GMP material with in-house production (Planned Order generation)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Run MRP for GMP material with external procurement (Purchase Requisition generation)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Review and convert Planned Order to Production Order from Stock/Requirements List",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Review and convert Purchase Requisition to Purchase Order from Stock/Requirements List",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Run MRP for material without minimum remaining shelf-life configured (MHDRZ = 0) — system should process as standard MRP without shelf-life constraint",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Run MRP for GMP material with existing batches all below minimum remaining shelf-life — system should exclude all batches and propose full replenishment",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      }
+    ],
+    "ERR": [],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Existing stock batch expiration date exactly equals minimum remaining shelf-life threshold — verify batch is excluded from availability",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "parameter": "batch remaining shelf life",
+        "boundary": "exact match with threshold"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Existing stock batch expiration date is 1 day above minimum remaining shelf-life threshold — verify batch is included in availability",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "parameter": "batch remaining shelf life",
+        "boundary": "1 day above threshold"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "GMP material with total shelf life = minimum remaining shelf-life — verify system proposes procurement with adjusted lead time",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-4"],
+        "parameter": "total shelf life vs min remaining shelf life",
+        "boundary": "equal values"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Exception message triggered when batch remaining shelf life reaches minimum threshold exactly",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "parameter": "batch remaining shelf life",
+        "boundary": "exact threshold"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Exception message triggered when batch remaining shelf life is 1 day below minimum threshold",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "parameter": "batch remaining shelf life",
+        "boundary": "1 day below threshold"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 2,
+    "NEG": 2,
+    "ERR": 0,
+    "EDGE": 5,
+    "INT": 0,
+    "total": 12
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "GMP material with batch management and shelf-life maintained"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid plant configured for MRP"
+      },
+      {
+        "name": "mrpController",
+        "label": "MRP Controller",
+        "mandatory": false,
+        "validRange": "Valid MRP controller code"
+      },
+      {
+        "name": "processingKey",
+        "label": "Processing Key",
+        "mandatory": false,
+        "validRange": "NETCH (net change), NETPL (net change in planning period), NEUPL (regenerative)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "minRemainingShelfLife",
+        "label": "Min. Rem. Shelf Life",
+        "trigger": "Material master lookup",
+        "source": "MARA-MHDRZ"
+      },
+      {
+        "name": "totalShelfLife",
+        "label": "Total Shelf Life",
+        "trigger": "Material master lookup",
+        "source": "MARA-MHDHB"
+      },
+      {
+        "name": "mrpType",
+        "label": "MRP Type",
+        "trigger": "Material master lookup",
+        "source": "MARC-DISMM"
+      },
+      {
+        "name": "lotSize",
+        "label": "Lot Size",
+        "trigger": "Material master lookup",
+        "source": "MARC-DISLS"
+      },
+      {
+        "name": "procurementType",
+        "label": "Procurement Type",
+        "trigger": "Material master lookup",
+        "source": "MARC-BESKZ (E=In-house, F=External)"
+      },
+      {
+        "name": "plannedDeliveryTime",
+        "label": "Planned Deliv. Time",
+        "trigger": "Purchasing info record or material master lookup",
+        "source": "MARC-PLIFZ"
+      }
+    ],
+    "output": [
+      {
+        "name": "plannedOrderNumber",
+        "label": "Planned Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "purchaseRequisitionNumber",
+        "label": "Purchase Requisition Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "exceptionMessageCode",
+        "label": "Exception Message Code",
+        "format": "2-char code (e.g., '10' = shelf-life expiration)"
+      },
+      {
+        "name": "mrpElementType",
+        "label": "MRP Element Type",
+        "format": "Code: BA (Purchase Requisition), PA (Planned Order)"
+      },
+      {
+        "name": "receiptDate",
+        "label": "Proposed Receipt Date",
+        "format": "Date (YYYY-MM-DD)"
+      },
+      {
+        "name": "expirationDate",
+        "label": "SLED (Shelf Life Expiration Date)",
+        "format": "Date (YYYY-MM-DD)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "minRemainingShelfLife",
+        "label": "Minimum Remaining Shelf Life (days)",
+        "lowerBoundary": "1",
+        "upperBoundary": "Total Shelf Life",
+        "zeroInvalid": true,
+        "notes": "Must be ≤ Total Shelf Life"
+      },
+      {
+        "name": "totalShelfLife",
+        "label": "Total Shelf Life (days)",
+        "lowerBoundary": "1",
+        "upperBoundary": "9999",
+        "zeroInvalid": true,
+        "notes": "Defines batch expiration period"
+      },
+      {
+        "name": "existingStockRemainingDays",
+        "label": "Existing Stock Remaining Days",
+        "lowerBoundary": "0 (expired)",
+        "upperBoundary": "Total Shelf Life",
+        "zeroInvalid": false,
+        "notes": "Batch excluded if < Min Remaining Shelf Life"
+      },
+      {
+        "name": "leadTimeAdjustment",
+        "label": "Lead Time Adjustment (days)",
+        "lowerBoundary": "0 (no adjustment)",
+        "upperBoundary": "System max",
+        "zeroInvalid": false,
+        "notes": "Added to standard procurement lead time when shelf-life constraint active"
+      }
+    ]
+  }
+}

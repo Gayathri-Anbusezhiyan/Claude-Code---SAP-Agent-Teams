@@ -1,0 +1,92 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "timestamp": "2026-05-29T18:29:29.000Z",
+  "reExecutedBy": "self-healing-agent/skills/re-execute-scriptless",
+  "failureReportRef": "self-healing/failures/20260529-182929-TC-CS-021-failure.json",
+  "reExecutionStatus": "PASS_PARTIAL",
+  "executionSummary": "Re-execution reached Step 7 (search and open app). Identified root cause: 'Open Search' button not initially visible after login. Requires 'Open Menu' button click to trigger full shell bar render. Working locator confirmed.",
+  "failingStepResult": {
+    "stepNumber": 7,
+    "action": "Click the search icon in the shell bar",
+    "method": "openSearch",
+    "locatorName": "openSearchButton",
+    "triedLocators": [
+      {
+        "attempt": 1,
+        "strategy": "css",
+        "selector": "[title=\"Open Search\"]",
+        "result": "FAIL",
+        "error": "Timeout 90000ms exceeded waiting for locator to be visible",
+        "note": "Element not in DOM initially after login"
+      },
+      {
+        "attempt": 2,
+        "strategy": "role",
+        "selector": "getByRole('button', { name: 'Open Search' })",
+        "result": "FAIL",
+        "error": "Element not found",
+        "note": "Same issue — element not in DOM"
+      },
+      {
+        "attempt": 3,
+        "strategy": "workaround",
+        "action": "Click 'Open Menu' button first (getByTitle('Open Menu'))",
+        "result": "SUCCESS",
+        "note": "Clicking Open Menu triggered navigation drawer AND caused shell bar to render additional buttons including 'Open Search'"
+      },
+      {
+        "attempt": 4,
+        "strategy": "role",
+        "selector": "getByRole('button', { name: 'Open Search' })",
+        "result": "SUCCESS",
+        "ref": "e487",
+        "note": "After Open Menu click, 'Open Search' button became visible and clickable"
+      }
+    ],
+    "workingLocator": {
+      "strategy": "role",
+      "selector": "getByRole('button', { name: 'Open Search' })"
+    },
+    "workingRef": "e487",
+    "prerequisiteAction": {
+      "description": "Click 'Open Menu' button before attempting to click 'Open Search'",
+      "locator": "getByTitle('Open Menu')",
+      "ref": "e56",
+      "reason": "SAP Fiori shell bar does not render 'Open Search' button until navigation menu is toggled once. This initializes the full shell bar."
+    },
+    "resolutionNote": "Root cause identified: SAP Fiori shell bar lazy-loads certain buttons. 'Open Search' button not in DOM after initial login. Requires one click on 'Open Menu' (hamburger icon) to force full shell bar render. After that, 'Open Search' becomes visible and remains visible even after closing the menu."
+  },
+  "stepsExecuted": 7,
+  "sapBehavior": "CORRECT",
+  "sapBehaviorNotes": "SAP is functioning correctly. The search button exists and works as expected once the shell bar is fully initialized. This is NOT an application defect — it's a UI lazy-loading pattern. The script needs to account for this initialization step.",
+  "sapFinalState": {
+    "loginSuccessful": true,
+    "fioriHomeLoaded": true,
+    "guidedTourDismissed": true,
+    "navigationMenuOpened": true,
+    "openSearchButtonVisible": true,
+    "searchOpened": true,
+    "searchboxActive": true,
+    "searchboxRef": "e525"
+  },
+  "recommendation": "PATCH_SCRIPTS",
+  "patchStrategy": "Add prerequisite step in openSearch() method: if 'Open Search' button not immediately visible, click 'Open Menu' button once to trigger full shell bar render, then proceed with clicking 'Open Search'.",
+  "steps": [
+    { "stepNumber": 1, "action": "Navigate to SAP_FIORI_URL", "result": "PASS", "note": "Redirected to accounts.sap.com IDP" },
+    { "stepNumber": 2, "action": "Enter email", "result": "PASS", "note": "Email pre-filled" },
+    { "stepNumber": 3, "action": "Click Continue", "result": "PASS", "note": "Password field displayed" },
+    { "stepNumber": 4, "action": "Enter password", "result": "PASS" },
+    { "stepNumber": 5, "action": "Click Continue", "result": "PASS", "note": "Fiori home page loaded" },
+    { "stepNumber": 6, "action": "Dismiss Guided Tour dialog", "result": "PASS", "note": "Dialog appeared as expected" },
+    { "stepNumber": 7, "action": "Click search icon", "result": "PASS_AFTER_WORKAROUND", "note": "Required Open Menu click first to make button visible" }
+  ],
+  "evidenceCapture": {
+    "initialShellBarSnapshot": "Shell bar after login showed only: Open Menu, SAP Logo, Home, Profile. No 'Open Search' button.",
+    "afterOpenMenuSnapshot": "Shell bar after Open Menu click showed: Open Menu, SAP Logo, Home, Open Search, Joule, Open Help, Notifications, Profile.",
+    "searchOpenedSnapshot": "Search bar appeared with searchbox ref=e525 active and ready for input."
+  },
+  "sapUIBehaviorNotes": "SAP Fiori Launchpad uses lazy rendering for shell bar action buttons. The 'Open Search' button is dynamically added to the DOM only after the first user interaction with the shell bar (e.g., clicking Open Menu). This is likely a performance optimization to reduce initial page load time. Scripts must account for this by ensuring the shell bar is fully initialized before attempting to interact with search."
+}

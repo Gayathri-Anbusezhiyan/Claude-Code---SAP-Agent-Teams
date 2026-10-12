@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"C:/Users/pabbredd/OneDrive - Capgemini/Documents/Claude Code Implementation/Claude Code - SAP Agent Teams/test-registry/testdata/CS-20\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\testcases\\\\AI-generated testcases\\\\CS-19\\\\testcases\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\testdata\\\\CS-19\")",
+      "Bash(touch \"C:/Users/pabbredd/OneDrive - Capgemini/Documents/Claude Code Implementation/Claude Code - SAP Agent Teams/test-registry/jira/userstories/CS-21/strategy/CS-21-strategy.md\")",
+      "Bash(rm -f \"/c/Users/pabbredd/OneDrive - Capgemini/Documents/Claude Code Implementation/Claude Code - SAP Agent Teams/test-registry/jira/userstories/CS-22/strategy/CS-22-strategy.md\")",
+      "Bash(cat /dev/null > \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\jira\\\\userstories\\\\CS-25\\\\strategy\\\\CS-25-analysis.md\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\testcases\\\\AI-generated testcases\\\\CS-23\\\\testcases\")",
+      "Bash(cat > *)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\testdata\\\\CS-23\")",
+      "Bash(grep -A 1 \"CS-3$\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\testcases\\\\AI-generated testcases\\\\CS-24\\\\testcases\")",
+      "Bash(cat /dev/null > \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\jira\\\\userstories\\\\CS-25\\\\strategy\\\\CS-25-risk-profile.json\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\testdata\\\\CS-24\")",
+      "Bash(mkdir -p \"C:/Users/pabbredd/OneDrive - Capgemini/Documents/Claude Code Implementation/Claude Code - SAP Agent Teams/test-registry/testcases/AI-generated testcases/CS-21/testcases\")",
+      "Bash(cat /dev/null > \"C:\\\\Users\\\\pabbredd\\\\OneDrive - Capgemini\\\\Documents\\\\Claude Code Implementation\\\\Claude Code - SAP Agent Teams\\\\test-registry\\\\jira\\\\userstories\\\\CS-25\\\\strategy\\\\CS-25-strategy.md\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\testdata",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\jira\\userstories\\CS-21\\strategy",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\jira\\userstories\\CS-22\\strategy",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\jira\\userstories\\CS-25\\strategy",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\testcases\\AI-generated testcases\\CS-23",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\testcases\\AI-generated testcases\\CS-20\\testcases",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\testcases\\AI-generated testcases\\CS-24",
+      "C:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\testcases\\AI-generated testcases\\CS-21"
+    ]
+  }
+}

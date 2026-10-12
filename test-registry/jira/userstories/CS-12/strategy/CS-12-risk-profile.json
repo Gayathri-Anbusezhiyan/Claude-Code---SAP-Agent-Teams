@@ -1,0 +1,437 @@
+{
+  "userStory": "CS-12",
+  "summary": "As a Quality Doc SME, I want to initiate the Send for Review and Verification workflow on a Draft document and assign a reviewer so that the document enters formal review",
+  "module": "Veeva Vault QualityDocs",
+  "analysedAt": "2026-08-21T08:55:02.078Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Doc SME (Subject Matter Expert)",
+  "businessObject": "Quality Document (Veeva Vault)",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "[RP-FUNC-001] Quality Doc SME can authenticate to Veeva Vault QualityDocs using role-specific credentials",
+      "type": "NAVIGATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "[NAV-001] After entering application URL and submitting valid credentials, user gains access to QualityDocs module landing page",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "[RP-FUNC-002] Quality Doc SME can navigate from QualityDocs landing page to Full Library view",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "[NAV-002] After clicking 'Full Library' in navigation, Full Library document search interface is displayed",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "[RP-FUNC-003] Quality Doc SME can search for document by name ('Test1 for Workflow') and see matching results",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "[NAV-003] Quality Doc SME can open document from search results and document detail page is displayed",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "[RP-FUNC-004] Document detail page confirms document is in Draft state",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-8",
+      "text": "[RP-FUNC-005] Quality Doc SME can click 'Send for Review And Verification' user action on Draft document",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST", "EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-9",
+      "text": "[NAV-004] After clicking workflow action, workflow initiation dialog is displayed with reviewer assignment field",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-10",
+      "text": "[RP-FUNC-006] Quality Doc SME can select reviewer from reviewer assignment field",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-11",
+      "text": "[RP-FUNC-009] After submitting workflow initiation, workflow task is created and assigned to designated reviewer",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-12",
+      "text": "[AR-001] After workflow submission, document status transitions from Draft to In Review",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-13",
+      "text": "[AR-002] After workflow submission, reviewer sees assigned workflow task in Home view task list",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-14",
+      "text": "[RP-DATA-001] Document status field displays 'In Review' after workflow is initiated",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-15",
+      "text": "[GR-001] 'Send for Review And Verification' action is disabled/hidden when document is not in Draft state",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-16",
+      "text": "[GR-002] Workflow initiation dialog prevents submission when no reviewer is selected (mandatory field)",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-17",
+      "text": "[RP-ROLE-001] Only users with Quality Doc SME role can access and execute 'Send for Review And Verification' workflow action",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-18",
+      "text": "[GR-006] Only authenticated users with valid credentials can access QualityDocs workflow functionality",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-19",
+      "text": "[RP-NFR-003] System must enforce role-based access control — users without SME role cannot initiate workflow",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-20",
+      "text": "[RISK-003] System shall prevent workflow initiation on documents not in Draft state",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-21",
+      "text": "[RISK-004] System shall validate assigned reviewer account exists and has Reviewer role permissions before allowing workflow submission",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-22",
+      "text": "[BR-001] 'Send for Review And Verification' workflow can only be initiated on documents in Draft state",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-23",
+      "text": "[BR-002] Reviewer must be assigned when initiating workflow (mandatory field)",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-24",
+      "text": "[RP-BIZ-002] Reviewer assignment field must contain valid reviewer account before system allows workflow submission",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Authenticate as Quality Doc SME, navigate to Full Library, search for 'Test1 for Workflow', open document, verify Draft state, initiate 'Send for Review And Verification' workflow, assign reviewer (Test_user01@partnersi-capgemini.com), submit, verify document status = 'In Review', verify workflow task created",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9", "AC-10", "AC-11", "AC-12", "AC-13", "AC-14", "AC-22"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Direct navigation to QualityDocs URL with tab parameters (bypasses landing page navigation)",
+        "risk": "LOW",
+        "acIds": []
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt workflow initiation on document NOT in Draft state (e.g., In Review, Approved) → verify 'Send for Review And Verification' action is disabled/hidden",
+        "risk": "HIGH",
+        "acIds": ["AC-15", "AC-20", "AC-22"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt workflow initiation by user without Quality Doc SME role → verify action unavailable or authorization error",
+        "risk": "HIGH",
+        "acIds": ["AC-17", "AC-19"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt authentication with invalid credentials → verify access denied",
+        "risk": "HIGH",
+        "acIds": ["AC-18"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Assign non-existent or invalid reviewer account → verify validation error before workflow submission",
+        "risk": "HIGH",
+        "acIds": ["AC-21", "AC-24"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Search for non-existent document → verify 'No results found' message",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Submit workflow initiation dialog with no reviewer selected (blank reviewer field) → verify error message 'Reviewer is required' or submission prevented",
+        "risk": "HIGH",
+        "acIds": ["AC-16", "AC-23"],
+        "field": "Reviewer"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Document name boundary — minimum length search (1 character)",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "parameter": "documentName",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Document name boundary — maximum length search (255 characters or system max)",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "parameter": "documentName",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Reviewer email boundary — minimum valid email format (e.g., a@b.co)",
+        "risk": "LOW",
+        "acIds": ["AC-10"],
+        "parameter": "reviewerEmail",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Reviewer email boundary — maximum length email (255 characters or system max)",
+        "risk": "LOW",
+        "acIds": ["AC-10"],
+        "parameter": "reviewerEmail",
+        "boundary": "upper"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 5,
+    "ERR": 1,
+    "EDGE": 4,
+    "INT": 0,
+    "total": 12
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "username",
+        "label": "Username / Email",
+        "dataType": "String (email)",
+        "mandatory": true,
+        "validRange": "Valid Veeva Vault user credential"
+      },
+      {
+        "name": "password",
+        "label": "Password",
+        "dataType": "String",
+        "mandatory": true,
+        "validRange": "Matching password for user"
+      },
+      {
+        "name": "documentName",
+        "label": "Search field",
+        "dataType": "String",
+        "mandatory": true,
+        "validRange": "Test1 for Workflow (existing document)"
+      },
+      {
+        "name": "reviewer",
+        "label": "Reviewer / Assignee",
+        "dataType": "Email (user lookup)",
+        "mandatory": true,
+        "validRange": "Test_user01@partnersi-capgemini.com (valid reviewer account)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "documentState",
+        "label": "Status / Lifecycle State",
+        "trigger": "Document load",
+        "source": "Veeva document lifecycle configuration"
+      },
+      {
+        "name": "availableActions",
+        "label": "User Actions menu",
+        "trigger": "Document state + user role",
+        "source": "Veeva role-permission matrix"
+      },
+      {
+        "name": "smeDisplayName",
+        "label": "User profile",
+        "trigger": "Authentication success",
+        "source": "Veeva user master"
+      }
+    ],
+    "output": [
+      {
+        "name": "documentState",
+        "label": "Document State",
+        "description": "Updated lifecycle state after workflow initiation",
+        "format": "In Review"
+      },
+      {
+        "name": "workflowTaskId",
+        "label": "Workflow Task ID",
+        "description": "Unique identifier for created workflow task",
+        "format": "System-generated UUID or numeric ID"
+      },
+      {
+        "name": "taskAssignee",
+        "label": "Task Assignee",
+        "description": "Reviewer to whom task is assigned",
+        "format": "Email (Test_user01@partnersi-capgemini.com)"
+      },
+      {
+        "name": "workflowInitiatedTimestamp",
+        "label": "Workflow Initiated Timestamp",
+        "description": "Timestamp when workflow was submitted",
+        "format": "ISO8601 datetime"
+      },
+      {
+        "name": "taskStatus",
+        "label": "Task Status",
+        "description": "Initial task status after creation",
+        "format": "Open or Pending"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "documentName",
+        "label": "Document Name / Search Field",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "system-configured max (typically 255 chars)",
+        "zeroInvalid": false,
+        "notes": "Empty search may return all or none depending on implementation"
+      },
+      {
+        "name": "reviewerEmail",
+        "label": "Reviewer Email",
+        "lowerBoundary": "valid email format (min ~6 chars)",
+        "upperBoundary": "system-configured max (typically 255 chars)",
+        "zeroInvalid": false,
+        "notes": "Must conform to email RFC standards"
+      }
+    ]
+  }
+}

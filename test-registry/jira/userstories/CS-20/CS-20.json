@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-20",
+  "type": "Task",
+  "summary": "Create A Purchase Requisition That Automatically Routes For Approval B",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Procurement Officer, I want to create a Purchase Requisition that automatically routes for approval based on value and material criticality, so that spend on GMP-critical materials receives the appropriate management sign-off before a PO is created.",
+  "acceptanceCriteria": "1. The user can access the \"Create Purchase Requisition\" Fiori app.\n2. The system automatically determines the approval workflow (release strategy) based on the requisition's total value and material type.\n3. The requisition cannot be converted into a Purchase Order until all required approval steps are completed.\n4. Approvers receive a task notification in their Fiori \"My Inbox\" app with the option to approve, reject, or send back for revision.\n5. The system displays the current approval status and history on the requisition.\n6. The requisitioner receives a notification when the requisition is fully approved or rejected.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:07.882+0530",
+  "updated": "2026-08-21T14:11:07.960+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-20",
+  "fetchedAt": "2026-08-21T09:01:00.000Z"
+}

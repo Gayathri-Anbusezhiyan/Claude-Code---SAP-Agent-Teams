@@ -1,0 +1,262 @@
+{
+  "userStory": "CS-28",
+  "summary": "Transfer Consignment Stock Of A High-Value Biologic From Vendor-Owned",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 24,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 5,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 6,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 7,
+    "MEDIUM": 10,
+    "LOW": 2
+  },
+  "automationCandidates": 23,
+  "testCases": [
+    {
+      "id": "TC-CS-100",
+      "title": "Transfer consignment stock with valid material, vendor, and batch to company ownership",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-101",
+      "title": "Generate consignment settlement document and create vendor invoice automatically",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-002",
+      "acsCovered": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-102",
+      "title": "Transfer partial consignment stock quantity (less than available stock)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-003",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-103",
+      "title": "Transfer consignment stock with full withdrawal of exact available stock quantity",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-AP-002",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-104",
+      "title": "Transfer consignment stock for multiple batches in same settlement period",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-AP-003",
+      "acsCovered": ["AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-105",
+      "title": "Generate consignment settlement for cross-month period with withdrawals",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-AP-004",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-106",
+      "title": "Transfer consignment stock with backdated posting date",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-AP-005",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-107",
+      "title": "Attempt to transfer consignment stock with insufficient available stock quantity",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-NEG-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-108",
+      "title": "Attempt to transfer consignment stock with invalid vendor-batch combination",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-NEG-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-109",
+      "title": "Attempt to transfer consignment stock for non-consignment-enabled material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-NEG-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-110",
+      "title": "Attempt to access Post Goods Movement app without required authorization",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-028-NEG-004",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-111",
+      "title": "Attempt to transfer consignment stock with zero withdrawal quantity",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-ERR-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-112",
+      "title": "Attempt to transfer consignment stock with negative withdrawal quantity",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-ERR-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-113",
+      "title": "Attempt to transfer consignment stock with missing plant field",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-ERR-003",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-114",
+      "title": "Attempt to transfer consignment stock with missing storage location field",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-ERR-004",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-115",
+      "title": "Attempt to transfer consignment stock from expired batch",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-EDGE-001",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-116",
+      "title": "Generate consignment settlement document for same-day withdrawal",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-EDGE-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-117",
+      "title": "Generate consignment settlement for period with no withdrawals",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-EDGE-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-118",
+      "title": "Generate consignment settlement and invoice with price change during period",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-EDGE-004",
+      "acsCovered": ["AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-119",
+      "title": "Transfer consignment stock with maximum decimal precision quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-EDGE-005",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-120",
+      "title": "Transfer consignment stock for zero-price consignment material",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-EDGE-006",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-121",
+      "title": "Transfer consignment stock triggered by production order goods issue",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-INT-001",
+      "acsCovered": ["AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-122",
+      "title": "Transfer consignment stock to quality inspection with batch traceability",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-INT-002",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-123",
+      "title": "Generate consignment settlement and invoice with price variance handling",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-028-INT-003",
+      "acsCovered": ["AC-5"]
+    }
+  ],
+  "testdataFile": "testdata/CS-28/CS-28-testdata.json",
+  "coverageMatrixFile": "testcases/AI-generated testcases/CS-28/CS-28-coverage-matrix.md",
+  "acceptanceCriteriaCoverage": {
+    "AC-1": 4,
+    "AC-2": 7,
+    "AC-3": 10,
+    "AC-4": 6,
+    "AC-5": 3,
+    "AC-6": 5
+  },
+  "totalACCoverageInstances": 35,
+  "allACsCovered": true,
+  "qualityGatesStatus": {
+    "gate1_acTraceability": "PASS",
+    "gate2_scenarioCompleteness": "PASS",
+    "gate3_criticalRiskCoverage": "PASS",
+    "gate4_testDataParameterization": "PASS",
+    "gate5_automationEligibility": "PASS",
+    "gate6_regulatoryCompliance": "PASS"
+  }
+}

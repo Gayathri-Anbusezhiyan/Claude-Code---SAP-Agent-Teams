@@ -1,0 +1,45 @@
+{
+  "name": "sap-fiori-test-automation",
+  "version": "1.0.0",
+  "description": "Hybrid MCP + Playwright automation framework for SAP S/4HANA Fiori applications",
+  "main": "cli.js",
+  "bin": {
+    "export-testcases": "./ai-engine/utils/export-testcases.js",
+    "generate-pdf-report": "./ai-engine/utils/generate-pdf-report.js"
+  },
+  "scripts": {
+    "start": "node cli.js",
+    "generate": "node cli.js",
+    "test": "npx playwright test --config=test-registry/automation/config/playwright.config.js",
+    "test:login": "npx playwright test test-registry/automation/tests/sap-login.spec.js --config=test-registry/automation/config/playwright.config.js",
+    "test:mm": "npx playwright test test-registry/automation/tests/mm-*.spec.js --config=test-registry/automation/config/playwright.config.js",
+    "test:sd": "npx playwright test test-registry/automation/tests/sd-*.spec.js --config=test-registry/automation/config/playwright.config.js",
+    "test:fi": "npx playwright test test-registry/automation/tests/fi-*.spec.js --config=test-registry/automation/config/playwright.config.js",
+    "test:pp": "npx playwright test test-registry/automation/tests/pp-*.spec.js --config=test-registry/automation/config/playwright.config.js",
+    "test:tc": "npx playwright test --config=test-registry/automation/config/playwright.config.js --grep",
+    "convert:testcases": "node test-registry/automation/utils/testcase-converter.js",
+    "export:testcases": "node ai-engine/utils/export-testcases.js",
+    "report:pdf": "node ai-engine/utils/enhanced-pdf-report.js"
+  },
+  "keywords": [
+    "test-automation",
+    "sap",
+    "fiori",
+    "s4hana",
+    "playwright",
+    "mcp",
+    "pom"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.58.2",
+    "exceljs": "^4.4.0",
+    "mammoth": "^1.12.0",
+    "pdfkit": "^0.19.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.1"
+  }
+}

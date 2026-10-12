@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-22",
+  "type": "Task",
+  "summary": "View An Aggregated Vendor Quality Scorecard Based On Inspection Reject",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Procurement Manager, I want to view an aggregated Vendor Quality Scorecard based on inspection rejection rates and on-time delivery, so that I can make informed sourcing decisions for regulated materials.",
+  "acceptanceCriteria": "1. The user can access a \"Vendor Evaluation\" Fiori analytical app.\n2. The system calculates and displays a vendor's batch acceptance rate over a configurable time period.\n3. The system displays on-time delivery performance based on PO delivery dates versus actual goods receipt dates.\n4. The user can drill down from the scorecard into individual rejected inspection lots.\n5. The system flags vendors falling below a configurable quality threshold with a visual indicator.\n6. The scorecard can be exported for inclusion in periodic GMP vendor audit reports.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:09.786+0530",
+  "updated": "2026-08-21T14:11:09.866+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-22",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

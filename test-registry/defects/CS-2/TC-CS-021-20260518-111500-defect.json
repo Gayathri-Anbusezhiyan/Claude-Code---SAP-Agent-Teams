@@ -1,0 +1,32 @@
+{
+  "bugKey": "CS-6",
+  "bugUrl": "https://jira-naqet.atlassian.net/browse/CS-6",
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "storyUrl": "https://jira-naqet.atlassian.net/browse/CS-2",
+  "loggedAt": "2026-05-18T11:15:00.000Z",
+  "loggedBy": "defect-logging-agent/skills/log-defect",
+  "summary": "[MM] TC-CS-021: PO success notification does not display generated PO number — AC-6 violated",
+  "priority": "High",
+  "labels": ["defect", "automation-detected", "mm", "CS-2"],
+  "acViolated": "AC-6",
+  "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+  "sapActualBehavior": "After clicking Order, SAP shows role=alert 'Purchase order has been created.' (no PO number) and navigates to list page. The 10-digit PO number is absent from the success notification.",
+  "classificationFile": "defects/CS-2/TC-CS-021-20260518-111500-classification.json",
+  "reExecutionFile": "self-healing/re-executions/20260518-103220-TC-CS-021/TC-CS-021-reexecution.json",
+  "explorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+  "jiraLinkCreated": true,
+  "jiraLinkType": "Defect",
+  "jiraLinkDirection": "CS-6 created by CS-2",
+  "jiraCommentAdded": true,
+  "jiraCommentId": "52403",
+  "status": "LOGGED",
+  "evidence": {
+    "playwrightError": "expect(containsPONumber).toBe(true) — received false",
+    "alertText": "Purchase order has been created.",
+    "containsPONumber": false,
+    "executionCount": 3,
+    "allFailed": true,
+    "screenshotFile": "test-results/mm-purchase-order-MM---Man-20e0b-PO-Number-DESIGNED-TO-FAIL--sap-chromium/test-failed-1.png"
+  }
+}

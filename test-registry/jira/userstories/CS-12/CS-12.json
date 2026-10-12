@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-12",
+  "type": "Story",
+  "summary": "As a Quality Doc SME, I want to initiate the Send for Review and Verification workflow on a Draft document and assign a reviewer so that the document enters formal review",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "High",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "groomed",
+    "requirement-sourced"
+  ],
+  "components": [],
+  "description": "## Background\n\nThe Send for Review and Verification workflow ensures that quality documents undergo formal peer review before progressing beyond the Draft state. This story covers the workflow initiation phase where the Quality Doc SME locates a draft document and formally assigns it to a reviewer for evaluation.\n\n## What This Story Covers\n\nThe Quality Doc SME authenticates to Veeva Vault QualityDocs, navigates to the Full Library, searches for and opens a document in Draft state (\"Test1 for Workflow\"), initiates the \"Send for Review And Verification\" workflow action, assigns a reviewer (Test_user01@partnersi-capgemini.com), and confirms the submission — causing the document to transition from Draft to In Review and a workflow task to be assigned to the designated reviewer.\n\n## Roles\n\n* **Primary actor:** Quality Doc SME — initiates the workflow and assigns the reviewer\n* **Supporting roles:** None (reviewer becomes active in CS-13)\n\n## Preconditions\n\n* Document \"Test1 for Workflow\" exists in the system in Draft state\n* Quality Doc SME account has valid credentials and appropriate role permissions\n* Reviewer account exists and has Reviewer role permissions\n* The \"Send for Review And Verification\" workflow action is configured and available\n\n## Workflow Context\n\nState before: Document \"Test1 for Workflow\" is in Draft state; no active workflow  \nState after:  Document is in In Review state; workflow task assigned to reviewer\n\n## Acceptance Criteria\n\n### Happy Path\n\n* \\[RP-FUNC-001\\] The Quality Doc SME can authenticate to Veeva Vault QualityDocs using role-specific credentials\n* \\[NAV-001\\] After entering the application URL and submitting valid credentials, the user gains access to the QualityDocs module landing page\n* \\[RP-FUNC-002\\] The Quality Doc SME can navigate from the QualityDocs landing page to the Full Library view\n* \\[NAV-002\\] After clicking \"Full Library\" in the navigation, the Full Library document search interface is displayed\n* \\[RP-FUNC-003\\] The Quality Doc SME can search for a document by name (\"Test1 for Workflow\") and see matching results\n* \\[NAV-003\\] The Quality Doc SME can open the document from search results and the document detail page is displayed\n* \\[RP-FUNC-004\\] The document detail page confirms the document is in Draft state\n* \\[RP-FUNC-005\\] The Quality Doc SME can click the \"Send for Review And Verification\" user action on the Draft document\n* \\[NAV-004\\] After clicking the workflow action, a workflow initiation dialog is displayed with a reviewer assignment field\n* \\[RP-FUNC-006\\] The Quality Doc SME can select a reviewer from the reviewer assignment field\n* \\[RP-FUNC-009\\] After submitting the workflow initiation, a workflow task is created and assigned to the designated reviewer\n* \\[AR-001\\] After workflow submission, the document status transitions from Draft to In Review\n* \\[AR-002\\] After workflow submission, the reviewer sees the assigned workflow task in their Home view task list\n* \\[RP-DATA-001\\] The document status field displays \"In Review\" after the workflow is initiated\n\n### Alternative Paths\n\n* If the SME navigates directly to the QualityDocs URL with tab parameters, the Full Library may be accessible without additional navigation\n\n### Validation and Error Cases\n\n* \\[GR-001\\] The \"Send for Review And Verification\" action is disabled or hidden when the document is not in Draft state\n* \\[GR-002\\] The workflow initiation dialog prevents submission when no reviewer is selected (reviewer field is mandatory)\n* \\[RP-ROLE-001\\] Only users with the Quality Doc SME role can access and execute the \"Send for Review And Verification\" workflow action\n* \\[GR-006\\] Only authenticated users with valid credentials can access the QualityDocs workflow functionality\n* \\[RP-NFR-003\\] The system must enforce role-based access control — users without SME role cannot initiate the workflow\n* \\[RISK-003\\] The system shall prevent workflow initiation on documents that are not in Draft state — HIGH severity risk mitigation\n* \\[RISK-004\\] The system shall validate that the assigned reviewer account exists and has Reviewer role permissions before allowing workflow submission — HIGH severity risk mitigation\n\n### Business Rules\n\n* \\[BR-001\\] The \"Send for Review And Verification\" workflow can only be initiated on documents in Draft state\n* \\[BR-002\\] A reviewer must be assigned when initiating the workflow (mandatory field)\n* \\[RP-BIZ-002\\] The reviewer assignment field must contain a valid reviewer account before the system allows workflow submission\n\n### Inferred / TBC Items\n\n* Assumed: The system validates that a reviewer is selected before allowing workflow initiation (GAP-002)\n* Assumed: Workflow task assignment triggers an immediate update in the assignee's task list (GAP-004)\n\n**Covers:** RP-FUNC-001, RP-FUNC-002, RP-FUNC-003, RP-FUNC-004, RP-FUNC-009, RP-ROLE-001, RP-ROLE-004, RP-WFLOW-001, RP-WFLOW-002, RP-BIZ-001, RP-BIZ-002, RP-DATA-001, RP-DATA-006, RP-DATA-007, RP-INT-001, RP-NFR-002, RP-NFR-003\n\n**Source:** requirements/Send for Review Verification Steps.txt | **Updated:** 2026-05-26T11:05:00Z",
+  "acceptanceCriteria": null,
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-05-22T19:16:07.292+0530",
+  "updated": "2026-05-26T16:16:30.973+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-12",
+  "fetchedAt": "2026-08-21T08:55:02.078Z"
+}

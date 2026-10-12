@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-46",
+  "type": "Task",
+  "summary": "Maintain Customer Scheduling Agreement for hospital recurring supply",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Contract Administrator, I want to maintain a Customer Scheduling Agreement for a hospital's recurring pharmaceutical supply, so that the hospital receives regular shipments of critical medications without having to create individual sales orders for each delivery.",
+  "acceptanceCriteria": "1. The user can create a Scheduling Agreement specifying the customer (hospital), material (pharmaceutical product), total quantity, validity period, and delivery schedule.\n2. The system allows the user to define delivery schedules as fixed dates (e.g., first Monday of each month) or intervals (e.g., every 14 days).\n3. The system automatically creates delivery schedule lines for each scheduled delivery date within the validity period.\n4. The system allows the hospital to call off deliveries against the Scheduling Agreement by confirming the delivery schedule lines.\n5. The system tracks the cumulative quantity called off and remaining quantity under the Scheduling Agreement.\n6. The system sends a notification to the Sales team when the Scheduling Agreement is nearing its validity end date or when the remaining quantity falls below a threshold.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:41:24.586+0530",
+  "updated": "2026-08-21T14:41:24.672+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-46",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

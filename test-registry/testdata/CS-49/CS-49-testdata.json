@@ -1,0 +1,337 @@
+{
+  "userStory": "CS-49",
+  "module": "SD",
+  "feature": "Export Documentation Generation with Certificate of Analysis",
+  "generatedAt": "2026-08-24T10:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-049-HP-001": {
+      "id": "TD-CS-049-HP-001",
+      "name": "Valid Export Delivery — Single Line Item with All Master Data Complete",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "shipToParty": "{{CUSTOMER_INTERNATIONAL}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_INTERNATIONAL}}",
+        "hsCode": "{{HS_CODE_VALID}}",
+        "countryOfOrigin": "{{COUNTRY_OF_ORIGIN_VALID}}",
+        "exportLicenseNumber": "{{EXPORT_LICENSE_VALID}}",
+        "exportLicenseValidity": "{{EXPORT_LICENSE_VALIDITY_FUTURE}}",
+        "coaReference": "{{COA_DOCUMENT_NUMBER}}",
+        "commercialInvoiceNumber": "{{COMMERCIAL_INVOICE_GENERATED}}",
+        "packingListNumber": "{{PACKING_LIST_GENERATED}}"
+      },
+      "expectedOutcome": "Export delivery created with unique delivery number; all export docs generated with CoA reference; PGI success; goods issue document number generated; docs archived"
+    },
+    "TD-CS-049-AP-001": {
+      "id": "TD-CS-049-AP-001",
+      "name": "Multi-Line Export Delivery — Multiple Materials and Batches with CoAs",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_MULTI_LINE}}",
+        "materialNumber1": "{{MATERIAL_PHARMA_BATCH_MANAGED_1}}",
+        "materialNumber2": "{{MATERIAL_PHARMA_BATCH_MANAGED_2}}",
+        "batchNumber1": "{{BATCH_WITH_COA_1}}",
+        "batchNumber2": "{{BATCH_WITH_COA_2}}",
+        "quantity1": "{{DELIVERY_QUANTITY_LINE1}}",
+        "quantity2": "{{DELIVERY_QUANTITY_LINE2}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "hsCode1": "{{HS_CODE_MATERIAL_1}}",
+        "hsCode2": "{{HS_CODE_MATERIAL_2}}",
+        "countryOfOrigin1": "{{COUNTRY_OF_ORIGIN_MATERIAL_1}}",
+        "countryOfOrigin2": "{{COUNTRY_OF_ORIGIN_MATERIAL_2}}",
+        "coaReference1": "{{COA_DOCUMENT_NUMBER_BATCH_1}}",
+        "coaReference2": "{{COA_DOCUMENT_NUMBER_BATCH_2}}"
+      },
+      "expectedOutcome": "Multi-line delivery created; consolidated export docs generated with all CoA references; PGI success; all docs archived"
+    },
+    "TD-CS-049-AP-002": {
+      "id": "TD-CS-049-AP-002",
+      "name": "Existing Delivery — Retrieve Archived Export Documents",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "existingDeliveryNumber": "{{DELIVERY_NUMBER_EXISTING_GOODS_ISSUED}}",
+        "coaReference": "{{COA_DOCUMENT_NUMBER}}",
+        "commercialInvoiceNumber": "{{COMMERCIAL_INVOICE_ARCHIVED}}",
+        "packingListNumber": "{{PACKING_LIST_ARCHIVED}}"
+      },
+      "expectedOutcome": "Existing delivery retrieved; all archived export docs accessible; CoA references visible in docs; no DMS errors"
+    },
+    "TD-CS-049-NEG-001": {
+      "id": "TD-CS-049-NEG-001",
+      "name": "Batch Without Certificate of Analysis",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchNumberNoCoA": "{{BATCH_WITHOUT_COA}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Export documentation generation fails with error: CoA missing for batch; PGI blocked"
+    },
+    "TD-CS-049-NEG-002": {
+      "id": "TD-CS-049-NEG-002",
+      "name": "Material Master Missing HS Code",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNoHSCode": "{{MATERIAL_PHARMA_NO_HS_CODE}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Export documentation generation fails with error: HS code missing for material; PGI blocked"
+    },
+    "TD-CS-049-NEG-003": {
+      "id": "TD-CS-049-NEG-003",
+      "name": "Material Master Missing Country of Origin",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNoOrigin": "{{MATERIAL_PHARMA_NO_ORIGIN}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Export documentation generation fails with error: Country of origin missing for material; PGI blocked"
+    },
+    "TD-CS-049-NEG-004": {
+      "id": "TD-CS-049-NEG-004",
+      "name": "Export License Required But Missing",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_LICENSE_REQUIRED}}",
+        "materialRequiresLicense": "{{MATERIAL_PHARMA_REQUIRES_LICENSE}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System flags shipment as requiring export license; PGI blocked with error: Export license missing"
+    },
+    "TD-CS-049-NEG-005": {
+      "id": "TD-CS-049-NEG-005",
+      "name": "Export License Expired",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_LICENSE_REQUIRED}}",
+        "materialRequiresLicense": "{{MATERIAL_PHARMA_REQUIRES_LICENSE}}",
+        "exportLicenseExpired": "{{EXPORT_LICENSE_EXPIRED}}",
+        "exportLicenseExpiryPast": "{{EXPORT_LICENSE_EXPIRY_PAST}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays warning that export license is expired; PGI blocked with error: License validity expired"
+    },
+    "TD-CS-049-NEG-006": {
+      "id": "TD-CS-049-NEG-006",
+      "name": "Attempt PGI Before Export Documents Generated",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "PGI blocked with error: Mandatory export documents not generated"
+    },
+    "TD-CS-049-NEG-007": {
+      "id": "TD-CS-049-NEG-007",
+      "name": "Mandatory Document Type Generation Failed",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "failedDocType": "{{DOCUMENT_TYPE_FAILED}}"
+      },
+      "expectedOutcome": "Export documentation generation partial failure; PGI blocked with error listing missing document types"
+    },
+    "TD-CS-049-ERR-001": {
+      "id": "TD-CS-049-ERR-001",
+      "name": "Missing Sales Order Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "emptyValue": "",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Delivery creation fails with error: Sales Order is required"
+    },
+    "TD-CS-049-ERR-002": {
+      "id": "TD-CS-049-ERR-002",
+      "name": "Missing Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "emptyValue": "",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Delivery creation fails with error: Material is required"
+    },
+    "TD-CS-049-ERR-003": {
+      "id": "TD-CS-049-ERR-003",
+      "name": "Missing Batch Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "emptyValue": "",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Delivery creation or picking fails with error: Batch is required for batch-managed material"
+    },
+    "TD-CS-049-ERR-004": {
+      "id": "TD-CS-049-ERR-004",
+      "name": "Missing Shipping Point Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "emptyValue": "",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Delivery creation fails with error: Shipping Point is required"
+    },
+    "TD-CS-049-EDGE-001": {
+      "id": "TD-CS-049-EDGE-001",
+      "name": "Export License Expiring Today (Valid Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_LICENSE_REQUIRED}}",
+        "materialRequiresLicense": "{{MATERIAL_PHARMA_REQUIRES_LICENSE}}",
+        "exportLicenseExpiresToday": "{{EXPORT_LICENSE_EXPIRES_TODAY}}",
+        "exportLicenseValidityToday": "{{TODAY_DATE}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "License expiring today is still valid (boundary condition); PGI allowed; delivery and PGI success"
+    },
+    "TD-CS-049-EDGE-002": {
+      "id": "TD-CS-049-EDGE-002",
+      "name": "Export License Expiring Tomorrow (Valid with Warning)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_LICENSE_REQUIRED}}",
+        "materialRequiresLicense": "{{MATERIAL_PHARMA_REQUIRES_LICENSE}}",
+        "exportLicenseExpiresTomorrow": "{{EXPORT_LICENSE_EXPIRES_TOMORROW}}",
+        "exportLicenseValidityTomorrow": "{{TOMORROW_DATE}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "License expiring tomorrow is valid; PGI allowed; system may display warning about imminent expiry"
+    },
+    "TD-CS-049-EDGE-003": {
+      "id": "TD-CS-049-EDGE-003",
+      "name": "Minimum Valid Quantity (Decimal Precision Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-141"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "minQuantity": "{{DELIVERY_QUANTITY_MINIMUM}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Minimum quantity (0.001 or UoM-specific minimum) accepted; export docs generated with correct decimal precision; PGI success"
+    },
+    "TD-CS-049-EDGE-004": {
+      "id": "TD-CS-049-EDGE-004",
+      "name": "Maximum Number of Line Items (999 Lines - Boundary Upper)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-142"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_MAX_LINES}}",
+        "numberOfLineItems": "999",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Maximum 999 line items accepted; all CoA references included in consolidated export docs; no truncation; PGI success"
+    },
+    "TD-CS-049-INT-001": {
+      "id": "TD-CS-049-INT-001",
+      "name": "QM Inspection Lot Exists But CoA Generation Pending",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-143"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchQMPending": "{{BATCH_QM_INSPECTION_LOT_PENDING}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Delivery creation allowed; export documentation generation fails with warning: CoA generation pending in QM; PGI blocked"
+    },
+    "TD-CS-049-INT-002": {
+      "id": "TD-CS-049-INT-002",
+      "name": "DMS Archive Link Interface Unavailable",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-144"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialNumber": "{{MATERIAL_PHARMA_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Export docs generated; archival fails with DMS interface error; PGI may succeed (depends on config) but audit trail incomplete"
+    },
+    "TD-CS-049-INT-003": {
+      "id": "TD-CS-049-INT-003",
+      "name": "Material Master Plant Export Data Missing",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-145"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_INTERNATIONAL_VALID}}",
+        "materialPlantDataMissing": "{{MATERIAL_PHARMA_PLANT_DATA_MISSING}}",
+        "batchNumber": "{{BATCH_WITH_COA_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "shippingPoint": "{{SHIPPING_POINT_EXPORT_ENABLED}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Export documentation generation fails with error: Plant-specific export data (HS code/origin) missing in MARC; PGI blocked"
+    }
+  }
+}

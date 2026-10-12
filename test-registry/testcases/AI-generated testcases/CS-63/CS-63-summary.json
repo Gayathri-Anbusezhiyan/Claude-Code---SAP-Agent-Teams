@@ -1,0 +1,259 @@
+{
+  "userStory": "CS-63",
+  "summary": "User Story PP-014",
+  "module": "PP",
+  "generatedAt": "2026-08-24T10:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 23,
+  "byCoverageType": {
+    "HP": 4,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 5,
+    "EDGE": 5,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 15,
+    "MEDIUM": 4,
+    "LOW": 0
+  },
+  "automationCandidates": 18,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-151",
+      "title": "Access Stock/Requirements List App and View Existing Reservations",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-001"
+    },
+    {
+      "id": "TC-CS-152",
+      "title": "Convert Planned Order to Process Order and Verify Automatic Component Reservation Creation",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-002"
+    },
+    {
+      "id": "TC-CS-153",
+      "title": "Confirm Reserved Quantities Are Excluded from Available Stock in Other Processes",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-003"
+    },
+    {
+      "id": "TC-CS-154",
+      "title": "Execute Backflush Consumption and Verify Automatic Reservation Release",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-063-004"
+    },
+    {
+      "id": "TC-CS-155",
+      "title": "Manually Adjust Reservation Quantity Before Process Order Release",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-AP-001"
+    },
+    {
+      "id": "TC-CS-156",
+      "title": "Manually Adjust Reservation Date Before Process Order Release",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-AP-002"
+    },
+    {
+      "id": "TC-CS-157",
+      "title": "Cancel Process Order and Verify Automatic Reservation Release",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-AP-003"
+    },
+    {
+      "id": "TC-CS-158",
+      "title": "Attempt to Reserve Component Quantity Exceeding Available Stock and Verify Shortage Warning",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-NEG-001"
+    },
+    {
+      "id": "TC-CS-159",
+      "title": "Attempt to Convert Planned Order with No BOM and Verify Error Handling",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-NEG-002"
+    },
+    {
+      "id": "TC-CS-160",
+      "title": "Attempt to Access Stock/Requirements List App Without Authorization",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-NEG-003"
+    },
+    {
+      "id": "TC-CS-161",
+      "title": "Attempt to Convert Planned Order with Missing Planned Order Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-ERR-001"
+    },
+    {
+      "id": "TC-CS-162",
+      "title": "Attempt to Create Reservation with Missing Material Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-ERR-002"
+    },
+    {
+      "id": "TC-CS-163",
+      "title": "Attempt to Create Reservation with Missing Plant",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-ERR-003"
+    },
+    {
+      "id": "TC-CS-164",
+      "title": "Attempt to Create Reservation with Missing Requirement Date",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-ERR-004"
+    },
+    {
+      "id": "TC-CS-165",
+      "title": "Attempt to Adjust Reservation Quantity with Missing Quantity Value",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-ERR-005"
+    },
+    {
+      "id": "TC-CS-166",
+      "title": "Create Reservation with Minimum Boundary Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-EDGE-001"
+    },
+    {
+      "id": "TC-CS-167",
+      "title": "Create Reservation with Maximum Boundary Quantity Equal to Planned Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-EDGE-002"
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Create Reservation with Requirement Date Set to Current Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-EDGE-003"
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Create Reservation with Requirement Date Set to End of Planning Horizon",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-063-EDGE-004"
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Attempt to Create Reservation When Available Stock is Exactly Zero",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-063-EDGE-005"
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Verify Reservation Prevents Concurrent Allocation to Sales Order - PP to SD Integration",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-063-INT-001"
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Verify Backflush Goods Issue Releases Reservation - PP to MM Integration",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-063-INT-002"
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Verify Shortage Warning Reflects Real-Time Stock Updates from Warehouse - MM to PP Integration",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-063-INT-003"
+    }
+  ],
+  "testdataFile": "testdata/CS-63/CS-63-testdata.json"
+}

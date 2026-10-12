@@ -1,0 +1,378 @@
+{
+  "userStory": "CS-24",
+  "summary": "Create A Subcontracting Purchase Order For Outsourced Fill-Finish Manu",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 25,
+  "byCoverageType": {
+    "HP": 4,
+    "AP": 2,
+    "NEG": 4,
+    "ERR": 6,
+    "EDGE": 6,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 12,
+    "HIGH": 8,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 20,
+  "testCases": [
+    {
+      "id": "TC-CS-199",
+      "title": "Create Subcontracting PO with Single Component and Verify Special Stock Indicator",
+      "scenarioType": "HAPPY_PATH",
+      "scenarioId": "HP-01",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-HP-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-200",
+      "title": "Issue Components to Vendor and Verify Stock Provided to Vendor Creation",
+      "scenarioType": "HAPPY_PATH",
+      "scenarioId": "HP-02",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-HP-002",
+      "acsCovered": ["AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-201",
+      "title": "Post Goods Receipt for Finished Product and Verify Component Auto-Consumption and Inspection Lot Creation",
+      "scenarioType": "HAPPY_PATH",
+      "scenarioId": "HP-03",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-HP-003",
+      "acsCovered": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-202",
+      "title": "View Component Balances at CMO via Stock Overview App After Issue",
+      "scenarioType": "HAPPY_PATH",
+      "scenarioId": "HP-04",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-24-HP-004",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-203",
+      "title": "Create Subcontracting PO with Multiple Components",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "scenarioId": "AP-01",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-AP-001",
+      "acsCovered": ["AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-204",
+      "title": "Post Partial Goods Receipt and Verify Partial Component Consumption",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "scenarioId": "AP-02",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-AP-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-205",
+      "title": "Attempt to Create PO with Vendor Without Subcontracting Indicator Enabled",
+      "scenarioType": "NEGATIVE",
+      "scenarioId": "NEG-01",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-24-NEG-001",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-206",
+      "title": "Attempt to Create PO with Material Without Item Category L Configured",
+      "scenarioType": "NEGATIVE",
+      "scenarioId": "NEG-02",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-24-NEG-002",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-207",
+      "title": "Attempt to Specify Component Not in BOM for Finished Material",
+      "scenarioType": "NEGATIVE",
+      "scenarioId": "NEG-03",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-24-NEG-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-208",
+      "title": "Attempt Goods Receipt When Insufficient Component Stock at Vendor",
+      "scenarioType": "NEGATIVE",
+      "scenarioId": "NEG-04",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-NEG-004",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-209",
+      "title": "Attempt to Create Subcontracting PO with Missing Supplier Field",
+      "scenarioType": "ERROR",
+      "scenarioId": "ERR-01",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-ERR-001",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-210",
+      "title": "Attempt to Create Subcontracting PO with Missing Material Field",
+      "scenarioType": "ERROR",
+      "scenarioId": "ERR-02",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-ERR-002",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-211",
+      "title": "Attempt to Create Subcontracting PO with Missing Plant Field",
+      "scenarioType": "ERROR",
+      "scenarioId": "ERR-03",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-ERR-003",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-212",
+      "title": "Attempt to Create Subcontracting PO with Missing Order Quantity Field",
+      "scenarioType": "ERROR",
+      "scenarioId": "ERR-04",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-ERR-004",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-213",
+      "title": "Attempt to Create Subcontracting PO with Missing Delivery Date Field",
+      "scenarioType": "ERROR",
+      "scenarioId": "ERR-05",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-ERR-005",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-214",
+      "title": "Attempt to Create Subcontracting PO with Missing or Wrong Item Category",
+      "scenarioType": "ERROR",
+      "scenarioId": "ERR-06",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-ERR-006",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-215",
+      "title": "Create Subcontracting PO with Minimum Order Quantity (1 unit)",
+      "scenarioType": "EDGE_CASE",
+      "scenarioId": "EDGE-01",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-EDGE-001",
+      "acsCovered": ["AC-2", "AC-4"]
+    },
+    {
+      "id": "TC-CS-216",
+      "title": "Attempt to Create Subcontracting PO with Zero Order Quantity",
+      "scenarioType": "EDGE_CASE",
+      "scenarioId": "EDGE-02",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-EDGE-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-217",
+      "title": "Create Subcontracting PO with Maximum Order Quantity (System Limit)",
+      "scenarioType": "EDGE_CASE",
+      "scenarioId": "EDGE-03",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-EDGE-003",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-218",
+      "title": "Create Subcontracting PO with Delivery Date = Today (Minimum Lead Time)",
+      "scenarioType": "EDGE_CASE",
+      "scenarioId": "EDGE-04",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-EDGE-004",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-219",
+      "title": "Attempt to Create Subcontracting PO with Past Delivery Date",
+      "scenarioType": "EDGE_CASE",
+      "scenarioId": "EDGE-05",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-24-EDGE-005",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-220",
+      "title": "Attempt to Create Subcontracting PO with Component Quantity Override to Zero",
+      "scenarioType": "EDGE_CASE",
+      "scenarioId": "EDGE-06",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-24-EDGE-006",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-221",
+      "title": "Verify Integration with MM-IM (Special Stock Creation and Component Consumption)",
+      "scenarioType": "INTEGRATION",
+      "scenarioId": "INT-01",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-INT-001",
+      "acsCovered": ["AC-3", "AC-4"],
+      "integration": "MM-IM"
+    },
+    {
+      "id": "TC-CS-222",
+      "title": "Verify Integration with QM (Inspection Lot Creation at GR)",
+      "scenarioType": "INTEGRATION",
+      "scenarioId": "INT-02",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-INT-002",
+      "acsCovered": ["AC-5"],
+      "integration": "QM"
+    },
+    {
+      "id": "TC-CS-223",
+      "title": "Verify Integration with BOM (Component Explosion from STPO/STKO)",
+      "scenarioType": "INTEGRATION",
+      "scenarioId": "INT-03",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-24-INT-003",
+      "acsCovered": ["AC-2"],
+      "integration": "PP-BOM"
+    }
+  ],
+  "testdataFile": "test-registry/testdata/CS-24/CS-24-testdata.json",
+  "coverageMatrixFile": "test-registry/testcases/AI-generated testcases/CS-24/CS-24-coverage-matrix.md",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "actual": "100%",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "required": 4,
+      "actual": 4,
+      "status": "PASS"
+    },
+    "apCoverage": {
+      "required": 2,
+      "actual": 2,
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "required": 4,
+      "actual": 4,
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "required": 6,
+      "actual": 6,
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "required": 6,
+      "actual": 6,
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "required": 3,
+      "actual": 3,
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "actual": "0 hardcoded values",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 60%",
+      "actual": "80%",
+      "status": "PASS"
+    }
+  }
+}

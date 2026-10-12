@@ -1,0 +1,20 @@
+{
+  "key": "CS-51",
+  "summary": "Perform A Goods Issue (Backflush) Of Raw Material Batches To A Process",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:35.515Z",
+  "updated": "2026-08-21T08:41:35.586Z",
+  "description": "As a Production Operator, I want to perform a Goods Issue (backflush) of raw material batches to a Process Order, so that component consumption is automatically recorded with full batch traceability to the finished product.",
+  "acceptanceCriteria": "1. The user can access the \"Confirm Process Order\" or \"Post Goods Movement\" Fiori app.2. The system automatically proposes the batch(es) to be consumed based on FEFO logic for backflushed components.3. The system prevents consumption of a batch that is on quality hold or has expired.4. Consumed batch numbers are automatically recorded against the process order's batch record for genealogy purposes.5. The system displays a warning if a substitute batch must be selected due to insufficient primary batch quantity.6. The transaction updates inventory in real time upon confirmation.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

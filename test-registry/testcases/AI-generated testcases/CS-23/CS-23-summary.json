@@ -1,0 +1,160 @@
+{
+  "userStory": "CS-23",
+  "summary": "User Story MM-008",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 12,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 2,
+    "NEG": 2,
+    "ERR": 0,
+    "EDGE": 5,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 7,
+    "MEDIUM": 0,
+    "LOW": 0
+  },
+  "automationCandidates": 7,
+  "testCases": [
+    {
+      "id": "TC-CS-174",
+      "title": "Access Stock/Requirements List and run MRP end-to-end for GMP material with shelf-life constraints",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-23-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Run MRP for GMP material with in-house production (Planned Order generation)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-23-002",
+      "acsCovered": ["AC-2", "AC-4"]
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Run MRP for GMP material with external procurement (Purchase Requisition generation)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-23-003",
+      "acsCovered": ["AC-2", "AC-4"]
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Review and convert Planned Order to Production Order from Stock/Requirements List",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Review and convert Purchase Requisition to Purchase Order from Stock/Requirements List",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-005",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Run MRP for material without minimum remaining shelf-life configured (standard MRP without shelf-life constraint)",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-23-006",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Run MRP for GMP material with all batches below minimum shelf-life (full replenishment proposal)",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-23-007",
+      "acsCovered": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Batch expiration date exactly equals minimum remaining shelf-life threshold (batch exclusion boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-008",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Batch expiration date is 1 day above minimum remaining shelf-life threshold (batch inclusion boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-009",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "GMP material with total shelf life equal to minimum remaining shelf-life (edge configuration scenario)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-010",
+      "acsCovered": ["AC-2", "AC-4"]
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Exception message triggered when batch remaining shelf life reaches minimum threshold exactly",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-011",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-185",
+      "title": "Exception message triggered when batch remaining shelf life is 1 day below minimum threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-23-012",
+      "acsCovered": ["AC-6"]
+    }
+  ],
+  "testdataFile": "test-registry/testdata/CS-23/CS-23-testdata.json",
+  "qualityGatesStatus": {
+    "acTraceability": "PASS",
+    "hpCoverage": "PASS",
+    "apCoverage": "PASS",
+    "negCoverage": "PASS",
+    "errCoverage": "PASS",
+    "edgeCoverage": "PASS",
+    "parameterization": "PASS",
+    "automationEligibility": "PASS",
+    "batchManagementCoverage": "PASS",
+    "gmpComplianceCoverage": "PASS",
+    "overallStatus": "PASS"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-35",
+  "type": "Task",
+  "summary": "Create Outbound Delivery with Cold-Chain shipping for biologics",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Warehouse Supervisor, I want to create an Outbound Delivery with Cold-Chain shipping conditions for biologics, so that temperature-sensitive pharmaceutical products are shipped with proper environmental controls and monitoring.",
+  "acceptanceCriteria": "1. The user can create an Outbound Delivery from a released Sales Order for a biologics material.\n2. The system automatically assigns a \"Cold-Chain\" shipping condition to the delivery based on the material's temperature requirements (e.g., 2-8°C, -20°C).\n3. The system requires the user to specify a temperature-controlled shipping method and carrier that is certified for cold-chain transport.\n4. The system blocks picking and packing if the warehouse does not have temperature-controlled storage locations available for the material.\n5. The system prints or attaches a \"Temperature-Sensitive\" label and handling instructions to the delivery documentation.\n6. The system records the temperature range and duration requirements in the delivery header for carrier visibility.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:31:38.912+0530",
+  "updated": "2026-08-21T14:31:38.998+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-35",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

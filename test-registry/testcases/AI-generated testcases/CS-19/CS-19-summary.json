@@ -1,0 +1,292 @@
+{
+  "userStory": "CS-19",
+  "summary": "Place A Specific Batch Of Raw Material On Quality Hold",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 20,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 8,
+    "EDGE": 3,
+    "INT": 1
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 11,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 14,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-053",
+      "title": "Place Batch on Quality Hold with Blocked Stock Status",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Place Batch on Quality Hold with Quality Inspection Stock Status",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "QA User Releases Batch Quality Hold and Restores to Unrestricted-Use Stock",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Place Batch on Quality Hold via Batch Where-Used List App",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-004",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-057",
+      "title": "Attempt Goods Issue Transaction Against Blocked Batch",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-19-005",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-058",
+      "title": "Attempt Production Order Consumption Against Blocked Batch",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-19-006",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-059",
+      "title": "Unauthorized User Attempts to Release Batch Hold",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-007",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-060",
+      "title": "Attempt to Block Batch with Zero Stock Quantity",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-008",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-061",
+      "title": "Attempt to Block Batch with Missing Material Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-009",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-062",
+      "title": "Attempt to Block Batch with Missing Batch Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-010",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-063",
+      "title": "Attempt to Block Batch with Missing Plant",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-011",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-064",
+      "title": "Attempt to Block Batch with Missing Storage Location",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-012",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-065",
+      "title": "Attempt to Block Batch with Missing Reason Code",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-013",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-066",
+      "title": "Attempt to Block Batch with Non-existent Material Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-014",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-067",
+      "title": "Attempt to Block Batch with Non-existent Batch Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-015",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-068",
+      "title": "Attempt to Block Batch for Material Not Batch-Managed",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-19-016",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-069",
+      "title": "Block Batch with Minimum Valid Stock Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-017",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-070",
+      "title": "Block Batch with Maximum Stock Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-018",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-071",
+      "title": "Release Hold on Batch That Was Never Blocked",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-19-019",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-072",
+      "title": "Block Batch Used in Active Process Order and Verify Notification to Production Planning",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-19-020",
+      "acsCovered": ["AC-6"]
+    }
+  ],
+  "testdataFile": "test-registry/testdata/CS-19/CS-19-testdata.json",
+  "testdataGuideFile": "test-registry/testdata/CS-19/CS-19-testdata-guide.md",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "result": "6/6 ACs covered",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "All 3 HP scenarios",
+      "result": "3/3 HP scenarios",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "All 4 NEG scenarios",
+      "result": "4/4 NEG scenarios",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "All 8 ERR scenarios",
+      "result": "8/8 ERR scenarios",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "All 3 EDGE scenarios",
+      "result": "3/3 EDGE scenarios",
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "threshold": "1 INT scenario",
+      "result": "1/1 INT scenario",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "result": "0 hardcoded values found",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 10 TCs flagged YES or PARTIAL",
+      "result": "14/20 TCs (70%)",
+      "status": "PASS"
+    }
+  }
+}

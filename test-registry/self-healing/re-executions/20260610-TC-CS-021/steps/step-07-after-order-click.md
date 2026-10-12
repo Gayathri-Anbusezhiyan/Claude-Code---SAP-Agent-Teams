@@ -1,0 +1,214 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - status
+    - status
+    - img [ref=e3]
+    - img [ref=e27]
+  - generic [ref=e34]:
+    - banner "Shell Bar" [ref=e36]:
+      - generic [ref=e37]:
+        - button "" [ref=e38] [cursor=pointer]:
+          - generic [ref=e39]: 
+        - button "Back" [ref=e485] [cursor=pointer]:
+          - generic [ref=e486]: 
+        - button "SAP Logo" [ref=e40] [cursor=pointer]:
+          - img "SAP Logo" [ref=e41]
+        - generic [ref=e42] [cursor=pointer]:
+          - heading "Manage Purchase Orders" [level=1]
+          - button "Manage Purchase Orders" [ref=e2294]:
+            - generic [ref=e44]: Manage Purchase Orders
+            - generic [ref=e577]: 
+      - generic [ref=e48]:  
+      - generic [ref=e49]:
+        - button "Open Search" [ref=e579] [cursor=pointer]:
+          - generic [ref=e580]: 
+        - button "Joule" [ref=e438] [cursor=pointer]:
+          - generic [ref=e439]: 
+        - button "Open Help" [ref=e466] [cursor=pointer]:
+          - generic [ref=e467]: 
+        - button "Notifications" [ref=e440] [cursor=pointer]:
+          - generic [ref=e441]: 
+        - button "Profile of Trial 0034157 User" [ref=e50] [cursor=pointer]:
+          - generic: 
+    - generic [ref=e54]:
+      - text: 
+      - main "Content" [ref=e106]:
+        - text:         
+        - generic [ref=e584]:
+          - article [ref=e589]:
+            - generic [ref=e590]:
+              - region "Expanded header" [ref=e592]:
+                - generic [ref=e595]:
+                  - generic [ref=e598]:
+                    - searchbox "Search" [ref=e599]
+                    - generic [ref=e600] [cursor=pointer]: 
+                  - generic [ref=e601]:
+                    - generic [ref=e604]: "Editing Status:"
+                    - generic [ref=e605] [cursor=pointer]:
+                      - combobox "Editing Status:" [ref=e606]: All
+                      - textbox [ref=e607]: "0"
+                      - generic [ref=e608]: All
+                      - generic [ref=e609]: 
+                  - generic [ref=e610]:
+                    - generic [ref=e613]: "Supplier:"
+                    - generic [ref=e615]:
+                      - textbox "Supplier:" [ref=e616]
+                      - button "Show Value Help" [ref=e618] [cursor=pointer]: 
+                  - generic [ref=e619]:
+                    - generic "Purchase Order Number" [ref=e620]:
+                      - generic [ref=e622]: "Purchase Order:"
+                    - generic "Purchase Order Number" [ref=e623]:
+                      - generic [ref=e624]:
+                        - textbox "Purchase Order:" [ref=e625]
+                        - button "Show Value Help" [ref=e627] [cursor=pointer]: 
+                  - generic [ref=e628]:
+                    - generic [ref=e631]: "Purchasing Group:"
+                    - generic [ref=e633]:
+                      - textbox "Purchasing Group:" [ref=e634]
+                      - button "Show Value Help" [ref=e636] [cursor=pointer]: 
+                  - generic [ref=e637]:
+                    - generic [ref=e640]: "Company Code:"
+                    - generic [ref=e642]:
+                      - textbox "Company Code:" [ref=e643]
+                      - button "Show Value Help" [ref=e645] [cursor=pointer]: 
+                  - generic [ref=e646]:
+                    - generic [ref=e649]: "Order Status:"
+                    - generic [ref=e651]:
+                      - combobox "Order Status:" [ref=e652]
+                      - button [ref=e654] [cursor=pointer]: 
+                  - generic [ref=e655]:
+                    - generic [ref=e658]: "Material:"
+                    - generic [ref=e660]:
+                      - textbox "Material:" [ref=e661]
+                      - button "Show Value Help" [ref=e663] [cursor=pointer]: 
+                  - generic [ref=e664]:
+                    - generic [ref=e667]: "Plant:"
+                    - generic [ref=e669]:
+                      - textbox "Plant:" [ref=e670]
+                      - button "Show Value Help" [ref=e672] [cursor=pointer]: 
+                  - generic [ref=e673]:
+                    - generic [ref=e676]: "Purchase Order Date:"
+                    - generic [ref=e679]:
+                      - textbox "Purchase Order Date:" [ref=e680]
+                      - generic [ref=e682] [cursor=pointer]: 
+                  - generic [ref=e684]:
+                    - generic "User of person who created a purchasing document" [ref=e685]:
+                      - generic [ref=e687]: "Created By:"
+                    - generic "User of person who created a purchasing document" [ref=e688]:
+                      - generic [ref=e689]:
+                        - textbox "Created By:" [ref=e690]
+                        - button "Show Value Help" [ref=e692] [cursor=pointer]: 
+                  - generic [ref=e693]:
+                    - generic [ref=e696]: "Cash Discount Percentage 1:"
+                    - generic [ref=e698]:
+                      - textbox "Cash Discount Percentage 1:" [ref=e699]
+                      - button "Show Value Help" [ref=e701] [cursor=pointer]: 
+                  - generic [ref=e702]:
+                    - generic [ref=e705]: "Cash Discount Percentage 2:"
+                    - generic [ref=e707]:
+                      - textbox "Cash Discount Percentage 2:" [ref=e708]
+                      - button "Show Value Help" [ref=e710] [cursor=pointer]: 
+                  - generic [ref=e711]:
+                    - generic "Creation Date of Purchasing Document" [ref=e712]:
+                      - generic [ref=e714]: "Created On:"
+                    - generic "Creation Date of Purchasing Document" [ref=e716]:
+                      - generic [ref=e717]:
+                        - textbox "Created On:" [ref=e718]
+                        - generic [ref=e720] [cursor=pointer]: 
+                  - generic [ref=e722]:
+                    - generic "Currency Key" [ref=e723]:
+                      - generic [ref=e725]: "Currency:"
+                    - generic "Currency Key" [ref=e726]:
+                      - generic [ref=e727]:
+                        - textbox "Currency:" [ref=e728]
+                        - button "Show Value Help" [ref=e730] [cursor=pointer]: 
+                  - generic [ref=e731]:
+                    - generic "Description of Dangerous Goods Status (All Items)" [ref=e732]:
+                      - generic [ref=e734]: "Dangerous Goods Status:"
+                    - generic "Description of Dangerous Goods Status (All Items)" [ref=e735]:
+                      - generic [ref=e736]:
+                        - textbox "Dangerous Goods Status:" [ref=e737]
+                        - button "Show Value Help" [ref=e739] [cursor=pointer]: 
+                  - generic [ref=e740]:
+                    - generic "Cash Discount Days 1" [ref=e741]:
+                      - generic [ref=e743]: "Days 1 / In Percent:"
+                    - generic "Cash Discount Days 1" [ref=e744]:
+                      - generic [ref=e745]:
+                        - textbox "Days 1 / In Percent:" [ref=e746]
+                        - button "Show Value Help" [ref=e748] [cursor=pointer]: 
+                  - generic [ref=e749]:
+                    - generic "Cash Discount Days 2" [ref=e750]:
+                      - generic [ref=e752]: "Days 2 / In Percent:"
+                    - generic "Cash Discount Days 2" [ref=e753]:
+                      - generic [ref=e754]:
+                        - textbox "Days 2 / In Percent:" [ref=e755]
+                        - button "Show Value Help" [ref=e757] [cursor=pointer]: 
+                  - generic [ref=e758]:
+                    - generic "Net Payment Terms Period" [ref=e759]:
+                      - generic [ref=e761]: "Days Net:"
+                    - generic "Net Payment Terms Period" [ref=e762]:
+                      - generic [ref=e763]:
+                        - textbox "Days Net:" [ref=e764]
+                        - button "Show Value Help" [ref=e766] [cursor=pointer]: 
+                  - generic [ref=e767]:
+                    - generic "Description of Deviating Location for Incoterm Location 1" [ref=e768]:
+                      - generic [ref=e770]: "Deviating Place of Destination:"
+                    - generic "Description of Deviating Location for Incoterm Location 1" [ref=e771]:
+                      - generic [ref=e772]:
+                        - textbox "Deviating Place of Destination:" [ref=e773]
+                        - button "Show Value Help" [ref=e775] [cursor=pointer]: 
+                  - generic [ref=e776]:
+                    - button "Go" [ref=e777] [cursor=pointer]:
+                      - generic [ref=e779]: Go
+                    - button "Adapt Filters" [ref=e780] [cursor=pointer]:
+                      - generic [ref=e782]: Adapt Filters
+              - generic [ref=e787]:
+                - toolbar "Purchase Orders" [ref=e788]:
+                  - heading "Purchase Orders" [level=3] [ref=e789]
+                  - separator [ref=e790]
+                  - generic [ref=e793]:
+                    - generic [ref=e795]: Standard
+                    - button "View Standard" [ref=e797] [cursor=pointer]:
+                      - generic [ref=e799]: 
+                  - button "Create PO" [ref=e801] [cursor=pointer]:
+                    - generic [ref=e803]: Create PO
+                  - button "Delete" [disabled] [ref=e804]:
+                    - generic [ref=e806]: Delete
+                  - button "Copy" [disabled] [ref=e807]:
+                    - generic [ref=e809]: Copy
+                  - button "Withdraw from Approval" [disabled] [ref=e810]:
+                    - generic [ref=e812]: Withdraw from Approval
+                  - button "Copy to Clipboard" [disabled] [ref=e813]:
+                    - generic [ref=e815]: 
+                  - button "Settings" [ref=e816] [cursor=pointer]:
+                    - generic [ref=e818]: 
+                  - group "Export Table Split Button Press Enter to trigger action and Arrow Down to open menu" [disabled] [ref=e820]:
+                    - generic [ref=e821]:
+                      - button "excel-attachment" [disabled] [ref=e822]:
+                        - generic [ref=e824]: 
+                      - button "Open Menu" [disabled] [ref=e825]:
+                        - generic [ref=e827]: 
+                  - button "Additional Options" [ref=e828] [cursor=pointer]:
+                    - generic [ref=e830]: 
+                - grid "Purchase Orders" [ref=e831]:
+                  - rowgroup [ref=e832]:
+                    - row "Selection Purchase Order Supplier Company Code Row Popin" [ref=e833]:
+                      - columnheader "Selection" [ref=e834]:
+                        - checkbox "Select All" [ref=e835]
+                      - columnheader "Purchase Order" [ref=e837]:
+                        - generic "Purchase Order" [ref=e839] [cursor=pointer]
+                      - columnheader [ref=e840]
+                      - columnheader "Supplier" [ref=e842]:
+                        - generic "Supplier" [ref=e844] [cursor=pointer]:
+                          - generic [ref=e846]: Supplier
+                      - columnheader "Company Code" [ref=e847]:
+                        - generic "Company Code" [ref=e849] [cursor=pointer]:
+                          - generic [ref=e851]: Company Code
+                      - columnheader "Row Popin"
+                  - rowgroup [ref=e852]:
+                    - row "To start, set the relevant filters and choose \"Go\"." [ref=e853]:
+                      - gridcell "To start, set the relevant filters and choose \"Go\"." [ref=e854]
+          - text: "  : :*  :*  :*  : :*  :*  :*                                                                                                          : : : :        "
+    - contentinfo
+  - generic:
+    - region "Notification"

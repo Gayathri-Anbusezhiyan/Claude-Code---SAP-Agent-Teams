@@ -1,0 +1,255 @@
+{
+  "userStory": "CS-37",
+  "module": "SD",
+  "feature": "Return Order Processing for Customer Complaints",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-037-001": {
+      "id": "TD-CS-037-001",
+      "name": "Valid Return Order — Primary Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "qualityNotification": "{{QUALITY_NOTIFICATION_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "originalSalesOrder": "{{ORIGINAL_SALES_ORDER_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "creditAmount": "{{CREDIT_AMOUNT_CALCULATED}}",
+        "creditMemoRequestNumber": "{{CREDIT_MEMO_REQUEST_NUMBER}}"
+      },
+      "expectedOutcome": "Return Order created with unique document number; Credit Memo Request initiated; status Open"
+    },
+    "TD-CS-037-NEG-001": {
+      "id": "TD-CS-037-NEG-001",
+      "name": "Invalid Customer — Non-existent ID",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "invalidCustomerId": "{{CUSTOMER_ID_INVALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}"
+      },
+      "expectedOutcome": "System displays error: Customer does not exist; Return Order NOT created"
+    },
+    "TD-CS-037-NEG-002": {
+      "id": "TD-CS-037-NEG-002",
+      "name": "Invalid Material — Non-existent Material Number",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}"
+      },
+      "expectedOutcome": "System displays error: Material does not exist or not valid for sales org; Return Order NOT created"
+    },
+    "TD-CS-037-NEG-003": {
+      "id": "TD-CS-037-NEG-003",
+      "name": "Invalid Quality Notification — Non-existent Notification Number",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "invalidQualityNotification": "{{QUALITY_NOTIFICATION_INVALID}}"
+      },
+      "expectedOutcome": "System displays error: Quality Notification does not exist; Return Order NOT created"
+    },
+    "TD-CS-037-ERR-001": {
+      "id": "TD-CS-037-ERR-001",
+      "name": "Missing Mandatory Field — Customer",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "customerId": "",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "emptyValue": ""
+      },
+      "note": "customerId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Customer field as mandatory; prevents submission"
+    },
+    "TD-CS-037-ERR-002": {
+      "id": "TD-CS-037-ERR-002",
+      "name": "Missing Mandatory Field — Material",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "emptyValue": ""
+      },
+      "note": "materialId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Material field as mandatory; prevents submission"
+    },
+    "TD-CS-037-ERR-003": {
+      "id": "TD-CS-037-ERR-003",
+      "name": "Missing Mandatory Field — Quantity",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "emptyValue": ""
+      },
+      "note": "returnQuantity intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Quantity field as mandatory; prevents submission"
+    },
+    "TD-CS-037-ERR-004": {
+      "id": "TD-CS-037-ERR-004",
+      "name": "Missing Mandatory Field — Return Reason Code",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "",
+        "emptyValue": ""
+      },
+      "note": "returnReasonCode intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Return Reason Code field as mandatory; prevents submission"
+    },
+    "TD-CS-037-EDGE-001": {
+      "id": "TD-CS-037-EDGE-001",
+      "name": "Minimum Return Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "minReturnQuantity": "{{RETURN_QUANTITY_MIN}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "creditAmountMin": "{{CREDIT_AMOUNT_MIN}}"
+      },
+      "expectedOutcome": "Return Order created successfully with minimum quantity (1 unit)"
+    },
+    "TD-CS-037-EDGE-002": {
+      "id": "TD-CS-037-EDGE-002",
+      "name": "Maximum Return Quantity Boundary (Matching Original Order)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "maxReturnQuantity": "{{RETURN_QUANTITY_MAX}}",
+        "originalSalesOrder": "{{ORIGINAL_SALES_ORDER_VALID}}",
+        "originalOrderQuantity": "{{ORIGINAL_ORDER_QUANTITY}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "creditAmountMax": "{{CREDIT_AMOUNT_MAX}}"
+      },
+      "expectedOutcome": "Return Order created successfully with maximum quantity (equal to original delivered quantity)"
+    },
+    "TD-CS-037-EDGE-003": {
+      "id": "TD-CS-037-EDGE-003",
+      "name": "Return Quantity Exceeding Original Order (Invalid Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "excessReturnQuantity": "{{RETURN_QUANTITY_EXCESS}}",
+        "originalSalesOrder": "{{ORIGINAL_SALES_ORDER_VALID}}",
+        "originalOrderQuantity": "{{ORIGINAL_ORDER_QUANTITY}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Return quantity exceeds delivered quantity; Return Order NOT created"
+    },
+    "TD-CS-037-INT-001": {
+      "id": "TD-CS-037-INT-001",
+      "name": "Return Order Integration with Quality Notification (QM Module)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "qualityNotification": "{{QUALITY_NOTIFICATION_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "inspectionLot": "{{INSPECTION_LOT_NUMBER}}"
+      },
+      "expectedOutcome": "Return Order created; Quality Notification link established; bidirectional integration visible; Inspection Lot may be created"
+    },
+    "TD-CS-037-INT-002": {
+      "id": "TD-CS-037-INT-002",
+      "name": "Return Order Integration with Credit Memo Request (FI/CO Module)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-033"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "returnReasonCode": "{{RETURN_REASON_CODE}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "plant": "{{PLANT_CODE}}",
+        "creditAmount": "{{CREDIT_AMOUNT_CALCULATED}}",
+        "creditMemoRequestNumber": "{{CREDIT_MEMO_REQUEST_NUMBER}}"
+      },
+      "expectedOutcome": "Return Order created; Credit Memo Request auto-generated; bidirectional link established; FI/CO integration confirmed"
+    }
+  },
+  "allPlaceholders": [
+    "{{BATCH_NUMBER_VALID}}",
+    "{{CREDIT_AMOUNT_CALCULATED}}",
+    "{{CREDIT_AMOUNT_MAX}}",
+    "{{CREDIT_AMOUNT_MIN}}",
+    "{{CREDIT_MEMO_REQUEST_NUMBER}}",
+    "{{CUSTOMER_ID_INVALID}}",
+    "{{CUSTOMER_ID_VALID}}",
+    "{{CUSTOMER_NAME_VALID}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{INSPECTION_LOT_NUMBER}}",
+    "{{MATERIAL_DESCRIPTION_VALID}}",
+    "{{MATERIAL_ID_INVALID}}",
+    "{{MATERIAL_ID_VALID}}",
+    "{{ORIGINAL_ORDER_QUANTITY}}",
+    "{{ORIGINAL_SALES_ORDER_VALID}}",
+    "{{PLANT_CODE}}",
+    "{{QUALITY_NOTIFICATION_INVALID}}",
+    "{{QUALITY_NOTIFICATION_VALID}}",
+    "{{RETURN_QUANTITY_EXCESS}}",
+    "{{RETURN_QUANTITY_MAX}}",
+    "{{RETURN_QUANTITY_MIN}}",
+    "{{RETURN_QUANTITY_STANDARD}}",
+    "{{RETURN_REASON_CODE}}",
+    "{{SALES_ORGANIZATION_CODE}}",
+    "{{UNIT_OF_MEASURE}}"
+  ]
+}

@@ -1,0 +1,478 @@
+{
+  "userStory": "CS-48",
+  "summary": "Maintain Tiered Pricing Conditions For A Pharmaceutical Product Based",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Pricing Analyst",
+  "businessObject": "Pricing Condition Record (SAP SD - Condition Master)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Pricing Conditions\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can define price scales based on order quantity breakpoints.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system automatically applies the correct price tier based on the customer's pricing group and the ordered quantity.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system displays the applicable condition record and its validity period on the sales order pricing screen.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "Manual price overrides beyond a configured tolerance require supervisor approval.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["BVA", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system flags condition records nearing their validity end date for renewal review.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Manage Pricing Conditions app and create a valid single-tier pricing condition record",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create a multi-tier pricing condition with 3 quantity breakpoints (e.g., 1-99, 100-499, 500+)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Apply tiered pricing automatically at sales order entry for a customer in the configured pricing group",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Manually override price within configured tolerance (e.g., 5% deviation) - no approval required",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "HP-05",
+        "description": "System displays condition record with validity period on sales order pricing screen",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "HP-06",
+        "description": "System flags condition records nearing validity end date (e.g., 30 days before expiry)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create condition with indefinite validity (Valid To = 9999-12-31)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-6"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Manually override price beyond tolerance with supervisor approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Supervisor rejects manual price override request",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create condition for non-existent material",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create condition for invalid customer pricing group",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "No matching price tier for customer pricing group at order entry",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to apply expired condition record at order entry",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt manual price override beyond tolerance without supervisor approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Customer Pricing Group field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Customer Pricing Group"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Condition Type field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Condition Type"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Scale Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Scale Quantity"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Price Amount field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Price Amount"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Valid From date",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Valid From"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Missing Valid To date",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Valid To"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum quantity tier boundary (e.g., quantity = 1)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "scaleQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Maximum quantity tier boundary (e.g., quantity = 999999)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "scaleQuantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Quantity exactly at tier breakpoint (e.g., ordered quantity = 100 when tiers are 1-99, 100-499)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "parameter": "orderedQuantity",
+        "boundary": "breakpoint"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Zero quantity (invalid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "scaleQuantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Zero price amount (invalid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "priceAmount",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Valid To date = Valid From date (invalid period)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "validityPeriod",
+        "boundary": "equal"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Valid From date in the past (for new records)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "validFrom",
+        "boundary": "past"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "Manual override at exact tolerance threshold (e.g., 5.00% deviation)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "toleranceDeviation",
+        "boundary": "exact"
+      },
+      {
+        "id": "EDGE-09",
+        "description": "Manual override just above tolerance threshold (e.g., 5.01% deviation)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "parameter": "toleranceDeviation",
+        "boundary": "above"
+      },
+      {
+        "id": "EDGE-10",
+        "description": "Condition record exactly at alert window threshold (e.g., 30 days before expiry)",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "daysToExpiry",
+        "boundary": "alertThreshold"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 6,
+    "AP": 3,
+    "NEG": 5,
+    "ERR": 7,
+    "EDGE": 10,
+    "INT": 0,
+    "total": 31
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Existing material in material master configured for sales"
+      },
+      {
+        "name": "customerPricingGroup",
+        "label": "Customer Pricing Group",
+        "mandatory": true,
+        "dataType": "Alphanumeric (2 char)",
+        "validRange": "Valid KONDA value from customer master (A0, B0, etc.)"
+      },
+      {
+        "name": "conditionType",
+        "label": "Condition Type",
+        "mandatory": true,
+        "dataType": "Alphanumeric (4 char)",
+        "validRange": "Valid condition type in pricing procedure (e.g., PR00, ZPR1)"
+      },
+      {
+        "name": "scaleQuantity",
+        "label": "Scale Quantity",
+        "mandatory": true,
+        "dataType": "Numeric",
+        "validRange": "Positive integer, sequential breakpoints (e.g., 1, 100, 500)"
+      },
+      {
+        "name": "priceAmount",
+        "label": "Amount",
+        "mandatory": true,
+        "dataType": "Decimal (2 places)",
+        "validRange": "Positive value in configured currency"
+      },
+      {
+        "name": "currency",
+        "label": "Currency",
+        "mandatory": true,
+        "dataType": "Alphanumeric (3 char)",
+        "validRange": "Valid ISO currency code (USD, EUR, etc.)"
+      },
+      {
+        "name": "validFrom",
+        "label": "Valid From",
+        "mandatory": true,
+        "dataType": "Date (YYYY-MM-DD)",
+        "validRange": "Cannot be in the past for new records"
+      },
+      {
+        "name": "validTo",
+        "label": "Valid To",
+        "mandatory": true,
+        "dataType": "Date (YYYY-MM-DD)",
+        "validRange": "Must be after Valid From date"
+      },
+      {
+        "name": "tolerancePercent",
+        "label": "Tolerance %",
+        "mandatory": false,
+        "dataType": "Decimal",
+        "validRange": "0-100 range; defines manual override threshold"
+      },
+      {
+        "name": "manualOverridePrice",
+        "label": "Override Price",
+        "mandatory": false,
+        "dataType": "Decimal (2 places)",
+        "validRange": "Only when user manually changes price at order entry"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MAKT-MAKTX"
+      },
+      {
+        "name": "baseUom",
+        "label": "Base UoM",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MARA-MEINS"
+      },
+      {
+        "name": "salesOrg",
+        "label": "Sales Organization",
+        "trigger": "User session context",
+        "source": "User assignment USORG"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "trigger": "User session context",
+        "source": "User assignment VTWEG"
+      },
+      {
+        "name": "createdBy",
+        "label": "Created By",
+        "trigger": "Condition record save",
+        "source": "User ID from session"
+      },
+      {
+        "name": "createdOn",
+        "label": "Created On",
+        "trigger": "Condition record save",
+        "source": "System timestamp"
+      }
+    ],
+    "output": [
+      {
+        "name": "conditionRecordNumber",
+        "label": "Condition Record Number",
+        "format": "Alphanumeric (10 char)"
+      },
+      {
+        "name": "appliedPriceTier",
+        "label": "Applied Price Tier",
+        "format": "Decimal (2 places)"
+      },
+      {
+        "name": "approvalStatus",
+        "label": "Approval Status",
+        "format": "PENDING / APPROVED / REJECTED"
+      },
+      {
+        "name": "validityAlertFlag",
+        "label": "Validity Alert Flag",
+        "format": "Boolean (Yes/No)"
+      },
+      {
+        "name": "salesOrderLineItemPrice",
+        "label": "Sales Order Line Item Price",
+        "format": "Decimal (2 places) in order currency"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "scaleQuantity",
+        "label": "Scale Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "999999",
+        "zeroInvalid": true,
+        "notes": "Must be sequential across tiers"
+      },
+      {
+        "name": "priceAmount",
+        "label": "Amount",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "999999999.99",
+        "zeroInvalid": true,
+        "notes": "Cannot be zero or negative"
+      },
+      {
+        "name": "tolerancePercent",
+        "label": "Tolerance %",
+        "lowerBoundary": "0",
+        "upperBoundary": "100",
+        "zeroInvalid": false,
+        "notes": "0 = no tolerance; applies to deviation from list price"
+      },
+      {
+        "name": "validityPeriod",
+        "label": "Valid To Date",
+        "lowerBoundary": "Valid From + 1 day",
+        "upperBoundary": "9999-12-31",
+        "zeroInvalid": false,
+        "notes": "Cannot be before or equal to Valid From"
+      }
+    ]
+  }
+}

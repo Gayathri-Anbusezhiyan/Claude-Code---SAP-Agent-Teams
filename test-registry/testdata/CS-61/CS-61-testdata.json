@@ -1,0 +1,263 @@
+{
+  "userStory": "CS-61",
+  "module": "PP",
+  "feature": "Work Center Capacity Planning for Cleanroom/Sterile Manufacturing",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-061-001": {
+      "id": "TD-CS-061-001",
+      "name": "View Capacity Planning Overview — Normal Load",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_HOURS}}",
+        "plannedLoad": "{{PLANNED_LOAD_NORMAL}}",
+        "confirmedLoad": "{{CONFIRMED_LOAD_NORMAL}}",
+        "capacityUtilization": "{{CAPACITY_UTILIZATION_NORMAL}}"
+      },
+      "expectedOutcome": "Capacity planning overview displays planned and confirmed load; capacity utilization is within normal range (e.g., 75%)"
+    },
+    "TD-CS-061-002": {
+      "id": "TD-CS-061-002",
+      "name": "View Capacity Planning Overview — Overload Situation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_HOURS}}",
+        "plannedLoad": "{{PLANNED_LOAD_OVERLOAD}}",
+        "capacityUtilization": "{{CAPACITY_UTILIZATION_OVERLOAD}}",
+        "overloadIndicator": "{{OVERLOAD_INDICATOR_RED}}"
+      },
+      "expectedOutcome": "Overload situation is highlighted; capacity utilization exceeds 100%; visual indicator (red color, warning icon) is displayed"
+    },
+    "TD-CS-061-003": {
+      "id": "TD-CS-061-003",
+      "name": "Reschedule Process Order — Valid New Start Date",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "currentStartDate": "{{PROCESS_ORDER_START_DATE_CURRENT}}",
+        "newStartDate": "{{PROCESS_ORDER_START_DATE_NEW}}",
+        "availableCapacityBefore": "{{AVAILABLE_CAPACITY_ORIGINAL_SLOT}}",
+        "availableCapacityAfter": "{{AVAILABLE_CAPACITY_NEW_SLOT}}"
+      },
+      "expectedOutcome": "Process order is rescheduled successfully; capacity load is updated immediately; new start date is reflected in capacity view"
+    },
+    "TD-CS-061-004": {
+      "id": "TD-CS-061-004",
+      "name": "View Capacity Load — Changeover Time Between Different Products",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId1": "{{PROCESS_ORDER_ID_1}}",
+        "materialId1": "{{MATERIAL_ID_PRODUCT_A}}",
+        "processOrderId2": "{{PROCESS_ORDER_ID_2}}",
+        "materialId2": "{{MATERIAL_ID_PRODUCT_B}}",
+        "changeoverTime": "{{CHANGEOVER_TIME_HOURS}}",
+        "totalLoad": "{{TOTAL_LOAD_WITH_CHANGEOVER}}"
+      },
+      "expectedOutcome": "Changeover time block is displayed between process orders for different products; total load includes changeover time"
+    },
+    "TD-CS-061-005": {
+      "id": "TD-CS-061-005",
+      "name": "Resequence Process Orders — Change Execution Order",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId1": "{{PROCESS_ORDER_ID_1}}",
+        "processOrderId2": "{{PROCESS_ORDER_ID_2}}",
+        "processOrderId3": "{{PROCESS_ORDER_ID_3}}",
+        "currentSequence": "{{PROCESS_ORDER_SEQUENCE_ORIGINAL}}",
+        "newSequence": "{{PROCESS_ORDER_SEQUENCE_NEW}}"
+      },
+      "expectedOutcome": "Process orders are resequenced successfully; execution order is updated; start dates remain unchanged"
+    },
+    "TD-CS-061-NEG-001": {
+      "id": "TD-CS-061-NEG-001",
+      "name": "Attempt to Schedule into Overload Time Period",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_UNSCHEDULED}}",
+        "processOrderDuration": "{{PROCESS_ORDER_DURATION_HOURS}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_HOURS}}",
+        "remainingCapacity": "{{REMAINING_CAPACITY_INSUFFICIENT}}"
+      },
+      "expectedOutcome": "System displays error: Capacity overload detected; process order is NOT scheduled; capacity limit is enforced"
+    },
+    "TD-CS-061-NEG-002": {
+      "id": "TD-CS-061-NEG-002",
+      "name": "Attempt to Schedule Incompatible Products Without Changeover Time",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId1": "{{PROCESS_ORDER_ID_1}}",
+        "materialId1": "{{MATERIAL_ID_PRODUCT_A}}",
+        "processOrder1EndTime": "{{PROCESS_ORDER_1_END_TIME}}",
+        "processOrderId2": "{{PROCESS_ORDER_ID_2}}",
+        "materialId2": "{{MATERIAL_ID_PRODUCT_B}}",
+        "processOrder2StartTimeInvalid": "{{PROCESS_ORDER_2_START_TIME_INVALID}}",
+        "requiredChangeoverTime": "{{CHANGEOVER_TIME_HOURS}}"
+      },
+      "expectedOutcome": "System displays error: Changeover time required between different products; process order is NOT scheduled back-to-back"
+    },
+    "TD-CS-061-ERR-001": {
+      "id": "TD-CS-061-ERR-001",
+      "name": "Attempt to Reschedule to Past Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "currentStartDate": "{{PROCESS_ORDER_START_DATE_CURRENT}}",
+        "newStartDatePast": "{{PROCESS_ORDER_START_DATE_PAST}}"
+      },
+      "expectedOutcome": "System displays error: Start date cannot be in the past; process order start date remains unchanged"
+    },
+    "TD-CS-061-ERR-002": {
+      "id": "TD-CS-061-ERR-002",
+      "name": "Attempt to Reschedule to Incompatible Work Center",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "workCenterId1": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterId2": "{{WORK_CENTER_ID_INCOMPATIBLE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "materialId": "{{MATERIAL_ID_PRODUCT_A}}"
+      },
+      "expectedOutcome": "System displays error: Work center does not have capability for material; process order work center remains unchanged"
+    },
+    "TD-CS-061-ERR-003": {
+      "id": "TD-CS-061-ERR-003",
+      "name": "Attempt to Access Capacity Planning for Non-Existent Work Center",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "nonExistentWorkCenterId": "{{WORK_CENTER_ID_NON_EXISTENT}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}"
+      },
+      "expectedOutcome": "System displays error: Work center does not exist; no capacity planning data is displayed"
+    },
+    "TD-CS-061-EDGE-001": {
+      "id": "TD-CS-061-EDGE-001",
+      "name": "View Capacity Planning at 100% Utilization (Boundary Upper)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_HOURS}}",
+        "plannedLoad": "{{PLANNED_LOAD_100_PERCENT}}",
+        "capacityUtilization": "{{CAPACITY_UTILIZATION_100_PERCENT}}"
+      },
+      "expectedOutcome": "Capacity utilization is exactly 100%; no overload indicator; load meets (but does not exceed) capacity"
+    },
+    "TD-CS-061-EDGE-002": {
+      "id": "TD-CS-061-EDGE-002",
+      "name": "View Capacity Planning at 0% Utilization (Boundary Lower)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_HOURS}}",
+        "plannedLoad": "{{PLANNED_LOAD_ZERO}}",
+        "capacityUtilization": "{{CAPACITY_UTILIZATION_ZERO}}"
+      },
+      "expectedOutcome": "Capacity utilization is exactly 0%; no process orders scheduled; idle work center"
+    },
+    "TD-CS-061-EDGE-003": {
+      "id": "TD-CS-061-EDGE-003",
+      "name": "Reschedule with Zero Changeover Time (Same Product Continuation)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId1": "{{PROCESS_ORDER_ID_1}}",
+        "materialId": "{{MATERIAL_ID_PRODUCT_A}}",
+        "processOrder1EndTime": "{{PROCESS_ORDER_1_END_TIME}}",
+        "processOrderId2": "{{PROCESS_ORDER_ID_2}}",
+        "processOrder2StartTime": "{{PROCESS_ORDER_2_START_TIME_IMMEDIATE}}",
+        "changeoverTime": "{{CHANGEOVER_TIME_ZERO}}"
+      },
+      "expectedOutcome": "Process order 2 is scheduled immediately after process order 1; no changeover time block displayed; same product continuation"
+    },
+    "TD-CS-061-INT-001": {
+      "id": "TD-CS-061-INT-001",
+      "name": "Integration — Capacity Planning to Process Order Management",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "currentStartDate": "{{PROCESS_ORDER_START_DATE_CURRENT}}",
+        "newStartDate": "{{PROCESS_ORDER_START_DATE_NEW}}"
+      },
+      "expectedOutcome": "Process order is rescheduled in Capacity Planning; process order header in Manage Process Orders app reflects the new start date"
+    },
+    "TD-CS-061-INT-002": {
+      "id": "TD-CS-061-INT-002",
+      "name": "Integration — Capacity Planning to MRP",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-181"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "materialId": "{{MATERIAL_ID_PRODUCT_A}}",
+        "currentStartDate": "{{PROCESS_ORDER_START_DATE_CURRENT}}",
+        "newStartDate": "{{PROCESS_ORDER_START_DATE_NEW}}",
+        "originalAvailabilityDate": "{{MATERIAL_AVAILABILITY_DATE_ORIGINAL}}",
+        "updatedAvailabilityDate": "{{MATERIAL_AVAILABILITY_DATE_UPDATED}}"
+      },
+      "expectedOutcome": "Process order is rescheduled in Capacity Planning; material availability date in MRP is recalculated and updated"
+    },
+    "TD-CS-061-INT-003": {
+      "id": "TD-CS-061-INT-003",
+      "name": "Integration — Shop Floor Execution to Capacity Planning",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-182"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_STERILE}}",
+        "workCenterDescription": "{{WORK_CENTER_DESCRIPTION_STERILE}}",
+        "timePeriod": "{{TIME_PERIOD_CURRENT_WEEK}}",
+        "processOrderId": "{{PROCESS_ORDER_ID_SCHEDULED}}",
+        "operationNumber": "{{OPERATION_NUMBER}}",
+        "plannedLoadBefore": "{{PLANNED_LOAD_BEFORE_CONFIRMATION}}",
+        "confirmedLoadAfter": "{{CONFIRMED_LOAD_AFTER_CONFIRMATION}}",
+        "confirmationQuantity": "{{CONFIRMATION_QUANTITY}}",
+        "confirmationDate": "{{CONFIRMATION_DATE_TIME}}"
+      },
+      "expectedOutcome": "Operation is confirmed in Shop Floor Execution; confirmed load in Capacity Planning is updated immediately"
+    }
+  }
+}

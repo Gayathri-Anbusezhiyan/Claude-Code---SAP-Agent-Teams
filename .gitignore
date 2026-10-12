@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Test outputs
+ai-engine/playwright-report/
+test-registry/automation/test-results/
+.playwright-mcp/
+test-results/
+
+# Generated reports
+test-registry/pdf-reports/*.pdf
+test-registry/pdf-reports/*.html
+test-registry/pdf-reports/media/
+ai-engine/*.xlsx
+
+# Large archive files
+test-registry/*.zip
+*.zip
+
+# Environment & Secrets
+.env
+.env.local
+*.key
+*.pem
+credentials.json
+
+# SAP Credentials (if any)
+sap-credentials/
+jira-credentials/
+
+# Setup instructions (may contain sensitive info)
+GIT-SETUP-INSTRUCTIONS.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Claude Code memory (contains user-specific paths)
+.claude/projects/*/memory/

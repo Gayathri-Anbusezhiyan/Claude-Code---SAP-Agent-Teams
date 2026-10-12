@@ -1,0 +1,557 @@
+{
+  "userStory": "CS-46",
+  "module": "SD",
+  "feature": "Customer Scheduling Agreement for Hospital Recurring Supply",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-046-HP-001": {
+      "id": "TD-CS-046-HP-001",
+      "name": "Valid Scheduling Agreement — Fixed Dates Delivery Schedule",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}",
+        "fixedDate2": "{{FIXED_DELIVERY_DATE_2}}",
+        "fixedDate3": "{{FIXED_DELIVERY_DATE_3}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with unique SA number; three delivery schedule lines generated for the three fixed dates"
+    },
+    "TD-CS-046-HP-002": {
+      "id": "TD-CS-046-HP-002",
+      "name": "Valid Scheduling Agreement — Interval-Based Delivery Schedule",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Interval",
+        "interval": "{{INTERVAL_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with unique SA number; delivery schedule lines automatically generated at the specified interval"
+    },
+    "TD-CS-046-HP-003": {
+      "id": "TD-CS-046-HP-003",
+      "name": "Call-Off Against Scheduling Agreement",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "scheduleLineNumber": "{{SCHEDULE_LINE_NUMBER_VALID}}",
+        "callOffQuantity": "{{CALL_OFF_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Call-off confirmed; delivery document created; cumulative quantity increased; remaining quantity decreased"
+    },
+    "TD-CS-046-HP-004": {
+      "id": "TD-CS-046-HP-004",
+      "name": "Notification Triggered — Remaining Quantity Below Threshold",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "scheduleLineNumber": "{{SCHEDULE_LINE_NUMBER_VALID}}",
+        "callOffQuantity": "{{CALL_OFF_QUANTITY_TRIGGER_THRESHOLD}}",
+        "notificationThreshold": "{{NOTIFICATION_THRESHOLD_PERCENTAGE}}"
+      },
+      "expectedOutcome": "Call-off confirmed; remaining quantity falls below threshold; notification sent to Sales team"
+    },
+    "TD-CS-046-HP-005": {
+      "id": "TD-CS-046-HP-005",
+      "name": "Notification Triggered — Approaching Validity End Date",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_NEARING_END}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_APPROACHING}}",
+        "endDateThreshold": "{{END_DATE_THRESHOLD_DAYS}}"
+      },
+      "expectedOutcome": "Notification displayed; notification sent to Sales team regarding approaching end date"
+    },
+    "TD-CS-046-NEG-001": {
+      "id": "TD-CS-046-NEG-001",
+      "name": "Invalid Customer — Non-Existent ID",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "invalidCustomerId": "{{CUSTOMER_ID_INVALID}}"
+      },
+      "expectedOutcome": "System displays error: Customer does not exist; Scheduling Agreement not created"
+    },
+    "TD-CS-046-NEG-002": {
+      "id": "TD-CS-046-NEG-002",
+      "name": "Invalid Material — Non-Existent ID",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Material does not exist; Scheduling Agreement not created"
+    },
+    "TD-CS-046-NEG-003": {
+      "id": "TD-CS-046-NEG-003",
+      "name": "Material Not Enabled for Scheduling Agreements",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialIdNotEnabled": "{{MATERIAL_ID_NOT_ENABLED_FOR_SA}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Material not enabled for scheduling agreements; Scheduling Agreement not created"
+    },
+    "TD-CS-046-NEG-004": {
+      "id": "TD-CS-046-NEG-004",
+      "name": "Customer Not Assigned to Sales Organization",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "customerIdNotAssigned": "{{CUSTOMER_ID_NOT_ASSIGNED_TO_SALES_ORG}}"
+      },
+      "expectedOutcome": "System displays error: Customer not assigned to sales organization; Scheduling Agreement not created"
+    },
+    "TD-CS-046-NEG-005": {
+      "id": "TD-CS-046-NEG-005",
+      "name": "Validity End Date Before Start Date",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDateInvalid": "{{VALIDITY_END_DATE_BEFORE_START}}"
+      },
+      "expectedOutcome": "System displays error: End date must be after start date; Scheduling Agreement not created"
+    },
+    "TD-CS-046-NEG-006": {
+      "id": "TD-CS-046-NEG-006",
+      "name": "Validity Start Date in the Past",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDatePast": "{{VALIDITY_START_DATE_PAST}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Start date cannot be in the past; Scheduling Agreement not created"
+    },
+    "TD-CS-046-NEG-007": {
+      "id": "TD-CS-046-NEG-007",
+      "name": "Call-Off Quantity Exceeds Remaining Quantity",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "scheduleLineNumber": "{{SCHEDULE_LINE_NUMBER_VALID}}",
+        "callOffQuantityExceeds": "{{CALL_OFF_QUANTITY_EXCEEDS_REMAINING}}"
+      },
+      "expectedOutcome": "System displays error: Call-off quantity exceeds remaining quantity; call-off not confirmed"
+    },
+    "TD-CS-046-NEG-008": {
+      "id": "TD-CS-046-NEG-008",
+      "name": "Confirm Non-Existent Schedule Line",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "scheduleLineNumberInvalid": "{{SCHEDULE_LINE_NUMBER_INVALID}}"
+      },
+      "expectedOutcome": "System displays error: Schedule line does not exist; call-off not confirmed"
+    },
+    "TD-CS-046-ERR-001": {
+      "id": "TD-CS-046-ERR-001",
+      "name": "Missing Customer ID Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "customerId": "",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System highlights Customer ID field as mandatory; prevents submission"
+    },
+    "TD-CS-046-ERR-002": {
+      "id": "TD-CS-046-ERR-002",
+      "name": "Missing Material ID Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System highlights Material ID field as mandatory; prevents submission"
+    },
+    "TD-CS-046-ERR-003": {
+      "id": "TD-CS-046-ERR-003",
+      "name": "Missing Total Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System highlights Total Quantity field as mandatory; prevents submission"
+    },
+    "TD-CS-046-ERR-004": {
+      "id": "TD-CS-046-ERR-004",
+      "name": "Missing Validity Start Date Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-141"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System highlights Validity Start Date field as mandatory; prevents submission"
+    },
+    "TD-CS-046-ERR-005": {
+      "id": "TD-CS-046-ERR-005",
+      "name": "Missing Validity End Date Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-142"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": ""
+      },
+      "expectedOutcome": "System highlights Validity End Date field as mandatory; prevents submission"
+    },
+    "TD-CS-046-ERR-006": {
+      "id": "TD-CS-046-ERR-006",
+      "name": "Missing Delivery Schedule Type Selection",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-143"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": ""
+      },
+      "expectedOutcome": "System highlights Schedule Type field as mandatory; prevents submission"
+    },
+    "TD-CS-046-ERR-007": {
+      "id": "TD-CS-046-ERR-007",
+      "name": "Missing Fixed Dates When Fixed Dates Type Selected",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-144"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDates": ""
+      },
+      "expectedOutcome": "System displays error: Fixed dates required when Fixed Dates schedule type selected; prevents submission"
+    },
+    "TD-CS-046-ERR-008": {
+      "id": "TD-CS-046-ERR-008",
+      "name": "Missing Interval When Interval Type Selected",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-145"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Interval",
+        "interval": ""
+      },
+      "expectedOutcome": "System highlights Interval field as mandatory; prevents submission"
+    },
+    "TD-CS-046-EDGE-001": {
+      "id": "TD-CS-046-EDGE-001",
+      "name": "Minimum Valid Total Quantity (1 Unit)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-146"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_MIN}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created successfully with minimum quantity of 1 unit"
+    },
+    "TD-CS-046-EDGE-002": {
+      "id": "TD-CS-046-EDGE-002",
+      "name": "Zero Total Quantity (Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-147"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_ZERO}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Total quantity must be greater than zero; Scheduling Agreement not created"
+    },
+    "TD-CS-046-EDGE-003": {
+      "id": "TD-CS-046-EDGE-003",
+      "name": "Maximum Allowed Total Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-148"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_MAX}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created successfully with maximum allowed quantity"
+    },
+    "TD-CS-046-EDGE-004": {
+      "id": "TD-CS-046-EDGE-004",
+      "name": "Minimum Interval (1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-149"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Interval",
+        "interval": "{{INTERVAL_MIN}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with daily delivery schedule lines (1-day interval)"
+    },
+    "TD-CS-046-EDGE-005": {
+      "id": "TD-CS-046-EDGE-005",
+      "name": "Maximum Reasonable Interval (365 Days)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-150"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE_LONG}}",
+        "scheduleType": "Interval",
+        "interval": "{{INTERVAL_MAX}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with annual delivery schedule lines (365-day interval)"
+    },
+    "TD-CS-046-EDGE-006": {
+      "id": "TD-CS-046-EDGE-006",
+      "name": "Zero Interval (Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-151"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Interval",
+        "interval": "{{INTERVAL_ZERO}}"
+      },
+      "expectedOutcome": "System displays error: Interval must be greater than zero; Scheduling Agreement not created"
+    },
+    "TD-CS-046-EDGE-007": {
+      "id": "TD-CS-046-EDGE-007",
+      "name": "Single Fixed Delivery Date (Minimum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-152"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with single delivery schedule line"
+    },
+    "TD-CS-046-EDGE-008": {
+      "id": "TD-CS-046-EDGE-008",
+      "name": "Call Off Exact Remaining Quantity (Boundary Condition)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-153"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "scheduleLineNumber": "{{SCHEDULE_LINE_NUMBER_VALID}}",
+        "callOffQuantityExact": "{{CALL_OFF_QUANTITY_EXACT_REMAINING}}"
+      },
+      "expectedOutcome": "Call-off confirmed; remaining quantity becomes zero; cumulative quantity equals total quantity"
+    },
+    "TD-CS-046-EDGE-009": {
+      "id": "TD-CS-046-EDGE-009",
+      "name": "Call Off When Cumulative Equals Total (No Remaining)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-154"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_FULLY_CALLED_OFF}}",
+        "scheduleLineNumber": "{{SCHEDULE_LINE_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "System displays message or status indicating no remaining quantity available for call-off"
+    },
+    "TD-CS-046-EDGE-010": {
+      "id": "TD-CS-046-EDGE-010",
+      "name": "Notification Threshold at 0% (No Notification)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-155"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "notificationThreshold": "{{NOTIFICATION_THRESHOLD_ZERO}}"
+      },
+      "expectedOutcome": "No notification triggered regardless of remaining quantity"
+    },
+    "TD-CS-046-EDGE-011": {
+      "id": "TD-CS-046-EDGE-011",
+      "name": "Notification Threshold at 100% (Immediate Notification)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-156"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "notificationThreshold": "{{NOTIFICATION_THRESHOLD_MAX}}"
+      },
+      "expectedOutcome": "Notification triggered immediately upon any call-off (remaining < 100%)"
+    },
+    "TD-CS-046-EDGE-012": {
+      "id": "TD-CS-046-EDGE-012",
+      "name": "Validity Period of 1 Day (Minimum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-157"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_ONE_DAY_AFTER}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with 1-day validity period; single delivery schedule line generated"
+    },
+    "TD-CS-046-EDGE-013": {
+      "id": "TD-CS-046-EDGE-013",
+      "name": "Validity Start Date = Today (Earliest Possible)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-158"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_TODAY}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with start date = today; delivery schedule lines generated"
+    },
+    "TD-CS-046-AP-001": {
+      "id": "TD-CS-046-AP-001",
+      "name": "Alternative Path — Fixed Dates (Specific Calendar Dates)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-159"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Fixed Dates",
+        "fixedDate1": "{{FIXED_DELIVERY_DATE_1}}",
+        "fixedDate2": "{{FIXED_DELIVERY_DATE_2}}",
+        "fixedDate3": "{{FIXED_DELIVERY_DATE_3}}",
+        "fixedDate4": "{{FIXED_DELIVERY_DATE_4}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with multiple fixed delivery dates; delivery schedule lines generated for each date"
+    },
+    "TD-CS-046-AP-002": {
+      "id": "TD-CS-046-AP-002",
+      "name": "Alternative Path — Interval (Days Between Deliveries)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-160"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "totalQuantity": "{{SA_TOTAL_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "validityStartDate": "{{VALIDITY_START_DATE_FUTURE}}",
+        "validityEndDate": "{{VALIDITY_END_DATE_FUTURE}}",
+        "scheduleType": "Interval",
+        "interval": "{{INTERVAL_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Scheduling Agreement created with interval-based schedule; delivery schedule lines automatically generated at regular intervals"
+    },
+    "TD-CS-046-AP-003": {
+      "id": "TD-CS-046-AP-003",
+      "name": "Alternative Path — Multiple Call-Offs (Cumulative Tracking)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-161"],
+      "data": {
+        "schedulingAgreementNumber": "{{SCHEDULING_AGREEMENT_NUMBER_VALID}}",
+        "scheduleLineNumber1": "{{SCHEDULE_LINE_NUMBER_1}}",
+        "callOffQuantity1": "{{CALL_OFF_QUANTITY_1}}",
+        "scheduleLineNumber2": "{{SCHEDULE_LINE_NUMBER_2}}",
+        "callOffQuantity2": "{{CALL_OFF_QUANTITY_2}}",
+        "scheduleLineNumber3": "{{SCHEDULE_LINE_NUMBER_3}}",
+        "callOffQuantity3": "{{CALL_OFF_QUANTITY_3}}"
+      },
+      "expectedOutcome": "Multiple call-offs confirmed successfully; cumulative quantity increases with each call-off; remaining quantity decreases accordingly"
+    }
+  }
+}

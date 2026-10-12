@@ -1,0 +1,356 @@
+{
+  "userStory": "CS-33",
+  "summary": "User Story SD-001 - FEFO batch determination for pharmaceutical sales orders",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Sales Order Processor",
+  "businessObject": "Sales Order (batch-managed pharmaceutical materials)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Sales Order for a pharmaceutical material that is batch-managed.",
+      "type": "NAVIGATION + VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically determines the batch with the nearest expiration date for the order quantity.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system excludes batches that have expired or are within the minimum remaining shelf-life threshold (configurable by material).",
+      "type": "VALIDATION_NEGATIVE + BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system splits the order across multiple batches if a single batch does not have sufficient quantity.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["AP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system displays the selected batch number(s) and expiration date(s) in the Sales Order line items.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system sends a warning if no batch with sufficient remaining shelf-life is available for the order quantity.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Sales Order for batch-managed pharmaceutical material with single batch (sufficient stock, valid expiration)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create Sales Order with multi-batch split (single batch insufficient, multiple batches required)",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2", "AC-4", "AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "System excludes expired batch (batch expiration date in the past)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "System excludes batch within minimum remaining shelf-life threshold",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "No valid batch available (all batches expired or below threshold) — system displays warning",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-6"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Customer ID (Sold-To Party)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Customer ID"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material ID",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material ID"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Order Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Order Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Sales Organization",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sales Organization"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Invalid Customer ID (non-existent)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Customer ID"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Invalid Material ID (non-existent or not batch-managed)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material ID"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Order quantity exactly matches single batch available quantity (no split)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-4"],
+        "parameter": "quantity",
+        "boundary": "exact match"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Order quantity exceeds total available stock across all valid batches",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-6"],
+        "parameter": "quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Batch expiration date exactly at minimum shelf-life threshold boundary (threshold date)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "parameter": "expirationDate",
+        "boundary": "threshold"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Minimum order quantity (1 unit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Multiple batches with identical expiration dates (FEFO tie-breaker logic)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "expirationDate",
+        "boundary": "tie-breaker"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 3,
+    "ERR": 6,
+    "EDGE": 5,
+    "INT": 0,
+    "total": 16
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "customerId",
+        "label": "Sold-To Party",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP master (KNA1)"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing batch-managed pharmaceutical material in SAP master (MARA, XCHPF=X)"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Greater than 0, respects UoM constraints"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid sales org for material (MVKE)"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid dist. channel for material (MVKE)"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Valid division for material (MVKE)"
+      },
+      {
+        "name": "requestedDeliveryDate",
+        "label": "Requested Delivery Date",
+        "dataType": "Date",
+        "mandatory": false,
+        "validRange": "Future date recommended for batch allocation"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-To Party Name",
+        "trigger": "Confirm Customer ID",
+        "source": "Customer master KNA1"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MAKT"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "trigger": "After availability check and FEFO determination",
+        "source": "Batch master MCHA (based on expiration date VFDAT)"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Batch Expiry Date",
+        "trigger": "After batch determination",
+        "source": "Batch master MCHA-VFDAT"
+      },
+      {
+        "name": "availableQuantityPerBatch",
+        "label": "Available Quantity",
+        "trigger": "During batch determination",
+        "source": "Stock table MCHB-CLABS (unrestricted stock)"
+      },
+      {
+        "name": "baseUnitOfMeasure",
+        "label": "Base UoM",
+        "trigger": "Confirm Material ID",
+        "source": "Material master MARA-MEINS"
+      }
+    ],
+    "output": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch Number(s)",
+        "format": "Alphanumeric (10 chars)"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date(s)",
+        "format": "Date format (DD.MM.YYYY)"
+      },
+      {
+        "name": "warningMessage",
+        "label": "Warning Message",
+        "format": "Text message in application log or popup"
+      },
+      {
+        "name": "itemConfirmation",
+        "label": "Confirmed Quantity",
+        "format": "Numeric per line item"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "Available stock across all valid batches",
+        "zeroInvalid": true,
+        "notes": "Must be greater than 0"
+      },
+      {
+        "name": "minimumRemainingShelfLife",
+        "label": "Minimum Remaining Shelf-Life (SLED)",
+        "lowerBoundary": "0 days",
+        "upperBoundary": "Material-specific configured value",
+        "zeroInvalid": false,
+        "notes": "Configurable per material in MARA-MHDHB or MARC-RDPRF"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date",
+        "lowerBoundary": "Current date + SLED threshold",
+        "upperBoundary": "Future date (no hard upper limit)",
+        "zeroInvalid": false,
+        "notes": "Batches with expiration date <= (current date + SLED) are excluded"
+      },
+      {
+        "name": "availableBatchQuantity",
+        "label": "Available Batch Quantity",
+        "lowerBoundary": "1 unit",
+        "upperBoundary": "Total unrestricted stock in batch (MCHB-CLABS)",
+        "zeroInvalid": true,
+        "notes": "If batch qty = 0, batch not allocated"
+      }
+    ]
+  }
+}

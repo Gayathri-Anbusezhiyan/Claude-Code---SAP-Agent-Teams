@@ -1,0 +1,323 @@
+{
+  "userStory": "CS-54",
+  "summary": "User Story PP-005",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Planner",
+  "businessObject": "Planned Order, MRP Run, Stock/Requirements List",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Stock/Requirements List\" or \"Schedule MRP Runs\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system generates planned orders based on net requirements calculated from sales orders, forecasts, and current stock levels.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system accounts for minimum batch size and lot-sizing rules defined for the finished product.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["BVA", "DT"],
+      "scenarioTypesRequired": ["HP", "EDGE", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The planner can convert planned orders into process orders or purchase requisitions directly from the planning result.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system flags any planned order affected by a raw material shortage or shelf-life constraint.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system displays a capacity overview to help the planner sequence orders against available cleanroom/suite capacity.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Run MRP and generate planned orders for finished product based on demand and stock",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Convert planned order to process order",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Convert planned order to purchase requisition (external procurement)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Run MRP with multiple materials and sequence by capacity",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt MRP run with material not configured for MRP planning",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Planned order affected by raw material shortage",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Planned order affected by shelf-life constraint",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Material lot-sizing rule not satisfied (quantity below minimum batch size)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Material Number field",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing MRP Controller field",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "MRP Controller"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum batch size boundary (quantity exactly equals minimum lot size)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Maximum batch size boundary (quantity triggers rounding to next lot)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Zero available capacity (100% capacity utilization)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "parameter": "capacity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Planning horizon = 1 day (minimum future period)",
+        "risk": "LOW",
+        "acIds": ["AC-2"],
+        "parameter": "planningHorizon",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Run MRP with live sales orders from SD and current stock from MM",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "crossModule": ["MM", "SD"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 4,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 1,
+    "total": 16
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in SAP master (finished product)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Existing plant code (e.g., 1710)"
+      },
+      {
+        "name": "mrpController",
+        "label": "MRP Controller",
+        "mandatory": true,
+        "validRange": "Valid MRP controller code (e.g., 001)"
+      },
+      {
+        "name": "planningMode",
+        "label": "Planning Mode",
+        "mandatory": true,
+        "validRange": "1=Net change planning, 2=Regenerative planning, 3=Reorder point planning"
+      },
+      {
+        "name": "processingKey",
+        "label": "Processing Key",
+        "mandatory": false,
+        "validRange": "NETCH, NEUPL, NETCH+NEUPL"
+      },
+      {
+        "name": "planningHorizon",
+        "label": "Schedule",
+        "mandatory": false,
+        "validRange": "Future date range for MRP calculation"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Material Number confirmed"
+      },
+      {
+        "name": "currentStockLevel",
+        "label": "Available Stock",
+        "trigger": "Material + Plant confirmed"
+      },
+      {
+        "name": "netRequirements",
+        "label": "Net Requirements",
+        "trigger": "MRP execution"
+      },
+      {
+        "name": "lotSize",
+        "label": "Lot Size",
+        "trigger": "Material confirmed"
+      },
+      {
+        "name": "minimumBatchSize",
+        "label": "Minimum Lot Size",
+        "trigger": "Material confirmed"
+      },
+      {
+        "name": "capacityLoad",
+        "label": "Capacity Load",
+        "trigger": "Planned orders generated"
+      }
+    ],
+    "output": [
+      {
+        "name": "plannedOrderNumber",
+        "label": "Planned Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "plannedOrderQuantity",
+        "label": "Planned Order Quantity",
+        "format": "Numeric with UoM"
+      },
+      {
+        "name": "plannedStartDate",
+        "label": "Planned Start Date",
+        "format": "Date (YYYY-MM-DD)"
+      },
+      {
+        "name": "plannedFinishDate",
+        "label": "Planned Finish Date",
+        "format": "Date (YYYY-MM-DD)"
+      },
+      {
+        "name": "exceptionMessages",
+        "label": "Exception Messages",
+        "format": "Text code (e.g., '10' = shortage, '15' = shelf-life issue)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "Minimum lot size from material master",
+        "upperBoundary": "System-configured maximum (typically 999999)",
+        "zeroInvalid": true
+      },
+      {
+        "name": "planningHorizonDays",
+        "label": "Planning Horizon Days",
+        "lowerBoundary": "1",
+        "upperBoundary": "999",
+        "zeroInvalid": true
+      },
+      {
+        "name": "availableCapacity",
+        "label": "Available Capacity",
+        "lowerBoundary": "0%",
+        "upperBoundary": "100%",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,233 @@
+{
+  "userStory": "CS-15",
+  "summary": "TC001_Weblogin",
+  "module": "Web Orders (External Application)",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Web Orders user",
+  "businessObject": "User Session / Authentication Token",
+  "complexity": "Simple",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "User can access the Web Orders login page.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "User can enter a valid username (Tester).",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "User can enter a valid password (test).",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "User can successfully click the Login button.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "User is redirected to the Web Orders landing page after successful authentication.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "No authentication error message is displayed.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "User session is established and application menus are accessible.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "User accesses login page, enters valid credentials (Tester / test), clicks Login, and is successfully redirected to the Products page with active session",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "User enters invalid username and valid password",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "User enters valid username and invalid password",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "User enters invalid username and invalid password",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing username field (password provided)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Username"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing password field (username provided)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Password"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Both username and password fields empty",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"],
+        "field": "Username, Password"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Username with leading/trailing whitespace",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "username",
+        "boundary": "whitespace"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Password with leading/trailing whitespace",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "password",
+        "boundary": "whitespace"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Case sensitivity test (username 'TESTER' vs 'Tester')",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "username",
+        "boundary": "case"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Case sensitivity test (password 'TEST' vs 'test')",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "password",
+        "boundary": "case"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 0,
+    "total": 11
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "username",
+        "label": "Username",
+        "mandatory": true,
+        "validRange": "Tester (valid account)"
+      },
+      {
+        "name": "password",
+        "label": "Password",
+        "mandatory": true,
+        "validRange": "test (valid credential)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "sessionToken",
+        "label": "(not visible to user)",
+        "trigger": "Successful authentication"
+      },
+      {
+        "name": "userDisplayName",
+        "label": "(displayed in header after login)",
+        "trigger": "Session establishment"
+      }
+    ],
+    "output": [
+      {
+        "name": "sessionCookie",
+        "label": "Session Cookie",
+        "format": "HTTP cookie (domain-specific)"
+      },
+      {
+        "name": "landingPageUrl",
+        "label": "Landing Page URL",
+        "format": "http://secure.smartbearsoftware.com/samples/TestComplete11/WebOrders/Products.aspx"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "username",
+        "label": "Username",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "System-defined max (typically 255)",
+        "zeroInvalid": true
+      },
+      {
+        "name": "password",
+        "label": "Password",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "System-defined max (typically 255)",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

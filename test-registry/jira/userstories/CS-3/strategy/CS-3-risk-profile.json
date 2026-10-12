@@ -1,0 +1,248 @@
+{
+  "userStory": "CS-3",
+  "summary": "View and Modify an Existing Purchase Order",
+  "module": "MM",
+  "analysedAt": "2026-08-21T08:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Officer or Buyer",
+  "businessObject": "Purchase Order",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the Purchase Order application (\"Display\" or \"Change\" mode) from the SAP Fiori launchpad.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "A specific Purchase Order can be retrieved by entering its PO number.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "All PO details — including supplier, line items, materials, quantities, prices, delivery dates, and current status — are visible when the order is opened.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "In display mode, no fields are editable and the order is strictly read-only.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "A user with edit authorization can switch the order from display mode to edit mode.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "In edit mode, relevant fields (such as order quantity) are modifiable.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "Changes made to the Purchase Order are saved and persisted in the system upon confirmation.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-8",
+      "text": "A success message confirming the PO has been changed is displayed after a successful save.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-9",
+      "text": "The system displays a clear error message when an invalid or non-existent PO number is entered.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-10",
+      "text": "Fields that cannot be changed due to the order's processing status (e.g., already goods-receipted) are locked, with a relevant explanation shown to the user.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["DT"],
+      "scenarioTypesRequired": ["NEG", "ERR"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Open an existing PO in Display mode and verify all header/item details are visible and read-only",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Switch an open PO from Display to Edit mode, modify order quantity, save, and verify success message",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5", "AC-6", "AC-7", "AC-8"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Enter an invalid (non-existent) PO number — verify clear error message is displayed",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-9"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to interact with an editable field while PO is in Display mode — verify field remains read-only",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to switch to Edit mode without edit authorization — verify access is denied",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Attempt to modify a goods-receipted (locked) item field in Edit mode — verify field is locked with explanation",
+        "risk": "HIGH",
+        "acIds": ["AC-10"],
+        "field": "Order Quantity (goods-receipted line)"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Modify quantity to minimum valid value (1) — verify save succeeds",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6", "AC-7"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Attempt to set quantity to zero — verify system rejection",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "parameter": "quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Enter a PO number in invalid format (non-numeric or too short) — verify error message",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-9"],
+        "parameter": "poNumber",
+        "boundary": "format"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 1,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 9
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "poNumber",
+        "label": "Purchase Order",
+        "mandatory": true,
+        "validRange": "Existing 10-digit PO number beginning with 45"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "Decimal > 0; must not exceed system maximum"
+      }
+    ],
+    "autoPopulated": [
+      { "name": "supplierName", "label": "Supplier Name", "trigger": "PO opened — from EKKO/LFA1" },
+      { "name": "materialDescription", "label": "Material Description", "trigger": "PO opened — from material master MARA/MAKT" },
+      { "name": "unitOfMeasure", "label": "UoM", "trigger": "PO opened — from PO item EKPO" },
+      { "name": "netPrice", "label": "Net Price", "trigger": "PO opened — from PO item EKPO" },
+      { "name": "deliveryDate", "label": "Delivery Date", "trigger": "PO opened — from schedule line EKET" },
+      { "name": "poStatus", "label": "Status", "trigger": "PO opened — SAP document lifecycle" },
+      { "name": "companyCode", "label": "Company Code", "trigger": "PO opened — from EKKO-BUKRS" },
+      { "name": "purchasingOrg", "label": "Purchasing Org", "trigger": "PO opened — from EKKO-EKORG" }
+    ],
+    "output": [
+      {
+        "name": "successMessage",
+        "label": "Success Confirmation",
+        "format": "Purchase Order {PO#} has been changed"
+      },
+      {
+        "name": "errorMessageInvalidPO",
+        "label": "Error — Invalid PO",
+        "format": "Purchase order {PO#} does not exist (or equivalent)"
+      },
+      {
+        "name": "lockedFieldIndicator",
+        "label": "Locked Field Explanation",
+        "format": "System-generated tooltip/message for goods-receipted field"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured maximum",
+        "zeroInvalid": true
+      },
+      {
+        "name": "poNumber",
+        "label": "Purchase Order Number",
+        "lowerBoundary": "10-digit numeric",
+        "upperBoundary": "10-digit numeric",
+        "zeroInvalid": false,
+        "notes": "Non-numeric or < 10 digits → invalid format"
+      }
+    ]
+  }
+}

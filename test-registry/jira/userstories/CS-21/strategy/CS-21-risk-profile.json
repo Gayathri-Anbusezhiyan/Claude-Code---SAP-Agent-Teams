@@ -1,0 +1,349 @@
+{
+  "userStory": "CS-21",
+  "summary": "Record A Return Delivery For A Rejected Batch Back To The Vendor",
+  "module": "MM",
+  "analysedAt": "2026-08-24T00:00:00Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Warehouse Operator",
+  "businessObject": "Return Delivery (Goods Movement 122)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Post Goods Movement\" (Return Delivery) Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can select the original Purchase Order and the specific rejected batch to be returned.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system requires a rejection reason code (e.g., failed specification, damaged packaging, expired) before the return can be posted.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR", "HP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The stock is removed from Blocked/Quality Inspection stock upon posting of the return delivery.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The system generates a Return Delivery document that references the original goods receipt and inspection lot.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "A debit memo request can be triggered from the return delivery for vendor cost recovery.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP", "INT"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Return rejected batch from Blocked Stock with debit memo trigger",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Return rejected batch from Quality Inspection Stock without debit memo",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Return batch from Blocked Stock (stock type 'S')",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Return batch from Quality Inspection Stock (stock type 'X')",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Trigger debit memo request for vendor cost recovery",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "AP-04",
+        "description": "Skip debit memo request (manual processing later)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Invalid or non-existent Purchase Order number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Invalid or non-existent Batch number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Batch exists but has zero quantity in restricted stock",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-4"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Batch is in Unrestricted Stock (not Blocked/QI)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-4"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Purchase Order exists but has no goods receipt posted",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Rejection Reason Code",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Rejection Reason Code"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Return Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Return Quantity"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Purchase Order",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Purchase Order"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Return quantity = minimum UoM precision (e.g., 0.001 KG)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "Return Quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Return quantity = exact available batch quantity (full return)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "Return Quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Return quantity > available batch quantity (over-return attempt)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "Return Quantity",
+        "boundary": "exceeds_upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Return quantity = 0",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "Return Quantity",
+        "boundary": "zero"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 4,
+    "NEG": 5,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 0,
+    "total": 18
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "purchaseOrderNumber",
+        "label": "Purchase Order",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing PO in SAP with goods receipt posted"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing batch in Blocked or QI stock"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Material from original GR (auto-filled)"
+      },
+      {
+        "name": "returnQuantity",
+        "label": "Quantity",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "> 0, <= available batch quantity"
+      },
+      {
+        "name": "rejectionReasonCode",
+        "label": "Reason for Movement",
+        "dataType": "Dropdown",
+        "mandatory": true,
+        "validRange": "Configured codes (e.g., 0001=Failed spec, 0002=Damaged, 0003=Expired)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Plant from original GR"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Storage location from original GR"
+      },
+      {
+        "name": "triggerDebitMemo",
+        "label": "Debit Memo Request",
+        "dataType": "Boolean",
+        "mandatory": false,
+        "validRange": "Yes/No"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Text",
+        "trigger": "Select Material"
+      },
+      {
+        "name": "vendorId",
+        "label": "Vendor",
+        "trigger": "Select PO"
+      },
+      {
+        "name": "vendorName",
+        "label": "Vendor Name",
+        "trigger": "Select PO"
+      },
+      {
+        "name": "baseUoM",
+        "label": "Unit of Measure",
+        "trigger": "Select Material"
+      },
+      {
+        "name": "originalGRDocument",
+        "label": "Material Document",
+        "trigger": "Select PO + Batch"
+      },
+      {
+        "name": "inspectionLotNumber",
+        "label": "Inspection Lot",
+        "trigger": "Select Batch"
+      },
+      {
+        "name": "stockType",
+        "label": "Stock Type",
+        "trigger": "Select Batch"
+      }
+    ],
+    "output": [
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "materialDocumentYear",
+        "label": "Material Document Year",
+        "format": "4-digit year (YYYY)"
+      },
+      {
+        "name": "movementType",
+        "label": "Movement Type",
+        "format": "122 (Return Delivery to Vendor)"
+      },
+      {
+        "name": "postingDate",
+        "label": "Posting Date",
+        "format": "YYYY-MM-DD"
+      },
+      {
+        "name": "documentStatus",
+        "label": "Document Status",
+        "format": "Posted/Completed"
+      },
+      {
+        "name": "debitMemoRequestNumber",
+        "label": "Debit Memo Request Number",
+        "format": "10-digit numeric (optional)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "returnQuantity",
+        "label": "Return Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "Available batch quantity in Blocked/QI stock",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

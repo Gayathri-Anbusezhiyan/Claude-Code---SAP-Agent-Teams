@@ -1,0 +1,29 @@
+{
+  "issueKey": "CS-5",
+  "type": "Story",
+  "summary": "Agentic Feature Usage Summary Dashboard",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [],
+  "components": [],
+  "description": "**\\*\\*Story Slug:\\*\\*** agentic-feature-usage-summary-dashboard\n\n**\\*\\*Status:\\*\\*** Active\n\n \n\n**## Feature Overview**\n\nThe REWS AI Agent Usage Summary Dashboard is a single, read-only page designed for REWS leadership to monitor AI agent adoption across regions. It provides high-level KPIs, region-specific breakdowns, and a ranked list of top agent capabilities, all filterable by timeframe, region, and capability.\n\n \n\n**## User Story**\n\n**\\*\\*As a\\*\\*** REWS leader,\n\n**\\*\\*I want\\*\\*** a single summary dashboard showing AI agent usage across all regions and capabilities,\n\n**\\*\\*So that\\*\\*** I can quickly understand adoption patterns, identify top performers, and determine which areas require additional support or enablement.\n\n \n\n**## Story Scope**\n\n**\\*\\*In Scope:\\*\\***\n\n* 4 High-level KPI cards.\n\n* A data table breaking down interactions and active users by region.\n\n* A ranked list of the top 5 agent capabilities.\n\n* A ranked list of the top 5 active users.\n\n* Global page filters for Timeframe (30-day, 60-day), Region, and Capability.\n\n* \"No data available\" empty state handling.\n\n* Mock seed data API layer for initial implementation.\n\n \n\n**## Key Features**\n\n1. **\\*\\*KPI Cards:\\*\\***\n\n* Total interactions across the company.\n\n* Total number of unique active users.\n\n* Top performing region.\n\n* Top capability overall.\n\n   _\\*(Note: KPI cards will dynamically filter based on the UI Design image behavior if applicable, but default to global context unless filtered).\\*_\n\n2. **\\*\\*Region Breakdown Table:\\*\\***\n\n* Columns: Region Name, Interaction Count, Active User Count.\n\n* Default sort: Interaction Count (Descending).\n\n3. **\\*\\*Top 5 Capabilities List:\\*\\***\n\n* Numbered, ranked list showing capability name and usage count.\n\n4. **\\*\\*Top 5 Users List:\\*\\***\n\n* Numbered, ranked list showing user ID and interaction count.\n\n5. **\\*\\*Global Filters:\\*\\***\n\n* Timeframe Toggle: 30-day vs. 60-day.\n\n* Region Dropdown: APAC, EMEA, AMER, LATAM, All Regions.\n\n* Capability Dropdown: Desk Booking, Facilities Support, All Capabilities.\n\n5. **\\*\\*Empty States:\\*\\***\n\n* If a specific filter combination yields 0 results, the UI must explicitly display a \"No data available\" message in the respective component areas.\n\n \n\n**## Out of Scope**\n\n* Trend lines, bar charts, or donut graphs.\n\n* Visual gap indicators.\n\n* Real-time data polling (load once on page mount is sufficient).\n\n* Drill-downs into sub-locations or specific departments.\n\n* Mobile responsiveness (desktop-only view).\n\n \n\n**## Value**\n\nProvides immediate, zero-friction visibility into AI adoption for leadership, enabling data-driven decisions on support and scaling without requiring complex reporting tools.",
+  "acceptanceCriteria": "## Acceptance Criteria\n- **Given** a user navigates to the dashboard, **When** the page loads, **Then** the 4 KPI cards must render with data.\n\n- **Given** the region breakdown table is displayed, **When** the data is populated, **Then** the rows must be sorted by Interaction Count in descending order.\n\n- **Given** the user views the capabilities list, **When** the data is populated, **Then** it must display exactly the top 5 capabilities ranked by usage count.\n\n- **Given** the user views the users list, **When** the data is populated, **Then** it must display exactly the top 5 users ranked by interaction count.\n\n- **Given** the user selects a combination of filters (e.g., \"LATAM\" and \"Facilities Support\"), **When** the resulting data is empty, **Then** the affected components must display a \"No data available\" message instead of a generic error or 0.\n\n- **Given** the user interacts with the UI, **When** they apply a filter, **Then** all applicable components on the page must re-fetch and update to reflect the filtered context.\n\n \n## Technical & Architecture Rules\n- **API Architecture:** You MUST explicitly implement the **3-Tier API architecture**. The Node.js API must be structured into:\n\n1. **Domain Layer** (`api/domain/`): Handles raw SQLite queries and data access.\n\n1. **Business Layer** (`api/business/`): Orchestrates business logic and applies rules.\n\n1. **Experience Layer** (`api/experience/`): Formats the aggregated dashboard data for the frontend.\n\n- **Database:** SQLite via `sql.js` (No `better-sqlite3`). Mock seed data must be loaded on initialization.\n\n \n## Design Notes\n- **Design System:** Standard Google Material Design colors.\n\n- Blue: `#4285F4`\n\n- Red: `#EA4335`\n\n- Yellow: `#FBBC05`\n\n- Green: `#34A853`\n\n- **Layout:** Three stacked sections on a clean white background.\n\n- **Interactions:** No fancy animations. Keep transitions minimal and professional.\n\n- **Fidelity:** The frontend must respect and perfectly replicate the UI Design image (PNG) provided/generated in the subsequent UX stage.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-05-14T15:49:44.560+0530",
+  "updated": "2026-05-14T15:52:11.185+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-5",
+  "fetchedAt": "2026-08-21T08:55:02.111Z"
+}

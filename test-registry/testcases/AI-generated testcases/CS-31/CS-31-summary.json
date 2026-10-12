@@ -1,0 +1,154 @@
+{
+  "userStory": "CS-31",
+  "summary": "Review And Approve A Change Request Affecting An Approved Vendor'S Man",
+  "module": "MM",
+  "generatedAt": "2026-08-23T23:45:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 8,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 2,
+    "ERR": 2,
+    "EDGE": 3,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 4,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 8,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-031",
+      "title": "Review and Approve Vendor Manufacturing Site Change Request with Audit Report Attachment",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-031-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "Reject Vendor Manufacturing Site Change Request and Verify Automatic Rollback",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-031-NEG-001",
+      "acsCovered": ["AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-033",
+      "title": "Attempt to Create Purchase Order Against Vendor with Pending Change Request",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-031-NEG-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-034",
+      "title": "Attempt to Submit Vendor Change Request with Missing Approval Decision",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-031-ERR-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-035",
+      "title": "Attempt to Process Change Request with Missing Vendor ID",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-031-ERR-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-036",
+      "title": "Approve Vendor Change Request with Maximum Length Approval Comments",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-031-EDGE-001",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Approve Vendor Change Request with Maximum Size Attachment Upload",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-031-EDGE-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Approve Vendor Change Request Without Attachment",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-031-EDGE-003",
+      "acsCovered": ["AC-3"]
+    }
+  ],
+  "testdataFile": "testdata/CS-31/CS-31-testdata.json",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "result": "6/6 ACs covered",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "All 1 HP scenarios",
+      "result": "1 HP generated",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "All 2 NEG scenarios",
+      "result": "2 NEG generated",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "All 2 ERR scenarios",
+      "result": "2 ERR generated",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "≥ 3 EDGE TCs",
+      "result": "3 EDGE generated",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "result": "0 hardcoded values found",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 4 TCs flagged",
+      "result": "8/8 TCs flagged (5 YES, 3 PARTIAL)",
+      "status": "PASS"
+    }
+  }
+}

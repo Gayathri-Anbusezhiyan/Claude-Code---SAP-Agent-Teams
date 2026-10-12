@@ -1,0 +1,431 @@
+{
+  "userStory": "CS-22",
+  "summary": "View An Aggregated Vendor Quality Scorecard Based On Inspection Reject",
+  "module": "MM",
+  "analysedAt": "2026-08-24T00:00:00Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Manager",
+  "businessObject": "Vendor Evaluation Report",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access a \"Vendor Evaluation\" Fiori analytical app.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system calculates and displays a vendor's batch acceptance rate over a configurable time period.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-3",
+      "text": "The system displays on-time delivery performance based on PO delivery dates versus actual goods receipt dates.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The user can drill down from the scorecard into individual rejected inspection lots.",
+      "type": "NAVIGATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system flags vendors falling below a configurable quality threshold with a visual indicator.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA", "DT"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The scorecard can be exported for inclusion in periodic GMP vendor audit reports.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Vendor Evaluation app and view scorecard for valid vendor with inspection history",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "View batch acceptance rate for configurable time period (standard period, e.g., last 90 days)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-03",
+        "description": "View on-time delivery performance with valid PO and GR data",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Drill down from scorecard to inspection lot details for rejected lots",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "HP-05",
+        "description": "Export vendor quality scorecard to audit-compliant report format",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "View scorecard with custom time period (e.g., last 12 months)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "AP-02",
+        "description": "View scorecard filtered by specific purchasing organization or plant",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-03",
+        "description": "View vendor with quality threshold met (above threshold, green status)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-04",
+        "description": "View vendor with quality threshold warning (near threshold, yellow status)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to view scorecard for non-existent vendor ID",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to view scorecard for vendor with no inspection history (zero lots)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to drill down when no rejected inspection lots exist",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "View on-time delivery when vendor has no purchase orders or goods receipts",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Vendor falls below quality threshold (red flag)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Vendor ID field",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "field": "Vendor ID"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Invalid date range (To Date before From Date)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Time Period"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Export fails due to insufficient authorization",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "field": "Export"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Time period = 1 day (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "timePeriod",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Time period = maximum historical data range (e.g., 3 years)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "timePeriod",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Quality threshold = 0% (all vendors flagged)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "qualityThreshold",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Quality threshold = 100% (no vendors flagged)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "qualityThreshold",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Batch acceptance rate = 0% (all lots rejected)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-5"],
+        "parameter": "batchAcceptanceRate",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Batch acceptance rate = 100% (all lots accepted)",
+        "risk": "LOW",
+        "acIds": ["AC-2", "AC-5"],
+        "parameter": "batchAcceptanceRate",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "On-time delivery rate = 0% (all deliveries late)",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-5"],
+        "parameter": "onTimeDeliveryRate",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "On-time delivery rate = 100% (all deliveries on-time)",
+        "risk": "LOW",
+        "acIds": ["AC-3"],
+        "parameter": "onTimeDeliveryRate",
+        "boundary": "upper"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify batch acceptance rate aggregates inspection lot results from QM module",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "integration": "QM inspection lots"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify on-time delivery calculation uses PO delivery dates and GR actual dates",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "integration": "MM PO + GR documents"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 5,
+    "AP": 4,
+    "NEG": 5,
+    "ERR": 3,
+    "EDGE": 8,
+    "INT": 2,
+    "total": 27
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "vendorId",
+        "label": "Vendor",
+        "mandatory": true,
+        "validRange": "Existing vendor in SAP vendor master (LFA1)"
+      },
+      {
+        "name": "timePeriodFrom",
+        "label": "From Date",
+        "mandatory": true,
+        "validRange": "Past date, must be before To Date"
+      },
+      {
+        "name": "timePeriodTo",
+        "label": "To Date",
+        "mandatory": true,
+        "validRange": "Current or past date, must be after From Date"
+      },
+      {
+        "name": "purchasingOrganization",
+        "label": "Purchasing Org",
+        "mandatory": false,
+        "validRange": "Valid purchasing organization (T024E)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": false,
+        "validRange": "Valid plant code (T001W)"
+      },
+      {
+        "name": "materialGroup",
+        "label": "Material Group",
+        "mandatory": false,
+        "validRange": "Valid material group (T023)"
+      },
+      {
+        "name": "qualityThreshold",
+        "label": "Threshold %",
+        "mandatory": false,
+        "validRange": "0-100 (percentage)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "vendorName",
+        "label": "Vendor Name",
+        "trigger": "Confirm Vendor ID"
+      },
+      {
+        "name": "totalInspectionLots",
+        "label": "Total Lots",
+        "trigger": "Load scorecard"
+      },
+      {
+        "name": "acceptedLots",
+        "label": "Accepted",
+        "trigger": "Load scorecard"
+      },
+      {
+        "name": "rejectedLots",
+        "label": "Rejected",
+        "trigger": "Load scorecard"
+      },
+      {
+        "name": "batchAcceptanceRate",
+        "label": "Acceptance Rate %",
+        "trigger": "Calculate"
+      },
+      {
+        "name": "onTimeDeliveries",
+        "label": "On-Time Count",
+        "trigger": "Calculate"
+      },
+      {
+        "name": "lateDeliveries",
+        "label": "Late Count",
+        "trigger": "Calculate"
+      },
+      {
+        "name": "onTimeDeliveryRate",
+        "label": "OTD Rate %",
+        "trigger": "Calculate"
+      },
+      {
+        "name": "thresholdStatus",
+        "label": "Status Indicator",
+        "trigger": "Apply threshold rule"
+      }
+    ],
+    "output": [
+      {
+        "name": "vendorQualityScorecard",
+        "label": "Vendor Quality Scorecard",
+        "format": "Dashboard with KPI tiles"
+      },
+      {
+        "name": "batchAcceptanceRateDisplay",
+        "label": "Batch Acceptance Rate",
+        "format": "Numeric percentage (2 decimal places)"
+      },
+      {
+        "name": "onTimeDeliveryRateDisplay",
+        "label": "On-Time Delivery Rate",
+        "format": "Numeric percentage (2 decimal places)"
+      },
+      {
+        "name": "visualStatusIndicator",
+        "label": "Visual Status Indicator",
+        "format": "Icon or color badge (Red/Yellow/Green)"
+      },
+      {
+        "name": "inspectionLotDetailView",
+        "label": "Inspection Lot Detail View",
+        "format": "List of inspection lots with status"
+      },
+      {
+        "name": "exportedReport",
+        "label": "Exported Report",
+        "format": "PDF or Excel format with vendor scorecard data"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "timePeriod",
+        "label": "Time Period (days)",
+        "lowerBoundary": "1 day (minimum)",
+        "upperBoundary": "System-configured (e.g., 3 years historical data)",
+        "zeroInvalid": true
+      },
+      {
+        "name": "qualityThreshold",
+        "label": "Quality Threshold %",
+        "lowerBoundary": "0% (always flag)",
+        "upperBoundary": "100% (never flag)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "batchAcceptanceRate",
+        "label": "Batch Acceptance Rate",
+        "lowerBoundary": "0% (all rejected)",
+        "upperBoundary": "100% (all accepted)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "onTimeDeliveryRate",
+        "label": "On-Time Delivery Rate",
+        "lowerBoundary": "0% (all late)",
+        "upperBoundary": "100% (all on-time)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

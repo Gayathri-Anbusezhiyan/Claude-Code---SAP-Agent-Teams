@@ -1,0 +1,367 @@
+{
+  "userStory": "CS-25",
+  "summary": "Perform A Batch-Specific Physical Inventory Count For Cold-Chain-Store",
+  "module": "MM",
+  "analysedAt": "2026-08-24T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Warehouse Operator",
+  "businessObject": "Physical Inventory Document",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Physical Inventory\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system allows the user to generate a count document filtered by storage location and batch.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR"],
+      "minTCCount": 5
+    },
+    {
+      "id": "AC-3",
+      "text": "The user can enter counted quantities against each batch within the designated storage bin.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR", "EDGE"],
+      "minTCCount": 5
+    },
+    {
+      "id": "AC-4",
+      "text": "The system calculates and displays variances between book quantity and counted quantity by batch.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 6
+    },
+    {
+      "id": "AC-5",
+      "text": "Variances exceeding a configurable tolerance threshold require a documented reason and supervisor approval before posting.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["DT", "EP"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR", "EDGE"],
+      "minTCCount": 7
+    },
+    {
+      "id": "AC-6",
+      "text": "The system maintains a complete count history for audit trail purposes.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Manage Physical Inventory app and create count document filtered by storage location and batch, enter counted quantities, system calculates variance within tolerance, post count successfully with audit trail",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create count document with variance exceeding tolerance threshold, enter documented reason and obtain supervisor approval, post count successfully",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create count document with multiple batches in same storage location, enter counted quantities for each batch, verify variance calculation per batch",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Create count document with zero-variance count (counted = book), verify no approval required, post successfully",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4", "AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create count document with non-existent storage location",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create count document with non-existent batch number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to enter negative counted quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to post count with variance exceeding tolerance without documented reason",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to post count with variance exceeding tolerance without supervisor approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Storage Location field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Storage Location"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Batch Number field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Batch"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Counted Quantity field",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "field": "Counted Quantity"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Reason Code when variance exceeds tolerance",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Reason for Difference"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Supervisor Approval when variance exceeds tolerance",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Approver"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum counted quantity boundary (zero stock count)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "countedQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Maximum counted quantity boundary (system maximum)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "countedQuantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Variance exactly at tolerance threshold boundary (not exceeding)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"],
+        "parameter": "variancePercentage",
+        "boundary": "at_tolerance"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Variance exactly one unit above tolerance threshold (exceeding)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"],
+        "parameter": "variancePercentage",
+        "boundary": "above_tolerance"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Complete inventory loss (counted quantity = 0, book quantity > 0)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4", "AC-5"],
+        "parameter": "countedQuantity",
+        "boundary": "zero_with_book_stock"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 5,
+    "ERR": 6,
+    "EDGE": 5,
+    "INT": 0,
+    "total": 20
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "mandatory": true,
+        "validRange": "Existing storage location in plant master"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch in batch master (MCHA)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Existing plant in SAP"
+      },
+      {
+        "name": "material",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Batch-managed material"
+      },
+      {
+        "name": "countedQuantity",
+        "label": "Counted Quantity",
+        "mandatory": true,
+        "validRange": ">= 0, per UoM"
+      },
+      {
+        "name": "storageBin",
+        "label": "Storage Bin",
+        "mandatory": false,
+        "validRange": "Existing bin in warehouse management"
+      },
+      {
+        "name": "varianceReasonCode",
+        "label": "Reason for Difference",
+        "mandatory": "conditional",
+        "validRange": "Required if variance > tolerance"
+      },
+      {
+        "name": "supervisorApproval",
+        "label": "Approver",
+        "mandatory": "conditional",
+        "validRange": "Required if variance > tolerance"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Select Material"
+      },
+      {
+        "name": "bookQuantity",
+        "label": "Book Inventory",
+        "trigger": "Open count document"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "UoM",
+        "trigger": "Select Material"
+      },
+      {
+        "name": "varianceAmount",
+        "label": "Difference",
+        "trigger": "Enter counted quantity"
+      },
+      {
+        "name": "variancePercentage",
+        "label": "Difference %",
+        "trigger": "Enter counted quantity"
+      },
+      {
+        "name": "toleranceThreshold",
+        "label": "Tolerance Limit",
+        "trigger": "Count document generation"
+      }
+    ],
+    "output": [
+      {
+        "name": "physicalInventoryDocument",
+        "label": "Physical Inventory Document",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "countStatus",
+        "label": "Count Status",
+        "format": "NEW / COUNTED / POSTED / APPROVED"
+      },
+      {
+        "name": "countTimestamp",
+        "label": "Count Timestamp",
+        "format": "ISO timestamp with timezone"
+      },
+      {
+        "name": "auditorUserId",
+        "label": "User ID",
+        "format": "SAP user ID"
+      },
+      {
+        "name": "approvalTimestamp",
+        "label": "Approval Timestamp",
+        "format": "ISO timestamp"
+      },
+      {
+        "name": "postingDocument",
+        "label": "Material Document",
+        "format": "10-digit numeric"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "countedQuantity",
+        "label": "Counted Quantity",
+        "lowerBoundary": "0",
+        "upperBoundary": "999999999.999",
+        "zeroInvalid": false
+      },
+      {
+        "name": "variancePercentage",
+        "label": "Variance %",
+        "lowerBoundary": "-100%",
+        "upperBoundary": "unlimited",
+        "zeroInvalid": false
+      },
+      {
+        "name": "toleranceThreshold",
+        "label": "Tolerance Threshold",
+        "lowerBoundary": "0%",
+        "upperBoundary": "100%",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "userStory": "CS-43",
+  "summary": "Create A New Customer Master Record With A Designated Credit Limit And",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 10,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 6,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 7,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Create Customer Master with Valid Credit Limit and Regulatory License",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Attempt to Create Customer Master with Invalid Regulatory License Classification",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-NEG-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Attempt to Create Customer Master with Non-Existent Sales Organization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-NEG-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt to Create Customer Master with Invalid Credit Control Area",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-NEG-003",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Attempt to Submit Customer Master with Customer Name Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-ERR-001",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt to Submit Customer Master with Credit Limit Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-ERR-002",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Attempt to Submit Customer Master with Regulatory License Classification Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-ERR-003",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Create Customer Master with Zero Credit Limit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-EDGE-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-029",
+      "title": "Create Customer Master with Maximum Credit Limit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-EDGE-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Create Customer Master with Minimum Valid Credit Limit",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-043-EDGE-003",
+      "acsCovered": ["AC-2"]
+    }
+  ],
+  "testdataFile": "testdata/CS-43/CS-43-testdata.json",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "result": "6 of 6 (100%)",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "All 1 HP scenarios generated",
+      "result": "1 of 1",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "All 3 NEG scenarios generated",
+      "result": "3 of 3",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "All 3 ERR scenarios generated",
+      "result": "3 of 3",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "All 3 EDGE scenarios generated",
+      "result": "3 of 3",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "result": "0 hardcoded values found",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 5 TCs flagged YES",
+      "result": "7 of 10 flagged YES (70%)",
+      "status": "PASS"
+    },
+    "negativeEntityCoverage": {
+      "threshold": "100%",
+      "result": "3 of 3 (license, sales org, credit area)",
+      "status": "PASS"
+    },
+    "errorFieldCoverage": {
+      "threshold": "100%",
+      "result": "3 of 3 (name, credit limit, license)",
+      "status": "PASS"
+    }
+  }
+}

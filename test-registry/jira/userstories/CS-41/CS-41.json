@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-41",
+  "type": "Task",
+  "summary": "User Story SD-009 - Export compliance denied-party screening",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Sales Order Processor, I want the system to perform export compliance denied-party screening for all international pharmaceutical orders, so that we do not ship to sanctioned entities or individuals and remain compliant with export control regulations.",
+  "acceptanceCriteria": "1. The user can create a Sales Order for an international customer (ship-to country different from company country).\n2. The system automatically screens the customer (Sold-To, Ship-To, Bill-To, Payer) against government-maintained denied-party lists (e.g., OFAC, BIS, EU sanctions).\n3. The system blocks release of the Sales Order if the customer or any party matches a denied-party list entry.\n4. The system displays a clear error message indicating the export compliance violation and provides the matched party name and list source.\n5. The system logs all denied-party screening checks and matches for audit and regulatory reporting.\n6. The system allows authorized users (e.g., Export Compliance Officer) to review and override false-positive matches with documented justification.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:36:57.916+0530",
+  "updated": "2026-08-21T14:36:58.002+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-41",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

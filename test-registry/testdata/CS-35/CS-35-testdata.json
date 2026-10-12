@@ -1,0 +1,164 @@
+{
+  "userStory": "CS-35",
+  "module": "LE/SD",
+  "feature": "Cold-Chain Outbound Delivery Creation",
+  "generatedAt": "2026-08-23T18:12:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-035-001": {
+      "id": "TD-CS-035-001",
+      "name": "Valid Cold-Chain Outbound Delivery — Primary Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_COLD_CHAIN}}",
+        "storageConditionClassification": "{{STORAGE_CONDITION_2_8C}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "coldChainCarrierId": "{{COLD_CHAIN_CARRIER_ID_VALID}}",
+        "coldChainCarrierName": "{{COLD_CHAIN_CARRIER_NAME}}",
+        "temperatureLoggerReference": "{{TEMPERATURE_LOGGER_REFERENCE}}",
+        "shippingCondition": "{{SHIPPING_CONDITION_COLD_CHAIN}}"
+      },
+      "expectedOutcome": "Outbound delivery created with unique delivery number; status Open/In Process; cold-chain shipping condition auto-proposed; packaging instructions displayed; temperature logger reference captured"
+    },
+    "TD-CS-035-NEG-001": {
+      "id": "TD-CS-035-NEG-001",
+      "name": "Material Without Storage Condition Classification — No Cold-Chain Shipping Condition",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialIdNoStorageCondition": "{{MATERIAL_ID_NO_STORAGE_CONDITION}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}"
+      },
+      "expectedOutcome": "Shipping condition NOT auto-populated; system does NOT enforce cold-chain requirements; delivery can be created without cold-chain carrier or temperature monitoring"
+    },
+    "TD-CS-035-NEG-002": {
+      "id": "TD-CS-035-NEG-002",
+      "name": "Non-Qualified Carrier for Cold-Chain Material — Validation Error",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "nonQualifiedCarrierId": "{{CARRIER_ID_NON_QUALIFIED}}"
+      },
+      "expectedOutcome": "SAP displays error: Carrier is not qualified for cold-chain transport; delivery NOT created"
+    },
+    "TD-CS-035-ERR-001": {
+      "id": "TD-CS-035-ERR-001",
+      "name": "Missing Mandatory Field — Cold-Chain Carrier",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "coldChainCarrierId": ""
+      },
+      "note": "coldChainCarrierId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Carrier field as mandatory; displays error message; prevents save; delivery NOT created"
+    },
+    "TD-CS-035-ERR-002": {
+      "id": "TD-CS-035-ERR-002",
+      "name": "Missing Mandatory Field — Temperature Logger Reference",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "coldChainCarrierId": "{{COLD_CHAIN_CARRIER_ID_VALID}}",
+        "temperatureLoggerReference": ""
+      },
+      "note": "temperatureLoggerReference intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Temperature Logger Reference field as mandatory; displays error message; prevents save; delivery NOT created"
+    },
+    "TD-CS-035-ERR-003": {
+      "id": "TD-CS-035-ERR-003",
+      "name": "Missing Mandatory Field — Temperature Monitoring Device Reference (Goods Issue Block)",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "coldChainCarrierId": "{{COLD_CHAIN_CARRIER_ID_VALID}}",
+        "temperatureLoggerReference": "{{TEMPERATURE_LOGGER_REFERENCE}}",
+        "temperatureMonitoringDeviceReference": ""
+      },
+      "note": "Delivery creation succeeds; temperatureMonitoringDeviceReference intentionally empty to test goods issue block",
+      "expectedOutcome": "Delivery created successfully; goods issue posting blocked with error message; delivery status remains Open/In Process; goods issue status NOT Posted"
+    },
+    "TD-CS-035-EDGE-001": {
+      "id": "TD-CS-035-EDGE-001",
+      "name": "Minimum Quantity Boundary — Lower Limit",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_COLD_CHAIN}}",
+        "storageConditionClassification": "{{STORAGE_CONDITION_2_8C}}",
+        "minQuantity": "{{DELIVERY_QUANTITY_MIN}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "coldChainCarrierId": "{{COLD_CHAIN_CARRIER_ID_VALID}}",
+        "coldChainCarrierName": "{{COLD_CHAIN_CARRIER_NAME}}",
+        "temperatureLoggerReference": "{{TEMPERATURE_LOGGER_REFERENCE}}"
+      },
+      "expectedOutcome": "Delivery created successfully with minimum quantity (1); all cold-chain requirements applied"
+    },
+    "TD-CS-035-EDGE-002": {
+      "id": "TD-CS-035-EDGE-002",
+      "name": "Maximum Length Temperature Logger Reference — Upper Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_COLD_CHAIN}}",
+        "storageConditionClassification": "{{STORAGE_CONDITION_2_8C}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "coldChainCarrierId": "{{COLD_CHAIN_CARRIER_ID_VALID}}",
+        "coldChainCarrierName": "{{COLD_CHAIN_CARRIER_NAME}}",
+        "temperatureLoggerReferenceMaxLength": "{{TEMPERATURE_LOGGER_REFERENCE_MAX_LENGTH}}"
+      },
+      "expectedOutcome": "Delivery created successfully with maximum-length temperature logger reference (35-50 characters); full string stored without truncation"
+    }
+  },
+  "allPlaceholders": [
+    "{{SALES_ORDER_NUMBER_VALID}}",
+    "{{MATERIAL_ID_COLD_CHAIN_VALID}}",
+    "{{MATERIAL_DESCRIPTION_COLD_CHAIN}}",
+    "{{STORAGE_CONDITION_2_8C}}",
+    "{{DELIVERY_QUANTITY_STANDARD}}",
+    "{{DELIVERY_QUANTITY_MIN}}",
+    "{{UNIT_OF_MEASURE}}",
+    "{{STORAGE_LOCATION_CODE}}",
+    "{{COLD_CHAIN_CARRIER_ID_VALID}}",
+    "{{COLD_CHAIN_CARRIER_NAME}}",
+    "{{TEMPERATURE_LOGGER_REFERENCE}}",
+    "{{TEMPERATURE_LOGGER_REFERENCE_MAX_LENGTH}}",
+    "{{SHIPPING_CONDITION_COLD_CHAIN}}",
+    "{{MATERIAL_ID_NO_STORAGE_CONDITION}}",
+    "{{CARRIER_ID_NON_QUALIFIED}}"
+  ]
+}

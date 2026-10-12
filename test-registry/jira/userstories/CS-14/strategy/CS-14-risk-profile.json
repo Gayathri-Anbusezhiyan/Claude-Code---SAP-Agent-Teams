@@ -1,0 +1,442 @@
+{
+  "userStory": "CS-14",
+  "summary": "As a Quality Doc SME, I want to complete the final review task and close the workflow so that the document reaches the Final Review Complete state",
+  "module": "Veeva Vault QualityDocs",
+  "analysedAt": "2026-08-21T00:00:00Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Doc SME",
+  "businessObject": "Workflow Task (Final Review Task), Quality Document",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "[RP-FUNC-001] The Quality Doc SME can re-authenticate to Veeva Vault QualityDocs in a fresh session using role-specific credentials",
+      "type": "NAVIGATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "[NAV-007] After entering the application URL in a fresh session and submitting valid credentials, the SME gains access to the QualityDocs module",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "[RP-FUNC-007] The Quality Doc SME can navigate from the QualityDocs landing page to the Home view",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "[NAV-005] After clicking \"Home\" in the navigation, the Home view is displayed with a task list",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "[RP-FUNC-011] The recently assigned final review workflow task is visible in the SME's task list",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "[AR-007] The task list displays recently assigned tasks with the most recent at the top",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["AP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "[NAV-008] The Quality Doc SME can select the recently assigned final review task from the list",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-8",
+      "text": "[RP-FUNC-008] The final review task form is displayed with a Verdict field and a Complete button",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-9",
+      "text": "[RP-DATA-004] The Verdict field is a dropdown with predefined values including \"No Changes Required – Review Complete\"",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-10",
+      "text": "The Quality Doc SME can select \"No Changes Required – Review Complete\" from the Verdict dropdown",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-11",
+      "text": "The Quality Doc SME can click the Complete button to submit and close the final review task",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-12",
+      "text": "[AR-005] After clicking Complete, the document status transitions from Review Completed to Final Review Complete",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-13",
+      "text": "The workflow is closed; no further workflow tasks are created or assigned",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-14",
+      "text": "[RP-FUNC-012] The Quality Doc SME can log out from the application",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-15",
+      "text": "[NAV-009] After logout, the user session is terminated and the login screen is displayed",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-16",
+      "text": "[RP-NFR-001] The user session terminates when the user logs out from the application",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-17",
+      "text": "If multiple tasks exist in the SME's task list, the SME can identify and select the most recently assigned final review task by its position at the top of the list",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["AP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-18",
+      "text": "[GR-005] The Verdict field is mandatory; the system prevents final task submission when Verdict is not selected",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-19",
+      "text": "[RP-DATA-008] When the Verdict field is empty, the system displays an error message near the field and blocks form submission",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-20",
+      "text": "[AR-006] When the user attempts to submit the task with a missing Verdict, the system displays a validation error and does not allow submission",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-21",
+      "text": "The Complete button must be clicked to finalize and close the workflow; the workflow does not close without this explicit action",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-22",
+      "text": "[GR-003] Only the Quality Doc SME assigned to this workflow can complete the final review task; the Reviewer cannot perform this action",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-23",
+      "text": "[RP-ROLE-004] The system enforces role-based access control: only the Quality Doc SME can complete the final review task",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-24",
+      "text": "[RP-NFR-002] The system enforces role-based access control for all workflow actions",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-25",
+      "text": "[RP-NFR-004] The system validates all mandatory fields before allowing task submission",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-26",
+      "text": "[RISK-008] The system shall prevent final task completion when the Verdict is missing — HIGH severity risk mitigation",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-27",
+      "text": "[RISK-007] The system shall ensure that the final review task is assigned to the SME after the reviewer completes their task — HIGH severity risk mitigation",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-28",
+      "text": "[BR-005] The Quality Doc SME must complete the final review task with a verdict",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-29",
+      "text": "[RP-BIZ-004] The SME must provide Verdict \"No Changes Required – Review Complete\" and click Complete to close the workflow",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-30",
+      "text": "[BR-008] User must log out after completing the workflow",
+      "type": "BUSINESS_RULE",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-31",
+      "text": "[BR-006] Only assigned users can access their respective workflow tasks",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "SME re-authenticates, navigates to Home, selects final review task, submits verdict \"No Changes Required – Review Complete\", clicks Complete, document transitions to Final Review Complete, workflow closes, SME logs out",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-7", "AC-8", "AC-10", "AC-11", "AC-12", "AC-13", "AC-14", "AC-15", "AC-16", "AC-27", "AC-29", "AC-30"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Multiple tasks exist in task list; SME identifies and selects the most recent final review task by position (top of list)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6", "AC-17"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Reviewer (wrong role) attempts to access SME's final review task — access denied",
+        "risk": "CRITICAL",
+        "acIds": ["AC-22", "AC-23", "AC-24", "AC-31"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "SME attempts to close workflow without clicking Complete button — workflow remains open",
+        "risk": "CRITICAL",
+        "acIds": ["AC-21"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Final review task is not visible in SME's task list after CS-13 completion — workflow deadlock",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5", "AC-27"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Verdict field — system displays error and blocks submission",
+        "risk": "HIGH",
+        "acIds": ["AC-18", "AC-19", "AC-20", "AC-25", "AC-26", "AC-28"],
+        "field": "Verdict"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Verdict dropdown contains multiple predefined values; SME selects \"No Changes Required – Review Complete\"",
+        "risk": "MEDIUM",
+        "acIds": ["AC-9"],
+        "parameter": "verdict",
+        "boundary": "multiple predefined values"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify final review task is assigned to SME immediately after CS-13 (reviewer completes task)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5", "AC-27"],
+        "linkedIssue": "CS-13 (precondition dependency — not formally linked)"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 3,
+    "ERR": 1,
+    "EDGE": 1,
+    "INT": 1,
+    "total": 8
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "username",
+        "label": "Username / Email",
+        "mandatory": true,
+        "validRange": "Valid SME credentials in Veeva Vault"
+      },
+      {
+        "name": "password",
+        "label": "Password",
+        "mandatory": true,
+        "validRange": "Valid SME password in Veeva Vault"
+      },
+      {
+        "name": "verdict",
+        "label": "Verdict",
+        "mandatory": true,
+        "validRange": "Predefined values including \"No Changes Required – Review Complete\""
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "taskId",
+        "label": "Task ID",
+        "trigger": "Task assignment from Veeva Vault workflow engine"
+      },
+      {
+        "name": "taskType",
+        "label": "Task Type",
+        "trigger": "Task assignment from Veeva Vault workflow configuration"
+      },
+      {
+        "name": "documentId",
+        "label": "Document ID",
+        "trigger": "Task assignment from Veeva Vault document registry"
+      },
+      {
+        "name": "documentStatusBefore",
+        "label": "Document Status (before)",
+        "trigger": "Pre-condition check — Review Completed"
+      },
+      {
+        "name": "taskAssignmentDate",
+        "label": "Task Assignment Date",
+        "trigger": "Reviewer completes task (CS-13)"
+      },
+      {
+        "name": "taskListOrder",
+        "label": "Task List Order",
+        "trigger": "Task assignment timestamp (most recent at top)"
+      }
+    ],
+    "output": [
+      {
+        "name": "documentStatusAfter",
+        "label": "Document Status (after)",
+        "format": "Final Review Complete"
+      },
+      {
+        "name": "workflowStatus",
+        "label": "Workflow Status",
+        "format": "Closed"
+      },
+      {
+        "name": "sessionStatus",
+        "label": "Session Status",
+        "format": "Logged Out"
+      }
+    ],
+    "boundary": []
+  }
+}

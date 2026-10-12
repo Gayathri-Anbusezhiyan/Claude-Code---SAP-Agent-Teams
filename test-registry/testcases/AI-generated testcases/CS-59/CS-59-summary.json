@@ -1,0 +1,153 @@
+{
+  "userStory": "CS-59",
+  "summary": "Initiate A Rework Order For A Batch That Failed Final Inspection But I",
+  "module": "PP + QM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 9,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 2,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 6,
+    "MEDIUM": 2,
+    "LOW": 0
+  },
+  "bySeverity": {
+    "CRITICAL": 1,
+    "MAJOR": 6,
+    "MINOR": 2,
+    "TRIVIAL": 0
+  },
+  "automationCandidates": 9,
+  "testCases": [
+    {
+      "id": "TC-CS-053",
+      "title": "Create rework order for approved batch with full traceability and QM inspection",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-059-HP-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Attempt rework order creation for batch without QA disposition",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-059-NEG-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Attempt rework order creation for batch with QA disposition rejecting rework",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-059-NEG-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Attempt rework order creation for non-existent batch",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-059-NEG-003",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-057",
+      "title": "Attempt rework order creation with missing Batch Number field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-059-ERR-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-058",
+      "title": "Attempt rework order creation with missing Rework Procedure/Recipe field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-059-ERR-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-059",
+      "title": "Attempt rework order creation with missing Rework Justification field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-059-ERR-003",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-060",
+      "title": "Create rework order with minimum quantity boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-059-EDGE-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-061",
+      "title": "Attempt rework order creation with zero quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-059-EDGE-002",
+      "acsCovered": ["AC-3"]
+    }
+  ],
+  "testdataFile": "testdata/CS-59/CS-59-testdata.json",
+  "testdataGuideFile": "testdata/CS-59/CS-59-testdata-guide.md",
+  "overallRisk": "CRITICAL",
+  "regulatoryCompliance": {
+    "applicable": true,
+    "standards": ["FDA 21 CFR Part 11", "FDA 21 CFR Part 210/211 (cGMP)", "ISO 13485"],
+    "batchTraceabilityVerified": true,
+    "qaDispositionValidationVerified": true,
+    "inspectionLotCreationVerified": true,
+    "batchRecordDocumentationVerified": true
+  },
+  "qualityGates": {
+    "acTraceability": "PASS",
+    "hpCoverage": "PASS",
+    "negCoverage": "PASS",
+    "errCoverage": "PASS",
+    "edgeCoverage": "PASS",
+    "parameterization": "PASS",
+    "automationEligibility": "PASS",
+    "regulatoryDocumentation": "PASS",
+    "overallStatus": "PASS"
+  }
+}

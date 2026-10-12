@@ -1,0 +1,203 @@
+{
+  "userStory": "CS-59",
+  "module": "PP + QM",
+  "feature": "Rework Order Creation for Failed Batches",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-059-HP-001": {
+      "id": "TD-CS-059-HP-001",
+      "name": "Valid Rework Order — Approved Batch with Full Traceability and QM Inspection",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumber": "{{BATCH_NUMBER_APPROVED_REWORK}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "originalBatchStatus": "{{BATCH_STATUS_RESTRICTED}}",
+        "qaDispositionStatus": "{{QA_DISPOSITION_REWORK_APPROVED}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}",
+        "reworkOrderStatus": "{{REWORK_ORDER_STATUS_CREATED_OR_RELEASED}}",
+        "reworkedBatchNumber": "{{REWORKED_BATCH_NUMBER_SYSTEM_GENERATED}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER_SYSTEM_GENERATED}}"
+      },
+      "expectedOutcome": "Rework order created with unique order number; batch genealogy linkage established; QM inspection lot auto-created; batch record documents original failure and rework justification"
+    },
+    "TD-CS-059-NEG-001": {
+      "id": "TD-CS-059-NEG-001",
+      "name": "Invalid Rework Order — Batch Without QA Disposition",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumberNoDisposition": "{{BATCH_NUMBER_NO_QA_DISPOSITION}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System displays error: QA disposition required for rework; rework order not created"
+    },
+    "TD-CS-059-NEG-002": {
+      "id": "TD-CS-059-NEG-002",
+      "name": "Invalid Rework Order — Batch with QA Disposition Rejecting Rework",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumberRejectedDisposition": "{{BATCH_NUMBER_QA_DISPOSITION_REJECTED}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "qaDispositionRejectedStatus": "{{QA_DISPOSITION_SCRAP_OR_BLOCKED}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System displays error: QA disposition does not approve rework for this batch; rework order not created"
+    },
+    "TD-CS-059-NEG-003": {
+      "id": "TD-CS-059-NEG-003",
+      "name": "Invalid Rework Order — Non-Existent Batch",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-056"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumberNonExistent": "{{BATCH_NUMBER_NON_EXISTENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System displays error: Batch does not exist or is invalid; rework order not created"
+    },
+    "TD-CS-059-ERR-001": {
+      "id": "TD-CS-059-ERR-001",
+      "name": "Missing Mandatory Field — Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-057"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "emptyValue": "",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System highlights Batch Number field as mandatory and prevents submission; rework order not created"
+    },
+    "TD-CS-059-ERR-002": {
+      "id": "TD-CS-059-ERR-002",
+      "name": "Missing Mandatory Field — Rework Procedure/Recipe",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-058"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumber": "{{BATCH_NUMBER_APPROVED_REWORK}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "emptyValue": "",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "originalBatchStatus": "{{BATCH_STATUS_RESTRICTED}}",
+        "qaDispositionStatus": "{{QA_DISPOSITION_REWORK_APPROVED}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System highlights Rework Procedure/Recipe field as mandatory and prevents submission; rework order not created"
+    },
+    "TD-CS-059-ERR-003": {
+      "id": "TD-CS-059-ERR-003",
+      "name": "Missing Mandatory Field — Rework Justification",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-059"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumber": "{{BATCH_NUMBER_APPROVED_REWORK}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{REWORK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "emptyValue": "",
+        "originalBatchStatus": "{{BATCH_STATUS_RESTRICTED}}",
+        "qaDispositionStatus": "{{QA_DISPOSITION_REWORK_APPROVED}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System highlights Rework Justification field as mandatory and prevents submission; rework order not created"
+    },
+    "TD-CS-059-EDGE-001": {
+      "id": "TD-CS-059-EDGE-001",
+      "name": "Boundary Value — Minimum Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-060"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumber": "{{BATCH_NUMBER_APPROVED_REWORK}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "minQuantity": "{{REWORK_QUANTITY_MINIMUM}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "originalBatchStatus": "{{BATCH_STATUS_RESTRICTED}}",
+        "qaDispositionStatus": "{{QA_DISPOSITION_REWORK_APPROVED}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}",
+        "reworkOrderStatus": "{{REWORK_ORDER_STATUS_CREATED_OR_RELEASED}}"
+      },
+      "expectedOutcome": "Rework order created successfully with minimum quantity; system accepts lower boundary value"
+    },
+    "TD-CS-059-EDGE-002": {
+      "id": "TD-CS-059-EDGE-002",
+      "name": "Boundary Value — Zero Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-061"],
+      "data": {
+        "orderType": "{{ORDER_TYPE_REWORK}}",
+        "batchNumber": "{{BATCH_NUMBER_APPROVED_REWORK}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "zeroQuantity": "0",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "reworkProcedure": "{{REWORK_PROCEDURE_CODE}}",
+        "reworkJustification": "{{REWORK_JUSTIFICATION_TEXT}}",
+        "originalBatchStatus": "{{BATCH_STATUS_RESTRICTED}}",
+        "qaDispositionStatus": "{{QA_DISPOSITION_REWORK_APPROVED}}",
+        "productionScheduler": "{{MRP_CONTROLLER}}"
+      },
+      "expectedOutcome": "System displays error: Quantity must be greater than zero; rework order not created"
+    }
+  }
+}

@@ -1,0 +1,471 @@
+{
+  "userStory": "CS-38",
+  "summary": "Maintain Rebate Agreements for GPO contracts",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Contract Administrator",
+  "businessObject": "Rebate Agreement",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Rebate Agreement specifying the GPO contract number, validity period, and eligible customers (GPO members).",
+      "type": "NAVIGATION + MANDATORY_FIELD",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "ERR", "NEG", "EDGE"],
+      "minTCCount": 5
+    },
+    {
+      "id": "AC-2",
+      "text": "The system allows the user to define rebate tiers based on cumulative purchase volume (e.g., 2% rebate for 0-10,000 units, 4% rebate for 10,001-50,000 units).",
+      "type": "BUSINESS_RULE + VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA", "DT"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE", "NEG", "ERR"],
+      "minTCCount": 6
+    },
+    {
+      "id": "AC-3",
+      "text": "The system automatically accrues rebate amounts for each eligible customer based on their cumulative purchases during the contract period.",
+      "type": "BUSINESS_RULE + INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "INT", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system provides a report showing cumulative purchases and accrued rebates for each GPO member.",
+      "type": "VALIDATION_POSITIVE + SUCCESS_CONFIRMATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The user can process a rebate settlement at the end of the contract period, generating credit memos or rebate payments for eligible customers.",
+      "type": "BUSINESS_RULE + SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system prevents retroactive changes to rebate tiers after the settlement has been processed.",
+      "type": "VALIDATION_NEGATIVE + BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Rebate Agreement with GPO contract number, validity period, and 2+ eligible customers",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Define 2 rebate tiers with non-overlapping volume ranges and valid percentages",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Sales order posted for GPO member → system automatically accrues rebate based on cumulative volume and tier",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Generate rebate report showing cumulative purchases and accrued rebates for all GPO members",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "HP-05",
+        "description": "Process rebate settlement at end of contract period, generating credit memos for all eligible customers",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create Rebate Agreement with 3+ rebate tiers (complex tier structure)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Process rebate settlement generating rebate payments (instead of credit memos)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Generate rebate report with date range filter or customer filter",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Create Rebate Agreement with overlapping tier volume ranges — system displays error and prevents save",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Create Rebate Agreement with tier percentage > 100 — system displays error",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Create Rebate Agreement with end date before start date — system displays error",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to edit rebate tiers after settlement has been processed — system prevents changes and displays error",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Create Rebate Agreement with non-existent GPO contract number — system displays error",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Create Rebate Agreement with non-existent customer ID — system displays error",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing GPO Contract Number field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "GPO Contract Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Validity Start Date field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Validity Start Date"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Validity End Date field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Validity End Date"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Eligible Customers field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Eligible Customers"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Rebate Tier Volume Lower field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Rebate Tier Volume Lower"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Rebate Tier Volume Upper field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Rebate Tier Volume Upper"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Missing Rebate Percentage field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Rebate Percentage"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Create Rebate Agreement with minimum validity period (1 day)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "validityPeriod",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Define rebate tier with lower boundary = 0 (first tier starting at zero)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "tierVolumeLower",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Define rebate tier with percentage = 0 (no rebate tier)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "rebatePercentage",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Define rebate tier with percentage = 100 (entire amount rebated)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "rebatePercentage",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Cumulative purchase volume exactly equals tier upper boundary (boundary crossing)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "cumulativeVolume",
+        "boundary": "tier_boundary"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Process rebate settlement with zero accrued rebate amount (no sales during period)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "accruedRebate",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Sales order posting for GPO member customer triggers automatic accrual calculation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "integration": "SD billing module"
+      },
+      {
+        "id": "INT-02",
+        "description": "Credit memo generated during settlement posts to Financial Accounting (FI)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "integration": "FI module"
+      },
+      {
+        "id": "INT-03",
+        "description": "Rebate payment generated during settlement posts to Payment Processing",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "integration": "FI payment processing"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 5,
+    "AP": 3,
+    "NEG": 6,
+    "ERR": 7,
+    "EDGE": 6,
+    "INT": 3,
+    "total": 30
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "gpoContractNumber",
+        "label": "Agreement Number / Contract Reference",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing contract in SAP"
+      },
+      {
+        "name": "validityStartDate",
+        "label": "Valid From",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Current or future date"
+      },
+      {
+        "name": "validityEndDate",
+        "label": "Valid To",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "After Valid From date"
+      },
+      {
+        "name": "eligibleCustomers",
+        "label": "Customer List / GPO Members",
+        "dataType": "Multi-select",
+        "mandatory": true,
+        "validRange": "Existing customer IDs from KNA1"
+      },
+      {
+        "name": "rebateTierVolumeLower",
+        "label": "Volume From (per tier)",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Non-negative integer, 0 for first tier"
+      },
+      {
+        "name": "rebateTierVolumeUpper",
+        "label": "Volume To (per tier)",
+        "dataType": "Numeric",
+        "mandatory": true,
+        "validRange": "Greater than Volume From, non-overlapping with other tiers"
+      },
+      {
+        "name": "rebatePercentage",
+        "label": "Rebate % (per tier)",
+        "dataType": "Decimal",
+        "mandatory": true,
+        "validRange": "0-100"
+      },
+      {
+        "name": "settlementDocumentType",
+        "label": "Credit Memo / Payment Type",
+        "dataType": "Dropdown",
+        "mandatory": true,
+        "validRange": "Credit Memo or Rebate Payment"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Customer Name",
+        "trigger": "Confirm Customer ID",
+        "source": "Customer master KNA1"
+      },
+      {
+        "name": "gpoContractDescription",
+        "label": "Contract Description",
+        "trigger": "Enter GPO Contract Number",
+        "source": "Contract master data"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Org",
+        "trigger": "Customer ID selection",
+        "source": "Customer master KNA1 (sales area assignment)"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "trigger": "Customer ID selection",
+        "source": "Customer master KNA1 (sales area assignment)"
+      },
+      {
+        "name": "currency",
+        "label": "Currency",
+        "trigger": "Sales Organization",
+        "source": "Company code currency settings"
+      },
+      {
+        "name": "cumulativePurchaseVolume",
+        "label": "Total Volume (per customer)",
+        "trigger": "Sales order/delivery posting",
+        "source": "Aggregated from VBRK/VBRP (billing documents) during contract period"
+      },
+      {
+        "name": "accruedRebateAmount",
+        "label": "Accrued Rebate",
+        "trigger": "Cumulative volume crosses tier boundary",
+        "source": "Calculated: Volume × Rebate %"
+      }
+    ],
+    "output": [
+      {
+        "name": "rebateAgreementNumber",
+        "label": "Rebate Agreement Number",
+        "description": "Unique SAP-generated agreement ID",
+        "format": "Alphanumeric (depends on SAP numbering range)"
+      },
+      {
+        "name": "rebateAgreementStatus",
+        "label": "Rebate Agreement Status",
+        "description": "Current status (Draft / Active / Settled / Locked)",
+        "format": "Status indicator"
+      },
+      {
+        "name": "creditMemoNumber",
+        "label": "Credit Memo Number",
+        "description": "Document number generated during settlement",
+        "format": "10-digit numeric (standard SAP credit memo)"
+      },
+      {
+        "name": "rebatePaymentReference",
+        "label": "Rebate Payment Reference",
+        "description": "Payment document number generated during settlement",
+        "format": "Alphanumeric (depends on payment document type)"
+      },
+      {
+        "name": "settlementDate",
+        "label": "Settlement Date",
+        "description": "Date when settlement was processed",
+        "format": "Date (YYYY-MM-DD)"
+      },
+      {
+        "name": "totalRebateAmount",
+        "label": "Total Rebate Amount",
+        "description": "Sum of all rebates across all GPO members",
+        "format": "Decimal (2 decimal places)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "rebateTierVolumeLower",
+        "label": "Volume From (per tier)",
+        "lowerBoundary": "0 (first tier must start at 0)",
+        "upperBoundary": "System-configured maximum",
+        "zeroInvalid": false,
+        "notes": "Must be sequential and non-overlapping"
+      },
+      {
+        "name": "rebateTierVolumeUpper",
+        "label": "Volume To (per tier)",
+        "lowerBoundary": "1 (minimum valid)",
+        "upperBoundary": "System-configured maximum",
+        "zeroInvalid": true,
+        "notes": "Must be greater than lower boundary"
+      },
+      {
+        "name": "rebatePercentage",
+        "label": "Rebate % (per tier)",
+        "lowerBoundary": "0 (valid — no rebate tier)",
+        "upperBoundary": "100 (maximum — entire amount rebated)",
+        "zeroInvalid": false,
+        "notes": "Per tier"
+      },
+      {
+        "name": "validityPeriodDuration",
+        "label": "Contract Duration (days)",
+        "lowerBoundary": "1 day (minimum)",
+        "upperBoundary": "No upper limit",
+        "zeroInvalid": true,
+        "notes": "End Date - Start Date ≥ 1"
+      }
+    ]
+  }
+}

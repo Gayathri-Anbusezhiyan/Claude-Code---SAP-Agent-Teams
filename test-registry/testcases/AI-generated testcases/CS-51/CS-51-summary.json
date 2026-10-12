@@ -1,0 +1,180 @@
+{
+  "userStory": "CS-51",
+  "summary": "Perform A Goods Issue (Backflush) Of Raw Material Batches To A Process",
+  "module": "PP",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 14,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 2,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 10,
+    "MEDIUM": 0,
+    "LOW": 0
+  },
+  "automationCandidates": 14,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Confirm Process Order with Single Batch Consumption (FEFO-Proposed Batch Exact Quantity)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Confirm Process Order with Primary Batch Consumption (FEFO Logic Validation)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-002",
+      "acsCovered": ["AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Confirm Process Order Requiring Multiple Batches (Substitute Batch with Warning)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-003",
+      "acsCovered": ["AC-2", "AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Manually Override FEFO-Proposed Batch and Select Different Valid Batch",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-051-004",
+      "acsCovered": ["AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Attempt to Consume a Batch on Quality Hold (QI Blocked)",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-NEG-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Attempt to Consume an Expired Batch (SLED < System Date)",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-NEG-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt to Confirm Process Order with Missing Process Order Number Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-ERR-001",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt to Confirm Process Order with Missing Yield Quantity Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-ERR-002",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Attempt to Confirm Process Order with Missing Posting Date Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-ERR-003",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Attempt to Confirm Process Order in Incorrect Status (Locked or Closed)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-ERR-004",
+      "acsCovered": []
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Confirm Process Order with Minimum Yield Quantity (Lower Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-051-EDGE-001",
+      "acsCovered": ["AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Confirm Process Order with Batch Quantity Exactly Matching Required Quantity (Exact Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-051-EDGE-002",
+      "acsCovered": ["AC-2", "AC-5"]
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Confirm Process Order with Batch Expiration Date Today (SLED = System Date Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-051-EDGE-003",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Confirm Process Order with Zero Available Quantity for FEFO-Proposed Batch (Immediate Substitute Trigger)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-051-EDGE-004",
+      "acsCovered": ["AC-2", "AC-5"]
+    }
+  ],
+  "testdataFile": "testdata/CS-51/CS-51-testdata.json",
+  "qualityGates": {
+    "acTraceability": "PASS",
+    "hpCoverage": "PASS",
+    "negCoverage": "PASS",
+    "errCoverage": "PASS",
+    "edgeCoverage": "PASS",
+    "apCoverage": "PASS",
+    "parameterization": "PASS",
+    "automationEligibility": "PASS",
+    "batchTraceabilityVerification": "PASS",
+    "fefoLogicVerification": "PASS",
+    "overallStatus": "PASS"
+  }
+}

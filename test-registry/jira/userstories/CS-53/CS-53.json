@@ -1,0 +1,20 @@
+{
+  "key": "CS-53",
+  "summary": "Review And Electronically Sign Off The Electronic Batch Record (Ebr) G",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:37.268Z",
+  "updated": "2026-08-21T08:41:37.363Z",
+  "description": "As a QA Reviewer, I want to review and electronically sign off the Electronic Batch Record (EBR) generated from a completed Process Order, so that the batch is not released for distribution until all GMP documentation has been formally verified.",
+  "acceptanceCriteria": "1. The user can access the \"Review Batch Records\" Fiori app.2. The system compiles all process order data — component consumption, in-process controls, confirmations, and deviations — into a structured batch record.3. The system prevents batch record approval if any mandatory in-process control result is missing or out of specification without a documented deviation.4. The reviewer can add electronic signatures with a timestamp and user ID compliant with 21 CFR Part 11 requirements.5. The batch cannot be transferred to Unrestricted-Use stock until the batch record is fully approved.6. The completed, signed batch record is archived and retrievable for regulatory inspection.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

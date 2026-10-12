@@ -1,0 +1,481 @@
+{
+  "userStory": "CS-48",
+  "module": "SD",
+  "feature": "Pricing Condition Master — Tiered Pricing Maintenance",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-48-001": {
+      "id": "TD-CS-48-001",
+      "name": "Valid Single-Tier Pricing Condition Record",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}",
+        "baseUom": "{{BASE_UOM}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}"
+      },
+      "expectedOutcome": "Condition record created successfully with single-tier pricing; record number generated"
+    },
+    "TD-CS-48-002": {
+      "id": "TD-CS-48-002",
+      "name": "Multi-Tier Pricing Condition with 3 Quantity Breakpoints",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantityTier1": "{{SCALE_QUANTITY_TIER_1}}",
+        "priceAmountTier1": "{{PRICE_AMOUNT_TIER_1}}",
+        "scaleQuantityTier2": "{{SCALE_QUANTITY_TIER_2}}",
+        "priceAmountTier2": "{{PRICE_AMOUNT_TIER_2}}",
+        "scaleQuantityTier3": "{{SCALE_QUANTITY_TIER_3}}",
+        "priceAmountTier3": "{{PRICE_AMOUNT_TIER_3}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}"
+      },
+      "expectedOutcome": "Condition record created with 3 pricing tiers (1-99, 100-499, 500+); all tiers stored correctly"
+    },
+    "TD-CS-48-003": {
+      "id": "TD-CS-48-003",
+      "name": "Apply Tiered Pricing at Sales Order Entry",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_TIER_2}}",
+        "expectedPriceTier2": "{{PRICE_AMOUNT_TIER_2}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Sales order created; tier 2 price applied automatically based on order quantity"
+    },
+    "TD-CS-48-004": {
+      "id": "TD-CS-48-004",
+      "name": "Manual Price Override Within Tolerance",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "listPrice": "{{PRICE_AMOUNT_LIST}}",
+        "manualOverridePriceWithinTolerance": "{{PRICE_OVERRIDE_WITHIN_TOLERANCE}}",
+        "tolerancePercent": "{{TOLERANCE_PERCENT_CONFIGURED}}"
+      },
+      "expectedOutcome": "Sales order created; manual override price within tolerance accepted without approval"
+    },
+    "TD-CS-48-005": {
+      "id": "TD-CS-48-005",
+      "name": "Display Condition Record and Validity Period",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-033"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "conditionRecordNumber": "{{CONDITION_RECORD_NUMBER_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}"
+      },
+      "expectedOutcome": "Sales order pricing screen displays condition record number and validity period"
+    },
+    "TD-CS-48-006": {
+      "id": "TD-CS-48-006",
+      "name": "Condition Record Nearing Expiry Alert",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-034"],
+      "data": {
+        "conditionRecordNumberNearExpiry": "{{CONDITION_RECORD_NUMBER_NEAR_EXPIRY}}",
+        "validToNearExpiry": "{{VALID_TO_NEAR_EXPIRY}}",
+        "alertWindowDays": "{{ALERT_WINDOW_DAYS}}"
+      },
+      "expectedOutcome": "Condition record flagged with alert indicator; alert message displayed"
+    },
+    "TD-CS-48-007": {
+      "id": "TD-CS-48-007",
+      "name": "Condition Record with Indefinite Validity",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-035"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validToIndefinite": "{{VALID_TO_INDEFINITE}}"
+      },
+      "expectedOutcome": "Condition record created with indefinite validity (9999-12-31); no expiry alert"
+    },
+    "TD-CS-48-008": {
+      "id": "TD-CS-48-008",
+      "name": "Manual Price Override Beyond Tolerance with Supervisor Approval",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-036"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "listPrice": "{{PRICE_AMOUNT_LIST}}",
+        "manualOverridePriceBeyondTolerance": "{{PRICE_OVERRIDE_BEYOND_TOLERANCE}}",
+        "tolerancePercent": "{{TOLERANCE_PERCENT_CONFIGURED}}"
+      },
+      "expectedOutcome": "Approval request created; supervisor approves; override price applied to sales order"
+    },
+    "TD-CS-48-009": {
+      "id": "TD-CS-48-009",
+      "name": "Supervisor Rejects Manual Price Override",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-037"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "listPrice": "{{PRICE_AMOUNT_LIST}}",
+        "manualOverridePriceBeyondTolerance": "{{PRICE_OVERRIDE_BEYOND_TOLERANCE}}",
+        "tolerancePercent": "{{TOLERANCE_PERCENT_CONFIGURED}}",
+        "rejectionReason": "{{REJECTION_REASON}}"
+      },
+      "expectedOutcome": "Approval request rejected; line item price reverts to list price; sales order blocked until resolved"
+    },
+    "TD-CS-48-010": {
+      "id": "TD-CS-48-010",
+      "name": "Invalid Material — Non-Existent",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-038"],
+      "data": {
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID_NON_EXISTENT}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Material does not exist; condition record creation blocked"
+    },
+    "TD-CS-48-011": {
+      "id": "TD-CS-48-011",
+      "name": "Invalid Customer Pricing Group",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-039"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "invalidCustomerPricingGroup": "{{CUSTOMER_PRICING_GROUP_INVALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Customer Pricing Group does not exist; condition record creation blocked"
+    },
+    "TD-CS-48-012": {
+      "id": "TD-CS-48-012",
+      "name": "No Matching Price Tier for Customer Pricing Group",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-040"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_NO_PRICING_GROUP}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: No valid pricing condition found; sales order pricing fails"
+    },
+    "TD-CS-48-013": {
+      "id": "TD-CS-48-013",
+      "name": "Expired Condition Record at Order Entry",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "conditionRecordNumberExpired": "{{CONDITION_RECORD_NUMBER_EXPIRED}}",
+        "validToExpired": "{{VALID_TO_EXPIRED}}"
+      },
+      "expectedOutcome": "Error message: Condition record expired; sales order pricing fails or uses fallback pricing"
+    },
+    "TD-CS-48-014": {
+      "id": "TD-CS-48-014",
+      "name": "Manual Override Beyond Tolerance Without Approval",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "listPrice": "{{PRICE_AMOUNT_LIST}}",
+        "manualOverridePriceBeyondTolerance": "{{PRICE_OVERRIDE_BEYOND_TOLERANCE}}",
+        "tolerancePercent": "{{TOLERANCE_PERCENT_CONFIGURED}}"
+      },
+      "expectedOutcome": "Error message: Supervisor approval required; sales order cannot be saved until approved"
+    },
+    "TD-CS-48-015": {
+      "id": "TD-CS-48-015",
+      "name": "Missing Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "materialId": "{{EMPTY_VALUE}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Material is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-016": {
+      "id": "TD-CS-48-016",
+      "name": "Missing Customer Pricing Group Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{EMPTY_VALUE}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Customer Pricing Group is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-017": {
+      "id": "TD-CS-48-017",
+      "name": "Missing Condition Type Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-045"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{EMPTY_VALUE}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Condition Type is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-018": {
+      "id": "TD-CS-48-018",
+      "name": "Missing Scale Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-046"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{EMPTY_VALUE}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Scale Quantity is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-019": {
+      "id": "TD-CS-48-019",
+      "name": "Missing Price Amount Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-047"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{EMPTY_VALUE}}"
+      },
+      "expectedOutcome": "Error message: Price Amount is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-020": {
+      "id": "TD-CS-48-020",
+      "name": "Missing Valid From Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-048"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "validFrom": "{{EMPTY_VALUE}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}"
+      },
+      "expectedOutcome": "Error message: Valid From date is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-021": {
+      "id": "TD-CS-48-021",
+      "name": "Missing Valid To Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-049"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{EMPTY_VALUE}}"
+      },
+      "expectedOutcome": "Error message: Valid To date is a required field; condition record creation blocked"
+    },
+    "TD-CS-48-022": {
+      "id": "TD-CS-48-022",
+      "name": "Minimum Quantity Tier Boundary (Quantity = 1)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-050"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantityMin": "{{SCALE_QUANTITY_MIN}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}"
+      },
+      "expectedOutcome": "Condition record created with minimum quantity tier (quantity = 1)"
+    },
+    "TD-CS-48-023": {
+      "id": "TD-CS-48-023",
+      "name": "Maximum Quantity Tier Boundary (Quantity = 999999)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-051"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantityMax": "{{SCALE_QUANTITY_MAX}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}"
+      },
+      "expectedOutcome": "Condition record created with maximum quantity tier (quantity = 999999)"
+    },
+    "TD-CS-48-024": {
+      "id": "TD-CS-48-024",
+      "name": "Order Quantity Exactly at Tier Breakpoint",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-052"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantityBreakpoint": "{{ORDER_QUANTITY_BREAKPOINT}}",
+        "expectedPriceTier2": "{{PRICE_AMOUNT_TIER_2}}"
+      },
+      "expectedOutcome": "Sales order created; tier 2 price applied (breakpoint quantity triggers tier 2, not tier 1)"
+    },
+    "TD-CS-48-025": {
+      "id": "TD-CS-48-025",
+      "name": "Zero Quantity (Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantityZero": "{{SCALE_QUANTITY_ZERO}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}"
+      },
+      "expectedOutcome": "Error message: Scale Quantity must be greater than zero; condition record creation blocked"
+    },
+    "TD-CS-48-026": {
+      "id": "TD-CS-48-026",
+      "name": "Zero Price Amount (Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmountZero": "{{PRICE_AMOUNT_ZERO}}"
+      },
+      "expectedOutcome": "Error message: Price Amount must be greater than zero; condition record creation blocked"
+    },
+    "TD-CS-48-027": {
+      "id": "TD-CS-48-027",
+      "name": "Valid To Date Equal to Valid From Date (Invalid Period)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "validFrom": "{{VALID_FROM_TODAY}}",
+        "validToEqualValidFrom": "{{VALID_TO_EQUAL_VALID_FROM}}"
+      },
+      "expectedOutcome": "Error message: Valid To date must be after Valid From date; condition record creation blocked"
+    },
+    "TD-CS-48-028": {
+      "id": "TD-CS-48-028",
+      "name": "Valid From Date in the Past (Invalid for New Records)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-056"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "customerPricingGroup": "{{CUSTOMER_PRICING_GROUP_VALID}}",
+        "conditionType": "{{CONDITION_TYPE_TIERED_PRICING}}",
+        "scaleQuantity": "{{SCALE_QUANTITY_SINGLE_TIER}}",
+        "priceAmount": "{{PRICE_AMOUNT_STANDARD}}",
+        "validFromPast": "{{VALID_FROM_PAST}}",
+        "validTo": "{{VALID_TO_FUTURE_1_YEAR}}"
+      },
+      "expectedOutcome": "Error message: Valid From date cannot be in the past for new records; condition record creation blocked"
+    },
+    "TD-CS-48-029": {
+      "id": "TD-CS-48-029",
+      "name": "Manual Override at Exact Tolerance Threshold",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-057"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "listPrice": "{{PRICE_AMOUNT_LIST}}",
+        "manualOverridePriceExactTolerance": "{{PRICE_OVERRIDE_EXACT_TOLERANCE}}",
+        "tolerancePercent": "{{TOLERANCE_PERCENT_CONFIGURED}}"
+      },
+      "expectedOutcome": "Sales order created; override at exact tolerance accepted without approval"
+    },
+    "TD-CS-48-030": {
+      "id": "TD-CS-48-030",
+      "name": "Manual Override Just Above Tolerance Threshold",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-058"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "materialId": "{{MATERIAL_ID_PHARMA_VALID}}",
+        "orderQuantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "listPrice": "{{PRICE_AMOUNT_LIST}}",
+        "manualOverridePriceAboveTolerance": "{{PRICE_OVERRIDE_ABOVE_TOLERANCE}}",
+        "tolerancePercent": "{{TOLERANCE_PERCENT_CONFIGURED}}"
+      },
+      "expectedOutcome": "Error message: Supervisor approval required; sales order cannot be saved until approved"
+    },
+    "TD-CS-48-031": {
+      "id": "TD-CS-48-031",
+      "name": "Condition Record at Exact Alert Window Threshold",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-059"],
+      "data": {
+        "conditionRecordNumberAlertThreshold": "{{CONDITION_RECORD_NUMBER_ALERT_THRESHOLD}}",
+        "validToAlertThreshold": "{{VALID_TO_ALERT_THRESHOLD}}",
+        "alertWindowDays": "{{ALERT_WINDOW_DAYS}}"
+      },
+      "expectedOutcome": "Condition record flagged with alert indicator exactly at threshold (e.g., 30 days before expiry)"
+    }
+  }
+}

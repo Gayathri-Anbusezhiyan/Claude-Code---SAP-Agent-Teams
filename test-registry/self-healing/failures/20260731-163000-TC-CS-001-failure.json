@@ -1,0 +1,43 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "timestamp": "2026-07-31T16:30:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "LOCATOR_FAILURE",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 34,
+    "methodCall": "await purchaseOrderPage.navigateToManagePurchaseOrders()",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "pageMethodLine": 164,
+    "method": "openSearchBar",
+    "locatorName": "SEARCH_COMBOBOX",
+    "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+    "locatorUsed": {
+      "primary": {
+        "strategy": "css",
+        "value": "input[type='search']"
+      },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[role='combobox']" },
+        { "strategy": "role", "role": "combobox", "name": "Search", "exact": true }
+      ]
+    },
+    "errorMessage": "locator.waitFor: Timeout 5000ms exceeded waiting for locator('input[type='search']') to be visible",
+    "stackTrace": "at PurchaseOrderPage.openSearchBar (purchase-order.page.js:164:25)"
+  },
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": { "strategy": "role", "role": "combobox", "name": "Search", "exact": true }
+    },
+    "explorationResult": "PASS",
+    "explorationStep": 8,
+    "explorationNote": "MCP execution passed with role-based combobox selector",
+    "match": false,
+    "divergenceAnalysis": "Script uses CSS input[type='search'] as primary, but exploration data confirms role-based combobox selector works reliably. CSS selector may not match SAP's actual implementation."
+  },
+  "recommendation": "SELF_HEAL",
+  "confidence": "HIGH",
+  "notes": "Search box fails consistently on both attempts at the same timeout. Exploration data confirms role-based selector getByRole('combobox', { name: 'Search', exact: true }) worked successfully. The CSS primary should be demoted to fallback and role-based should be promoted to primary.",
+  "nextStep": "Swap primary and fallback: make role-based primary, CSS as fallback"
+}

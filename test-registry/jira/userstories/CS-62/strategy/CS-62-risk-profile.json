@@ -1,0 +1,257 @@
+{
+  "userStory": "CS-62",
+  "summary": "Technically Complete A Process Order Only After All Mandatory Quality",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Supervisor",
+  "businessObject": "Process Order (Production Order)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Confirm Process Order\" Fiori app and select \"Technical Completion.\"",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system checks for any open deviations, missing in-process control results, or unsigned batch record sections before allowing completion.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["DT", "EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-3",
+      "text": "The system blocks technical completion and lists the specific outstanding items if any requirement is unmet.",
+      "type": "ERROR_HANDLING",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "Once all requirements are satisfied, the system allows technical completion and updates the order status accordingly.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The finished goods batch remains in Quality Inspection stock status until QA formally releases it, independent of technical completion.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system logs the user and timestamp of technical completion for audit purposes.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Technical completion of a process order with all quality and documentation requirements met - All deviations closed, all IPC results recorded, all batch record sections signed, order status updates to TECO, stock remains in QI, audit log created",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt TECO with open deviations linked to the process order",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt TECO with missing in-process control results for required inspection characteristics",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt TECO with unsigned mandatory batch record sections",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Attempt TECO with non-existent process order number",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Process Order Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Attempt TECO without required authorization (missing TECO function in user role)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "User Authorization"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Process order with zero open deviations (boundary case: exactly 0 vs 1+)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "openDeviations",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Process order with exactly one open deviation (boundary case: 1 vs 0)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "openDeviations",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Process order already technically completed (attempt duplicate TECO)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "orderStatus",
+        "boundary": "status"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify stock status remains QI after TECO and does not auto-transition to UR without QA release — Module: MM Stock Status",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify open deviations from QM Deviation Management block TECO — Module: QM Deviation Management",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify missing IPC results from QM In-Process Control block TECO — Module: QM In-Process Control",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "INT-04",
+        "description": "Verify unsigned batch record sections from e-Signature module block TECO — Module: Custom e-Signature",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "INT-05",
+        "description": "Verify QM inspection lot status is not affected by TECO (QA release is separate) — Module: QM Inspection Lot",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 2,
+    "EDGE": 3,
+    "INT": 5,
+    "total": 14
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "processOrderNumber",
+        "label": "Order",
+        "mandatory": true,
+        "validRange": "Existing process order in SAP (1000XXXXXX format)"
+      },
+      {
+        "name": "technicalCompletionAction",
+        "label": "Technical Completion (TECO button/action)",
+        "mandatory": true,
+        "validRange": "User-triggered action"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "orderStatus",
+        "label": "System Status",
+        "trigger": "Technical Completion action"
+      },
+      {
+        "name": "outstandingChecksResult",
+        "label": "Validation Messages",
+        "trigger": "Pre-TECO validation trigger"
+      }
+    ],
+    "output": [
+      {
+        "name": "orderStatus",
+        "label": "Order Status",
+        "format": "System status text \"TECO\""
+      },
+      {
+        "name": "stockStatus",
+        "label": "Stock Status",
+        "format": "Stock type indicator \"QI\" (Quality Inspection)"
+      },
+      {
+        "name": "auditLogEntry",
+        "label": "Audit Log Entry",
+        "format": "Timestamp (ISO8601), User ID (AD username), Action code \"TECO\""
+      },
+      {
+        "name": "errorMessageList",
+        "label": "Error Message List",
+        "format": "Structured message list with deviation IDs, IPC operation numbers, batch record section names"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "openDeviations",
+        "label": "Open Deviations Count",
+        "lowerBoundary": "0 (valid for TECO)",
+        "upperBoundary": "1+ (blocks TECO)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "missingIPCResults",
+        "label": "Missing IPC Results Count",
+        "lowerBoundary": "0 (valid for TECO)",
+        "upperBoundary": "1+ (blocks TECO)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "unsignedBatchRecordSections",
+        "label": "Unsigned Batch Record Sections Count",
+        "lowerBoundary": "0 (valid for TECO)",
+        "upperBoundary": "1+ (blocks TECO)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

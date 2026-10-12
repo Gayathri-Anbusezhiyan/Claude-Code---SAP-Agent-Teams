@@ -1,0 +1,549 @@
+{
+  "userStory": "CS-27",
+  "module": "MM",
+  "feature": "Purchasing Contract (Outline Agreement) Creation and Maintenance",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-027-HP-001": {
+      "id": "TD-CS-027-HP-001",
+      "name": "Valid Purchasing Contract — Single-Tier Pricing",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-093"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "tier1QuantityFrom": "1",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "purchasingGroup": "{{PURCHASING_GROUP_CODE}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "alertLeadTime": "30"
+      },
+      "expectedOutcome": "Contract created with unique contract number; status Draft or Sent"
+    },
+    "TD-CS-027-HP-002": {
+      "id": "TD-CS-027-HP-002",
+      "name": "Valid Purchasing Contract — Multi-Tier Pricing (3 Tiers)",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-094"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "targetQuantityMultiTier": "{{CONTRACT_TARGET_QUANTITY_LARGE}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "tier1QuantityFrom": "1",
+        "tier1NetPrice": "{{NET_PRICE_TIER_1}}",
+        "tier2QuantityFrom": "{{TIER_2_QUANTITY_FROM}}",
+        "tier2NetPrice": "{{NET_PRICE_TIER_2}}",
+        "tier3QuantityFrom": "{{TIER_3_QUANTITY_FROM}}",
+        "tier3NetPrice": "{{NET_PRICE_TIER_3}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Contract created with 3 pricing tiers in ascending order"
+    },
+    "TD-CS-027-HP-003": {
+      "id": "TD-CS-027-HP-003",
+      "name": "Release Orders Against Contract — Cumulative Tracking",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-095"],
+      "data": {
+        "contractNumber": "{{CONTRACT_NUMBER_EXISTING}}",
+        "contractTargetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "releaseQuantity1": "{{RELEASE_QUANTITY_FIRST}}",
+        "releaseQuantity2": "{{RELEASE_QUANTITY_SECOND}}",
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DATE_FUTURE_30_DAYS}}"
+      },
+      "expectedOutcome": "Two release orders created; cumulative quantity tracked; remaining quantity updated"
+    },
+    "TD-CS-027-HP-004": {
+      "id": "TD-CS-027-HP-004",
+      "name": "Contract Expiration Alert Trigger",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-096"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDateAlert": "{{TODAY_DATE}}",
+        "validityEndDateAlert": "{{DATE_FUTURE_ALERT_LEAD_TIME}}",
+        "alertLeadTime": "30",
+        "tier1QuantityFrom": "1",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Contract created; alert trigger date calculated; alert delivered X days before expiration"
+    },
+    "TD-CS-027-AP-001": {
+      "id": "TD-CS-027-AP-001",
+      "name": "Contract with Target Value Only (No Target Quantity)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-097"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetValue": "{{CONTRACT_TARGET_VALUE_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "tier1QuantityFrom": "1",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Contract created with Target Value only; Target Quantity blank or zero"
+    },
+    "TD-CS-027-AP-002": {
+      "id": "TD-CS-027-AP-002",
+      "name": "Contract with Both Target Quantity AND Target Value",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-098"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantityDual": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "targetValueDual": "{{CONTRACT_TARGET_VALUE_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "tier1QuantityFrom": "1",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Contract created with both Target Quantity and Target Value specified"
+    },
+    "TD-CS-027-NEG-001": {
+      "id": "TD-CS-027-NEG-001",
+      "name": "Vendor Not Approved for Purchasing Organization",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-099"],
+      "data": {
+        "vendorNotApproved": "{{VENDOR_ID_NOT_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}"
+      },
+      "expectedOutcome": "Error: Vendor not approved for purchasing organization; contract not created"
+    },
+    "TD-CS-027-NEG-002": {
+      "id": "TD-CS-027-NEG-002",
+      "name": "Material Not in Source List for Vendor",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-100"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "materialNotInSourceList": "{{MATERIAL_ID_NOT_IN_SOURCE_LIST}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Material not in source list for vendor; contract not created"
+    },
+    "TD-CS-027-NEG-003": {
+      "id": "TD-CS-027-NEG-003",
+      "name": "Release Order Exceeds Remaining Contract Quantity",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-101"],
+      "data": {
+        "contractNumber": "{{CONTRACT_NUMBER_EXISTING}}",
+        "contractRemainingQuantity": "{{CONTRACT_REMAINING_QUANTITY}}",
+        "releaseQuantityExceed": "{{RELEASE_QUANTITY_EXCEEDING}}",
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Warning: Order quantity exceeds contract remaining balance; PO not created or requires override"
+    },
+    "TD-CS-027-NEG-004": {
+      "id": "TD-CS-027-NEG-004",
+      "name": "Release Order Exceeds Remaining Contract Value",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-102"],
+      "data": {
+        "contractNumber": "{{CONTRACT_NUMBER_EXISTING}}",
+        "contractRemainingValue": "{{CONTRACT_REMAINING_VALUE}}",
+        "releaseQuantityValueExceed": "{{RELEASE_QUANTITY_VALUE_EXCEEDING}}",
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Warning: Order value exceeds contract remaining value; PO not created or requires override"
+    },
+    "TD-CS-027-NEG-005": {
+      "id": "TD-CS-027-NEG-005",
+      "name": "Validity End Date Before Start Date",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-103"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDateInvalid": "{{DATE_PAST_30_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Valid To date must be after Valid From date; contract not created"
+    },
+    "TD-CS-027-NEG-006": {
+      "id": "TD-CS-027-NEG-006",
+      "name": "Tiered Pricing with Non-Ascending Quantity Thresholds",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-104"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantityMultiTier": "{{CONTRACT_TARGET_QUANTITY_LARGE}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "tier1QuantityFrom": "{{TIER_1_QUANTITY_FROM}}",
+        "tier1NetPrice": "{{NET_PRICE_TIER_1}}",
+        "tier2QuantityInvalid": "{{TIER_2_QUANTITY_INVALID_LOWER}}",
+        "tier2NetPrice": "{{NET_PRICE_TIER_2}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Scale quantities must be in ascending order; contract not created"
+    },
+    "TD-CS-027-ERR-001": {
+      "id": "TD-CS-027-ERR-001",
+      "name": "Missing Supplier Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-105"],
+      "data": {
+        "emptyValue": "",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Error: Supplier is a mandatory field; contract not created"
+    },
+    "TD-CS-027-ERR-002": {
+      "id": "TD-CS-027-ERR-002",
+      "name": "Missing Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-106"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "emptyValue": "",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Material is a mandatory field; contract not created"
+    },
+    "TD-CS-027-ERR-003": {
+      "id": "TD-CS-027-ERR-003",
+      "name": "Missing Target Quantity AND Target Value",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-107"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Either Target Quantity or Target Value must be specified; contract not created"
+    },
+    "TD-CS-027-ERR-004": {
+      "id": "TD-CS-027-ERR-004",
+      "name": "Missing Validity Start Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-108"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Valid From is a mandatory field; contract not created"
+    },
+    "TD-CS-027-ERR-005": {
+      "id": "TD-CS-027-ERR-005",
+      "name": "Missing Validity End Date",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-109"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Valid To is a mandatory field; contract not created"
+    },
+    "TD-CS-027-ERR-006": {
+      "id": "TD-CS-027-ERR-006",
+      "name": "Missing Net Price",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-110"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Net Price is a mandatory field; contract not created"
+    },
+    "TD-CS-027-ERR-007": {
+      "id": "TD-CS-027-ERR-007",
+      "name": "Missing Purchasing Organization",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-111"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Error: Purchasing Organization is a mandatory field; contract not created"
+    },
+    "TD-CS-027-ERR-008": {
+      "id": "TD-CS-027-ERR-008",
+      "name": "Missing Plant",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-112"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "emptyValue": ""
+      },
+      "expectedOutcome": "Error: Plant is a mandatory field; contract not created"
+    },
+    "TD-CS-027-EDGE-001": {
+      "id": "TD-CS-027-EDGE-001",
+      "name": "Target Quantity = 1 (Minimum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-113"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "minTargetQuantity": "1",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with minimum target quantity = 1"
+    },
+    "TD-CS-027-EDGE-002": {
+      "id": "TD-CS-027-EDGE-002",
+      "name": "Target Quantity = 999999999 (Maximum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-114"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "maxTargetQuantity": "{{CONTRACT_TARGET_QUANTITY_MAXIMUM}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with maximum target quantity (SAP system limit)"
+    },
+    "TD-CS-027-EDGE-003": {
+      "id": "TD-CS-027-EDGE-003",
+      "name": "Target Value = 0.01 (Minimum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-115"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "minTargetValue": "0.01",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with minimum target value = 0.01"
+    },
+    "TD-CS-027-EDGE-004": {
+      "id": "TD-CS-027-EDGE-004",
+      "name": "Net Price = 0.01 (Minimum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-116"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "minNetPrice": "0.01",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with minimum net price = 0.01"
+    },
+    "TD-CS-027-EDGE-005": {
+      "id": "TD-CS-027-EDGE-005",
+      "name": "Validity Start Date = Today (Current Date)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-117"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "todayDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with validity start date = today"
+    },
+    "TD-CS-027-EDGE-006": {
+      "id": "TD-CS-027-EDGE-006",
+      "name": "Validity End Date = Start Date + 1 Day (Minimum Valid Period)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-118"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "minValidityPeriod": "{{DATE_FUTURE_1_DAY}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with minimum validity period = 1 day"
+    },
+    "TD-CS-027-EDGE-007": {
+      "id": "TD-CS-027-EDGE-007",
+      "name": "Alert Lead Time = 0 (No Alert)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-119"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_180_DAYS}}",
+        "minAlertLeadTime": "0",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with alert lead time = 0 (no alert configured)"
+    },
+    "TD-CS-027-EDGE-008": {
+      "id": "TD-CS-027-EDGE-008",
+      "name": "Alert Lead Time = 365 Days (Maximum Typical Value)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-120"],
+      "data": {
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "targetQuantity": "{{CONTRACT_TARGET_QUANTITY_STANDARD}}",
+        "validityStartDate": "{{TODAY_DATE}}",
+        "validityEndDate": "{{DATE_FUTURE_365_PLUS_DAYS}}",
+        "maxAlertLeadTime": "365",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "tier1QuantityFrom": "1"
+      },
+      "expectedOutcome": "Contract created with alert lead time = 365 days (maximum)"
+    },
+    "TD-CS-027-EDGE-009": {
+      "id": "TD-CS-027-EDGE-009",
+      "name": "Release Quantity Exactly Equals Remaining Contract Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-121"],
+      "data": {
+        "contractNumber": "{{CONTRACT_NUMBER_EXISTING}}",
+        "contractRemainingQuantity": "{{CONTRACT_REMAINING_QUANTITY}}",
+        "releaseQuantityExact": "{{CONTRACT_REMAINING_QUANTITY}}",
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Release order created with quantity exactly matching remaining balance; contract fully consumed"
+    },
+    "TD-CS-027-EDGE-010": {
+      "id": "TD-CS-027-EDGE-010",
+      "name": "Release Value Exactly Equals Remaining Contract Value",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-122"],
+      "data": {
+        "contractNumber": "{{CONTRACT_NUMBER_EXISTING}}",
+        "contractRemainingValue": "{{CONTRACT_REMAINING_VALUE}}",
+        "releaseQuantityExactValue": "{{RELEASE_QUANTITY_FOR_EXACT_VALUE}}",
+        "validVendorId": "{{VENDOR_ID_APPROVED}}",
+        "supplierName": "{{VENDOR_NAME_APPROVED}}",
+        "validMaterialId": "{{MATERIAL_ID_API}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_API}}",
+        "netPrice": "{{NET_PRICE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Release order created with value exactly matching remaining balance; contract fully consumed"
+    }
+  }
+}

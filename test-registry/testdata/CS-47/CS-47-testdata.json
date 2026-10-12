@@ -1,0 +1,272 @@
+{
+  "userStory": "CS-47",
+  "module": "QM",
+  "feature": "Quality Notification Creation from Customer Complaint",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-047-001": {
+      "id": "TD-CS-047-001",
+      "name": "Valid Quality Notification from Sales Order — Complete Complaint Data",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_VALID}}",
+        "notificationType": "{{NOTIFICATION_TYPE_CUSTOMER_COMPLAINT}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialNumber": "{{MATERIAL_NUMBER_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}"
+      },
+      "expectedOutcome": "Quality Notification created with unique number; status Open; routed to QA worklist; status visible on Sales Order"
+    },
+    "TD-CS-047-002": {
+      "id": "TD-CS-047-002",
+      "name": "Valid Quality Notification from Return Order — Complete Complaint Data",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "returnOrderNumber": "{{RETURN_ORDER_VALID}}",
+        "notificationType": "{{NOTIFICATION_TYPE_CUSTOMER_COMPLAINT}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialNumber": "{{MATERIAL_NUMBER_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}"
+      },
+      "expectedOutcome": "Quality Notification created from Return Order with unique number; status Open; routed to QA worklist; status visible on Return Order"
+    },
+    "TD-CS-047-AP-001": {
+      "id": "TD-CS-047-AP-001",
+      "name": "Quality Notification Status Transition — Open to Under Investigation to Closed",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}",
+        "rootCauseAnalysis": "{{ROOT_CAUSE_ANALYSIS_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "dispositionCode": "{{DISPOSITION_CODE_VALID}}"
+      },
+      "expectedOutcome": "Quality Notification status transitions from Open to Under Investigation to Closed; all mandatory fields recorded"
+    },
+    "TD-CS-047-AP-002": {
+      "id": "TD-CS-047-AP-002",
+      "name": "Complaint Report Filtered by Material",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "Complaint report displays only Quality Notifications associated with the specified material; complaint volume metrics displayed"
+    },
+    "TD-CS-047-AP-003": {
+      "id": "TD-CS-047-AP-003",
+      "name": "Complaint Report Filtered by Batch",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "batchNumber": "{{BATCH_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "Complaint report displays only Quality Notifications associated with the specified batch; complaint volume metrics displayed"
+    },
+    "TD-CS-047-NEG-001": {
+      "id": "TD-CS-047-NEG-001",
+      "name": "Sales Order Missing Material Data — Validation Failure",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "salesOrderMissingMaterial": "{{SALES_ORDER_MISSING_MATERIAL}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Material data is missing; Quality Notification not created"
+    },
+    "TD-CS-047-NEG-002": {
+      "id": "TD-CS-047-NEG-002",
+      "name": "Sales Order Missing Batch Data — Validation Failure",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "salesOrderMissingBatch": "{{SALES_ORDER_MISSING_BATCH}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Batch data is missing; Quality Notification not created"
+    },
+    "TD-CS-047-NEG-003": {
+      "id": "TD-CS-047-NEG-003",
+      "name": "Sales Order Missing Customer Data — Validation Failure",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "salesOrderMissingCustomer": "{{SALES_ORDER_MISSING_CUSTOMER}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Customer data is missing; Quality Notification not created"
+    },
+    "TD-CS-047-NEG-004": {
+      "id": "TD-CS-047-NEG-004",
+      "name": "Closure Without Disposition Code — Validation Failure",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}",
+        "rootCauseAnalysis": "{{ROOT_CAUSE_ANALYSIS_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Disposition Code is required for closure; Quality Notification status remains Open/Under Investigation"
+    },
+    "TD-CS-047-NEG-005": {
+      "id": "TD-CS-047-NEG-005",
+      "name": "Closure Without Corrective Action — Validation Failure",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}",
+        "rootCauseAnalysis": "{{ROOT_CAUSE_ANALYSIS_VALID}}",
+        "dispositionCode": "{{DISPOSITION_CODE_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Corrective Action is required for closure; Quality Notification status remains Open/Under Investigation"
+    },
+    "TD-CS-047-NEG-006": {
+      "id": "TD-CS-047-NEG-006",
+      "name": "Closure Without Root Cause Analysis — Validation Failure",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "dispositionCode": "{{DISPOSITION_CODE_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Root Cause Analysis is required for closure; Quality Notification status remains Open/Under Investigation"
+    },
+    "TD-CS-047-ERR-001": {
+      "id": "TD-CS-047-ERR-001",
+      "name": "Missing Defect Description — Field Validation Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Defect Description is required; Quality Notification not created"
+    },
+    "TD-CS-047-ERR-002": {
+      "id": "TD-CS-047-ERR-002",
+      "name": "Missing Disposition Code at Closure — Field Validation Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}"
+      },
+      "expectedOutcome": "System displays error: Disposition Code is required; Quality Notification status remains Open/Under Investigation"
+    },
+    "TD-CS-047-ERR-003": {
+      "id": "TD-CS-047-ERR-003",
+      "name": "Missing Corrective Action at Closure — Field Validation Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}"
+      },
+      "expectedOutcome": "System displays error: Corrective Action is required; Quality Notification status remains Open/Under Investigation"
+    },
+    "TD-CS-047-ERR-004": {
+      "id": "TD-CS-047-ERR-004",
+      "name": "Missing Root Cause Analysis at Closure — Field Validation Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}"
+      },
+      "expectedOutcome": "System displays error: Root Cause Analysis is required; Quality Notification status remains Open/Under Investigation"
+    },
+    "TD-CS-047-EDGE-001": {
+      "id": "TD-CS-047-EDGE-001",
+      "name": "Defect Description at Minimum Length Boundary (20 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_VALID}}",
+        "defectDescriptionMin": "{{DEFECT_DESCRIPTION_MIN_20_CHARS}}"
+      },
+      "expectedOutcome": "Quality Notification created successfully with 20-character Defect Description (GMP minimum boundary)"
+    },
+    "TD-CS-047-EDGE-002": {
+      "id": "TD-CS-047-EDGE-002",
+      "name": "Defect Description at Maximum Length Boundary (1000 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-141"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_VALID}}",
+        "defectDescriptionMax": "{{DEFECT_DESCRIPTION_MAX_1000_CHARS}}"
+      },
+      "expectedOutcome": "Quality Notification created successfully with 1000-character Defect Description (system maximum boundary)"
+    },
+    "TD-CS-047-EDGE-003": {
+      "id": "TD-CS-047-EDGE-003",
+      "name": "Root Cause at Minimum Closure Length Boundary (50 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-142"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}",
+        "rootCauseMin": "{{ROOT_CAUSE_MIN_50_CHARS}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "dispositionCode": "{{DISPOSITION_CODE_VALID}}"
+      },
+      "expectedOutcome": "Quality Notification closed successfully with 50-character Root Cause Analysis (GMP minimum boundary for closure)"
+    },
+    "TD-CS-047-EDGE-004": {
+      "id": "TD-CS-047-EDGE-004",
+      "name": "Corrective Action at Minimum Closure Length Boundary (50 characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-143"],
+      "data": {
+        "qualityNotificationNumber": "{{QUALITY_NOTIFICATION_OPEN}}",
+        "rootCauseAnalysis": "{{ROOT_CAUSE_ANALYSIS_VALID}}",
+        "correctiveActionMin": "{{CORRECTIVE_ACTION_MIN_50_CHARS}}",
+        "dispositionCode": "{{DISPOSITION_CODE_VALID}}"
+      },
+      "expectedOutcome": "Quality Notification closed successfully with 50-character Corrective Action (GMP minimum boundary for closure)"
+    },
+    "TD-CS-047-INT-001": {
+      "id": "TD-CS-047-INT-001",
+      "name": "Bidirectional Quality Notification Link — QM to SD Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-144"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_VALID}}",
+        "notificationType": "{{NOTIFICATION_TYPE_CUSTOMER_COMPLAINT}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}",
+        "rootCauseAnalysis": "{{ROOT_CAUSE_ANALYSIS_VALID}}",
+        "correctiveAction": "{{CORRECTIVE_ACTION_VALID}}",
+        "dispositionCode": "{{DISPOSITION_CODE_VALID}}"
+      },
+      "expectedOutcome": "Quality Notification status (Open, Under Investigation, Closed) displays correctly on originating Sales Order; bidirectional link persists through all status transitions"
+    },
+    "TD-CS-047-INT-002": {
+      "id": "TD-CS-047-INT-002",
+      "name": "Quality Notification Worklist Routing — QM to Workflow Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-145"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_VALID}}",
+        "notificationType": "{{NOTIFICATION_TYPE_CUSTOMER_COMPLAINT}}",
+        "defectDescription": "{{DEFECT_DESCRIPTION_VALID}}",
+        "expectedQAAssignment": "{{QA_TEAM_OR_USER_ID}}"
+      },
+      "expectedOutcome": "Quality Notification routes to correct QA team member's worklist; assignment field shows expected QA team or user ID"
+    },
+    "TD-CS-047-INT-003": {
+      "id": "TD-CS-047-INT-003",
+      "name": "Complaint Report Data Aggregation — QM to Reporting Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-146"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expectedNotificationCount": "{{EXPECTED_NOTIFICATION_COUNT}}"
+      },
+      "expectedOutcome": "Complaint report aggregates data from multiple Quality Notifications; complaint volume and trend metrics displayed correctly"
+    }
+  }
+}

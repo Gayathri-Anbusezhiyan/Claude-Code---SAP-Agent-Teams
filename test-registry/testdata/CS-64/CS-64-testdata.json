@@ -1,0 +1,275 @@
+{
+  "userStory": "CS-64",
+  "module": "PP/QM",
+  "feature": "Batch Release Dashboard — Quality Inspection Monitoring",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-064-001": {
+      "id": "TD-CS-064-001",
+      "name": "Valid Batch in Quality Inspection — Dashboard Access",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "batchNumber": "{{BATCH_NUMBER_QI_VALID}}",
+        "processOrder": "{{PROCESS_ORDER_LINKED}}",
+        "daysPending": "{{DAYS_PENDING_STANDARD}}",
+        "batchStatus": "{{BATCH_STATUS_QI}}"
+      },
+      "expectedOutcome": "Dashboard displays batch with QI status, process order, and days pending"
+    },
+    "TD-CS-064-002": {
+      "id": "TD-CS-064-002",
+      "name": "Batch with Open Deviations — Drill-Down",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "batchNumberWithDeviations": "{{BATCH_NUMBER_WITH_DEVIATIONS}}",
+        "openDeviationId": "{{DEVIATION_ID_OPEN}}",
+        "deviationDesc": "{{DEVIATION_DESCRIPTION}}",
+        "batchRecordStatus": "{{BATCH_RECORD_STATUS_COMPLETE}}"
+      },
+      "expectedOutcome": "Drill-down displays batch record with open deviation details"
+    },
+    "TD-CS-064-003": {
+      "id": "TD-CS-064-003",
+      "name": "Batch Approaching Ship Date — Release Disposition",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "batchNumberPriority": "{{BATCH_NUMBER_PRIORITY}}",
+        "customerShipDateApproaching": "{{SHIP_DATE_APPROACHING_7D}}",
+        "dispositionRelease": "Release",
+        "dispositionComments": "{{DISPOSITION_COMMENTS_RELEASE}}",
+        "stockStatusBeforeRelease": "Quality Inspection",
+        "stockStatusAfterRelease": "Unrestricted"
+      },
+      "expectedOutcome": "Batch is released; stock status updated to Unrestricted; available for SD"
+    },
+    "TD-CS-064-AP-001": {
+      "id": "TD-CS-064-AP-001",
+      "name": "Batch Reject Disposition — Stock Status Blocked",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "batchNumberReject": "{{BATCH_NUMBER_REJECT}}",
+        "dispositionReject": "Reject",
+        "dispositionCommentsReject": "{{DISPOSITION_COMMENTS_REJECT}}",
+        "stockStatusBeforeReject": "Quality Inspection",
+        "stockStatusAfterReject": "Blocked"
+      },
+      "expectedOutcome": "Batch is rejected; stock status updated to Blocked; excluded from SD"
+    },
+    "TD-CS-064-AP-002": {
+      "id": "TD-CS-064-AP-002",
+      "name": "Batch Rework Disposition — Stock Status Remains QI",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "batchNumberRework": "{{BATCH_NUMBER_REWORK}}",
+        "dispositionRework": "Rework",
+        "dispositionCommentsRework": "{{DISPOSITION_COMMENTS_REWORK}}",
+        "stockStatusBeforeRework": "Quality Inspection",
+        "stockStatusAfterRework": "Quality Inspection"
+      },
+      "expectedOutcome": "Batch is flagged for rework; stock status remains Quality Inspection"
+    },
+    "TD-CS-064-AP-003": {
+      "id": "TD-CS-064-AP-003",
+      "name": "Batch with No Open Deviations — Drill-Down",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "batchNumberNoDeviations": "{{BATCH_NUMBER_NO_DEVIATIONS}}",
+        "batchRecordStatusClean": "{{BATCH_RECORD_STATUS_CLEAN}}"
+      },
+      "expectedOutcome": "Drill-down displays batch record with empty deviation list"
+    },
+    "TD-CS-064-NEG-001": {
+      "id": "TD-CS-064-NEG-001",
+      "name": "Empty Dashboard — No Batches in QI Status",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "emptyStateMessage": "{{EMPTY_STATE_MESSAGE}}"
+      },
+      "expectedOutcome": "Dashboard displays empty state message; no batch rows shown"
+    },
+    "TD-CS-064-NEG-002": {
+      "id": "TD-CS-064-NEG-002",
+      "name": "Batch with No Associated Ship Date — No Priority Highlight",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "batchNumberNoShipDate": "{{BATCH_NUMBER_NO_SHIP_DATE}}",
+        "customerShipDateNull": ""
+      },
+      "note": "customerShipDateNull is intentionally blank — no ship date assigned",
+      "expectedOutcome": "Batch displayed without priority highlight; ship date field is blank"
+    },
+    "TD-CS-064-NEG-003": {
+      "id": "TD-CS-064-NEG-003",
+      "name": "Disposition Without Batch Selection — Validation Error",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "validationErrorNoSelection": "{{VALIDATION_ERROR_NO_BATCH_SELECTED}}"
+      },
+      "expectedOutcome": "System displays validation error; disposition dialog does not open"
+    },
+    "TD-CS-064-ERR-001": {
+      "id": "TD-CS-064-ERR-001",
+      "name": "Missing Batch Number for Drill-Down",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "emptyBatchNumber": "",
+        "errorMissingBatch": "{{ERROR_MISSING_BATCH}}"
+      },
+      "note": "emptyBatchNumber is intentionally blank to test mandatory field enforcement",
+      "expectedOutcome": "System displays error; batch detail screen does not open"
+    },
+    "TD-CS-064-ERR-002": {
+      "id": "TD-CS-064-ERR-002",
+      "name": "Missing Disposition Selection",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "batchNumberForDisposition": "{{BATCH_NUMBER_FOR_DISPOSITION}}",
+        "emptyDisposition": "",
+        "errorMissingDisposition": "{{ERROR_MISSING_DISPOSITION}}"
+      },
+      "note": "emptyDisposition is intentionally blank to test mandatory field enforcement",
+      "expectedOutcome": "System highlights disposition field; prevents submission; error message displayed"
+    },
+    "TD-CS-064-EDGE-001": {
+      "id": "TD-CS-064-EDGE-001",
+      "name": "Batch with Zero Days Pending — Lower Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "batchNumberZeroDays": "{{BATCH_NUMBER_ZERO_DAYS}}",
+        "daysPendingZero": "0"
+      },
+      "expectedOutcome": "Dashboard displays batch with Days Pending = 0 without errors"
+    },
+    "TD-CS-064-EDGE-002": {
+      "id": "TD-CS-064-EDGE-002",
+      "name": "Batch with Overdue Ship Date — Past Date Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "batchNumberOverdue": "{{BATCH_NUMBER_OVERDUE}}",
+        "customerShipDatePast": "{{SHIP_DATE_PAST}}"
+      },
+      "expectedOutcome": "Batch displayed with highest priority highlight (overdue)"
+    },
+    "TD-CS-064-EDGE-003": {
+      "id": "TD-CS-064-EDGE-003",
+      "name": "Batch with Ship Date Today — Immediate Priority Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "batchNumberShipToday": "{{BATCH_NUMBER_SHIP_TODAY}}",
+        "customerShipDateToday": "{{SHIP_DATE_TODAY}}"
+      },
+      "expectedOutcome": "Batch displayed with immediate priority highlight (ship today)"
+    },
+    "TD-CS-064-EDGE-004": {
+      "id": "TD-CS-064-EDGE-004",
+      "name": "Batch with Future Ship Date — No Priority Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-181"],
+      "data": {
+        "batchNumberFutureShip": "{{BATCH_NUMBER_FUTURE_SHIP}}",
+        "customerShipDateFuture": "{{SHIP_DATE_FUTURE_30D}}"
+      },
+      "expectedOutcome": "Batch displayed without priority highlight (ship date > 30 days)"
+    },
+    "TD-CS-064-INT-001": {
+      "id": "TD-CS-064-INT-001",
+      "name": "Released Batch Available in SD — QM → MM → SD Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-182"],
+      "data": {
+        "batchNumberForSD": "{{BATCH_NUMBER_FOR_SD_RELEASE}}",
+        "materialForSD": "{{MATERIAL_FOR_SD}}",
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER}}",
+        "dispositionReleaseSD": "Release",
+        "stockStatusUnrestricted": "Unrestricted"
+      },
+      "expectedOutcome": "Batch released; stock status Unrestricted; batch available in SD for picking"
+    },
+    "TD-CS-064-INT-002": {
+      "id": "TD-CS-064-INT-002",
+      "name": "Rejected Batch Excluded from SD ATP — QM → MM → SD Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-183"],
+      "data": {
+        "batchNumberRejectedSD": "{{BATCH_NUMBER_FOR_SD_REJECT}}",
+        "materialForRejectedSD": "{{MATERIAL_FOR_SD_REJECT}}",
+        "salesOrderNumberForRejected": "{{SALES_ORDER_NUMBER_REJECT}}",
+        "dispositionRejectSD": "Reject",
+        "stockStatusBlocked": "Blocked"
+      },
+      "expectedOutcome": "Batch rejected; stock status Blocked; batch excluded from SD ATP"
+    },
+    "TD-CS-064-INT-003": {
+      "id": "TD-CS-064-INT-003",
+      "name": "Process Order Linkage — PP → QM Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-184"],
+      "data": {
+        "batchNumberWithPO": "{{BATCH_NUMBER_WITH_PROCESS_ORDER}}",
+        "processOrderLinked": "{{PROCESS_ORDER_LINKED}}",
+        "materialForProcessOrder": "{{MATERIAL_FROM_PROCESS_ORDER}}"
+      },
+      "expectedOutcome": "Dashboard displays batch with correct process order linkage"
+    }
+  },
+  "allPlaceholders": [
+    "{{BATCH_NUMBER_QI_VALID}}",
+    "{{PROCESS_ORDER_LINKED}}",
+    "{{DAYS_PENDING_STANDARD}}",
+    "{{BATCH_STATUS_QI}}",
+    "{{BATCH_NUMBER_WITH_DEVIATIONS}}",
+    "{{DEVIATION_ID_OPEN}}",
+    "{{DEVIATION_DESCRIPTION}}",
+    "{{BATCH_RECORD_STATUS_COMPLETE}}",
+    "{{BATCH_NUMBER_PRIORITY}}",
+    "{{SHIP_DATE_APPROACHING_7D}}",
+    "{{DISPOSITION_COMMENTS_RELEASE}}",
+    "{{BATCH_NUMBER_REJECT}}",
+    "{{DISPOSITION_COMMENTS_REJECT}}",
+    "{{BATCH_NUMBER_REWORK}}",
+    "{{DISPOSITION_COMMENTS_REWORK}}",
+    "{{BATCH_NUMBER_NO_DEVIATIONS}}",
+    "{{BATCH_RECORD_STATUS_CLEAN}}",
+    "{{EMPTY_STATE_MESSAGE}}",
+    "{{BATCH_NUMBER_NO_SHIP_DATE}}",
+    "{{VALIDATION_ERROR_NO_BATCH_SELECTED}}",
+    "{{ERROR_MISSING_BATCH}}",
+    "{{BATCH_NUMBER_FOR_DISPOSITION}}",
+    "{{ERROR_MISSING_DISPOSITION}}",
+    "{{BATCH_NUMBER_ZERO_DAYS}}",
+    "{{BATCH_NUMBER_OVERDUE}}",
+    "{{SHIP_DATE_PAST}}",
+    "{{BATCH_NUMBER_SHIP_TODAY}}",
+    "{{SHIP_DATE_TODAY}}",
+    "{{BATCH_NUMBER_FUTURE_SHIP}}",
+    "{{SHIP_DATE_FUTURE_30D}}",
+    "{{BATCH_NUMBER_FOR_SD_RELEASE}}",
+    "{{MATERIAL_FOR_SD}}",
+    "{{SALES_ORDER_NUMBER}}",
+    "{{BATCH_NUMBER_FOR_SD_REJECT}}",
+    "{{MATERIAL_FOR_SD_REJECT}}",
+    "{{SALES_ORDER_NUMBER_REJECT}}",
+    "{{BATCH_NUMBER_WITH_PROCESS_ORDER}}",
+    "{{MATERIAL_FROM_PROCESS_ORDER}}"
+  ]
+}

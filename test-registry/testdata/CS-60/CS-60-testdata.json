@@ -1,0 +1,381 @@
+{
+  "userStory": "CS-60",
+  "module": "PP",
+  "feature": "Work Center Master with Calibration/Qualification Tracking",
+  "generatedAt": "2026-08-24T10:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-060-001": {
+      "id": "TD-CS-060-001",
+      "name": "Valid Work Center with Valid Calibration — Primary Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}",
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "equipmentDesc": "{{EQUIPMENT_DESCRIPTION_VALID}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_STANDARD}}",
+        "capacityUnit": "{{CAPACITY_UNIT}}"
+      },
+      "expectedOutcome": "Work Center created with valid calibration status; eligible for capacity planning"
+    },
+    "TD-CS-060-002": {
+      "id": "TD-CS-060-002",
+      "name": "Update Existing Work Center with New Calibration Date",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "existingWorkCenterId": "{{WORK_CENTER_ID_EXISTING}}",
+        "plant": "{{PLANT_CODE}}",
+        "oldCalibrationDate": "{{CALIBRATION_DATE_OLD}}",
+        "newCalibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_NEW}}"
+      },
+      "expectedOutcome": "Work Center calibration date updated successfully; calibration status remains valid"
+    },
+    "TD-CS-060-003": {
+      "id": "TD-CS-060-003",
+      "name": "Alert Generated When Calibration Within Alert Lead-Time",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_NEAR_FUTURE}}",
+        "alertLeadTime": "{{ALERT_LEAD_TIME_DAYS}}"
+      },
+      "expectedOutcome": "PM Notification generated for Work Center; alert routed to Maintenance Planner"
+    },
+    "TD-CS-060-004": {
+      "id": "TD-CS-060-004",
+      "name": "Batch Record Captures Work Center ID and Calibration Status at Production Confirmation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-056"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "Batch Record updated with Work Center ID, Equipment Number, Calibration Status, and Timestamp"
+    },
+    "TD-CS-060-AP-001": {
+      "id": "TD-CS-060-AP-001",
+      "name": "Mark Work Center as Out of Service",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-057"],
+      "data": {
+        "existingWorkCenterId": "{{WORK_CENTER_ID_EXISTING}}",
+        "plant": "{{PLANT_CODE}}",
+        "outOfServiceStatus": "{{OUT_OF_SERVICE_STATUS_CODE}}"
+      },
+      "expectedOutcome": "Work Center status changed to Out of Service; excluded from capacity planning"
+    },
+    "TD-CS-060-AP-002": {
+      "id": "TD-CS-060-AP-002",
+      "name": "Requalify Work Center and Re-Include in Capacity Planning",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-058"],
+      "data": {
+        "existingWorkCenterId": "{{WORK_CENTER_ID_EXISTING}}",
+        "plant": "{{PLANT_CODE}}",
+        "newCalibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_NEW}}"
+      },
+      "expectedOutcome": "Work Center calibration updated; status changed to Valid; re-included in capacity planning"
+    },
+    "TD-CS-060-AP-003": {
+      "id": "TD-CS-060-AP-003",
+      "name": "Configure Custom Alert Lead-Time",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-059"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "customAlertLeadTime": "{{ALERT_LEAD_TIME_CUSTOM}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Custom alert lead-time configured; alert trigger date calculated based on custom value"
+    },
+    "TD-CS-060-NEG-001": {
+      "id": "TD-CS-060-NEG-001",
+      "name": "Attempt to Schedule Process Order on Work Center with Expired Calibration",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-060"],
+      "data": {
+        "expiredWorkCenterId": "{{WORK_CENTER_ID_EXPIRED_CALIBRATION}}",
+        "plant": "{{PLANT_CODE}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Work Center has expired calibration; operation NOT scheduled"
+    },
+    "TD-CS-060-NEG-002": {
+      "id": "TD-CS-060-NEG-002",
+      "name": "Attempt to Schedule Process Order on Work Center Marked Out of Service",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-061"],
+      "data": {
+        "outOfServiceWorkCenterId": "{{WORK_CENTER_ID_OUT_OF_SERVICE}}",
+        "plant": "{{PLANT_CODE}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Work Center is out of service; operation NOT scheduled"
+    },
+    "TD-CS-060-NEG-003": {
+      "id": "TD-CS-060-NEG-003",
+      "name": "Enter Past Date as Calibration Expiration Date",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-062"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}",
+        "pastCalibrationDate": "{{CALIBRATION_DATE_PAST}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Calibration date cannot be in the past; Work Center NOT created"
+    },
+    "TD-CS-060-ERR-001": {
+      "id": "TD-CS-060-ERR-001",
+      "name": "Missing Mandatory Field — Work Center ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-063"],
+      "data": {
+        "workCenterId": "",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}"
+      },
+      "note": "workCenterId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Work Center ID field as mandatory; prevents submission"
+    },
+    "TD-CS-060-ERR-002": {
+      "id": "TD-CS-060-ERR-002",
+      "name": "Missing Mandatory Field — Plant",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-064"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}"
+      },
+      "note": "plant intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Plant field as mandatory; prevents submission"
+    },
+    "TD-CS-060-ERR-003": {
+      "id": "TD-CS-060-ERR-003",
+      "name": "Missing Mandatory Field — Work Center Category",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-065"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": ""
+      },
+      "note": "workCenterCategory intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Work Center Category field as mandatory; prevents submission"
+    },
+    "TD-CS-060-ERR-004": {
+      "id": "TD-CS-060-ERR-004",
+      "name": "Missing Mandatory Field — Equipment Number When Calibration Tracking Required",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-066"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}",
+        "equipmentNumber": "",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}"
+      },
+      "note": "equipmentNumber intentionally empty to test conditional mandatory field enforcement when calibration tracking is enabled",
+      "expectedOutcome": "SAP highlights Equipment Number field as required for calibration tracking; prevents submission"
+    },
+    "TD-CS-060-EDGE-001": {
+      "id": "TD-CS-060-EDGE-001",
+      "name": "Calibration Expiration Date Equals Today — Minimum Valid Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-067"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}",
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "calibrationExpirationDate": "{{CALIBRATION_DATE_TODAY}}"
+      },
+      "expectedOutcome": "Work Center created with calibration date = today; status Valid (boundary test passed)"
+    },
+    "TD-CS-060-EDGE-002": {
+      "id": "TD-CS-060-EDGE-002",
+      "name": "Alert Lead-Time Equals 0 Days — Minimum Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-068"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "alertLeadTime": "{{ALERT_LEAD_TIME_MIN}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Alert lead-time configured to 0 days; alert triggered only on expiration day"
+    },
+    "TD-CS-060-EDGE-003": {
+      "id": "TD-CS-060-EDGE-003",
+      "name": "Alert Lead-Time Equals 999 Days — Maximum Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-069"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "alertLeadTime": "{{ALERT_LEAD_TIME_MAX}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Alert lead-time configured to 999 days; alert triggered 999 days before expiration"
+    },
+    "TD-CS-060-EDGE-004": {
+      "id": "TD-CS-060-EDGE-004",
+      "name": "Available Capacity Equals 1 Minute — Minimum Valid Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-070"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}",
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_MIN}}",
+        "capacityUnit": "{{CAPACITY_UNIT}}"
+      },
+      "expectedOutcome": "Work Center created with available capacity = 1 minute (minimum boundary test passed)"
+    },
+    "TD-CS-060-EDGE-005": {
+      "id": "TD-CS-060-EDGE-005",
+      "name": "Calibration Expiration Date Equals Exactly Alert Lead-Time Days from Today — Boundary Trigger",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-071"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}",
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "alertLeadTime": "{{ALERT_LEAD_TIME_DAYS}}",
+        "calibrationExpirationDate": "{{CALIBRATION_DATE_BOUNDARY_TRIGGER}}"
+      },
+      "expectedOutcome": "Work Center created with calibration date exactly at alert threshold; alert triggered today (boundary test)"
+    },
+    "TD-CS-060-INT-001": {
+      "id": "TD-CS-060-INT-001",
+      "name": "Calibration Date in Equipment Master Propagates to Work Center Master — PM to PP Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-072"],
+      "data": {
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "equipmentCalibrationDate": "{{EQUIPMENT_CALIBRATION_DATE}}",
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "workCenterCategory": "{{WORK_CENTER_CATEGORY_CODE}}"
+      },
+      "expectedOutcome": "Work Center calibration date auto-populated from Equipment Master (PM-PP integration confirmed)"
+    },
+    "TD-CS-060-INT-002": {
+      "id": "TD-CS-060-INT-002",
+      "name": "Process Order Scheduling Engine Queries Work Center Calibration Status Before Assignment",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-073"],
+      "data": {
+        "validWorkCenterId": "{{WORK_CENTER_ID_VALID_CALIBRATION}}",
+        "expiredWorkCenterId": "{{WORK_CENTER_ID_EXPIRED_CALIBRATION}}",
+        "plant": "{{PLANT_CODE}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "Scheduling engine accepts valid Work Center; rejects expired Work Center (PP-PP integration confirmed)"
+    },
+    "TD-CS-060-INT-003": {
+      "id": "TD-CS-060-INT-003",
+      "name": "Alert Notification Created in PM Notifications and Routed to Maintenance Planner",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-074"],
+      "data": {
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_NEAR_FUTURE}}",
+        "alertLeadTime": "{{ALERT_LEAD_TIME_DAYS}}"
+      },
+      "expectedOutcome": "PM Notification created and routed to Maintenance Planner (PP-PM integration confirmed)"
+    },
+    "TD-CS-060-INT-004": {
+      "id": "TD-CS-060-INT-004",
+      "name": "Batch Record Captures Equipment ID and Calibration Status from Work Center at Production Confirmation",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-075"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "workCenterId": "{{WORK_CENTER_ID_VALID}}",
+        "equipmentNumber": "{{EQUIPMENT_NUMBER_VALID}}",
+        "calibrationExpirationDate": "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}",
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "quantityConfirmed": "{{QUANTITY_CONFIRMED}}"
+      },
+      "expectedOutcome": "Batch Record captures Work Center ID, Equipment Number, Calibration Status, and Timestamp (PP-QM integration confirmed)"
+    },
+    "TD-CS-060-INT-005": {
+      "id": "TD-CS-060-INT-005",
+      "name": "Background Job Scans Work Centers and Generates Alerts Based on Configurable Lead-Time",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-076"],
+      "data": {
+        "workCenterId1": "{{WORK_CENTER_ID_WITHIN_ALERT_THRESHOLD}}",
+        "workCenterId2": "{{WORK_CENTER_ID_OUTSIDE_ALERT_THRESHOLD}}",
+        "plant": "{{PLANT_CODE}}",
+        "alertLeadTime": "{{ALERT_LEAD_TIME_DAYS}}",
+        "backgroundJobName": "{{BACKGROUND_JOB_NAME}}"
+      },
+      "expectedOutcome": "Background job scans Work Centers; generates alert for WC1 (within threshold); no alert for WC2 (outside threshold)"
+    }
+  },
+  "allPlaceholders": [
+    "{{ALERT_LEAD_TIME_CUSTOM}}",
+    "{{ALERT_LEAD_TIME_DAYS}}",
+    "{{ALERT_LEAD_TIME_MAX}}",
+    "{{ALERT_LEAD_TIME_MIN}}",
+    "{{AVAILABLE_CAPACITY_MIN}}",
+    "{{AVAILABLE_CAPACITY_STANDARD}}",
+    "{{BACKGROUND_JOB_NAME}}",
+    "{{BATCH_NUMBER_VALID}}",
+    "{{CALIBRATION_DATE_BOUNDARY_TRIGGER}}",
+    "{{CALIBRATION_DATE_OLD}}",
+    "{{CALIBRATION_DATE_PAST}}",
+    "{{CALIBRATION_DATE_TODAY}}",
+    "{{CALIBRATION_EXPIRATION_DATE_FUTURE}}",
+    "{{CALIBRATION_EXPIRATION_DATE_NEAR_FUTURE}}",
+    "{{CALIBRATION_EXPIRATION_DATE_NEW}}",
+    "{{CAPACITY_UNIT}}",
+    "{{EQUIPMENT_CALIBRATION_DATE}}",
+    "{{EQUIPMENT_DESCRIPTION_VALID}}",
+    "{{EQUIPMENT_NUMBER_VALID}}",
+    "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+    "{{OPERATION_NUMBER_VALID}}",
+    "{{OUT_OF_SERVICE_STATUS_CODE}}",
+    "{{PLANT_CODE}}",
+    "{{PROCESS_ORDER_NUMBER_VALID}}",
+    "{{QUANTITY_CONFIRMED}}",
+    "{{WORK_CENTER_CATEGORY_CODE}}",
+    "{{WORK_CENTER_ID_EXISTING}}",
+    "{{WORK_CENTER_ID_EXPIRED_CALIBRATION}}",
+    "{{WORK_CENTER_ID_OUT_OF_SERVICE}}",
+    "{{WORK_CENTER_ID_OUTSIDE_ALERT_THRESHOLD}}",
+    "{{WORK_CENTER_ID_VALID}}",
+    "{{WORK_CENTER_ID_VALID_CALIBRATION}}",
+    "{{WORK_CENTER_ID_WITHIN_ALERT_THRESHOLD}}"
+  ]
+}

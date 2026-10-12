@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-15",
+  "type": "Story",
+  "summary": "TC001_Weblogin ",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Medium",
+  "assignee": {
+    "displayName": "asumith",
+    "accountId": "712020:c1bdf278-ff20-44c6-a1e7-c25e9e8a6272"
+  },
+  "reporter": {
+    "displayName": "asumith",
+    "accountId": "712020:c1bdf278-ff20-44c6-a1e7-c25e9e8a6272"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [],
+  "components": [],
+  "description": "As a Web Orders user, I want to log in with valid credentials so that I can access the Web Orders application and perform order management activities.\n\n   \n[Web Orders](http://secure.smartbearsoftware.com/samples/TestComplete11/WebOrders/Products.aspx)",
+  "acceptanceCriteria": "User can access the Web Orders login page.\nUser can enter a valid username (Tester).\nUser can enter a valid password (test).\nUser can successfully click the Login button.\nUser is redirected to the Web Orders landing page after successful authentication.\nNo authentication error message is displayed.\nUser session is established and application menus are accessible.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-10T12:42:09.153+0530",
+  "updated": "2026-08-10T12:42:09.599+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-15",
+  "fetchedAt": "2026-08-21T08:55:02.050Z"
+}

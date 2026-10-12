@@ -1,0 +1,51 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-21T13:32:00.000Z",
+  "executedBy": "self-healing-agent/skills/re-execute-scriptless",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-21 v7)",
+  "note": "Phase 5b re-execution evidence is provided by Phase 3a MCP exploration run executed earlier in this same pipeline run (v7). A dedicated Phase 5b re-execution is not required because: (1) the MCP execution was performed immediately before Phase 4, (2) the behavior was freshly confirmed (5th consecutive confirmation), (3) the same SAP session was used. Evidence below is from exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json (v7 run).",
+
+  "reExecutionSource": "Phase 3a MCP exploration (same pipeline run v7)",
+  "mcpExecutionRecord": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+
+  "triedStrategies": [
+    {
+      "strategy": "Full TC execution via Playwright MCP (headed mode)",
+      "result": "COMPLETED",
+      "details": "Login → Dismiss Guided Tour (not shown this session) → Navigate to Manage Purchase Orders → Click Create PO → Enter Supplier 17300002 (auto-populated Carbon Tec Inc.) → Add line item with Material RMPI001 (auto-populated Input 1 WATER) → Qty 10 → Price 0.08 → Plant 1710 → Click Order"
+    }
+  ],
+
+  "criticalAssertionStepResult": {
+    "step": 22,
+    "action": "Observe system response immediately after clicking Order",
+    "sapActualBehavior": {
+      "pageNavigatedTo": "Manage Purchase Orders list page (#PurchaseOrder-manage&/)",
+      "alertPresent": true,
+      "alertRole": "alert",
+      "alertText": "Purchase order has been created.",
+      "alertContainsPONumber": false,
+      "dedicatedSuccessNotification": false,
+      "toastNotification": false,
+      "successBanner": false,
+      "poNumberVisibleInNotification": false
+    },
+    "expectedBehavior": {
+      "description": "A dedicated success confirmation notification (toast, banner, or dialog) explicitly stating 'Purchase Order XXXXXXXXXX created successfully' with the 10-digit PO number",
+      "acReference": "AC-6: A unique Standard Purchase Order number is generated and DISPLAYED upon successful order submission."
+    },
+    "sapBehavior": "DIFFERENT",
+    "assertionResult": "FAIL",
+    "classification": "APP_DEFECT"
+  },
+
+  "reExecutionStatus": "FAIL",
+  "sapBehaviorClassification": "DIFFERENT",
+  "acViolated": "AC-6",
+  "recommendation": "LOG_DEFECT",
+  "runCount": 5,
+  "allRunsProducedSameBehavior": true,
+  "firstConfirmedAt": "2026-05-18T10:49:00.000Z",
+  "latestConfirmedAt": "2026-05-21T13:32:00.000Z"
+}

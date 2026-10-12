@@ -1,0 +1,491 @@
+{
+  "userStory": "CS-27",
+  "summary": "Maintain A Purchasing Contract (Outline Agreement) With Negotiated Pri",
+  "module": "MM",
+  "analysedAt": "2026-08-21T08:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Officer",
+  "businessObject": "Purchasing Contract (Outline Agreement)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Purchase Contracts\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can define target quantity/value, validity period, and tiered pricing conditions on the contract.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "ERR", "EDGE", "NEG"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-3",
+      "text": "The system tracks cumulative release quantities/values against the contract limit.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system warns the user when a release order would exceed the remaining contract balance.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The contract can be linked to a specific approved vendor and material combination consistent with the source list.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system alerts the Procurement team a configurable number of days before contract expiration.",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create a valid contract with single-tier pricing, valid vendor-material, target quantity, validity period, and save successfully",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create a contract with multi-tier pricing (3+ tiers with ascending quantity thresholds) and verify pricing structure is saved",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Create release orders against the contract within the target quantity/value limit and verify cumulative tracking updates",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Verify expiration alert is triggered the configured number of days before contract expiration",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create a contract using Target Value instead of Target Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Create a contract with Target Quantity AND Target Value (both specified)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create a contract with a vendor not approved for the purchasing org",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create a contract with a material not in the source list for the vendor",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to create a release order that would exceed the remaining contract quantity",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to create a release order that would exceed the remaining contract value",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to create a contract with Validity End Date before Validity Start Date",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Attempt to create tiered pricing with non-ascending quantity thresholds (e.g., tier 2 threshold < tier 1)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Supplier field",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Supplier"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Target Quantity AND Target Value (both blank)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Target Quantity / Target Value"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Validity Start Date",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Valid From"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Validity End Date",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Valid To"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Net Price in a pricing tier",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Net Price"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Missing Purchasing Organization",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Purchasing Organization"
+      },
+      {
+        "id": "ERR-08",
+        "description": "Missing Plant",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Plant"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Target Quantity = 1 (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "Target Quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Target Quantity = maximum allowed value (e.g., 999999999)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "Target Quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Target Value = 0.01 (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "Target Value",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Net Price in first tier = 0.01 (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Net Price",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Validity Start Date = today (current date)",
+        "risk": "LOW",
+        "acIds": ["AC-2"],
+        "parameter": "Validity Start Date",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Validity End Date = Start Date + 1 day (minimum valid period)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Validity End Date",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Alert Lead Time = 0 (no alert)",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "Alert Lead Time",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "Alert Lead Time = 365 days (maximum typical value)",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "Alert Lead Time",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-09",
+        "description": "Release order quantity exactly equals remaining contract quantity (no overage)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "Release Quantity",
+        "boundary": "exact match"
+      },
+      {
+        "id": "EDGE-10",
+        "description": "Release order value exactly equals remaining contract value (no overage)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "Release Value",
+        "boundary": "exact match"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 2,
+    "NEG": 6,
+    "ERR": 8,
+    "EDGE": 10,
+    "INT": 0,
+    "total": 30
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "vendorId",
+        "label": "Supplier",
+        "mandatory": true,
+        "validRange": "Existing approved vendor in vendor master"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in material master (API type)"
+      },
+      {
+        "name": "targetQuantity",
+        "label": "Target Quantity",
+        "mandatory": false,
+        "validRange": "> 0, per UoM (required if Target Value not specified)"
+      },
+      {
+        "name": "targetValue",
+        "label": "Target Value",
+        "mandatory": false,
+        "validRange": "> 0, in contract currency (required if Target Quantity not specified)"
+      },
+      {
+        "name": "validityStartDate",
+        "label": "Valid From",
+        "mandatory": true,
+        "validRange": "Today or future (past date may be allowed with warning)"
+      },
+      {
+        "name": "validityEndDate",
+        "label": "Valid To",
+        "mandatory": true,
+        "validRange": "Must be after Valid From"
+      },
+      {
+        "name": "tieredPriceQuantityFrom",
+        "label": "Scale Quantity",
+        "mandatory": true,
+        "validRange": "Ascending thresholds, first tier starts at 0 or 1"
+      },
+      {
+        "name": "tieredPriceNetPrice",
+        "label": "Net Price",
+        "mandatory": true,
+        "validRange": "> 0, per UoM"
+      },
+      {
+        "name": "purchasingOrg",
+        "label": "Purchasing Organization",
+        "mandatory": true,
+        "validRange": "Valid purchasing org for user's authorization"
+      },
+      {
+        "name": "purchasingGroup",
+        "label": "Purchasing Group",
+        "mandatory": true,
+        "validRange": "Valid purchasing group"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid plant for material"
+      },
+      {
+        "name": "alertLeadTime",
+        "label": "Reminder Days",
+        "mandatory": false,
+        "validRange": "0-365, default may be 30 or configurable org-wide"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "supplierName",
+        "label": "Supplier Name",
+        "trigger": "Confirm Supplier ID"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "uom",
+        "label": "Order Unit",
+        "trigger": "Select Material"
+      },
+      {
+        "name": "currency",
+        "label": "Currency",
+        "trigger": "Select Supplier or Org"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "trigger": "Select Purchasing Org"
+      },
+      {
+        "name": "remainingQuantity",
+        "label": "Remaining Target Qty",
+        "trigger": "Release order posted"
+      },
+      {
+        "name": "remainingValue",
+        "label": "Remaining Target Value",
+        "trigger": "Release order posted"
+      }
+    ],
+    "output": [
+      {
+        "name": "contractNumber",
+        "label": "Contract Number",
+        "format": "10-digit numeric, begins with 46 or 45 (depending on number range)"
+      },
+      {
+        "name": "contractStatus",
+        "label": "Contract Status",
+        "format": "Draft, Sent, Released, Expired"
+      },
+      {
+        "name": "cumulativeReleasedQuantity",
+        "label": "Cumulative Released Quantity",
+        "format": "Numeric, same UoM as target"
+      },
+      {
+        "name": "cumulativeReleasedValue",
+        "label": "Cumulative Released Value",
+        "format": "Currency, matches contract currency"
+      },
+      {
+        "name": "alertTriggerDate",
+        "label": "Alert Trigger Date",
+        "format": "Calculated: Validity End Date - Alert Lead Time Days"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "targetQuantity",
+        "label": "Target Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "999999999",
+        "zeroInvalid": true
+      },
+      {
+        "name": "targetValue",
+        "label": "Target Value",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      },
+      {
+        "name": "tieredPriceQuantityFrom",
+        "label": "Scale Quantity",
+        "lowerBoundary": "0 or 1 (first tier)",
+        "upperBoundary": "<= Target Quantity",
+        "zeroInvalid": false
+      },
+      {
+        "name": "tieredPriceNetPrice",
+        "label": "Net Price",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      },
+      {
+        "name": "validityStartDate",
+        "label": "Valid From",
+        "lowerBoundary": "Today (or past if backdating allowed)",
+        "upperBoundary": "No practical upper limit",
+        "zeroInvalid": false
+      },
+      {
+        "name": "validityEndDate",
+        "label": "Valid To",
+        "lowerBoundary": "Validity Start Date + 1 day",
+        "upperBoundary": "Typically max 99 years from today",
+        "zeroInvalid": false
+      },
+      {
+        "name": "alertLeadTime",
+        "label": "Alert Lead Time",
+        "lowerBoundary": "0",
+        "upperBoundary": "365",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,402 @@
+{
+  "userStory": "CS-60",
+  "summary": "Maintain A Resource/Work Center Master For Validated Production Equipm",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Maintenance Planner",
+  "businessObject": "Work Center Master Record with Calibration/Qualification tracking",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Work Centers\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system captures the equipment's qualification/calibration expiration date on the work center master.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system prevents scheduling a process order operation on a work center whose calibration has expired.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system generates an alert to Maintenance a configurable number of days before a work center's calibration is due to expire.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "Equipment taken out of service for maintenance is automatically excluded from capacity planning until requalified.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The batch record references the specific equipment/work center used, including its calibration status at time of use.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["INT"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Work Center with valid calibration date and verify capacity planning eligibility",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Update existing Work Center with new calibration expiration date",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Verify alert generated when calibration expiration is within alert lead-time threshold",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Verify batch record captures Work Center ID and calibration status at production confirmation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Mark Work Center as \"Out of Service\" and verify automatic exclusion from capacity planning",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Requalify Work Center (update calibration date post-maintenance) and verify re-inclusion in capacity planning",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Configure custom alert lead-time (non-default value) and verify alert timing",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to schedule Process Order operation on Work Center with expired calibration",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to schedule Process Order operation on Work Center marked \"Out of Service\"",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-5"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Enter past date as calibration expiration date and verify validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Work Center ID",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Work Center"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Plant",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Work Center Category",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Category"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Equipment Number (when calibration tracking required)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Equipment"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Calibration expiration date = Today (minimum valid boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "calibrationExpirationDate",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Alert lead-time = 0 days (alert on expiration day only)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "alertLeadTime",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Alert lead-time = 999 days (maximum boundary)",
+        "risk": "LOW",
+        "acIds": ["AC-4"],
+        "parameter": "alertLeadTime",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Available capacity = 1 minute (minimum valid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "availableCapacity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Calibration expiration date = exactly alert lead-time days from today (boundary trigger)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "calibrationExpirationDate",
+        "boundary": "threshold"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Calibration date in Equipment Master (PM) propagates to Work Center Master (PP)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "integration": "PM ↔ PP"
+      },
+      {
+        "id": "INT-02",
+        "description": "Process Order scheduling engine queries Work Center calibration status before assignment",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "integration": "PP scheduling logic"
+      },
+      {
+        "id": "INT-03",
+        "description": "Alert notification created in PM Notifications module and routed to Maintenance Planner",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "integration": "PP → PM Notifications"
+      },
+      {
+        "id": "INT-04",
+        "description": "Batch record in QM captures Equipment ID and calibration status from Work Center at production confirmation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "integration": "PP → QM Batch Management"
+      },
+      {
+        "id": "INT-05",
+        "description": "Background job scans Work Centers and generates alerts based on configurable lead-time",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "integration": "Background Job Framework"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 5,
+    "INT": 5,
+    "total": 24
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "workCenterId",
+        "label": "Work Center",
+        "dataType": "Alphanumeric (8 chars)",
+        "mandatory": true,
+        "validRange": "Must be unique within Plant"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric (4 chars)",
+        "mandatory": true,
+        "validRange": "Existing plant in SAP org structure"
+      },
+      {
+        "name": "workCenterCategory",
+        "label": "Category",
+        "dataType": "Dropdown",
+        "mandatory": true,
+        "validRange": "0001 (Machine), 0002 (Production Resource/Tool), etc."
+      },
+      {
+        "name": "equipmentNumber",
+        "label": "Equipment",
+        "dataType": "Alphanumeric (18 chars)",
+        "mandatory": false,
+        "validRange": "Existing Equipment Master record from PM (required for calibration tracking)"
+      },
+      {
+        "name": "calibrationExpirationDate",
+        "label": "Next Calibration Due",
+        "dataType": "Date (DD.MM.YYYY)",
+        "mandatory": false,
+        "validRange": "Future date only (>= Today)"
+      },
+      {
+        "name": "qualificationExpirationDate",
+        "label": "Next Qualification Due",
+        "dataType": "Date (DD.MM.YYYY)",
+        "mandatory": false,
+        "validRange": "Future date only (>= Today)"
+      },
+      {
+        "name": "alertLeadTime",
+        "label": "Alert Lead Time",
+        "dataType": "Numeric (0-999)",
+        "mandatory": false,
+        "validRange": "Integer >= 0; default = 30 days"
+      },
+      {
+        "name": "availableCapacity",
+        "label": "Available capacity",
+        "dataType": "Time (minutes or hours)",
+        "mandatory": true,
+        "validRange": "> 0"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "workCenterDescription",
+        "label": "Description",
+        "trigger": "Confirm Equipment Number",
+        "source": "Equipment Master EQUI table — Equipment Description"
+      },
+      {
+        "name": "responsiblePerson",
+        "label": "Person Responsible",
+        "trigger": "Confirm Plant",
+        "source": "Organizational Management — Plant assignment"
+      },
+      {
+        "name": "capacityCategory",
+        "label": "Capacity Category",
+        "trigger": "Confirm Work Center Category",
+        "source": "Standard SAP configuration table (T001W / CRHD)"
+      },
+      {
+        "name": "currentCalibrationStatus",
+        "label": "Calibration Status",
+        "trigger": "System evaluation on display",
+        "source": "Calculated: if (Today <= Calibration Expiration) then \"Valid\" else \"Expired\""
+      }
+    ],
+    "output": [
+      {
+        "name": "workCenterMasterRecord",
+        "label": "Work Center Master Record",
+        "description": "SAP Work Center document created/updated",
+        "format": "Work Center ID (8-digit alphanumeric)"
+      },
+      {
+        "name": "alertNotification",
+        "label": "Alert Notification",
+        "description": "Maintenance alert generated if calibration expiring soon",
+        "format": "Notification Number (12-digit numeric, begins with \"1\" for PM notifications)"
+      },
+      {
+        "name": "capacityPlanningExclusion",
+        "label": "Capacity Planning Exclusion",
+        "description": "Work Center removed from available capacity pool",
+        "format": "System status change → capacity recalculation triggered"
+      },
+      {
+        "name": "batchRecordEquipmentLink",
+        "label": "Batch Record Equipment Link",
+        "description": "Equipment ID and calibration status stamped to batch production record",
+        "format": "Batch Number + Equipment ID + Calibration Status + Timestamp"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "calibrationExpirationDate",
+        "label": "Next Calibration Due",
+        "lowerBoundary": "Today (minimum valid)",
+        "upperBoundary": "No upper limit (system date field max)",
+        "zeroInvalid": false,
+        "notes": "Past date invalid — validation error expected"
+      },
+      {
+        "name": "qualificationExpirationDate",
+        "label": "Next Qualification Due",
+        "lowerBoundary": "Today (minimum valid)",
+        "upperBoundary": "No upper limit",
+        "zeroInvalid": false,
+        "notes": "Past date invalid — validation error expected"
+      },
+      {
+        "name": "alertLeadTime",
+        "label": "Alert Lead Time",
+        "lowerBoundary": "0 (alert on expiration day only)",
+        "upperBoundary": "999 days (system field max)",
+        "zeroInvalid": false,
+        "notes": "Per configuration; 30 days = typical"
+      },
+      {
+        "name": "availableCapacity",
+        "label": "Available capacity",
+        "lowerBoundary": "1 minute (minimum valid)",
+        "upperBoundary": "999,999 minutes (system field max)",
+        "zeroInvalid": true,
+        "notes": "Per capacity unit (minutes/hours/days)"
+      }
+    ]
+  }
+}

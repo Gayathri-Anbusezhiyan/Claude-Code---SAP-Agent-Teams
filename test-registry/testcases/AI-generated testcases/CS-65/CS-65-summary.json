@@ -1,0 +1,260 @@
+{
+  "userStory": "CS-65",
+  "summary": "Maintain A Bill Of Material (Bom) For A Pharmaceutical Finished Produc",
+  "module": "PP",
+  "generatedAt": "2026-08-24T10:30:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 23,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 6,
+    "ERR": 5,
+    "EDGE": 6,
+    "ST": 3,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 13,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 18,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-151",
+      "title": "Create BOM for Finished Pharmaceutical Product with Active Ingredients and Excipient Components",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-065-001"
+    },
+    {
+      "id": "TC-CS-152",
+      "title": "Create BOM with Alternative and Substitute Components Flagged with Regulatory Approval Status",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-065-002"
+    },
+    {
+      "id": "TC-CS-153",
+      "title": "Create BOM with Multiple Alternative Components for Single Item",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-065-AP-001"
+    },
+    {
+      "id": "TC-CS-154",
+      "title": "Attempt to Add BOM Component with Non-Existent Material ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-NEG-001"
+    },
+    {
+      "id": "TC-CS-155",
+      "title": "Attempt to Add BOM Component with Inactive/Blocked Material Master",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-NEG-002"
+    },
+    {
+      "id": "TC-CS-156",
+      "title": "Attempt to Add Substitute Component without Regulatory Approval Status Flag",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-NEG-003"
+    },
+    {
+      "id": "TC-CS-157",
+      "title": "Attempt to Create Process Order against BOM with Draft Status",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-NEG-004"
+    },
+    {
+      "id": "TC-CS-158",
+      "title": "Attempt to Create Process Order against BOM with In Review Status",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-NEG-005"
+    },
+    {
+      "id": "TC-CS-159",
+      "title": "Attempt to Create Process Order against BOM with Obsolete Status",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-NEG-006"
+    },
+    {
+      "id": "TC-CS-160",
+      "title": "Attempt to Submit BOM with Finished Product Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-065-ERR-001"
+    },
+    {
+      "id": "TC-CS-161",
+      "title": "Attempt to Submit BOM with Plant Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-065-ERR-002"
+    },
+    {
+      "id": "TC-CS-162",
+      "title": "Attempt to Submit BOM with Component Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-065-ERR-003"
+    },
+    {
+      "id": "TC-CS-163",
+      "title": "Attempt to Submit BOM with Component Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-065-ERR-004"
+    },
+    {
+      "id": "TC-CS-164",
+      "title": "Attempt to Submit BOM with Component UoM Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-065-ERR-005"
+    },
+    {
+      "id": "TC-CS-165",
+      "title": "Create BOM with Minimum Component Quantity at Lower Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-EDGE-001"
+    },
+    {
+      "id": "TC-CS-166",
+      "title": "Create BOM with Maximum Component Quantity at Upper Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-EDGE-002"
+    },
+    {
+      "id": "TC-CS-167",
+      "title": "Attempt to Create BOM with Zero Component Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-EDGE-003"
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Create BOM with Single Component (Minimum Valid BOM Structure)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-EDGE-004"
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Create BOM with Maximum Number of Components",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-065-EDGE-005"
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Create BOM with Maximum Number of Alternatives per Component Item",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-065-EDGE-006"
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Modify Released BOM and Verify New Version Created with Draft Status",
+      "scenarioType": "STATE_TRANSITION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-065-ST-001"
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Modify Draft BOM and Verify In-Place Edit without Version Change",
+      "scenarioType": "STATE_TRANSITION",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-ST-002"
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Release BOM Version and Verify Status Transition from Draft to Released",
+      "scenarioType": "STATE_TRANSITION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-065-ST-003"
+    }
+  ],
+  "testdataFile": "testdata/CS-65/CS-65-testdata.json"
+}

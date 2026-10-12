@@ -1,0 +1,72 @@
+{
+  "module": "MM",
+  "feature": "Purchase Requisition (Create / Change / Display)",
+  "generatedAt": "2026-05-11T00:00:00.000Z",
+  "generatedBy": "testdata-extraction from testcases/",
+  "sourceFiles": [
+    "testcases/Create Purchase Requestion.txt",
+    "testcases/Change Purchase Requestion.txt",
+    "testcases/Display Purchase Requestion.txt"
+  ],
+  "envDependencies": {
+    "SAP_BASE_URL": "Read from .env — used as the base URL in navigation steps",
+    "SAP_USERNAME": "Read from .env — email address for SAP Fiori login",
+    "SAP_PASSWORD": "Read from .env — password for SAP Fiori login"
+  },
+  "testDataSets": {
+    "TD-MM-PR-CREATE-001": {
+      "id": "TD-MM-PR-CREATE-001",
+      "name": "Create Purchase Requisition — Primary Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "sourceTestCase": "Create Purchase Requestion.txt",
+      "usedByTestCases": ["Create Purchase Requestion"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_PR}}",
+        "plant":      "{{PLANT_CODE}}",
+        "quantity":   "{{PR_CREATE_QUANTITY}}"
+      },
+      "hardcodedValuesExtracted": {
+        "materialId": "RMPI001",
+        "quantity":   "5"
+      },
+      "expectedOutcome": "Purchase requisition created; message 'Purchase requisition number {PR_NUMBER} created' displayed at the bottom of the screen"
+    },
+    "TD-MM-PR-CHANGE-001": {
+      "id": "TD-MM-PR-CHANGE-001",
+      "name": "Change Purchase Requisition — Update Quantity",
+      "scenarioType": "CHANGE",
+      "sourceTestCase": "Change Purchase Requestion.txt",
+      "usedByTestCases": ["Change Purchase Requestion"],
+      "data": {
+        "existingPRNumber": "{{EXISTING_PR_NUMBER}}",
+        "changeQuantity":   "{{PR_CHANGE_QUANTITY}}"
+      },
+      "hardcodedValuesExtracted": {
+        "existingPRNumber": "0010006092",
+        "changeQuantity":   "10"
+      },
+      "expectedOutcome": "PR quantity updated; message 'Purchase requisition number {{EXISTING_PR_NUMBER}} changed' displayed at the bottom of the screen"
+    },
+    "TD-MM-PR-DISPLAY-001": {
+      "id": "TD-MM-PR-DISPLAY-001",
+      "name": "Display Purchase Requisition — Read-only View",
+      "scenarioType": "DISPLAY",
+      "sourceTestCase": "Display Purchase Requestion.txt",
+      "usedByTestCases": ["Display Purchase Requestion"],
+      "data": {
+        "existingPRNumber": "{{EXISTING_PR_NUMBER}}"
+      },
+      "hardcodedValuesExtracted": {
+        "existingPRNumber": "0010006092"
+      },
+      "expectedOutcome": "Purchase requisition displayed in read-only mode; header details and item details visible"
+    }
+  },
+  "allPlaceholders": [
+    "{{MATERIAL_ID_PR}}",
+    "{{PLANT_CODE}}",
+    "{{PR_CREATE_QUANTITY}}",
+    "{{EXISTING_PR_NUMBER}}",
+    "{{PR_CHANGE_QUANTITY}}"
+  ]
+}

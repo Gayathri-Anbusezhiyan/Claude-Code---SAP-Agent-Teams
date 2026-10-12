@@ -1,0 +1,352 @@
+{
+  "userStory": "CS-41",
+  "module": "SD",
+  "feature": "Cross-Border Sales Order Creation with Export Compliance Screening",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-041-001": {
+      "id": "TD-CS-041-001",
+      "name": "Valid Cross-Border SO — Controlled Product with All Compliance Checks Passing",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_CROSS_BORDER}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}",
+        "exportLicenseNumber": "{{EXPORT_LICENSE_NUMBER_VALID}}",
+        "exportLicenseValidTo": "{{EXPORT_LICENSE_VALID_TO_FUTURE}}",
+        "complianceCheckTimestamp": "{{COMPLIANCE_CHECK_TIMESTAMP}}"
+      },
+      "expectedOutcome": "Sales Order created with unique SO number; compliance check status PASSED; denied-party result CLEAR; export license VALID; status In Process or Confirmed"
+    },
+    "TD-CS-041-AP-001": {
+      "id": "TD-CS-041-AP-001",
+      "name": "Domestic SO — Screening Bypassed",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "domesticCustomerId": "{{CUSTOMER_ID_DOMESTIC}}",
+        "domesticCustomerName": "{{CUSTOMER_NAME_DOMESTIC}}",
+        "domesticCountry": "{{DOMESTIC_COUNTRY_CODE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "expectedOutcome": "Sales Order created without compliance screening; no compliance check fields present; status In Process or Confirmed"
+    },
+    "TD-CS-041-AP-002": {
+      "id": "TD-CS-041-AP-002",
+      "name": "Cross-Border SO — Non-Controlled Product with Reduced Screening",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_CROSS_BORDER}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "nonControlledMaterialId": "{{MATERIAL_ID_NON_CONTROLLED}}",
+        "nonControlledMaterialDescription": "{{MATERIAL_DESCRIPTION_NON_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "expectedOutcome": "Sales Order created with denied-party screening but NO export license check; status In Process or Confirmed"
+    },
+    "TD-CS-041-NEG-001": {
+      "id": "TD-CS-041-NEG-001",
+      "name": "Invalid Customer — On Denied-Party List",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "deniedPartyCustomerId": "{{CUSTOMER_ID_DENIED_PARTY}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "expectedOutcome": "SO creation BLOCKED; error: Customer on denied-party list; compliance check status FAILED_DENIED_PARTY; SO NOT created"
+    },
+    "TD-CS-041-NEG-002": {
+      "id": "TD-CS-041-NEG-002",
+      "name": "Invalid Export License — No Valid License Exists",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-045"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_NO_LICENSE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "note": "No export license record exists for customer/destination/material combination",
+      "expectedOutcome": "SO creation BLOCKED; error: No valid export license found; compliance check status FAILED_EXPORT_LICENSE; SO NOT created"
+    },
+    "TD-CS-041-NEG-003": {
+      "id": "TD-CS-041-NEG-003",
+      "name": "Invalid Export License — Expired License",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-046"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}",
+        "expiredLicenseNumber": "{{EXPORT_LICENSE_NUMBER_EXPIRED}}",
+        "expiredLicenseValidTo": "{{EXPORT_LICENSE_VALID_TO_PAST}}"
+      },
+      "note": "Export license exists but validity date is in the past",
+      "expectedOutcome": "SO creation BLOCKED; error: Export license expired; compliance check status FAILED_EXPORT_LICENSE; SO NOT created"
+    },
+    "TD-CS-041-ERR-001": {
+      "id": "TD-CS-041-ERR-001",
+      "name": "Missing Mandatory Field — Customer",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-047"],
+      "data": {
+        "customerId": "",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "note": "customerId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Sold-To Party field as mandatory; prevents submission; error displayed"
+    },
+    "TD-CS-041-ERR-002": {
+      "id": "TD-CS-041-ERR-002",
+      "name": "Missing Mandatory Field — Material",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-048"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "note": "materialId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Material field as mandatory; prevents submission; error displayed"
+    },
+    "TD-CS-041-ERR-003": {
+      "id": "TD-CS-041-ERR-003",
+      "name": "Missing Mandatory Field — Destination Country",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-049"],
+      "data": {
+        "customerIdNoCountry": "{{CUSTOMER_ID_NO_COUNTRY}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "note": "Customer master missing destination country data — data quality issue",
+      "expectedOutcome": "SO submission blocked; error: Destination country missing; compliance screening cannot determine cross-border status"
+    },
+    "TD-CS-041-EDGE-001": {
+      "id": "TD-CS-041-EDGE-001",
+      "name": "Temporal Boundary — Export License Expires During Processing",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-050"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}",
+        "expiringLicenseNumber": "{{EXPORT_LICENSE_NUMBER_EXPIRING}}",
+        "expiringLicenseValidTo": "{{EXPORT_LICENSE_VALID_TO_NEAR_FUTURE}}"
+      },
+      "note": "License valid at creation but expires before confirmation — requires precise timing control",
+      "expectedOutcome": "SO draft created but confirmation blocked when license expires; real-time validation detects expiration"
+    },
+    "TD-CS-041-EDGE-002": {
+      "id": "TD-CS-041-EDGE-002",
+      "name": "Temporal Boundary — Customer Added to Denied-Party List Mid-Process",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-051"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}",
+        "deniedPartyStatus": "CLEAR at creation; DENIED at confirmation"
+      },
+      "note": "Customer passes screening at creation but is added to denied-party list before confirmation — requires manual denied-party list update mid-test",
+      "expectedOutcome": "SO draft created but confirmation blocked when customer added to denied list; real-time validation detects status change"
+    },
+    "TD-CS-041-EDGE-003": {
+      "id": "TD-CS-041-EDGE-003",
+      "name": "Minimum Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-052"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "minOrderQuantity": "{{SO_QUANTITY_MIN}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}",
+        "exportLicenseNumber": "{{EXPORT_LICENSE_NUMBER_VALID}}",
+        "exportLicenseValidTo": "{{EXPORT_LICENSE_VALID_TO_FUTURE}}"
+      },
+      "expectedOutcome": "SO created successfully with minimum quantity (1); compliance checks pass"
+    },
+    "TD-CS-041-INT-001": {
+      "id": "TD-CS-041-INT-001",
+      "name": "Integration Failure — Denied-Party API Unavailable",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "note": "Denied-party screening API or SAP GTS must be unavailable (timeout, connection failure, or service down) during test execution",
+      "expectedOutcome": "SO confirmation blocked or deferred; error: Denied-party screening service unavailable; SO unconfirmed"
+    },
+    "TD-CS-041-INT-002": {
+      "id": "TD-CS-041-INT-002",
+      "name": "Integration Failure — Export License API Unavailable",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "requestedDeliveryDate": "{{DATE_FUTURE_30D}}"
+      },
+      "note": "Export license management system or SAP GTS must be unavailable during test execution",
+      "expectedOutcome": "SO confirmation blocked or deferred; error: Export license validation service unavailable; SO unconfirmed"
+    },
+    "TD-CS-041-INT-003": {
+      "id": "TD-CS-041-INT-003",
+      "name": "Integration / Data Quality — Customer Master Missing Destination Country",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "customerIdNoCountry": "{{CUSTOMER_ID_NO_COUNTRY}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "note": "Customer master (KNA1/ADRC) missing destination country data — data quality issue",
+      "expectedOutcome": "SO blocked; error: Destination country missing in customer master; cannot determine cross-border status"
+    },
+    "TD-CS-041-INT-004": {
+      "id": "TD-CS-041-INT-004",
+      "name": "Integration / Data Quality — Material Master Missing Export Classification",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-056"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+        "materialIdNoClassification": "{{MATERIAL_ID_NO_CLASSIFICATION}}",
+        "destinationCountry": "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrderType": "{{SALES_ORDER_TYPE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "note": "Material master (MARA) missing export control classification flag — data quality issue",
+      "expectedOutcome": "SO blocked; error: Export control classification missing in material master; cannot determine if product is controlled"
+    }
+  },
+  "allPlaceholders": [
+    "{{CUSTOMER_ID_CROSS_BORDER_VALID}}",
+    "{{CUSTOMER_NAME_CROSS_BORDER}}",
+    "{{CUSTOMER_ID_DOMESTIC}}",
+    "{{CUSTOMER_NAME_DOMESTIC}}",
+    "{{CUSTOMER_ID_DENIED_PARTY}}",
+    "{{CUSTOMER_ID_NO_COUNTRY}}",
+    "{{DOMESTIC_COUNTRY_CODE}}",
+    "{{DESTINATION_COUNTRY_CROSS_BORDER}}",
+    "{{DESTINATION_COUNTRY_NO_LICENSE}}",
+    "{{MATERIAL_ID_CONTROLLED_PHARMA}}",
+    "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+    "{{MATERIAL_ID_NON_CONTROLLED}}",
+    "{{MATERIAL_DESCRIPTION_NON_CONTROLLED}}",
+    "{{MATERIAL_ID_NO_CLASSIFICATION}}",
+    "{{SO_QUANTITY_STANDARD}}",
+    "{{SO_QUANTITY_MIN}}",
+    "{{SALES_ORDER_TYPE}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}",
+    "{{DATE_FUTURE_30D}}",
+    "{{EXPORT_LICENSE_NUMBER_VALID}}",
+    "{{EXPORT_LICENSE_VALID_TO_FUTURE}}",
+    "{{EXPORT_LICENSE_NUMBER_EXPIRED}}",
+    "{{EXPORT_LICENSE_VALID_TO_PAST}}",
+    "{{EXPORT_LICENSE_NUMBER_EXPIRING}}",
+    "{{EXPORT_LICENSE_VALID_TO_NEAR_FUTURE}}",
+    "{{COMPLIANCE_CHECK_TIMESTAMP}}"
+  ]
+}

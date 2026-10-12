@@ -1,0 +1,249 @@
+{
+  "userStory": "CS-32",
+  "summary": "Move Expired Batches To A Designated Blocked Storage Location Automati",
+  "module": "MM",
+  "generatedAt": "2026-08-23T18:12:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 20,
+  "byCoverageType": {
+    "HP": 6,
+    "AP": 0,
+    "NEG": 4,
+    "ERR": 6,
+    "EDGE": 4,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 8,
+    "HIGH": 8,
+    "MEDIUM": 4,
+    "LOW": 0
+  },
+  "automationCandidates": 8,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-031",
+      "title": "Access Manage Stock Fiori App and View Batch Stock Data",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-032-001",
+      "acIds": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "Background Job Identifies Expired Batch and Auto-Restricts Stock from Unrestricted to Blocked",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-032-002",
+      "acIds": ["AC-2", "AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-033",
+      "title": "Authorized User Completes DESTROY Disposition and Batch is Removed from Blocked Stock",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-003",
+      "acIds": ["AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-034",
+      "title": "Authorized User Completes RETURN Disposition and Batch is Removed from Blocked Stock",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-004",
+      "acIds": ["AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-035",
+      "title": "Authorized User Completes REWORK Disposition and Batch is Removed from Blocked Stock",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-005",
+      "acIds": ["AC-5", "AC-6"]
+    },
+    {
+      "id": "TC-CS-036",
+      "title": "Audit Report Displays All Expired Batch Dispositions with Timestamps and User Details",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-006",
+      "acIds": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Background Job Runs But No Batches Are Expired — No Transfer Occurs",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-NEG-001",
+      "acIds": ["AC-2", "AC-4"]
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Batch Is Already in Blocked Stock When Expiration Is Detected — No Duplicate Transfer",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-NEG-002",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-039",
+      "title": "Material Does Not Have Batch Management Enabled — System Skips or Logs Error",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-NEG-003",
+      "acIds": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Blocked Storage Location Is Not Configured in the Plant — Transfer Fails with Error",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-NEG-004",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Background Job Fails Due to System Error (ABAP Dump or Authorization Issue)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-ERR-001",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Stock Transfer Document Creation Fails (Material Document Error)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-ERR-002",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Notification Fails to Send to Warehouse/QA Teams (Email or Workflow Error)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-ERR-003",
+      "acIds": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Unauthorized User Attempts to Complete Disposition — System Rejects with Authorization Error",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-ERR-004",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Disposition Action Is Not Selected (Blank) — System Prevents Submission",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-032-ERR-005",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Audit Report Fails to Generate or Displays Incomplete Data",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-ERR-006",
+      "acIds": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Batch Expires Today (SLED = Current Date) — System Must Identify as Expired",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-EDGE-001",
+      "acIds": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Batch Has Zero Unrestricted Stock (Fully Consumed) — No Transfer Needed But Batch Still Flagged",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-EDGE-002",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Multiple Batches of Same Material Expire on Same Day — All Must Be Transferred in Single Job Run",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-032-EDGE-003",
+      "acIds": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Batch SLED Is Null or Not Maintained — System Behavior (Skip or Error)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-032-EDGE-004",
+      "acIds": ["AC-2", "AC-3"]
+    }
+  ],
+  "testdataFile": "testdata/CS-32/CS-32-testdata.json"
+}

@@ -1,0 +1,198 @@
+{
+  "userStory": "CS-26",
+  "module": "MM",
+  "feature": "Batch Traceability Report / Batch Where-Used List",
+  "generatedAt": "2026-08-23T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-026-001": {
+      "id": "TD-CS-026-001",
+      "name": "Comprehensive Batch Traceability — Process Order Linkage and Excel Export",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-081"],
+      "data": {
+        "batchNumber": "{{BATCH_NUMBER_VALID_WITH_MOVEMENTS}}",
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "baseUoM": "{{BASE_UOM}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "grDate": "{{GOODS_RECEIPT_DATE}}",
+        "grQuantity": "{{GOODS_RECEIPT_QUANTITY}}",
+        "transferDate": "{{TRANSFER_DATE}}",
+        "transferQuantity": "{{TRANSFER_QUANTITY}}",
+        "consumptionDate": "{{CONSUMPTION_DATE}}",
+        "consumptionQuantity": "{{CONSUMPTION_QUANTITY}}",
+        "issueDate": "{{ISSUE_DATE}}",
+        "issueQuantity": "{{ISSUE_QUANTITY}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER}}",
+        "materialDocument": "{{MATERIAL_DOCUMENT_NUMBER}}",
+        "movementTypeGR": "101",
+        "movementTypeTransfer": "311",
+        "movementTypeConsumption": "261",
+        "movementTypeIssue": "201",
+        "performanceThresholdSeconds": "10"
+      },
+      "expectedOutcome": "Batch traceability report displays all movements (GR, transfer, consumption, issue) with process order linkage; Excel export successful"
+    },
+    "TD-CS-026-002": {
+      "id": "TD-CS-026-002",
+      "name": "Search by Material Number",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-082"],
+      "data": {
+        "materialNumberSearch": "{{MATERIAL_NUMBER_BATCH_MANAGED_SEARCH}}",
+        "materialDescSearch": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED_SEARCH}}",
+        "baseUoMSearch": "{{BASE_UOM_SEARCH}}",
+        "batchNumber1": "{{BATCH_NUMBER_1}}",
+        "batchNumber2": "{{BATCH_NUMBER_2}}",
+        "plantSearch": "{{PLANT_CODE_SEARCH}}",
+        "grQuantitySearch": "{{GOODS_RECEIPT_QUANTITY_SEARCH}}",
+        "movementTypeGRSearch": "101"
+      },
+      "expectedOutcome": "All batches associated with the material are displayed with their movements"
+    },
+    "TD-CS-026-003": {
+      "id": "TD-CS-026-003",
+      "name": "Search by Vendor Batch Reference",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-083"],
+      "data": {
+        "vendorBatchRef": "{{VENDOR_BATCH_REFERENCE}}",
+        "batchNumberVendor": "{{BATCH_NUMBER_VENDOR}}",
+        "materialNumberVendor": "{{MATERIAL_NUMBER_VENDOR}}",
+        "materialDescVendor": "{{MATERIAL_DESCRIPTION_VENDOR}}",
+        "baseUoMVendor": "{{BASE_UOM_VENDOR}}",
+        "plantVendor": "{{PLANT_CODE_VENDOR}}",
+        "grDateVendor": "{{GOODS_RECEIPT_DATE_VENDOR}}",
+        "grQuantityVendor": "{{GOODS_RECEIPT_QUANTITY_VENDOR}}",
+        "movementTypeGRVendor": "101"
+      },
+      "expectedOutcome": "Internal batch linked to vendor batch reference is displayed with all movements"
+    },
+    "TD-CS-026-004": {
+      "id": "TD-CS-026-004",
+      "name": "PDF Export",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-084"],
+      "data": {
+        "batchNumberPDF": "{{BATCH_NUMBER_PDF}}",
+        "materialNumberPDF": "{{MATERIAL_NUMBER_PDF}}",
+        "materialDescPDF": "{{MATERIAL_DESCRIPTION_PDF}}",
+        "grQuantityPDF": "{{GOODS_RECEIPT_QUANTITY_PDF}}",
+        "movementTypeGRPDF": "101"
+      },
+      "expectedOutcome": "Batch traceability report is successfully exported to PDF with all movements"
+    },
+    "TD-CS-026-NEG-001": {
+      "id": "TD-CS-026-NEG-001",
+      "name": "Non-Existent Batch Number",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-085"],
+      "data": {
+        "invalidBatchNumber": "{{BATCH_NUMBER_NON_EXISTENT}}"
+      },
+      "expectedOutcome": "System displays error: Batch does not exist or no data found; no traceability results displayed"
+    },
+    "TD-CS-026-NEG-002": {
+      "id": "TD-CS-026-NEG-002",
+      "name": "Non-Batch-Managed Material",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-086"],
+      "data": {
+        "nonBatchManagedMaterial": "{{MATERIAL_NUMBER_NON_BATCH_MANAGED}}",
+        "nonBatchMaterialDesc": "{{MATERIAL_DESCRIPTION_NON_BATCH_MANAGED}}"
+      },
+      "expectedOutcome": "System displays error: Material is not batch-managed or no batches found; no traceability results displayed"
+    },
+    "TD-CS-026-NEG-003": {
+      "id": "TD-CS-026-NEG-003",
+      "name": "Batch with Zero Movements",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-087"],
+      "data": {
+        "zeroMovementBatch": "{{BATCH_NUMBER_ZERO_MOVEMENTS}}",
+        "zeroMovementMaterial": "{{MATERIAL_NUMBER_ZERO_MOVEMENTS}}",
+        "zeroMovementMaterialDesc": "{{MATERIAL_DESCRIPTION_ZERO_MOVEMENTS}}"
+      },
+      "expectedOutcome": "Batch header information displayed; movements section is empty or shows 'No movements found' message"
+    },
+    "TD-CS-026-ERR-001": {
+      "id": "TD-CS-026-ERR-001",
+      "name": "Missing Search Criteria",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-088"],
+      "data": {
+        "emptyBatch": ""
+      },
+      "expectedOutcome": "System displays error: At least one search criterion (Batch, Material, or Vendor Batch) is required; no query executed"
+    },
+    "TD-CS-026-EDGE-001": {
+      "id": "TD-CS-026-EDGE-001",
+      "name": "Large Dataset Performance",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-089"],
+      "data": {
+        "largeBatchNumber": "{{BATCH_NUMBER_LARGE_DATASET}}",
+        "largeBatchMaterial": "{{MATERIAL_NUMBER_LARGE_DATASET}}",
+        "largeBatchMaterialDesc": "{{MATERIAL_DESCRIPTION_LARGE_DATASET}}",
+        "largeMovementCount": "{{LARGE_MOVEMENT_COUNT}}",
+        "performanceThresholdSecondsLarge": "10"
+      },
+      "expectedOutcome": "Query completes within performance threshold (< 10 seconds); all 100+ movements displayed; pagination works correctly"
+    },
+    "TD-CS-026-EDGE-002": {
+      "id": "TD-CS-026-EDGE-002",
+      "name": "Multi-Plant Complexity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-090"],
+      "data": {
+        "multiPlantBatchNumber": "{{BATCH_NUMBER_MULTI_PLANT}}",
+        "multiPlantMaterial": "{{MATERIAL_NUMBER_MULTI_PLANT}}",
+        "multiPlantMaterialDesc": "{{MATERIAL_DESCRIPTION_MULTI_PLANT}}",
+        "plant1": "{{PLANT_CODE_1}}",
+        "plant2": "{{PLANT_CODE_2}}",
+        "plant3": "{{PLANT_CODE_3}}",
+        "movementTypeTransfer311": "311",
+        "movementTypeConsumption261": "261"
+      },
+      "expectedOutcome": "All movements across all plants displayed; inter-plant transfers correctly shown with source and destination plants"
+    },
+    "TD-CS-026-INT-001": {
+      "id": "TD-CS-026-INT-001",
+      "name": "Process Order Linkage Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-091"],
+      "data": {
+        "batchNumberPO": "{{BATCH_NUMBER_PROCESS_ORDER}}",
+        "materialNumberPO": "{{MATERIAL_NUMBER_PROCESS_ORDER}}",
+        "materialDescPO": "{{MATERIAL_DESCRIPTION_PROCESS_ORDER}}",
+        "processOrderNumberInt": "{{PROCESS_ORDER_NUMBER_INT}}",
+        "finishedGoodsNumber": "{{FINISHED_GOODS_NUMBER}}",
+        "consumptionDatePO": "{{CONSUMPTION_DATE_PROCESS_ORDER}}",
+        "consumptionQuantityPO": "{{CONSUMPTION_QUANTITY_PROCESS_ORDER}}",
+        "movementTypeConsumptionPO": "261",
+        "plantPO": "{{PLANT_CODE_PROCESS_ORDER}}"
+      },
+      "expectedOutcome": "Batch traceability displays process order linkage; process order and finished goods information visible; integration with PP module verified"
+    },
+    "TD-CS-026-INT-002": {
+      "id": "TD-CS-026-INT-002",
+      "name": "Delivery Linkage Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-092"],
+      "data": {
+        "batchNumberDel": "{{BATCH_NUMBER_DELIVERY}}",
+        "materialNumberDel": "{{MATERIAL_NUMBER_DELIVERY}}",
+        "materialDescDel": "{{MATERIAL_DESCRIPTION_DELIVERY}}",
+        "deliveryNumberInt": "{{DELIVERY_NUMBER_INT}}",
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER}}",
+        "customerNumber": "{{CUSTOMER_NUMBER}}",
+        "issueDateDel": "{{ISSUE_DATE_DELIVERY}}",
+        "issueQuantityDel": "{{ISSUE_QUANTITY_DELIVERY}}",
+        "movementTypeIssueDel": "601",
+        "plantDel": "{{PLANT_CODE_DELIVERY}}"
+      },
+      "expectedOutcome": "Batch traceability displays delivery linkage; delivery, sales order, and customer information visible; integration with SD module verified"
+    }
+  }
+}

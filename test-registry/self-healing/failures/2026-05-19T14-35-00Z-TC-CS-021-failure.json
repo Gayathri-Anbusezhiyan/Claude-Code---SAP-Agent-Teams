@@ -1,0 +1,50 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "analyzedAt": "2026-05-19T14:35:00.000Z",
+  "analyzedBy": "self-healing-agent/skills/analyze-failure",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-19 v3)",
+
+  "phase4RunResult": {
+    "status": "FAIL",
+    "failureType": "TIMEOUT",
+    "failureLocation": "purchase-order.page.js:108 — openSearch()",
+    "selector": "[title='Open Search']",
+    "timeout": 30000,
+    "errorMessage": "TimeoutError: page.waitForSelector: Timeout 30000ms exceeded."
+  },
+
+  "classification": "AUTOMATION_BUG",
+  "classificationReason": "The test failed at navigation step (Step 7 of TC), not at the designed-to-fail assertion step (Steps 22/23). MCP exploration (Phase 3a, 2026-05-19T14:26:38Z) confirmed SAP Fiori fully loads and the search button appears correctly — the issue is that the Playwright runner's 30-second wait for [title='Open Search'] expires before the post-login redirect and SAP shell bar rendering completes. This is a script timing bug, not a SAP application defect.",
+
+  "mcpEvidence": {
+    "phase3aExecutedAt": "2026-05-19T14:26:38.000Z",
+    "navigationResult": "PASS",
+    "sapBehavior": "SAP Fiori home page loaded successfully; search button clicked; Manage Purchase Orders opened; PO created with all steps completing normally",
+    "criticalFinding": "Alert 'Purchase order has been created.' WITHOUT 10-digit PO number at Step 22 — AC-6 violated",
+    "containsPONumber": false
+  },
+
+  "failingLocator": {
+    "selector": "[title='Open Search']",
+    "foundInMCP": true,
+    "foundInPlaywrightRunner": false,
+    "reason": "30s timeout insufficient for post-IDP-redirect + SAP JS framework initialization in non-MCP Playwright run"
+  },
+
+  "recommendation": "PATCH_AND_RERUN",
+  "patchDescription": "Increase openSearch() wait timeout from 30000ms to 90000ms. Also add waitForLoadState('networkidle') before waitForSelector to allow full SAP bootstrap completion.",
+  "patchFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+  "patchMethod": "openSearch()",
+
+  "expectedAfterPatch": {
+    "failureType": "ASSERTION_FAILURE",
+    "failureStep": 22,
+    "assertionChecked": "verifySuccessNotificationWithPONumber()",
+    "expectedResult": "false (SAP shows alert without PO number)",
+    "assertedValue": "true",
+    "acViolated": "AC-6"
+  },
+
+  "note": "After patching the timeout, TC-CS-021 should reach Step 22 and fail with ASSERTION_FAILURE — the designed-to-fail behavior. That failure will be classified as APP_DEFECT and escalated to Phase 6."
+}

@@ -1,0 +1,257 @@
+{
+  "userStory": "CS-44",
+  "module": "SD",
+  "feature": "Sales Order Creation with Credit Limit Check",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-044-001": {
+      "id": "TD-CS-044-001",
+      "name": "Valid Sales Order — Customer Within Credit Limit",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_WITHIN_LIMIT}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "expectedOutcome": "Sales Order created with unique order number; status Open; no credit block"
+    },
+    "TD-CS-044-AP-001": {
+      "id": "TD-CS-044-AP-001",
+      "name": "Sales Order at Exact Credit Limit Boundary",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_AT_LIMIT_BOUNDARY}}",
+        "customerName": "{{CUSTOMER_NAME_AT_BOUNDARY}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_AT_EXACT_LIMIT}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "note": "Order value calculated such that outstanding + order value = credit limit exactly",
+      "expectedOutcome": "Sales Order created; status Open; no credit block; credit exposure = credit limit exactly"
+    },
+    "TD-CS-044-NEG-001": {
+      "id": "TD-CS-044-NEG-001",
+      "name": "Customer Balance Exceeds Credit Limit",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_EXCEEDS_LIMIT}}",
+        "customerName": "{{CUSTOMER_NAME_EXCEEDS_LIMIT}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "note": "Customer has outstanding balance such that adding order value exceeds credit limit",
+      "expectedOutcome": "Sales Order created but blocked; credit block indicator displayed; warning message shown"
+    },
+    "TD-CS-044-NEG-002": {
+      "id": "TD-CS-044-NEG-002",
+      "name": "Customer with No Credit Limit Defined",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_NO_CREDIT_LIMIT}}",
+        "customerName": "{{CUSTOMER_NAME_NO_LIMIT}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "note": "Customer exists but has no credit limit defined in KNKK",
+      "expectedOutcome": "Error message displayed: credit limit not defined; order blocked or not created"
+    },
+    "TD-CS-044-NEG-003": {
+      "id": "TD-CS-044-NEG-003",
+      "name": "Non-existent Customer",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "invalidCustomerId": "{{CUSTOMER_ID_INVALID}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "note": "Customer ID does not exist in KNA1",
+      "expectedOutcome": "Error message displayed: customer not found; customer details not populated; order NOT created"
+    },
+    "TD-CS-044-ERR-001": {
+      "id": "TD-CS-044-ERR-001",
+      "name": "Missing Mandatory Field — Customer ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "customerId": "",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}"
+      },
+      "note": "Customer ID intentionally left empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Sold-To Party is mandatory; field highlighted; order NOT created"
+    },
+    "TD-CS-044-ERR-002": {
+      "id": "TD-CS-044-ERR-002",
+      "name": "Missing Mandatory Field — Material",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_WITHIN_LIMIT}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}"
+      },
+      "note": "Material ID intentionally left empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Material is mandatory; field highlighted; order NOT created"
+    },
+    "TD-CS-044-ERR-003": {
+      "id": "TD-CS-044-ERR-003",
+      "name": "Missing Mandatory Field — Quantity",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_WITHIN_LIMIT}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "",
+        "netPrice": "{{NET_PRICE_VALID}}"
+      },
+      "note": "Order Quantity intentionally left empty to test mandatory field enforcement",
+      "expectedOutcome": "Error message: Order Quantity is mandatory; field highlighted; order NOT created"
+    },
+    "TD-CS-044-EDGE-001": {
+      "id": "TD-CS-044-EDGE-001",
+      "name": "Customer with Zero Credit Limit",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_ZERO_CREDIT_LIMIT}}",
+        "customerName": "{{CUSTOMER_NAME_ZERO_LIMIT}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "note": "Customer has credit limit = 0.00 in KNKK — any order value triggers block",
+      "expectedOutcome": "Sales Order created but blocked; credit block indicator displayed; warning message shown"
+    },
+    "TD-CS-044-EDGE-002": {
+      "id": "TD-CS-044-EDGE-002",
+      "name": "Customer with Negative Outstanding Balance",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_NEGATIVE_BALANCE}}",
+        "customerName": "{{CUSTOMER_NAME_NEGATIVE_BALANCE}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_VALID}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "note": "Customer has negative outstanding balance (overpayment/credit balance) — additional credit capacity available",
+      "expectedOutcome": "Sales Order created; status Open; no credit block; credit available = limit + absolute value of negative balance"
+    },
+    "TD-CS-044-EDGE-003": {
+      "id": "TD-CS-044-EDGE-003",
+      "name": "Order Value Equals Remaining Credit Exactly",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_AT_REMAINING_CREDIT}}",
+        "customerName": "{{CUSTOMER_NAME_AT_REMAINING}}",
+        "salesOrganization": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_VALID}}",
+        "unitOfMeasure": "{{UNIT_OF_MEASURE}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "netPrice": "{{NET_PRICE_EXACT_REMAINING}}",
+        "currency": "{{CURRENCY_CODE}}"
+      },
+      "note": "Order value = credit limit - outstanding balance (exact match)",
+      "expectedOutcome": "Sales Order created; status Open; no credit block; credit exposure = credit limit exactly"
+    }
+  },
+  "allPlaceholders": [
+    "{{CUSTOMER_ID_VALID_WITHIN_LIMIT}}",
+    "{{CUSTOMER_NAME_VALID}}",
+    "{{CUSTOMER_ID_AT_LIMIT_BOUNDARY}}",
+    "{{CUSTOMER_NAME_AT_BOUNDARY}}",
+    "{{CUSTOMER_ID_EXCEEDS_LIMIT}}",
+    "{{CUSTOMER_NAME_EXCEEDS_LIMIT}}",
+    "{{CUSTOMER_ID_NO_CREDIT_LIMIT}}",
+    "{{CUSTOMER_NAME_NO_LIMIT}}",
+    "{{CUSTOMER_ID_INVALID}}",
+    "{{CUSTOMER_ID_ZERO_CREDIT_LIMIT}}",
+    "{{CUSTOMER_NAME_ZERO_LIMIT}}",
+    "{{CUSTOMER_ID_NEGATIVE_BALANCE}}",
+    "{{CUSTOMER_NAME_NEGATIVE_BALANCE}}",
+    "{{CUSTOMER_ID_AT_REMAINING_CREDIT}}",
+    "{{CUSTOMER_NAME_AT_REMAINING}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}",
+    "{{MATERIAL_ID_VALID}}",
+    "{{MATERIAL_DESCRIPTION_VALID}}",
+    "{{UNIT_OF_MEASURE}}",
+    "{{SO_QUANTITY_STANDARD}}",
+    "{{NET_PRICE_VALID}}",
+    "{{NET_PRICE_AT_EXACT_LIMIT}}",
+    "{{NET_PRICE_EXACT_REMAINING}}",
+    "{{CURRENCY_CODE}}"
+  ]
+}

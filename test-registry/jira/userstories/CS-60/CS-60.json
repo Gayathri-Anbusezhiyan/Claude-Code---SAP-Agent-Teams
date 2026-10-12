@@ -1,0 +1,20 @@
+{
+  "key": "CS-60",
+  "summary": "Maintain A Resource/Work Center Master For Validated Production Equipm",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:43.272Z",
+  "updated": "2026-08-21T08:41:43.363Z",
+  "description": "As a Maintenance Planner, I want to maintain a Resource/Work Center Master for validated production equipment, so that Process Orders can only be scheduled on equipment that is currently within its qualification and calibration validity period.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Work Centers\" Fiori app.2. The system captures the equipment's qualification/calibration expiration date on the work center master.3. The system prevents scheduling a process order operation on a work center whose calibration has expired.4. The system generates an alert to Maintenance a configurable number of days before a work center's calibration is due to expire.5. Equipment taken out of service for maintenance is automatically excluded from capacity planning until requalified.6. The batch record references the specific equipment/work center used, including its calibration status at time of use.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

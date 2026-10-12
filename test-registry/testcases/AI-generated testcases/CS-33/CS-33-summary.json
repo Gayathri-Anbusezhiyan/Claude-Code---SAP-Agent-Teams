@@ -1,0 +1,189 @@
+{
+  "userStory": "CS-33",
+  "summary": "User Story SD-001",
+  "module": "SD",
+  "generatedAt": "2026-08-23T18:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 16,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 5,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 1
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 10,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 10,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-033",
+      "title": "Create Sales Order with FEFO Batch Determination for Pharmaceutical Material",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-001"
+    },
+    {
+      "id": "TC-CS-034",
+      "title": "Manually Override FEFO-Proposed Batch with Valid Authorization and Reason Code",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-AP-001"
+    },
+    {
+      "id": "TC-CS-035",
+      "title": "Attempt to Create Sales Order for Material with No FEFO Strategy Configured",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-NEG-001"
+    },
+    {
+      "id": "TC-CS-036",
+      "title": "Attempt to Create Sales Order for Material with No Available Batches",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-NEG-002"
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Attempt Manual Batch Override Without Required Authorization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-NEG-003"
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Attempt Manual Batch Override Without Entering Reason Code",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-NEG-004"
+    },
+    {
+      "id": "TC-CS-039",
+      "title": "Attempt to Select Batch with Expiration Date Before Requested Delivery Date",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-NEG-005"
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Attempt to Submit Sales Order with Sold-To Party Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-033-ERR-001"
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Attempt to Submit Sales Order with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-033-ERR-002"
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Attempt to Submit Sales Order with Order Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-033-ERR-003"
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Attempt to Submit Sales Order with Requested Delivery Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-033-ERR-004"
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Create Sales Order with Batch Expiration Date Exactly Equal to Requested Delivery Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-EDGE-001"
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to Create Sales Order with Batch Expiration Date One Day Before Requested Delivery Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-EDGE-002"
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Create Sales Order with Order Quantity Exactly Equal to Available Batch Stock",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-EDGE-003"
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Create Sales Order with Multiple Batches Having Identical Expiration Dates (FEFO Tie-Breaker Logic)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-033-EDGE-004"
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Verify FEFO-Determined Batch Flows Through from Sales Order to Delivery Document Without Re-Determination",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-033-INT-001"
+    }
+  ],
+  "testdataFile": "testdata/CS-33/CS-33-testdata.json"
+}

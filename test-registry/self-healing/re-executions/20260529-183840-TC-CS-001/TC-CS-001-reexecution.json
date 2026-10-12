@@ -1,0 +1,91 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "timestamp": "2026-05-29T18:38:40.000Z",
+  "reExecutedBy": "self-healing-agent/skills/re-execute-scriptless",
+  "failureReportRef": "self-healing/failures/20260529-183840-TC-CS-001-failure.json",
+  "reExecutionStatus": "PASS",
+  "executionSummary": "Re-execution confirmed SAP Fiori shell bar lazy-loads action buttons. After login, 'Open Search' button appears automatically within 2-3 seconds. No prerequisite action needed. Previous patch (TC-CS-021) used incorrect workaround.",
+  "failingStepResult": {
+    "stepNumber": 7,
+    "action": "Click the search icon in the shell bar",
+    "method": "openSearch",
+    "locatorName": "openSearchButton",
+    "triedLocators": [
+      {
+        "attempt": 1,
+        "strategy": "timing",
+        "action": "Check button immediately after login (t=0s)",
+        "result": "FAIL",
+        "error": "Button not in DOM",
+        "note": "Shell bar rendered only basic elements: Open Menu, SAP Logo, Home, Profile"
+      },
+      {
+        "attempt": 2,
+        "strategy": "timing",
+        "action": "Wait 3 seconds, then check button (t=3s)",
+        "result": "SUCCESS",
+        "ref": "e435",
+        "note": "After 3-second wait, button appeared in DOM automatically — full shell bar rendered with: Open Search, Joule, Open Help, Notifications, Profile"
+      },
+      {
+        "attempt": 3,
+        "strategy": "role",
+        "selector": "getByRole('button', { name: 'Open Search' })",
+        "result": "SUCCESS",
+        "note": "Button clicked successfully, search bar opened"
+      }
+    ],
+    "workingLocator": {
+      "strategy": "role",
+      "selector": "getByRole('button', { name: 'Open Search' })"
+    },
+    "workingRef": "e435",
+    "timingRequirement": {
+      "description": "Wait for shell bar to complete JavaScript initialization",
+      "observedDelay": "2-3 seconds after domcontentloaded",
+      "recommendedTimeout": "30000ms",
+      "waitStrategy": "Wait for button.isVisible() with timeout, NOT fixed delay"
+    },
+    "resolutionNote": "SAP Fiori shell bar uses progressive rendering. Action buttons (Open Search, Joule, Open Help, Notifications) are added to the DOM asynchronously after initial page load. No user interaction required — buttons appear automatically once JavaScript initialization completes."
+  },
+  "previousPatchAnalysis": {
+    "patchFile": "self-healing/patches/20260529-182929-TC-CS-021-patch.md",
+    "approach": "Click 'Open Menu' button to trigger shell bar full render",
+    "verdict": "INCORRECT WORKAROUND",
+    "issue": "During manual MCP re-execution for TC-CS-021, the delay between actions gave shell bar time to render naturally. The 'Open Menu' click was coincidental timing, not causal. Automated script runs faster, exposing the flaw.",
+    "correctSolution": "Simple wait for button visibility — no prerequisite action"
+  },
+  "stepsExecuted": 7,
+  "sapBehavior": "CORRECT",
+  "sapBehaviorNotes": "SAP Fiori is functioning correctly. The shell bar lazy-loading is an intentional performance optimization, not a defect.",
+  "sapFinalState": {
+    "loginSuccessful": true,
+    "fioriHomeLoaded": true,
+    "guidedTourDismissed": true,
+    "openSearchButtonVisible": true,
+    "openSearchButtonRef": "e435",
+    "searchOpened": true,
+    "searchboxActive": true,
+    "searchboxRef": "e473"
+  },
+  "recommendation": "PATCH_SCRIPTS",
+  "patchStrategy": "Remove flawed 'Open Menu' prerequisite logic. Replace with simple wait: `await searchBtn.waitFor({ state: 'visible', timeout: 30000 })`. Locator is correct — only timing/wait strategy needs fixing.",
+  "steps": [
+    { "stepNumber": 1, "action": "Navigate to SAP_FIORI_URL", "result": "PASS", "note": "Redirected to accounts.sap.com IDP" },
+    { "stepNumber": 2, "action": "Enter email", "result": "PASS" },
+    { "stepNumber": 3, "action": "Click Continue", "result": "PASS" },
+    { "stepNumber": 4, "action": "Enter password", "result": "PASS" },
+    { "stepNumber": 5, "action": "Click Continue", "result": "PASS", "note": "Fiori home page loaded" },
+    { "stepNumber": 6, "action": "Wait 3 seconds (observation)", "result": "PASS", "note": "'Open Search' button appeared automatically" },
+    { "stepNumber": 7, "action": "Click 'Open Search' button", "result": "PASS", "note": "Search bar opened successfully" }
+  ],
+  "evidenceCapture": {
+    "t0_afterLogin": "Shell bar showed: Open Menu, SAP Logo, Home, Profile. No 'Open Search' button.",
+    "t3_afterWait": "Shell bar showed: Open Menu, SAP Logo, Home, Open Search, Joule, Open Help, Notifications, Profile. Full render complete.",
+    "searchOpened": "Search bar appeared with searchbox ref=e473 active."
+  },
+  "sapUIBehaviorNotes": "SAP Fiori Launchpad splits shell bar rendering into two phases: (1) Essential navigation (Home, Profile, Menu) renders immediately; (2) Action buttons (Search, Joule, Help, Notifications) render asynchronously 2-3 seconds later after JavaScript modules load. This is standard lazy-loading for performance optimization. Scripts must account for this delay by waiting for button visibility rather than assuming immediate availability."
+}

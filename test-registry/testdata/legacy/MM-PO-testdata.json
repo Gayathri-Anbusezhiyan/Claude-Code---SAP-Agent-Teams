@@ -1,0 +1,51 @@
+{
+  "module": "MM",
+  "feature": "Purchase Order (Change / View)",
+  "generatedAt": "2026-05-11T00:00:00.000Z",
+  "generatedBy": "testdata-extraction from testcases/",
+  "sourceFiles": [
+    "testcases/Change Purchase order flow.txt",
+    "testcases/View Purchase order.txt"
+  ],
+  "envDependencies": {
+    "SAP_BASE_URL": "Read from .env — used as the base URL in navigation steps",
+    "SAP_USERNAME": "Read from .env — email address for SAP Fiori login",
+    "SAP_PASSWORD": "Read from .env — password for SAP Fiori login"
+  },
+  "testDataSets": {
+    "TD-MM-PO-CHANGE-001": {
+      "id": "TD-MM-PO-CHANGE-001",
+      "name": "Change Purchase Order — Update Quantity",
+      "scenarioType": "CHANGE",
+      "sourceTestCase": "Change Purchase order flow.txt",
+      "usedByTestCases": ["Change Purchase order flow"],
+      "data": {
+        "existingPONumber": "{{EXISTING_PO_NUMBER}}",
+        "changeQuantity":   "{{PO_CHANGE_QUANTITY}}"
+      },
+      "hardcodedValuesExtracted": {
+        "existingPONumber": "4500063731",
+        "changeQuantity":   "5"
+      },
+      "expectedOutcome": "PO quantity updated; message 'Standard PO {{EXISTING_PO_NUMBER}} changed' displayed at the bottom of the screen"
+    },
+    "TD-MM-PO-VIEW-001": {
+      "id": "TD-MM-PO-VIEW-001",
+      "name": "View Purchase Order — Read-only Display",
+      "scenarioType": "DISPLAY",
+      "sourceTestCase": "View Purchase order.txt",
+      "usedByTestCases": ["View Purchase order"],
+      "data": {
+        "existingPONumber": "{{EXISTING_PO_NUMBER}}"
+      },
+      "hardcodedValuesExtracted": {
+        "existingPONumber": "4500063731"
+      },
+      "expectedOutcome": "Purchase order displayed in read-only mode; header details and item details visible"
+    }
+  },
+  "allPlaceholders": [
+    "{{EXISTING_PO_NUMBER}}",
+    "{{PO_CHANGE_QUANTITY}}"
+  ]
+}

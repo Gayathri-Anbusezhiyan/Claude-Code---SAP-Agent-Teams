@@ -1,0 +1,68 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-06-02T14:30:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "LOCATOR_FAILURE",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 268,
+    "testTitle": "TC-CS-021 (NEG) Success alert should contain PO number (DESIGNED TO FAIL)",
+    "methodCall": "await purchaseOrderPage (fixture auto-invokes navigateToApp)",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "failingMethod": "navigateToApp",
+    "failingMethodLine": 153,
+    "locatorName": "shellBar.searchButton",
+    "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+    "locatorUsed": {
+      "primary": { "strategy": "css", "value": "[title=\"Open Search\"]" },
+      "fallbacks": [
+        { "strategy": "role", "role": "button", "name": "Open Search" }
+      ]
+    },
+    "errorMessage": "All locator strategies failed for: shellBar.searchButton",
+    "stackTrace": "at PurchaseOrderPage.loc (purchase-order.page.js:61:13)\nat PurchaseOrderPage.navigateToApp (purchase-order.page.js:153:23)\nat Object.purchaseOrderPage (purchase-order.fixtures.js:46:5)",
+    "currentTimeouts": {
+      "primaryTimeout": "15000ms (patched 2026-06-02)",
+      "fallbackTimeout": "8000ms (patched 2026-06-02)",
+      "previousTimeouts": "5000ms / 3000ms (original)"
+    }
+  },
+  "explorationComparison": {
+    "explorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+    "explorationLocator": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']", "confidence": "HIGH" }
+      ]
+    },
+    "match": true,
+    "note": "Exploration captured the same strategies (CSS and role). Both are present in the locators file. However, script uses CSS as primary, exploration captured role as primary. Order is reversed but both strategies are attempted."
+  },
+  "previousHealingAttempts": [
+    {
+      "timestamp": "2026-05-29T18:29:29.000Z",
+      "patchFile": "self-healing/patches/20260529-182929-TC-CS-021-patch.md",
+      "changeType": "INTERACTION_UPDATE",
+      "issue": "Shell bar lazy-loading — Open Search button not in DOM after login",
+      "resolution": "Added prerequisite: click 'Open Menu' to trigger shell bar render"
+    },
+    {
+      "timestamp": "2026-06-02T10:50:00.000Z",
+      "patchFile": "self-healing/patches/20260602-105000-TC-CS-021-patch.md",
+      "changeType": "WAIT_UPDATE",
+      "issue": "Timeout too aggressive for shell bar lazy-loading",
+      "resolution": "Increased timeout: primary 5000ms → 15000ms, fallback 3000ms → 8000ms"
+    }
+  ],
+  "recommendation": "SELF_HEAL",
+  "confidence": "MEDIUM",
+  "notes": "This is the THIRD failure for the same locator. Previous patches addressed (1) prerequisite action 'Open Menu' and (2) timeout increases to 15s. Despite 15s timeout, element still not found. Possible causes: (1) Shell bar taking >15s to load (network/SAP performance), (2) Element blocked by another popup/overlay, (3) Different page state after login (not landing on expected page), (4) Session/auth state issue. Re-execution via MCP will reveal current SAP behavior.",
+  "nextStep": "Run /re-execute-scriptless TC-CS-021 to diagnose current shell bar behavior and identify if additional wait time, different prerequisite action, or alternative navigation approach is needed.",
+  "riskAssessment": {
+    "affectsOtherTCs": true,
+    "sharedLocator": "shellBar.searchButton",
+    "potentiallyAffectedTCs": "All TCs that use navigateToApp() method (CS-2: TC-CS-001 to TC-CS-021, CS-3: TC-CS-012 to TC-CS-020)",
+    "cascadingImpact": "HIGH — this is the app entry point; if this fails, no subsequent test steps can execute"
+  }
+}

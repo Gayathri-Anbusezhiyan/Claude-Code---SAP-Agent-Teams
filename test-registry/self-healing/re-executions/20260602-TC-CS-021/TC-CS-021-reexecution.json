@@ -1,0 +1,85 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "timestamp": "2026-06-02T10:50:00.000Z",
+  "reExecutedBy": "self-healing-agent/skills/re-execute-scriptless",
+  "failureReportRef": "self-healing/failures/20260602-TC-CS-021-failure.json",
+  "reExecutionStatus": "PASS",
+  "failingStepResult": {
+    "stepNumber": 7,
+    "stepDescription": "Click the search icon in the shell bar; type 'Manage Purchase Orders'",
+    "method": "navigateToApp",
+    "locatorName": "shellBar.searchButton",
+    "triedLocators": [
+      {
+        "attempt": 1,
+        "strategy": "css",
+        "locator": "[title=\"Open Search\"]",
+        "result": "PASS",
+        "notes": "Primary CSS selector worked perfectly. Search overlay opened successfully."
+      }
+    ],
+    "workingLocator": {
+      "strategy": "css",
+      "value": "[title=\"Open Search\"]"
+    },
+    "workingPlaywrightCode": "page.locator('[title=\"Open Search\"]')",
+    "resolutionNote": "Locator definition is CORRECT. The issue is NOT the selector itself, but rather the wait timeout in the loc() method. The shell bar lazy-loads after login, and the 5-second timeout is insufficient. Element becomes available after ~3-5 seconds but the script's aggressive timeout causes intermittent failures."
+  },
+  "rootCauseAnalysis": {
+    "category": "WAIT_STRATEGY_INSUFFICIENT",
+    "details": "The page object's loc() method uses waitFor({ state: 'attached', timeout: 5000 }) at line 44. SAP Fiori shell bar lazy-loads after IDP redirect, and the search button attachment timing is unpredictable (3-8 seconds). The 5-second timeout is borderline and causes flaky failures.",
+    "scriptLocation": "automation/pages/mm/purchase-order/purchase-order.page.js:44",
+    "codeSnippet": "await locator.waitFor({ state: 'attached', timeout: 5000 });",
+    "sapBehavior": "Shell bar elements are not immediately present in DOM after login - they render progressively as the Fiori launchpad initializes. The search button specifically appears after shell initialization completes."
+  },
+  "stepsExecuted": 8,
+  "sapBehavior": "CORRECT",
+  "sapBehaviorNotes": "SAP Fiori launchpad and Manage Purchase Orders app loaded correctly. No application defects observed. The search button exists and works as expected once the shell bar finishes rendering.",
+  "sapFinalState": {
+    "fioriLaunchpadLoaded": true,
+    "shellBarSearchButtonPresent": true,
+    "appNavigationSuccessful": true,
+    "appUrl": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-manage",
+    "appTitle": "Manage Purchase Orders"
+  },
+  "recommendation": "PATCH_SCRIPTS",
+  "patchType": "WAIT_UPDATE",
+  "patchTarget": "automation/pages/mm/purchase-order/purchase-order.page.js",
+  "patchDetails": {
+    "approach": "Increase waitFor timeout for shell bar elements",
+    "specificFix": "In loc() method, increase timeout from 5000ms to 15000ms for primary locator attempts. Shell bar lazy-loading can take up to 8 seconds on slower connections.",
+    "alternativeApproach": "Add a post-login stabilization wait in the goto() method before attempting navigation, or implement exponential backoff retry in loc()."
+  },
+  "steps": [
+    { "stepNumber": 1, "action": "Navigate to SAP_FIORI_URL", "result": "PASS" },
+    { "stepNumber": 2, "action": "Enter email and click Continue", "result": "PASS" },
+    { "stepNumber": 3, "action": "Enter password and click Continue", "result": "PASS" },
+    { "stepNumber": 4, "action": "Wait for Fiori launchpad to load", "result": "PASS", "notes": "Waited 3 seconds for stabilization" },
+    { "stepNumber": 5, "action": "Dismiss Guided Tour dialog", "result": "PASS" },
+    { "stepNumber": 6, "action": "Attempt CSS selector [title='Open Search']", "result": "PASS", "notes": "Search button clicked successfully, overlay opened" },
+    { "stepNumber": 7, "action": "Type 'Manage Purchase Orders' and press Enter", "result": "PASS" },
+    { "stepNumber": 8, "action": "Click Manage Purchase Orders app link", "result": "PASS", "notes": "App opened successfully" }
+  ],
+  "explorationComparison": {
+    "scriptLocator": {
+      "primary": { "strategy": "css", "value": "[title=\"Open Search\"]" },
+      "fallbacks": [{ "strategy": "role", "role": "button", "name": "Open Search" }]
+    },
+    "explorationLocator": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search" }
+    },
+    "match": "PARTIAL",
+    "note": "Script uses CSS as primary, exploration used role as primary. Both strategies are valid and work. The issue is timing, not selector correctness."
+  },
+  "previousHealingAttempt": {
+    "timestamp": "2026-05-29T18:29:29.000Z",
+    "patchFile": "self-healing/patches/20260529-182929-TC-CS-021-patch.md",
+    "approach": "Added prerequisite action: click 'Open Menu' button to trigger shell bar render",
+    "status": "PATCH_NOT_IMPLEMENTED_IN_CURRENT_CODE",
+    "notes": "The previous patch recommended clicking 'Open Menu' first, but this workaround is not present in the current navigateToApp() method. The current code directly attempts to click the search button without any prep."
+  },
+  "conclusion": "Automation bug confirmed. Locators are correct. Fix the wait timeout in loc() method to handle shell bar lazy-loading."
+}

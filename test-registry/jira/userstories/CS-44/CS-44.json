@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-44",
+  "type": "Task",
+  "summary": "User Story SD-012 - Block Sales Order when customer exceeds credit limit",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Credit Controller, I want the system to block a Sales Order when the customer exceeds their credit limit, so that we minimize the risk of bad debt and enforce credit control policies before shipping pharmaceutical products.",
+  "acceptanceCriteria": "1. The user can create a Sales Order for a customer with a defined credit limit.\n2. The system performs an automatic credit check when the Sales Order is saved or released.\n3. The system calculates the customer's total credit exposure (open sales orders + open deliveries + open invoices) and compares it to the credit limit.\n4. The system blocks the Sales Order with a credit block status if the credit exposure exceeds the credit limit.\n5. The system displays a clear error message indicating the credit limit violation and shows the current credit exposure and limit.\n6. The system sends a notification to the Credit Control team when a Sales Order is blocked due to credit limit violation, allowing manual review and approval.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:39:37.918+0530",
+  "updated": "2026-08-21T14:39:38.004+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-44",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-28",
+  "type": "Task",
+  "summary": "Transfer Consignment Stock Of A High-Value Biologic From Vendor-Owned",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Warehouse Operator, I want to transfer consignment stock of a high-value biologic from vendor-owned to company-owned inventory upon usage, so that vendor liability and inventory valuation are correctly reflected.",
+  "acceptanceCriteria": "1. The user can access the \"Post Goods Movement\" Fiori app for consignment withdrawal.\n2. The system tracks consignment stock separately by vendor and batch, excluded from company-owned inventory valuation until withdrawn.\n3. Upon withdrawal for production or sale, the system automatically transfers ownership and triggers the liability posting to the vendor.\n4. The system generates a consignment settlement document listing all withdrawals for a defined settlement period.\n5. The settlement document can be used to generate the vendor's invoice verification automatically.\n6. The system maintains batch traceability throughout the consignment-to-owned stock transition.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:15.131+0530",
+  "updated": "2026-08-21T14:11:15.206+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-28",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

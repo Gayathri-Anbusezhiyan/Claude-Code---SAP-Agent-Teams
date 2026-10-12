@@ -1,0 +1,223 @@
+{
+  "userStory": "CS-21",
+  "summary": "Record A Return Delivery For A Rejected Batch Back To The Vendor",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 18,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 4,
+    "NEG": 5,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 9,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 14,
+  "testCases": [
+    {
+      "id": "TC-CS-175",
+      "title": "Record Return Delivery from Blocked Stock with Debit Memo Request",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-001"
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Record Return Delivery from Quality Inspection Stock without Debit Memo Request",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-002"
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Return Batch from Blocked Stock (Stock Type S) Validation",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-AP-001"
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Return Batch from Quality Inspection Stock (Stock Type X) Validation",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-AP-002"
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Trigger Debit Memo Request for Vendor Cost Recovery",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-AP-003"
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Skip Debit Memo Request for Manual Processing Later",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-AP-004"
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Attempt Return Delivery with Invalid or Non-existent Purchase Order Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-NEG-001"
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Attempt Return Delivery with Invalid or Non-existent Batch Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-NEG-002"
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "Attempt Return Delivery with Batch Having Zero Quantity in Restricted Stock",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-NEG-003"
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Attempt Return Delivery with Batch in Unrestricted Stock (Not Blocked or QI)",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-NEG-004"
+    },
+    {
+      "id": "TC-CS-185",
+      "title": "Attempt Return Delivery with Purchase Order Having No Goods Receipt Posted",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-NEG-005"
+    },
+    {
+      "id": "TC-CS-186",
+      "title": "Attempt Return Delivery with Missing Rejection Reason Code",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-ERR-001"
+    },
+    {
+      "id": "TC-CS-187",
+      "title": "Attempt Return Delivery with Missing Return Quantity",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-ERR-002"
+    },
+    {
+      "id": "TC-CS-188",
+      "title": "Attempt Return Delivery with Missing Purchase Order",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-ERR-003"
+    },
+    {
+      "id": "TC-CS-189",
+      "title": "Record Return Delivery with Minimum UoM Precision Return Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-EDGE-001"
+    },
+    {
+      "id": "TC-CS-190",
+      "title": "Record Return Delivery with Full Batch Quantity (Complete Return)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-021-EDGE-002"
+    },
+    {
+      "id": "TC-CS-191",
+      "title": "Attempt Return Delivery with Quantity Exceeding Available Batch Stock",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-EDGE-003"
+    },
+    {
+      "id": "TC-CS-192",
+      "title": "Attempt Return Delivery with Zero Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-021-EDGE-004"
+    }
+  ],
+  "testdataFile": "test-registry/testdata/CS-21/CS-21-testdata.json",
+  "qualityGatesStatus": {
+    "acTraceability": "PASS",
+    "hpCoverage": "PASS",
+    "apCoverage": "PASS",
+    "negCoverage": "PASS",
+    "errCoverage": "PASS",
+    "edgeCoverage": "PASS",
+    "parameterization": "PASS",
+    "automationEligibility": "PASS",
+    "negativeEntityValidation": "PASS",
+    "errorMandatoryFields": "PASS",
+    "stockTypeValidation": "PASS",
+    "financialIntegration": "PASS",
+    "documentReferenceIntegrity": "PASS",
+    "overallStatus": "ALL_GATES_PASSED"
+  }
+}

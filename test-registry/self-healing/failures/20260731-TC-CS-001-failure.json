@@ -1,0 +1,54 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "timestamp": "2026-07-31T00:00:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "LOCATOR_FAILURE",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 93,
+    "methodCall": "await purchaseOrderPage.submitPurchaseOrder()",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "pageMethodLine": 366,
+    "method": "submitPurchaseOrder",
+    "locatorName": "ORDER_BUTTON",
+    "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+    "locatorUsed": {
+      "primary": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Order",
+        "description": "Default Action"
+      },
+      "playwright": "page.getByRole('button', { name: 'Order', description: 'Default Action' })"
+    },
+    "errorMessage": "strict mode violation: getByRole('button', { name: 'Order' }) resolved to 2 elements:\n    1) <div role=\"button\" aria-label=\"Purchase Order\">...</div> aka getByRole('button', { name: 'Purchase Order' })\n    2) <button aria-describedby=\"__text18\" aria-labelledby=\"...\" /> aka getByRole('button', { name: 'Order', exact: true })",
+    "stackTrace": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\n    at PurchaseOrderPage.submitPurchaseOrder (purchase-order.page.js:366:23)"
+  },
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Order",
+        "description": "Default Action"
+      },
+      "fallbacks": [
+        {
+          "strategy": "text",
+          "value": "button:has-text('Order')"
+        }
+      ],
+      "note": "description: 'Default Action' REQUIRED to disambiguate from 'Purchase Order' title button"
+    },
+    "explorationResult": "PASS",
+    "explorationStep": 22,
+    "explorationNote": "MCP execution passed with role-based selector including description parameter",
+    "match": true,
+    "divergenceAnalysis": "Script uses same locator as exploration, but Playwright strict mode is more aggressive in test runner vs MCP. CSS text selector from fallbacks is more reliable."
+  },
+  "recommendation": "SELF_HEAL",
+  "confidence": "HIGH",
+  "notes": "Role-based selector with description parameter worked in MCP but fails in Playwright test runner due to strict mode violations. The CSS text selector 'button:has-text(\"Order\")' is more explicit and avoids the ambiguity with the shell title button. Memory entry confirms this is the most reliable selector for the Order button.",
+  "nextStep": "Patch locators.js: promote fallback CSS text selector to primary, demote role-based to fallback[0]"
+}

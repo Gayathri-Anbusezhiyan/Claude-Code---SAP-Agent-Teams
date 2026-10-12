@@ -1,0 +1,367 @@
+{
+  "userStory": "CS-44",
+  "summary": "User Story SD-012 - Block Sales Order when customer exceeds credit limit",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Credit Controller",
+  "businessObject": "Sales Order (SD-012)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Sales Order for a customer with a defined credit limit.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system performs an automatic credit check when the Sales Order is saved or released.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system calculates the customer's total credit exposure (open sales orders + open deliveries + open invoices) and compares it to the credit limit.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system blocks the Sales Order with a credit block status if the credit exposure exceeds the credit limit.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system displays a clear error message indicating the credit limit violation and shows the current credit exposure and limit.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system sends a notification to the Credit Control team when a Sales Order is blocked due to credit limit violation, allowing manual review and approval.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create SO for customer under credit limit — no block",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create SO for customer at exactly 100% credit limit — no block",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Create SO for customer exceeding credit limit — blocked with status B",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Credit check triggers on Save action",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-05",
+        "description": "Credit check triggers on Release action",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create SO for customer with zero credit limit (no credit check)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Create SO with multiple line items — total value exceeds limit — blocked",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Create SO for customer without credit limit configured — no credit check performed",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Create SO for customer not assigned to credit control area — no credit check",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to create SO with invalid customer ID",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Sold-to Party field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sold-to Party"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Order Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Order Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Zero Order Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Order Quantity"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Credit exposure at 99% of limit (just under) — no block",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "credit exposure",
+        "boundary": "just under limit"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Credit exposure at 100% of limit (exactly at) — no block",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "credit exposure",
+        "boundary": "at limit"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Credit exposure at 101% of limit (just over) — blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "credit exposure",
+        "boundary": "just over limit"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Minimum order quantity (1 unit) — credit check still performed",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "order quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Customer with zero existing exposure — first SO creation",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "credit exposure",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Credit exposure calculation includes open invoices from FI-AR",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Credit exposure calculation includes open deliveries from SD",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "INT-03",
+        "description": "Notification work item sent to Credit Control team inbox",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "INT-04",
+        "description": "Manual release by authorized Credit Controller after review",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 5,
+    "AP": 2,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 5,
+    "INT": 4,
+    "total": 23
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "customerId",
+        "label": "Sold-to Party",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP master with credit limit configured"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in SAP master"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "> 0, per UoM"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "mandatory": true,
+        "validRange": "Valid sales org assigned to company code"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "mandatory": true,
+        "validRange": "Valid channel for sales org"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "mandatory": true,
+        "validRange": "Valid division for material"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-to Party Name",
+        "trigger": "Confirm Customer ID"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "creditLimit",
+        "label": "Credit Limit",
+        "trigger": "Customer ID entered"
+      },
+      {
+        "name": "currentCreditExposure",
+        "label": "Credit Exposure",
+        "trigger": "Sales Order save/release"
+      },
+      {
+        "name": "creditControlArea",
+        "label": "Credit Control Area",
+        "trigger": "Customer ID entered"
+      },
+      {
+        "name": "creditBlockStatus",
+        "label": "Credit Block",
+        "trigger": "Credit check execution"
+      }
+    ],
+    "output": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "creditBlockIndicator",
+        "label": "Credit Block Indicator",
+        "format": "B (Blocked) or blank"
+      },
+      {
+        "name": "creditExposureValue",
+        "label": "Credit Exposure Value",
+        "format": "Decimal (2 decimals) in document currency"
+      },
+      {
+        "name": "errorMessage",
+        "label": "Error Message",
+        "format": "Text: Credit limit exceeded: Exposure {exposure} exceeds limit {limit}"
+      },
+      {
+        "name": "notificationWorkItem",
+        "label": "Notification Work Item",
+        "format": "Numeric work item ID"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured max per material",
+        "zeroInvalid": true
+      },
+      {
+        "name": "creditExposure",
+        "label": "Credit Exposure",
+        "lowerBoundary": "0",
+        "upperBoundary": "Credit Limit (at limit = allowed; over = blocked)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "creditLimit",
+        "label": "Credit Limit",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "no upper limit",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

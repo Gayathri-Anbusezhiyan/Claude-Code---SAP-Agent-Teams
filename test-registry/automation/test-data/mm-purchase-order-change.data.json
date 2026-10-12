@@ -1,0 +1,71 @@
+{
+  "feature": "mm-purchase-order-change",
+  "testData": {
+    "TC-CS-001": {
+      "description": "Change Purchase Order Quantity and Verify Save (CS-3 HP-02)",
+      "scenarioType": "HAPPY_PATH",
+      "sourceStory": "CS-3",
+      "sourceDataset": "TD-CS-003-HP-001",
+      "input": {
+        "appName": "Change Purchase Order",
+        "purchaseOrderNumber": "4500063731",
+        "newQuantity": "5",
+        "alternateQuantity": "10"
+      },
+      "expected": {
+        "successMessagePattern": "Standard PO 4500063731 changed",
+        "noChangeMessage": "No data changed",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "phase3Verification": {
+        "status": "PASS",
+        "source": "TC_MM_PO_CHANGE_001 execution — 2026-05-12"
+      }
+    },
+    "TC-CS-004": {
+      "description": "Verify Locked Fields on GR-Receipted PO (CS-3 EDGE-01)",
+      "scenarioType": "EDGE_CASE",
+      "sourceStory": "CS-3",
+      "sourceDataset": "TD-CS-003-EDGE-001",
+      "input": {
+        "appName": "Change Purchase Order",
+        "purchaseOrderNumber": "{{GR_POSTED_PO_NUMBER}}"
+      },
+      "expected": {
+        "fieldLocked": true,
+        "explanationShown": true,
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "phase3Verification": {
+        "status": "BLOCKED",
+        "reason": "GR_POSTED_PO_NUMBER placeholder unresolved — no GR-posted PO identified in test system"
+      },
+      "unresolvedPlaceholders": ["GR_POSTED_PO_NUMBER"]
+    },
+    "TC_MM_PO_CHANGE_001": {
+      "description": "Change Purchase Order - Edit PO Quantity",
+      "input": {
+        "appName": "Change Purchase Order",
+        "purchaseOrderNumber": "4500063731",
+        "newQuantity": "5",
+        "alternateQuantity": "10"
+      },
+      "expected": {
+        "successMessagePattern": "Standard PO 4500063731 changed",
+        "noChangeMessage": "No data changed",
+        "poType": "Standard PO",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff",
+        "signOutPageText": "You have been logged off"
+      },
+      "scriptlessVerification": {
+        "sources": [
+          "test-results/scriptless/2026-04-15T11-12-00/execution-data.json",
+          "test-results/scriptless/2026-04-16T06-00-00/execution-data.json"
+        ],
+        "poNumber": "4500063731",
+        "poQuantityFinal": "10",
+        "successMessage": "Standard PO 4500063731 changed"
+      }
+    }
+  }
+}

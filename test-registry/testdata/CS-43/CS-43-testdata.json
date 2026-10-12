@@ -1,0 +1,233 @@
+{
+  "userStory": "CS-43",
+  "module": "SD",
+  "feature": "Customer Master Data Management",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login email step",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login password step"
+  },
+  "testDataSets": {
+    "TD-CS-043-001": {
+      "id": "TD-CS-043-001",
+      "name": "Valid Customer Master — Full Data with Credit Limit and Regulatory License",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "creditLimit": "{{CREDIT_LIMIT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "creditControlArea": "{{CREDIT_CONTROL_AREA}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "Customer Master created with unique customer number; status Active; credit limit and regulatory license correctly stored"
+    },
+    "TD-CS-043-NEG-001": {
+      "id": "TD-CS-043-NEG-001",
+      "name": "Invalid Regulatory License Classification",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "creditLimit": "{{CREDIT_LIMIT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "invalidRegulatoryLicense": "{{REGULATORY_LICENSE_INVALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "creditControlArea": "{{CREDIT_CONTROL_AREA}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Regulatory License Classification is invalid or does not exist; Customer Master NOT created"
+    },
+    "TD-CS-043-NEG-002": {
+      "id": "TD-CS-043-NEG-002",
+      "name": "Non-Existent Sales Organization",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "creditLimit": "{{CREDIT_LIMIT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "invalidSalesOrganization": "{{SALES_ORGANIZATION_INVALID}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Sales Organization does not exist or is not valid; Customer Master NOT created"
+    },
+    "TD-CS-043-NEG-003": {
+      "id": "TD-CS-043-NEG-003",
+      "name": "Invalid Credit Control Area — Company Code Not Linked",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "creditLimit": "{{CREDIT_LIMIT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "invalidCompanyCode": "{{COMPANY_CODE_INVALID}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "SAP displays validation error: Company Code does not exist OR is not linked to a Credit Control Area; Customer Master NOT created"
+    },
+    "TD-CS-043-ERR-001": {
+      "id": "TD-CS-043-ERR-001",
+      "name": "Missing Mandatory Field — Customer Name",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "customerName": "",
+        "emptyValue": "",
+        "creditLimit": "{{CREDIT_LIMIT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "note": "customerName intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Customer Name field as mandatory; prevents submission"
+    },
+    "TD-CS-043-ERR-002": {
+      "id": "TD-CS-043-ERR-002",
+      "name": "Missing Mandatory Field — Credit Limit",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "creditLimit": "",
+        "emptyValue": "",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "note": "creditLimit intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Credit Limit field as mandatory; prevents submission"
+    },
+    "TD-CS-043-ERR-003": {
+      "id": "TD-CS-043-ERR-003",
+      "name": "Missing Mandatory Field — Regulatory License Classification",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "creditLimit": "{{CREDIT_LIMIT_STANDARD}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "",
+        "emptyValue": "",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "note": "regulatoryLicense intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Regulatory License Classification field as mandatory; prevents submission"
+    },
+    "TD-CS-043-EDGE-001": {
+      "id": "TD-CS-043-EDGE-001",
+      "name": "Zero Credit Limit — Boundary Test",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "zeroCreditLimit": "0",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "creditControlArea": "{{CREDIT_CONTROL_AREA}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "Outcome depends on SAP configuration: EITHER Customer Master created with zero credit (COD scenario) OR validation error displayed rejecting zero credit limit"
+    },
+    "TD-CS-043-EDGE-002": {
+      "id": "TD-CS-043-EDGE-002",
+      "name": "Maximum Credit Limit — Upper Boundary Test",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "maxCreditLimit": "{{CREDIT_LIMIT_MAX}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "creditControlArea": "{{CREDIT_CONTROL_AREA}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "Customer Master created successfully with maximum credit limit; no overflow or truncation errors"
+    },
+    "TD-CS-043-EDGE-003": {
+      "id": "TD-CS-043-EDGE-003",
+      "name": "Minimum Valid Credit Limit — Lower Boundary Test",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "minCreditLimit": "{{CREDIT_LIMIT_MIN}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "regulatoryLicense": "{{REGULATORY_LICENSE_VALID}}",
+        "salesOrganization": "{{SALES_ORGANIZATION_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "creditControlArea": "{{CREDIT_CONTROL_AREA}}",
+        "country": "{{COUNTRY_CODE}}",
+        "customerAccountGroup": "{{CUSTOMER_ACCOUNT_GROUP}}"
+      },
+      "expectedOutcome": "Customer Master created successfully with minimum valid credit limit; no rounding to zero or precision loss"
+    }
+  },
+  "allPlaceholders": [
+    "{{CUSTOMER_NAME_VALID}}",
+    "{{CREDIT_LIMIT_STANDARD}}",
+    "{{CREDIT_LIMIT_MIN}}",
+    "{{CREDIT_LIMIT_MAX}}",
+    "{{CURRENCY_CODE}}",
+    "{{REGULATORY_LICENSE_VALID}}",
+    "{{REGULATORY_LICENSE_INVALID}}",
+    "{{SALES_ORGANIZATION_CODE}}",
+    "{{SALES_ORGANIZATION_INVALID}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}",
+    "{{COMPANY_CODE}}",
+    "{{COMPANY_CODE_INVALID}}",
+    "{{CREDIT_CONTROL_AREA}}",
+    "{{COUNTRY_CODE}}",
+    "{{CUSTOMER_ACCOUNT_GROUP}}"
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "userStory": "CS-38",
+  "summary": "Maintain Rebate Agreements For Group Purchasing Organization (Gpo) Con",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:30:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 23,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 3,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 7,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 3,
+    "HIGH": 14,
+    "MEDIUM": 6,
+    "LOW": 0
+  },
+  "automationCandidates": 18,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-038",
+      "title": "Create and Activate GPO Rebate Agreement with Mandatory Fields",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-001"
+    },
+    {
+      "id": "TC-CS-039",
+      "title": "Create Rebate Agreement with Material-Specific Scope (Single Material)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-002"
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Create Rebate Agreement with Material Group Scope",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-003"
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Create Rebate Agreement with Multiple Materials in Agreement Scope",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-AP-001"
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Create Rebate Agreement with Volume-Based Rebate Basis",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-AP-002"
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Create Rebate Agreement with Percentage-Based Rebate Rate",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-AP-003"
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Attempt to Create Rebate Agreement with Customer NOT Assigned to Any GPO",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-NEG-001"
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to Create Rebate Agreement with Non-Existent Material Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-038-NEG-002"
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Attempt to Create Rebate Agreement with Invalid Sales Organization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-NEG-003"
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Attempt to Create Rebate Agreement with Invalid Condition Type",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-NEG-004"
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Attempt to Submit Rebate Agreement with Sales Organization Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-ERR-001"
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Attempt to Submit Rebate Agreement with Customer Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-ERR-002"
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Attempt to Submit Rebate Agreement with Condition Type Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-ERR-003"
+    },
+    {
+      "id": "TC-CS-051",
+      "title": "Attempt to Submit Rebate Agreement with Validity Start Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-ERR-004"
+    },
+    {
+      "id": "TC-CS-052",
+      "title": "Create Rebate Agreement with Minimum Rebate Rate Boundary (0.01%)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-001"
+    },
+    {
+      "id": "TC-CS-053",
+      "title": "Create Rebate Agreement with Maximum Rebate Rate Boundary (100.00%)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-002"
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Attempt to Create Rebate Agreement with Zero Rebate Rate",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-003"
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Attempt to Create Rebate Agreement with Negative Rebate Rate",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-004"
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Create Rebate Agreement with Validity Start Date Equal to Today",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-005"
+    },
+    {
+      "id": "TC-CS-057",
+      "title": "Attempt to Create Rebate Agreement with Validity End Date Equal to Start Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-006"
+    },
+    {
+      "id": "TC-CS-058",
+      "title": "Attempt to Create Rebate Agreement with Validity End Date Before Start Date",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-038-EDGE-007"
+    },
+    {
+      "id": "TC-CS-059",
+      "title": "Verify Automatic Rebate Accrual When Sales Order is Created for GPO Customer",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-038-INT-001"
+    },
+    {
+      "id": "TC-CS-060",
+      "title": "Verify FI Posting of Accrued Rebate Amounts at Period End",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-038-INT-002"
+    }
+  ],
+  "testdataFile": "testdata/CS-38/CS-38-testdata.json"
+}

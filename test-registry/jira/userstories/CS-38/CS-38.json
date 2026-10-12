@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-38",
+  "type": "Task",
+  "summary": "Maintain Rebate Agreements for GPO contracts",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Contract Administrator, I want to maintain Rebate Agreements for Group Purchasing Organization (GPO) contracts, so that member hospitals and pharmacies receive the correct volume-based rebates at the end of each contract period.",
+  "acceptanceCriteria": "1. The user can create a Rebate Agreement specifying the GPO contract number, validity period, and eligible customers (GPO members).\n2. The system allows the user to define rebate tiers based on cumulative purchase volume (e.g., 2% rebate for 0-10,000 units, 4% rebate for 10,001-50,000 units).\n3. The system automatically accrues rebate amounts for each eligible customer based on their cumulative purchases during the contract period.\n4. The system provides a report showing cumulative purchases and accrued rebates for each GPO member.\n5. The user can process a rebate settlement at the end of the contract period, generating credit memos or rebate payments for eligible customers.\n6. The system prevents retroactive changes to rebate tiers after the settlement has been processed.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:34:17.914+0530",
+  "updated": "2026-08-21T14:34:18.000+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-38",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

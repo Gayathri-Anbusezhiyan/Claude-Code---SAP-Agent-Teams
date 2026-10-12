@@ -1,0 +1,322 @@
+{
+  "userStory": "CS-34",
+  "summary": "User Story SD-002 - Customer pharmacy/wholesaler license validation before order release",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Sales Order Processor",
+  "businessObject": "Sales Order (with pharmaceutical customer license validation)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Sales Order for a pharmaceutical customer.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system checks the customer master record for the presence of a valid pharmacy/wholesaler license number and expiration date.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system blocks release of the Sales Order if the license is missing, expired, or within a configurable warning period (e.g., 30 days before expiration).",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA", "DT"],
+      "scenarioTypesRequired": ["NEG", "EDGE", "HP"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-4",
+      "text": "The system displays a clear error message indicating the license validation failure and provides the license expiration date.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The user can override the block with appropriate authorization (e.g., for emergency/compassionate use orders).",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["AP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system logs all license validation checks and overrides for audit purposes.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Sales Order for pharmaceutical customer with valid license (beyond warning period) and successfully release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create Sales Order for pharmaceutical customer with valid license, release, verify audit log captures validation check",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Authorized user overrides license block (expired or warning period) with valid reason and successfully releases Sales Order",
+        "risk": "HIGH",
+        "acIds": ["AC-5", "AC-6"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Sales Order release blocked due to warning period, authorized override performed, audit log captures override action and reason",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to release Sales Order for customer with missing license number — system blocks release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to release Sales Order for customer with missing license expiration date — system blocks release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to release Sales Order for customer with expired license (expiration date < current date) — system blocks release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to release Sales Order for customer with license expiring within warning period (e.g., 15 days remaining, threshold = 30 days) — system blocks release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Unauthorized user attempts to override license block — system rejects override",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Authorized user attempts override without providing override reason — system rejects or logs incomplete override",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5", "AC-6"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "System displays error message for missing license number with expiration date placeholder",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "ERR-02",
+        "description": "System displays error message for expired license with actual expiration date shown",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "ERR-03",
+        "description": "System displays error message for license in warning period with expiration date and days remaining shown",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "ERR-04",
+        "description": "Unauthorized override attempt displays authorization error message",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "License expiration date = current date (boundary: expired on the day)",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "licenseExpirationDate",
+        "boundary": "equal-to-current-date"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "License expiration date = current date + warning threshold (boundary: first day of warning period)",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "licenseExpirationDate",
+        "boundary": "warning-period-start"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "License expiration date = current date + warning threshold + 1 day (boundary: last day before warning period)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "licenseExpirationDate",
+        "boundary": "warning-period-boundary"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Warning period configured as 0 days (only expired licenses blocked, no advance warning)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "warningPeriodDays",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Warning period configured at maximum (e.g., 90 days)",
+        "risk": "LOW",
+        "acIds": ["AC-3"],
+        "parameter": "warningPeriodDays",
+        "boundary": "upper"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 6,
+    "ERR": 4,
+    "EDGE": 5,
+    "INT": 0,
+    "total": 19
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "customerId",
+        "label": "Sold-to Party",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP master with pharmaceutical classification"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in SAP master"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": ">= 1"
+      },
+      {
+        "name": "releaseAction",
+        "label": "Release",
+        "mandatory": true,
+        "validRange": "User initiates release transaction"
+      },
+      {
+        "name": "overrideReason",
+        "label": "Override Reason / Comments",
+        "mandatory": false,
+        "validRange": "Free text explaining emergency/compassionate use (mandatory if override performed)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-to Party Name",
+        "trigger": "Confirm Customer ID"
+      },
+      {
+        "name": "licenseNumber",
+        "label": "Pharmacy/Wholesaler License Number",
+        "trigger": "Confirm Customer ID"
+      },
+      {
+        "name": "licenseExpirationDate",
+        "label": "License Expiration Date",
+        "trigger": "Confirm Customer ID"
+      },
+      {
+        "name": "licenseStatus",
+        "label": "License Status (Valid/Expired/Warning)",
+        "trigger": "Trigger release action"
+      },
+      {
+        "name": "warningPeriodThreshold",
+        "label": "License Warning Days",
+        "trigger": "System configuration"
+      }
+    ],
+    "output": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "releaseStatus",
+        "label": "Release Status",
+        "format": "Released / Blocked"
+      },
+      {
+        "name": "errorMessage",
+        "label": "Error Message",
+        "format": "Text: 'License validation failed: [reason]. Expiration date: [date].'"
+      },
+      {
+        "name": "auditLogEntry",
+        "label": "Audit Log Entry",
+        "format": "Timestamp, User, Customer, License Status, Action (Released/Blocked/Overridden), Override Reason"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "licenseExpirationDate",
+        "label": "License Expiration Date",
+        "lowerBoundary": "Current date (expired if <= today)",
+        "upperBoundary": "No upper limit",
+        "zeroInvalid": false
+      },
+      {
+        "name": "warningPeriodDays",
+        "label": "Warning Period Days",
+        "lowerBoundary": "0",
+        "upperBoundary": "System-configured maximum (e.g., 90 days)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "System-configured maximum",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

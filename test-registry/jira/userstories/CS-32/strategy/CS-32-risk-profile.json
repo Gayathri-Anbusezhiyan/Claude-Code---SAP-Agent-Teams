@@ -1,0 +1,250 @@
+{
+  "userStory": "CS-32",
+  "summary": "Move Expired Batches To A Designated Blocked Storage Location Automati",
+  "module": "MM",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Warehouse Operator",
+  "businessObject": "Batch / Stock (inventory batch with expiration date)",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Stock\" Fiori app or a scheduled background job for expiration monitoring.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system runs a daily background check comparing batch expiration dates to the current date.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "Batches identified as expired are automatically restricted from unrestricted-use stock.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system generates a notification to the Warehouse and QA teams listing newly expired batches.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "An authorized user must complete a disposition (destroy, return, rework) before the batch can be removed from blocked status.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system maintains a report of all expired batch dispositions for regulatory audit.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Daily background job detects expired batch and automatically moves to blocked storage location with notification sent",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Authorized QA user completes disposition (Destroy/Return/Rework) and batch cleared from blocked status with audit entry created",
+        "risk": "HIGH",
+        "acIds": ["AC-5", "AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Background job fails to run (schedule error, system down, job variant missing) — expired batches not detected",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Notification generation fails (recipient configuration error, email service down) — teams not alerted",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Unauthorized user attempts disposition — system rejects with authorization error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing disposition decision — batch remains blocked indefinitely",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Disposition Decision"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Batch expiring today (same-day boundary) — system must detect and restrict on same day",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "expirationDate",
+        "boundary": "same-day"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Batch with zero quantity (already fully consumed before expiration) — no stock to move",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Batch expiration date in past (already expired before job ran) — backlog processing",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "expirationDate",
+        "boundary": "past"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 1,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 9
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch in SAP (MCHA table)"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date",
+        "mandatory": true,
+        "validRange": "Must be maintained in batch master (MCHA-VFDAT)"
+      },
+      {
+        "name": "dispositionDecision",
+        "label": "Disposition Type",
+        "mandatory": true,
+        "validRange": "Destroy / Return to Vendor / Rework"
+      },
+      {
+        "name": "dispositionUser",
+        "label": "User ID",
+        "mandatory": true,
+        "validRange": "User with QA disposition authorization"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "trigger": "Batch selected"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Material number populated"
+      },
+      {
+        "name": "currentStockQuantity",
+        "label": "Stock Quantity",
+        "trigger": "Batch selected"
+      },
+      {
+        "name": "currentStorageLocation",
+        "label": "Storage Location",
+        "trigger": "Batch selected"
+      },
+      {
+        "name": "blockedStorageLocation",
+        "label": "Blocked Storage Loc",
+        "trigger": "Warehouse config lookup"
+      },
+      {
+        "name": "batchStatus",
+        "label": "Status",
+        "trigger": "After restriction applied"
+      }
+    ],
+    "output": [
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document Number",
+        "format": "10-digit numeric (SAP material document MKPF-MBLNR)"
+      },
+      {
+        "name": "notificationId",
+        "label": "Notification ID",
+        "format": "Alphanumeric notification number"
+      },
+      {
+        "name": "auditReportEntry",
+        "label": "Audit Report Entry",
+        "format": "JSON or table row in audit report (timestamp, batch, material, qty, disposition, user)"
+      },
+      {
+        "name": "batchRestrictedQuantity",
+        "label": "Batch Restricted Quantity",
+        "format": "Numeric with UoM"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date",
+        "lowerBoundary": "Today (same-day expiry)",
+        "upperBoundary": "Past date (already expired)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "batchQuantity",
+        "label": "Batch Quantity",
+        "lowerBoundary": "Minimum handling unit (e.g., 1 KG)",
+        "upperBoundary": "Maximum stock level per batch",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

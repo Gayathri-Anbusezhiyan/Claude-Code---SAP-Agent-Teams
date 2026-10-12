@@ -1,0 +1,76 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "capturedAt": "2026-05-21T10:24:00.000Z",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-21 v6)",
+  "locators": {
+    "openSearchButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search" },
+      "fallbacks": [{ "strategy": "css", "value": "[title='Open Search']" }]
+    },
+    "searchInput": {
+      "primary": { "strategy": "role", "value": "searchbox", "name": "Search" },
+      "fallbacks": [{ "strategy": "css", "value": "input[type='search']" }]
+    },
+    "createPOButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "Create PO" },
+      "fallbacks": []
+    },
+    "supplierField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Supplier", "options": { "exact": true } },
+      "fallbacks": [{ "strategy": "css", "value": "input[id*='Supplier'][type='text']" }]
+    },
+    "itemsCreateButton": {
+      "primary": { "strategy": "composite", "value": "page.getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')" },
+      "fallbacks": []
+    },
+    "materialField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Material", "options": { "exact": true } },
+      "fallbacks": []
+    },
+    "orderQuantityField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Order Quantity", "options": { "exact": true } },
+      "fallbacks": []
+    },
+    "netOrderPriceField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Net Order Price" },
+      "fallbacks": []
+    },
+    "plantField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Plant", "options": { "exact": true } },
+      "fallbacks": []
+    },
+    "orderButton": {
+      "primary": { "strategy": "css", "value": "button:has-text('Order')" },
+      "fallbacks": [{ "strategy": "role", "value": "button", "name": "Order" }]
+    },
+    "userProfileButton": {
+      "primary": { "strategy": "css", "value": "button[id*='meAreaButton']" },
+      "fallbacks": [{ "strategy": "role", "value": "button", "name": "Profile" }]
+    },
+    "signOutMenuItem": {
+      "primary": { "strategy": "css", "value": "[id$='-logoutBtn']" },
+      "fallbacks": [{ "strategy": "text", "value": "Sign Out" }]
+    },
+    "signOutOKButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "OK" },
+      "fallbacks": []
+    },
+    "successAlert": {
+      "primary": { "strategy": "role", "value": "alert" },
+      "fallbacks": [{ "strategy": "css", "value": "[role='alert']" }],
+      "note": "After Order: contains 'Purchase order has been created.' WITHOUT PO number — this is the defect"
+    }
+  },
+  "explorationNotes": [
+    "orderQuantityField requires exact:true — label 'Order Quantity' appears in composite field 'Order Quantity Order Unit'",
+    "itemsCreateButton: use toolbar('Items', exact:true).getByLabel('Create') — avoids ambiguity with other Create buttons (Approval, Limit Items)",
+    "signOutMenuItem ID format: [id$='-logoutBtn'] — dynamic prefix per session (e.g. __list87-8-logoutBtn)",
+    "Guided Tour dialog appears on every fresh login session — always dismiss with 'Leave Tour' before proceeding",
+    "After clicking Order: SAP navigates to PO list page. Success confirmation is role=alert 'Purchase order has been created.' — no PO number in alert",
+    "Plant field must be entered manually — NOT auto-populated by supplier or material selection",
+    "Nav menu opens inadvertently when clicking first shell bar button — use 'Open Search' button label not positional ref"
+  ]
+}

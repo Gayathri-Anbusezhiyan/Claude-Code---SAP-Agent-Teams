@@ -1,0 +1,49 @@
+{
+  "feature": "mm-purchase-requisition",
+  "testData": {
+    "TC_MM_PR_001": {
+      "description": "Create Purchase Requisition - Advanced",
+      "input": {
+        "appName": "Create purchase Requestion - Advanced",
+        "material": "RMPI001",
+        "plant": "1710",
+        "quantity": "5"
+      },
+      "expected": {
+        "prNumberPattern": "^\\d{10}$",
+        "successMessagePattern": "Purchase requisition.*\\d{10}.*created",
+        "signOutPageText": "You have been logged off",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "notes": "Generated from test case specification. Material and plant auto-populate fields after entering material."
+    },
+    "TC_MM_PR_002": {
+      "description": "Change Purchase Requisition",
+      "input": {
+        "appName": "Display Purchase - Requisitions",
+        "prNumber": "0010006092",
+        "newQuantity": "10"
+      },
+      "expected": {
+        "successMessagePattern": "Purchase requisition.*0010006092.*changed",
+        "signOutPageText": "You have been logged off",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "notes": "Uses existing PR number. Quantity is editable in Change mode via Display/Change tab."
+    },
+    "TC_MM_PR_003": {
+      "description": "Display Purchase Requisition",
+      "input": {
+        "appName": "Display Purchase - Requisitions",
+        "prNumber": "0010006092"
+      },
+      "expected": {
+        "prTitleContains": "0010006092",
+        "isReadOnly": true,
+        "signOutPageText": "You have been logged off",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "notes": "Read-only view. PR details visible but not editable without switching to Display/Change tab."
+    }
+  }
+}

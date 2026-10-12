@@ -1,0 +1,333 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "tenant": "my426318.s4hana.cloud.sap",
+  "exploredAt": "2026-07-31T07:51:55.000Z",
+  "executionStatus": "PASS",
+  "poNumber": "4500066976",
+  "locators": {
+    "login": {
+      "emailInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Email, User ID or Login Name"
+        },
+        "ref": "f2e29",
+        "playwright": "page.getByRole('textbox', { name: 'Email, User ID or Login Name' })"
+      },
+      "continueButtonEmail": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Continue"
+        },
+        "ref": "f2e35",
+        "playwright": "page.getByRole('button', { name: 'Continue' })"
+      },
+      "passwordInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Password"
+        },
+        "ref": "f3e37",
+        "playwright": "page.getByRole('textbox', { name: 'Password' })"
+      },
+      "continueButtonPassword": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Continue"
+        },
+        "ref": "f3e56",
+        "playwright": "page.getByRole('button', { name: 'Continue' })"
+      }
+    },
+    "fioriHome": {
+      "guidedTourDialog": {
+        "primary": {
+          "strategy": "role",
+          "role": "dialog"
+        },
+        "heading": "Start Guided Tour",
+        "ref": "f7e709",
+        "dismissMethod": "Press Escape key",
+        "playwright": "page.keyboard.press('Escape')"
+      },
+      "openSearchButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Open Search"
+        },
+        "ref": "f7e50",
+        "playwright": "page.getByRole('button', { name: 'Open Search' })"
+      },
+      "searchCombobox": {
+        "primary": {
+          "strategy": "role",
+          "role": "combobox",
+          "name": "Search",
+          "exact": true
+        },
+        "ref": "f7e693",
+        "playwright": "page.getByRole('combobox', { name: 'Search', exact: true })"
+      },
+      "searchResultRow": {
+        "primary": {
+          "strategy": "role",
+          "role": "row",
+          "name": "Manage Purchase Orders"
+        },
+        "ref": "f7e841",
+        "playwright": "page.getByRole('row', { name: 'Manage Purchase Orders' })"
+      }
+    },
+    "managePurchaseOrders": {
+      "createButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Create"
+        },
+        "ref": "f7e1280",
+        "playwright": "page.getByRole('button', { name: 'Create' })"
+      },
+      "supplierInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Supplier"
+        },
+        "ref": "f7e3264",
+        "playwright": "page.getByRole('textbox', { name: 'Supplier' })",
+        "autoPopulates": ["Purchasing Group", "Purchasing Organization", "Company Code"]
+      },
+      "currencyInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Currency"
+        },
+        "ref": "f7e3273",
+        "playwright": "page.getByRole('textbox', { name: 'Currency' })"
+      },
+      "purchasingGroupInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Purchasing Group"
+        },
+        "ref": "f7e3292",
+        "autoPopulatedValue": "Group 001 (001)",
+        "playwright": "page.getByRole('textbox', { name: 'Purchasing Group' })"
+      },
+      "purchasingOrgInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Purchasing Organization"
+        },
+        "ref": "f7e3301",
+        "autoPopulatedValue": "Purch. Org. 1710 (1710)",
+        "playwright": "page.getByRole('textbox', { name: 'Purchasing Organization' })"
+      },
+      "companyCodeInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Company Code"
+        },
+        "ref": "f7e3310",
+        "autoPopulatedValue": "Velotics Inc. (1710)",
+        "playwright": "page.getByRole('textbox', { name: 'Company Code' })"
+      }
+    },
+    "itemsSection": {
+      "itemsCreateButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Create"
+        },
+        "context": "Items toolbar",
+        "ref": "f7e2728",
+        "playwright": "page.getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')"
+      },
+      "materialInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Material",
+          "exact": true
+        },
+        "ref": "f7e3504",
+        "playwright": "page.getByRole('textbox', { name: 'Material', exact: true })",
+        "autoPopulates": ["Short Text", "Unit of Measure"]
+      },
+      "shortTextInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Short Text"
+        },
+        "ref": "f7e3513",
+        "playwright": "page.getByRole('textbox', { name: 'Short Text' })"
+      },
+      "materialGroupInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Material Group"
+        },
+        "ref": "f7e3520",
+        "playwright": "page.getByRole('textbox', { name: 'Material Group' })"
+      },
+      "plantInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Plant"
+        },
+        "ref": "f7e3529",
+        "playwright": "page.getByRole('textbox', { name: 'Plant' })"
+      },
+      "orderQuantityInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Order Quantity",
+          "exact": true
+        },
+        "ref": "f7e3540",
+        "playwright": "page.getByRole('textbox', { name: 'Order Quantity', exact: true })"
+      },
+      "orderUnitInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Order Unit Order Quantity"
+        },
+        "ref": "f7e3545",
+        "autoPopulatedValue": "KG",
+        "playwright": "page.getByRole('textbox', { name: 'Order Unit Order Quantity' })"
+      },
+      "netOrderPriceInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Net Order Price"
+        },
+        "ref": "f7e3556",
+        "playwright": "page.getByRole('textbox', { name: 'Net Order Price' })"
+      },
+      "priceUnitInput": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Price Unit"
+        },
+        "ref": "f7e3570",
+        "playwright": "page.getByRole('textbox', { name: 'Price Unit' })"
+      }
+    },
+    "footer": {
+      "orderButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Order",
+          "description": "Default Action"
+        },
+        "ref": "f7e2970",
+        "playwright": "page.getByRole('button', { name: 'Order', description: 'Default Action' })"
+      },
+      "discardDraftButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Discard Draft"
+        },
+        "ref": "f7e2973",
+        "playwright": "page.getByRole('button', { name: 'Discard Draft' })"
+      },
+      "messagesButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Messages"
+        },
+        "ref": "f7e3756",
+        "playwright": "page.getByRole('button', { name: 'Messages' })"
+      }
+    },
+    "userMenu": {
+      "avatarButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Avatar T0U"
+        },
+        "ref": "f7e60",
+        "playwright": "page.getByRole('button', { name: 'Avatar T0U' })"
+      },
+      "signOutButton": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Sign Out"
+        },
+        "ref": "f7e4486",
+        "playwright": "page.getByRole('button', { name: 'Sign Out' })"
+      },
+      "signOutConfirmOK": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "OK"
+        },
+        "ref": "f7e4515",
+        "playwright": "page.getByRole('button', { name: 'OK' })"
+      }
+    }
+  },
+  "explorationNotes": [
+    "Tenant: my426318.s4hana.cloud.sap (updated from my429998)",
+    "Guided Tour dialog appears on first login - dismiss with Escape key",
+    "Search box requires exact match: getByRole('combobox', { name: 'Search', exact: true })",
+    "Items Create button context: must use toolbar context to disambiguate from header Create",
+    "Material input: exact:true required to distinguish from Material Group",
+    "Order Quantity: exact:true required to distinguish from composite label",
+    "Order button: description:'Default Action' required to disambiguate from header 'Purchase Order' button",
+    "Supplier auto-populates: Purchasing Group (001), Purchasing Org (1710), Company Code (1710)",
+    "Material auto-populates: Short Text, Unit of Measure (KG)",
+    "Net Order Value calculated automatically: 10 × 0.08 = 0.80 USD",
+    "PO submission: URL changes from IsActiveEntity=false to IsActiveEntity=true",
+    "Success indicator: Page title changes to '{PO_NUMBER} (Standard PO) - Purchase Order'",
+    "Sign out: Confirmation dialog with OK/Cancel buttons"
+  ],
+  "testData": {
+    "supplierId": "17300002",
+    "supplierName": "Carbon Tec Inc.",
+    "materialId": "RMPI001",
+    "materialDesc": "Input 1 (WATER)",
+    "uom": "KG",
+    "quantity": "10",
+    "price": "0.08",
+    "currency": "USD",
+    "plant": "1710",
+    "purchasingOrg": "1710",
+    "purchasingGroup": "001",
+    "companyCode": "1710",
+    "netOrderValue": "0.80"
+  },
+  "urlPatterns": {
+    "fioriHome": "#Shell-home",
+    "managePOList": "#PurchaseOrder-manage",
+    "poCreation": "#PurchaseOrder-manage&/C_PurchaseOrderTP(PurchaseOrder='',DraftUUID=guid'{GUID}',IsActiveEntity=false)",
+    "poDisplay": "#PurchaseOrder-manage&/C_PurchaseOrderTP(PurchaseOrder='{PO_NUMBER}',DraftUUID=guid'00000000-0000-0000-0000-000000000000',IsActiveEntity=true)"
+  }
+}

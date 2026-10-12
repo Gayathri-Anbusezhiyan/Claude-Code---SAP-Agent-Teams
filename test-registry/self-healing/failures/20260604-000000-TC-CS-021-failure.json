@@ -1,0 +1,82 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-06-04T00:00:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "LOCATOR_FAILURE",
+  "underlyingIssue": "TIMEOUT_ERROR",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 268,
+    "methodCall": "purchaseOrderPage fixture initialization → navigateToApp()",
+    "method": "navigateToApp",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "pageMethodLine": 153,
+    "locatorName": "shellBar.searchButton",
+    "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+    "locatorLine": "51-57",
+    "locatorUsed": {
+      "primary": {
+        "strategy": "css",
+        "value": "[title=\"Open Search\"]"
+      },
+      "fallbacks": [
+        {
+          "strategy": "role",
+          "role": "button",
+          "name": "Open Search"
+        }
+      ]
+    },
+    "errorMessage": "All locator strategies failed for: shellBar.searchButton",
+    "stackTrace": "at PurchaseOrderPage.loc (purchase-order.page.js:61)\n    at PurchaseOrderPage.navigateToApp (purchase-order.page.js:153)\n    at Object.purchaseOrderPage (purchase-order.fixtures.js:46)",
+    "timeout": "120000ms (test timeout) — loc() method timeout 15000ms for primary, 8000ms for fallbacks"
+  },
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": {
+        "strategy": "role",
+        "value": "button",
+        "name": "Open Search"
+      },
+      "fallbacks": [
+        {
+          "strategy": "css",
+          "value": "[title='Open Search']"
+        }
+      ]
+    },
+    "scriptLocator": {
+      "primary": {
+        "strategy": "css",
+        "value": "[title=\"Open Search\"]"
+      },
+      "fallbacks": [
+        {
+          "strategy": "role",
+          "role": "button",
+          "name": "Open Search"
+        }
+      ]
+    },
+    "match": false,
+    "note": "Exploration captured role as primary, CSS as fallback. Script has them REVERSED. Exploration preferred role strategy, but script generation used CSS as primary."
+  },
+  "priorHealingAttempts": [
+    {
+      "timestamp": "2026-05-29T18:29:29.000Z",
+      "changeType": "INTERACTION_UPDATE",
+      "resolution": "Added prerequisite 'Open Menu' click before 'Open Search' to trigger shell bar render"
+    },
+    {
+      "timestamp": "2026-06-02T10:50:00.000Z",
+      "changeType": "WAIT_UPDATE",
+      "resolution": "Increased loc() timeout: primary 5000ms → 15000ms, fallbacks 3000ms → 8000ms"
+    }
+  ],
+  "recommendation": "SELF_HEAL",
+  "confidence": "HIGH",
+  "notes": "Shell bar search button is lazy-loaded after SAP Fiori login redirect. Two prior patches applied (prerequisite Open Menu click + increased timeout to 15s) but test still fails. Possible causes: (1) Open Menu prerequisite not being executed, (2) SAP shell bar taking >15s to render, (3) Another popup/blocker preventing shell bar visibility, (4) Role locator more stable than CSS title attribute. Re-execution via MCP required to determine actual state and load time.",
+  "rootCauseHypothesis": "TIMING_ISSUE — Shell bar lazy-loading timing exceeds current 15s timeout, OR prerequisite Open Menu step not executing, OR popup blocker interfering",
+  "nextStep": "Run /re-execute-scriptless TC-CS-021 to capture actual shell bar load behavior and confirm working locator strategy"
+}

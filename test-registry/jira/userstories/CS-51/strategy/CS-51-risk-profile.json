@@ -1,0 +1,323 @@
+{
+  "userStory": "CS-51",
+  "summary": "Perform A Goods Issue (Backflush) Of Raw Material Batches To A Process",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Operator",
+  "businessObject": "Process Order / Goods Movement / Batch Inventory Record",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Confirm Process Order\" or \"Post Goods Movement\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically proposes the batch(es) to be consumed based on FEFO logic for backflushed components.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system prevents consumption of a batch that is on quality hold or has expired.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "Consumed batch numbers are automatically recorded against the process order's batch record for genealogy purposes.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system displays a warning if a substitute batch must be selected due to insufficient primary batch quantity.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["AP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The transaction updates inventory in real time upon confirmation.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Confirm process order with single batch consumption (FEFO-proposed batch has exact quantity)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Confirm process order with yield quantity that triggers consumption of primary batch (FEFO logic)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Confirm process order requiring multiple batches (primary batch insufficient, substitute batch auto-selected with warning)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Manually override FEFO-proposed batch and select a different valid batch",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-4", "AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to consume a batch on quality hold (QI blocked)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to consume an expired batch (SLED < system date)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Process Order Number field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Process Order Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Yield Quantity field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Yield Quantity"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Posting Date field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Posting Date"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Process Order in incorrect status (e.g., \"Locked\", \"Closed\")",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Process Order Status"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum yield quantity (0.001 per UoM)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-6"],
+        "parameter": "Yield Quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Batch available quantity exactly matches required quantity (boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-5"],
+        "parameter": "Batch Available Quantity",
+        "boundary": "exact"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Batch expiration date is today (SLED = system date)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "parameter": "Shelf Life Expiration Date",
+        "boundary": "boundary"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Zero available quantity for FEFO-proposed batch (triggers immediate substitute)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-5"],
+        "parameter": "Batch Available Quantity",
+        "boundary": "zero"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 2,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 0,
+    "total": 14
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "processOrderNumber",
+        "label": "Order",
+        "dataType": "Alphanumeric (12 chars)",
+        "mandatory": true,
+        "validRange": "Existing Process Order in Released/In Process status"
+      },
+      {
+        "name": "yieldQuantity",
+        "label": "Yield",
+        "dataType": "Numeric (decimal)",
+        "mandatory": true,
+        "validRange": "> 0, per UoM"
+      },
+      {
+        "name": "postingDate",
+        "label": "Posting Date",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Valid SAP posting period, not in future"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric (4 chars)",
+        "mandatory": true,
+        "validRange": "Valid plant code from org structure"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "dataType": "Alphanumeric (4 chars)",
+        "mandatory": false,
+        "validRange": "Valid SLoc for batch-managed material"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "componentMaterial",
+        "label": "Material",
+        "trigger": "Load Process Order",
+        "source": "BOM explosion from AFPO/RESB"
+      },
+      {
+        "name": "requiredQuantity",
+        "label": "Quantity Required",
+        "trigger": "Load Process Order",
+        "source": "RESB (reservation) based on yield"
+      },
+      {
+        "name": "proposedBatchNumber",
+        "label": "Batch",
+        "trigger": "Load Component + Apply FEFO",
+        "source": "MCHA (batch stock) filtered by SLED"
+      },
+      {
+        "name": "batchQuantityAvailable",
+        "label": "Available Quantity",
+        "trigger": "Select Batch",
+        "source": "MCHA.CLABS (unrestricted stock)"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Shelf Life Expiration Date",
+        "trigger": "Select Batch",
+        "source": "MCH1.VFDAT"
+      },
+      {
+        "name": "qualityStatus",
+        "label": "Stock Type",
+        "trigger": "Select Batch",
+        "source": "MCHA (batch status)"
+      },
+      {
+        "name": "finishedProductBatch",
+        "label": "Product Batch",
+        "trigger": "Confirm Order",
+        "source": "Generated or manually entered"
+      }
+    ],
+    "output": [
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document",
+        "description": "Unique SAP-generated goods movement document",
+        "format": "10-digit numeric, year+serial"
+      },
+      {
+        "name": "movementType",
+        "label": "Movement Type",
+        "description": "Standard backflush movement",
+        "format": "261"
+      },
+      {
+        "name": "batchGenealogyRecord",
+        "label": "Batch Genealogy",
+        "description": "WHERE-USED linkage from raw batch to product batch",
+        "format": "Stored in batch classification (AUSP/INOB)"
+      },
+      {
+        "name": "updatedInventoryBalance",
+        "label": "Stock Balance",
+        "description": "Real-time stock reduction for consumed batches",
+        "format": "Per material-batch-plant-SLoc"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "yieldQuantity",
+        "label": "Yield Quantity",
+        "lowerBoundary": "0.001 (min per UoM)",
+        "upperBoundary": "Max order planned quantity",
+        "zeroInvalid": true,
+        "notes": "Triggers substitute logic if exceeds available batch qty"
+      },
+      {
+        "name": "batchAvailableQuantity",
+        "label": "Batch Available Quantity",
+        "lowerBoundary": "0.001 (sufficient)",
+        "upperBoundary": "Unlimited",
+        "zeroInvalid": false,
+        "notes": "Must be >= required component qty; zero triggers substitute"
+      },
+      {
+        "name": "daysUntilExpiration",
+        "label": "Days Until Expiration (SLED)",
+        "lowerBoundary": "-infinity (expired, invalid)",
+        "upperBoundary": "0 (expires today)",
+        "zeroInvalid": false,
+        "notes": "Expired = SLED < system date"
+      }
+    ]
+  }
+}

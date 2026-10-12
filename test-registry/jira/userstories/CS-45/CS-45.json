@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-45",
+  "type": "Task",
+  "summary": "Capture Serialization/Track-and-Trace data at outbound delivery",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Warehouse Supervisor, I want to capture serialization and Track-and-Trace data at the time of outbound delivery, so that we comply with pharmaceutical serialization regulations (e.g., DSCSA, EU FMD) and can track each unit through the supply chain.",
+  "acceptanceCriteria": "1. The user can pick and pack an Outbound Delivery for a serialized pharmaceutical material.\n2. The system requires the user to scan or enter the unique serial number for each unit of the serialized material.\n3. The system validates that the serial number is valid, has not already been shipped, and matches the batch number in the delivery.\n4. The system captures the serial number, batch number, expiration date, and GTIN (Global Trade Item Number) for each unit.\n5. The system generates a serialization event record (EPCIS format or equivalent) and uploads it to the Track-and-Trace repository or regulatory reporting system.\n6. The system blocks goods issue if serialization data is incomplete or invalid for any unit in the delivery.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:40:31.252+0530",
+  "updated": "2026-08-21T14:40:31.338+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-45",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

@@ -1,0 +1,413 @@
+{
+  "userStory": "CS-13",
+  "summary": "As a Reviewer, I want to complete my assigned review task with the required verdict and review context so that the workflow advances to the final review stage",
+  "module": "Veeva Vault QualityDocs",
+  "analysedAt": "2026-08-21T00:00:00Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Reviewer (role-based user in Veeva Vault QualityDocs)",
+  "businessObject": "Workflow Task (Reviewer Task)",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "inferredDependencies": [
+    {
+      "issueKey": "CS-12",
+      "relationship": "precondition",
+      "description": "Workflow task assignment from SME to Reviewer"
+    },
+    {
+      "issueKey": "CS-14",
+      "relationship": "postcondition",
+      "description": "Final review task assignment from Reviewer to SME"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "[RP-FUNC-001] The Reviewer can authenticate to Veeva Vault QualityDocs using role-specific credentials",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "[NAV-001] After entering the application URL and submitting valid credentials, the reviewer gains access to the QualityDocs module",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "[RP-FUNC-005] The Reviewer can navigate from the QualityDocs landing page to the Home view",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "[NAV-005] After clicking \"Home\" in the navigation, the Home view is displayed with a task list",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "[RP-FUNC-011] The recently assigned workflow task is visible in the reviewer's task list",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "[AR-007] The task list displays recently assigned tasks with the most recent at the top",
+      "type": "BUSINESS_RULE",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "[NAV-006] The Reviewer can select the recently assigned workflow task from the list",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-8",
+      "text": "[RP-FUNC-006] The task form is displayed with Verdict and Review Context fields",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-9",
+      "text": "[RP-DATA-004] The Verdict field is a dropdown with predefined values including \"Review Completed\"",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-10",
+      "text": "[RP-DATA-005] The Review Context field is a dropdown with predefined values including \"Quality Review\"",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-11",
+      "text": "The Reviewer can select \"Review Completed\" from the Verdict dropdown",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-12",
+      "text": "The Reviewer can select \"Quality Review\" from the Review Context dropdown",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-13",
+      "text": "The Reviewer can submit the completed task form",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-14",
+      "text": "[AR-003] After task submission, the document status transitions from In Review to Review Completed",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-15",
+      "text": "[AR-004] After task submission, a final review task is created and assigned to the Quality Doc SME",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-16",
+      "text": "[RP-FUNC-010] The SME sees the final review task in their Home view task list after the reviewer completes their task",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["INT"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-17",
+      "text": "[RP-DATA-002] The document status field displays \"Review Completed\" after the reviewer submits the task",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-18",
+      "text": "[GR-004] The Verdict field is mandatory; the system prevents task submission when Verdict is not selected",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-19",
+      "text": "[GR-004] The Review Context field is mandatory; the system prevents task submission when Review Context is not selected",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-20",
+      "text": "[RP-DATA-008] When a mandatory field is empty, the system displays an error message near the field and blocks form submission",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-21",
+      "text": "[AR-006] When the user attempts to submit the task with missing mandatory fields, the system displays a validation error and does not allow submission",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-22",
+      "text": "[GR-003] Only the assigned Reviewer can view and complete this task; other users cannot access or submit it",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-23",
+      "text": "[RP-ROLE-002] The system enforces role-based access control: only the assigned reviewer can complete their assigned review task",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-24",
+      "text": "[RP-NFR-004] The system validates all mandatory fields before allowing task submission",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-25",
+      "text": "[RISK-006] The system shall prevent task completion when Verdict or Review Context fields are missing — HIGH severity risk mitigation",
+      "type": "MANDATORY_FIELD",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Reviewer authenticates, navigates to Home, selects task, completes with Verdict='Review Completed' and Review Context='Quality Review', submits → document transitions to Review Completed, SME receives final review task",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9", "AC-10", "AC-11", "AC-12", "AC-13", "AC-14", "AC-15", "AC-16", "AC-17", "AC-24"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Reviewer authenticates, navigates to Home with multiple tasks in list, identifies and selects most recent task by position at top, completes task",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5", "AC-6", "AC-7"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "User with non-Reviewer role attempts to access reviewer's task → system denies access",
+        "risk": "CRITICAL",
+        "acIds": ["AC-22", "AC-23"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Assigned Reviewer is logged in, but a different user attempts to complete the same task → system prevents completion",
+        "risk": "CRITICAL",
+        "acIds": ["AC-22", "AC-23"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Reviewer attempts to submit task when document is not in 'In Review' state → system prevents state transition",
+        "risk": "HIGH",
+        "acIds": ["AC-14"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Verdict field → system displays field-level error, blocks submission",
+        "risk": "HIGH",
+        "acIds": ["AC-18", "AC-20", "AC-21", "AC-24", "AC-25"],
+        "field": "Verdict"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Review Context field → system displays field-level error, blocks submission",
+        "risk": "HIGH",
+        "acIds": ["AC-19", "AC-20", "AC-21", "AC-24", "AC-25"],
+        "field": "Review Context"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Both Verdict and Review Context missing → system displays multiple field-level errors, blocks submission",
+        "risk": "HIGH",
+        "acIds": ["AC-18", "AC-19", "AC-20", "AC-21", "AC-24", "AC-25"],
+        "fields": ["Verdict", "Review Context"]
+      }
+    ],
+    "EDGE": [],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify task is visible in reviewer's Home view task list after CS-12 workflow initiation by SME",
+        "risk": "HIGH",
+        "linkedIssue": "CS-12",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify SME receives final review task in their Home view task list after reviewer completes CS-13 task",
+        "risk": "HIGH",
+        "linkedIssue": "CS-14",
+        "acIds": ["AC-15", "AC-16"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 0,
+    "INT": 2,
+    "total": 10
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "reviewerUsername",
+        "label": "Username",
+        "dataType": "String",
+        "mandatory": true,
+        "validRange": "Valid Veeva Vault user account with Reviewer role"
+      },
+      {
+        "name": "reviewerPassword",
+        "label": "Password",
+        "dataType": "String (masked)",
+        "mandatory": true,
+        "validRange": "Matching password for reviewer account"
+      },
+      {
+        "name": "verdict",
+        "label": "Verdict",
+        "dataType": "Dropdown selection",
+        "mandatory": true,
+        "validRange": "Predefined values including 'Review Completed'"
+      },
+      {
+        "name": "reviewContext",
+        "label": "Review Context",
+        "dataType": "Dropdown selection",
+        "mandatory": true,
+        "validRange": "Predefined values including 'Quality Review'"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "taskAssignee",
+        "label": "Assigned To",
+        "trigger": "Workflow task creation by SME (CS-12)",
+        "source": "Workflow engine assignment rules"
+      },
+      {
+        "name": "documentStatusPreTask",
+        "label": "Document Status",
+        "trigger": "Workflow state before task completion",
+        "source": "Workflow state machine (In Review)"
+      },
+      {
+        "name": "taskCreationDate",
+        "label": "Task Created",
+        "trigger": "Workflow task creation",
+        "source": "Workflow engine timestamp"
+      }
+    ],
+    "output": [
+      {
+        "name": "documentStatusPostReview",
+        "label": "Document Status",
+        "description": "Document status after task completion",
+        "format": "Review Completed (fixed workflow state value)"
+      },
+      {
+        "name": "smeTaskAssignment",
+        "label": "Final Review Task",
+        "description": "Final review task created and assigned to SME",
+        "format": "Task ID (system-generated, format TBD)"
+      },
+      {
+        "name": "taskCompletionTimestamp",
+        "label": "Task Completed",
+        "description": "Timestamp when reviewer submitted the task",
+        "format": "ISO8601 datetime"
+      }
+    ],
+    "boundary": []
+  }
+}

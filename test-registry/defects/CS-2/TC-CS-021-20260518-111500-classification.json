@@ -1,0 +1,39 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-18T11:15:00.000Z",
+  "classifiedBy": "defect-logging-agent/skills/classify-failure",
+  "reExecutionFile": "self-healing/re-executions/20260518-103220-TC-CS-021/TC-CS-021-reexecution.json",
+  "reExecutionStatus": "FAIL",
+  "sapBehavior": "DIFFERENT",
+  "classification": "APP_DEFECT",
+  "classificationReason": "SAP's success notification after PO creation does not include the 10-digit PO number. AC-6 requires that the PO number is 'generated and displayed upon successful order submission.' SAP shows only a generic alert 'Purchase order has been created.' without the PO number, then navigates to the list page. The PO number is not visible anywhere in the success confirmation flow. This directly contradicts AC-6's 'displayed' requirement.",
+  "evidence": {
+    "sapActualBehavior": "After clicking Order with valid data, SAP shows role=alert 'Purchase order has been created.' (no PO number) and navigates to the Manage Purchase Orders list page. The 10-digit PO number is absent from the success notification.",
+    "acViolated": "AC-6",
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+    "acSource": "jira/userstories/CS-2/CS-2.json (acceptanceCriteria field, 6th bullet)",
+    "tcExpectedResult": "A dedicated success confirmation notification is displayed immediately after clicking Order (toast, banner, dialog, or equivalent). The notification explicitly states that the Purchase Order was created and clearly shows the 10-digit PO number.",
+    "screenshotRef": "test-results/mm-purchase-order-MM---Man-20e0b-PO-Number-DESIGNED-TO-FAIL--sap-chromium/test-failed-1.png",
+    "playwrightError": "AC-6 VIOLATION: Success notification 'Purchase order has been created.' does not contain the 10-digit PO number.",
+    "phase3ExplorationRef": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json"
+  },
+  "acAnalysis": {
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+    "keyWord": "displayed",
+    "sapProvides": "Generic alert 'Purchase order has been created.' — no PO number shown anywhere in success flow",
+    "verdict": "VIOLATION — AC-6 requires the PO number to be 'displayed' upon submission. SAP's success notification does not include the PO number. The number is not visible in any prominent, user-facing confirmation element after order submission."
+  },
+  "ruleApplied": "Rule A — APP_DEFECT: SAP behavior clearly contradicts the AC. AC says PO number is 'displayed upon successful order submission'; SAP shows only a generic creation message without the number.",
+  "defectMetadata": {
+    "module": "MM",
+    "moduleName": "Materials Management",
+    "appName": "Manage Purchase Orders",
+    "jiraPriority": "High",
+    "labels": ["defect", "automation-detected", "mm", "CS-2"],
+    "acViolated": "AC-6",
+    "severity": "MAJOR"
+  },
+  "recommendation": "LOG_DEFECT",
+  "notes": "TC-CS-021 was explicitly designed to detect this defect and validate the defect logging pipeline. The failure is consistent across Phase 3 MCP execution (2026-05-18T10:32:20) and two Playwright test runner runs (2026-05-18). The SAP behavior is deterministic — every PO creation via the Order button produces the same generic alert without a PO number."
+}

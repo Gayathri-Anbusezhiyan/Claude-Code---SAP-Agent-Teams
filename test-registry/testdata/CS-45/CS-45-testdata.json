@@ -1,0 +1,214 @@
+{
+  "userStory": "CS-45",
+  "module": "SD",
+  "feature": "Serialization/Track-and-Trace Capture for Outbound Delivery",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-045-001": {
+      "id": "TD-CS-045-001",
+      "name": "Valid Serialization Capture — Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumber": "{{SERIAL_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}",
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "expectedOutcome": "Serialization data captured successfully; Goods Issue posted; EPCIS transmission successful; Delivery status Goods Issued"
+    },
+    "TD-CS-045-NEG-001": {
+      "id": "TD-CS-045-NEG-001",
+      "name": "Invalid Serial Number Format — Non-GS1 Compliant",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "invalidSerialNumber": "{{SERIAL_NUMBER_INVALID_FORMAT}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "System displays error: Serial number format invalid or non-GS1 compliant; Serialization NOT saved; Delivery status remains Open"
+    },
+    "TD-CS-045-NEG-002": {
+      "id": "TD-CS-045-NEG-002",
+      "name": "Duplicate Serial Number Within Same Delivery",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "duplicateSerialNumber": "{{SERIAL_NUMBER_DUPLICATE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}",
+        "quantityMultiple": "{{DELIVERY_QUANTITY_MULTIPLE}}"
+      },
+      "expectedOutcome": "System displays error: Duplicate serial number detected; Serialization NOT saved; Delivery status remains Open"
+    },
+    "TD-CS-045-NEG-003": {
+      "id": "TD-CS-045-NEG-003",
+      "name": "Non-Serialized Material — No SERNP Flag",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "deliveryNumberNonSerialized": "{{DELIVERY_NUMBER_NON_SERIALIZED}}",
+        "nonSerializedMaterialId": "{{MATERIAL_ID_NON_SERIALIZED}}"
+      },
+      "expectedOutcome": "Serialization functionality NOT available for non-serialized material; Goods Issue can proceed without serialization"
+    },
+    "TD-CS-045-ERR-001": {
+      "id": "TD-CS-045-ERR-001",
+      "name": "Missing Serialization Data — GI Blocked",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "emptyValue": ""
+      },
+      "note": "Serialization data intentionally left incomplete to test GI blocking",
+      "expectedOutcome": "System displays error: Serialization incomplete; Goods Issue blocked; Delivery status remains Open"
+    },
+    "TD-CS-045-ERR-002": {
+      "id": "TD-CS-045-ERR-002",
+      "name": "Missing Batch Number — Mandatory Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumber": "{{SERIAL_NUMBER_VALID}}",
+        "emptyValue": ""
+      },
+      "note": "Batch Number field intentionally left empty to test mandatory field validation",
+      "expectedOutcome": "System highlights Batch field as mandatory; Serialization NOT saved"
+    },
+    "TD-CS-045-ERR-003": {
+      "id": "TD-CS-045-ERR-003",
+      "name": "Missing or Invalid Expiry Date — Mandatory Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumber": "{{SERIAL_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "pastExpiryDate": "{{EXPIRY_DATE_PAST}}",
+        "emptyValue": ""
+      },
+      "note": "Expiry Date field left empty or set to past date to test validation",
+      "expectedOutcome": "System highlights Expiry Date field as mandatory or invalid; Serialization NOT saved"
+    },
+    "TD-CS-045-EDGE-001": {
+      "id": "TD-CS-045-EDGE-001",
+      "name": "Minimum Quantity Boundary (Single Unit)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "deliveryNumberMinQty": "{{DELIVERY_NUMBER_MIN_QTY}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumber": "{{SERIAL_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}",
+        "minQuantity": "{{DELIVERY_QUANTITY_MIN}}"
+      },
+      "expectedOutcome": "Serialization captured for 1 unit; Goods Issue posted; EPCIS transmission successful"
+    },
+    "TD-CS-045-EDGE-002": {
+      "id": "TD-CS-045-EDGE-002",
+      "name": "Maximum Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "deliveryNumberMaxQty": "{{DELIVERY_NUMBER_MAX_QTY}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumberSet": "{{SERIAL_NUMBER_SET_MULTIPLE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}",
+        "maxQuantity": "{{DELIVERY_QUANTITY_MAX}}"
+      },
+      "expectedOutcome": "Serialization captured for maximum quantity; Goods Issue posted; EPCIS transmission successful for all units"
+    },
+    "TD-CS-045-EDGE-003": {
+      "id": "TD-CS-045-EDGE-003",
+      "name": "Serial Number Minimum Length (15 Characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumberMinLength": "{{SERIAL_NUMBER_MIN_LENGTH}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Minimum-length serial number (15 characters) accepted; Serialization captured; Goods Issue posted"
+    },
+    "TD-CS-045-EDGE-004": {
+      "id": "TD-CS-045-EDGE-004",
+      "name": "Serial Number Maximum Length (34 Characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumberMaxLength": "{{SERIAL_NUMBER_MAX_LENGTH}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}"
+      },
+      "expectedOutcome": "Maximum-length serial number (34 characters) accepted without truncation; Serialization captured; Goods Issue posted"
+    },
+    "TD-CS-045-INT-001": {
+      "id": "TD-CS-045-INT-001",
+      "name": "EPCIS Transmission Failure",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_SERIALIZED}}",
+        "serialNumber": "{{SERIAL_NUMBER_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "expiryDate": "{{EXPIRY_DATE_FUTURE}}",
+        "epcisEndpointUnavailable": "{{EPCIS_ENDPOINT_UNAVAILABLE}}"
+      },
+      "note": "Requires EPCIS endpoint to be unavailable (timeout/network error simulation)",
+      "expectedOutcome": "System detects EPCIS transmission failure; Error message displayed; GI blocked OR GI posted with EPCIS status Failed; Serialization data retained"
+    }
+  },
+  "allPlaceholders": [
+    "{{DELIVERY_NUMBER_VALID}}",
+    "{{DELIVERY_NUMBER_NON_SERIALIZED}}",
+    "{{DELIVERY_NUMBER_MIN_QTY}}",
+    "{{DELIVERY_NUMBER_MAX_QTY}}",
+    "{{MATERIAL_ID_SERIALIZED}}",
+    "{{MATERIAL_ID_NON_SERIALIZED}}",
+    "{{SERIAL_NUMBER_VALID}}",
+    "{{SERIAL_NUMBER_INVALID_FORMAT}}",
+    "{{SERIAL_NUMBER_DUPLICATE}}",
+    "{{SERIAL_NUMBER_MIN_LENGTH}}",
+    "{{SERIAL_NUMBER_MAX_LENGTH}}",
+    "{{SERIAL_NUMBER_SET_MULTIPLE}}",
+    "{{BATCH_NUMBER_VALID}}",
+    "{{EXPIRY_DATE_FUTURE}}",
+    "{{EXPIRY_DATE_PAST}}",
+    "{{DELIVERY_QUANTITY_STANDARD}}",
+    "{{DELIVERY_QUANTITY_MULTIPLE}}",
+    "{{DELIVERY_QUANTITY_MIN}}",
+    "{{DELIVERY_QUANTITY_MAX}}",
+    "{{SALES_ORDER_NUMBER_VALID}}",
+    "{{CUSTOMER_ID_VALID}}",
+    "{{SALES_ORG_CODE}}",
+    "{{EPCIS_ENDPOINT_UNAVAILABLE}}"
+  ]
+}

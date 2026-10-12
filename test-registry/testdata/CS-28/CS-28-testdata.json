@@ -1,0 +1,465 @@
+{
+  "userStory": "CS-28",
+  "module": "MM",
+  "feature": "Consignment Stock Withdrawal and Settlement",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-028-001": {
+      "id": "TD-CS-028-001",
+      "name": "Valid Consignment Withdrawal — Single Batch",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-100"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "availableStock": "{{QUANTITY_AVAILABLE_BATCH_A}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "currency": "{{CURRENCY_CODE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Material document created with Movement Type 411; consignment stock reduced; unrestricted stock increased; vendor liability posted; batch traceability maintained"
+    },
+    "TD-CS-028-002": {
+      "id": "TD-CS-028-002",
+      "name": "Consignment Settlement and Invoice Generation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-101"],
+      "data": {
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "settlementPeriodStart": "{{DATE_SETTLEMENT_PERIOD_START}}",
+        "settlementPeriodEnd": "{{DATE_SETTLEMENT_PERIOD_END}}",
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}"
+      },
+      "expectedOutcome": "Settlement document generated with all withdrawals listed; invoice automatically created; vendor liability credited; GR/IR cleared"
+    },
+    "TD-CS-028-003": {
+      "id": "TD-CS-028-003",
+      "name": "Partial Withdrawal — Less Than Available Stock",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-102"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "partialQuantity": "{{QUANTITY_PARTIAL}}",
+        "availableStock": "{{QUANTITY_AVAILABLE_BATCH_A}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Material document created for partial quantity; remaining consignment stock > 0; unrestricted stock increased by partial quantity only; vendor liability = partial quantity × price"
+    },
+    "TD-CS-028-AP-002": {
+      "id": "TD-CS-028-AP-002",
+      "name": "Full Withdrawal — Exact Available Stock",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-103"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantityFull": "{{QUANTITY_AVAILABLE_BATCH_A}}",
+        "availableStock": "{{QUANTITY_AVAILABLE_BATCH_A}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Material document created for full stock quantity; consignment stock balance = 0; all stock transferred to unrestricted; vendor liability = full quantity × price"
+    },
+    "TD-CS-028-AP-003": {
+      "id": "TD-CS-028-AP-003",
+      "name": "Multiple Batches Withdrawal — Same Period",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-104"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumberA": "{{BATCH_VENDOR1_MAT1_A}}",
+        "batchNumberB": "{{BATCH_VENDOR1_MAT1_B}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantityA": "{{QUANTITY_STANDARD}}",
+        "withdrawalQuantityB": "{{QUANTITY_SMALL}}",
+        "settlementPeriodStart": "{{DATE_SETTLEMENT_PERIOD_START}}",
+        "settlementPeriodEnd": "{{DATE_SETTLEMENT_PERIOD_END}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Two material documents created (one per batch); settlement document lists both batches separately with batch numbers; batch traceability maintained for both"
+    },
+    "TD-CS-028-AP-004": {
+      "id": "TD-CS-028-AP-004",
+      "name": "Cross-Month Settlement Period",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-105"],
+      "data": {
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "settlementPeriodStart": "{{DATE_SETTLEMENT_CROSS_MONTH_START}}",
+        "settlementPeriodEnd": "{{DATE_SETTLEMENT_CROSS_MONTH_END}}",
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}"
+      },
+      "expectedOutcome": "Settlement document generated for cross-month period; all withdrawals from both months included; settlement total correct"
+    },
+    "TD-CS-028-AP-005": {
+      "id": "TD-CS-028-AP-005",
+      "name": "Backdated Withdrawal Posting",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-106"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "postingDateBackdated": "{{DATE_POSTING_BACKDATED}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Material document posted with backdated posting date; financial posting uses backdated date; settlement includes backdated withdrawal"
+    },
+    "TD-CS-028-NEG-001": {
+      "id": "TD-CS-028-NEG-001",
+      "name": "Insufficient Consignment Stock",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-107"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "availableStockLimited": "{{QUANTITY_INSUFFICIENT}}",
+        "withdrawalQuantityExcessive": "{{QUANTITY_EXCESSIVE}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Insufficient stock', 'Stock not available', or similar; no material document created; consignment stock unchanged"
+    },
+    "TD-CS-028-NEG-002": {
+      "id": "TD-CS-028-NEG-002",
+      "name": "Invalid Vendor-Batch Combination",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-108"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumberVendor2": "{{BATCH_VENDOR2_MAT1_C}}",
+        "vendorCodePrimary": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorNamePrimary": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Batch not found for selected vendor', 'Batch does not exist for vendor', or similar; no material document created"
+    },
+    "TD-CS-028-NEG-003": {
+      "id": "TD-CS-028-NEG-003",
+      "name": "Material Not Consignment-Enabled",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-109"],
+      "data": {
+        "materialNumberNonConsignment": "{{MATERIAL_NON_CONSIGNMENT}}",
+        "materialDescNonConsignment": "{{MATERIAL_DESCRIPTION_NON_CONSIGNMENT}}",
+        "batchNumber": "{{BATCH_NON_CONSIGNMENT}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Material not enabled for consignment stock', 'Consignment indicator not set', or similar; no material document created"
+    },
+    "TD-CS-028-NEG-004": {
+      "id": "TD-CS-028-NEG-004",
+      "name": "Unauthorized User Access",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-110"],
+      "data": {
+        "unauthorizedUsername": "{{USERNAME_UNAUTHORIZED}}",
+        "unauthorizedPassword": "{{PASSWORD_UNAUTHORIZED}}"
+      },
+      "expectedOutcome": "System denies access with authorization error; 'You are not authorized for this transaction', 'Missing authorization object M_MSEG_BWA', or similar; user cannot access Post Goods Movement app"
+    },
+    "TD-CS-028-ERR-001": {
+      "id": "TD-CS-028-ERR-001",
+      "name": "Zero Withdrawal Quantity",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-111"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantityZero": "0",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Quantity must be greater than zero', 'Enter a valid quantity', or similar; quantity field highlighted; no material document created"
+    },
+    "TD-CS-028-ERR-002": {
+      "id": "TD-CS-028-ERR-002",
+      "name": "Negative Withdrawal Quantity",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-112"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantityNegative": "-10",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Negative quantities not allowed', 'Enter a positive quantity', or similar; quantity field highlighted; no material document created"
+    },
+    "TD-CS-028-ERR-003": {
+      "id": "TD-CS-028-ERR-003",
+      "name": "Missing Mandatory Field — Plant",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-113"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plantEmpty": "",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Plant is a required field', 'Enter plant', or similar; Plant field highlighted; no material document created"
+    },
+    "TD-CS-028-ERR-004": {
+      "id": "TD-CS-028-ERR-004",
+      "name": "Missing Mandatory Field — Storage Location",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-114"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocationEmpty": "",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Storage Location is required', 'Enter storage location', or similar; Storage Location field highlighted; no material document created"
+    },
+    "TD-CS-028-EDGE-001": {
+      "id": "TD-CS-028-EDGE-001",
+      "name": "Expired Batch Withdrawal",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-115"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumberExpired": "{{BATCH_VENDOR1_MAT1_EXPIRED}}",
+        "batchExpiryDatePast": "{{DATE_BATCH_EXPIRY_PAST}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "System displays error: 'Batch has expired', 'Shelf-life expiration date exceeded', or similar; batch expiry date shown as past date; no material document created"
+    },
+    "TD-CS-028-EDGE-002": {
+      "id": "TD-CS-028-EDGE-002",
+      "name": "Same-Day Settlement",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-116"],
+      "data": {
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "settlementPeriodStartSameDay": "{{DATE_TODAY}}",
+        "settlementPeriodEndSameDay": "{{DATE_TODAY}}",
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}"
+      },
+      "expectedOutcome": "Settlement document generated for same-day period; withdrawal posted today included; settlement total correct"
+    },
+    "TD-CS-028-EDGE-003": {
+      "id": "TD-CS-028-EDGE-003",
+      "name": "Settlement Period with No Withdrawals",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-117"],
+      "data": {
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "settlementPeriodStartEmpty": "{{DATE_SETTLEMENT_EMPTY_START}}",
+        "settlementPeriodEndEmpty": "{{DATE_SETTLEMENT_EMPTY_END}}"
+      },
+      "expectedOutcome": "System displays 'No data found', 'No withdrawals in period', or generates empty settlement document; no line items present"
+    },
+    "TD-CS-028-EDGE-004": {
+      "id": "TD-CS-028-EDGE-004",
+      "name": "Price Change During Settlement Period",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-118"],
+      "data": {
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "settlementPeriodStart": "{{DATE_SETTLEMENT_PERIOD_START}}",
+        "settlementPeriodEnd": "{{DATE_SETTLEMENT_PERIOD_END}}",
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "priceBeforeChange": "{{PRICE_BIOLOGIC_BEFORE_CHANGE}}",
+        "priceAfterChange": "{{PRICE_BIOLOGIC_AFTER_CHANGE}}",
+        "withdrawalQuantityBefore": "{{QUANTITY_STANDARD}}",
+        "withdrawalQuantityAfter": "{{QUANTITY_SMALL}}"
+      },
+      "expectedOutcome": "Settlement document includes both withdrawals; each withdrawal valued at price at time of posting; settlement line items show different prices; invoice created with total settlement value"
+    },
+    "TD-CS-028-EDGE-005": {
+      "id": "TD-CS-028-EDGE-005",
+      "name": "Maximum Decimal Precision Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-119"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantityPrecision": "{{QUANTITY_DECIMAL_PRECISION}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Material document created with quantity at 3 decimal places precision (e.g., 10.125 KG); posting accepted; financial posting calculated correctly"
+    },
+    "TD-CS-028-EDGE-006": {
+      "id": "TD-CS-028-EDGE-006",
+      "name": "Zero-Price Consignment Material",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-120"],
+      "data": {
+        "materialNumberZeroPrice": "{{MATERIAL_CONSIGNMENT_ZERO_PRICE}}",
+        "materialDescZeroPrice": "{{MATERIAL_DESCRIPTION_ZERO_PRICE}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT_ZERO_PRICE}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "priceZero": "0.00",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Material document created; accounting document posted with zero-value entries (debit BSX = 0.00, credit GBB = 0.00); posting succeeds"
+    },
+    "TD-CS-028-INT-001": {
+      "id": "TD-CS-028-INT-001",
+      "name": "Production Order Integration",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-121"],
+      "data": {
+        "productionOrderNumber": "{{PRODUCTION_ORDER_NUMBER}}",
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Consignment withdrawal (Movement Type 411) automatically posted when production order goods issue executed; production order references consignment withdrawal material document; batch traceability maintained in production order"
+    },
+    "TD-CS-028-INT-002": {
+      "id": "TD-CS-028-INT-002",
+      "name": "Quality Inspection Post-Withdrawal",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-122"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "plant": "{{PLANT_PRIMARY}}",
+        "storageLocation": "{{STORAGE_LOCATION_PRIMARY}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER}}",
+        "uom": "{{UNIT_OF_MEASURE_KG}}",
+        "price": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "movementType": "411"
+      },
+      "expectedOutcome": "Consignment withdrawal posted; withdrawn stock moved to quality inspection; inspection lot created for batch; after usage decision, batch traceability chain maintained through all movement types; batch document flow complete"
+    },
+    "TD-CS-028-INT-003": {
+      "id": "TD-CS-028-INT-003",
+      "name": "Invoice Verification with Price Variance",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-123"],
+      "data": {
+        "vendorCode": "{{VENDOR_CONSIGNMENT_PRIMARY}}",
+        "vendorName": "{{VENDOR_NAME_CONSIGNMENT_PRIMARY}}",
+        "settlementPeriodStart": "{{DATE_SETTLEMENT_PERIOD_START}}",
+        "settlementPeriodEnd": "{{DATE_SETTLEMENT_PERIOD_END}}",
+        "materialNumber": "{{MATERIAL_BIOLOGIC_PRIMARY}}",
+        "batchNumber": "{{BATCH_VENDOR1_MAT1_A}}",
+        "withdrawalQuantity": "{{QUANTITY_STANDARD}}",
+        "priceSettlement": "{{PRICE_BIOLOGIC_HIGH_VALUE}}",
+        "priceInvoiceVariance": "{{PRICE_BIOLOGIC_VARIANCE}}"
+      },
+      "expectedOutcome": "Settlement document generated; invoice created manually or automatically; price variance detected; invoice status = 'Blocked for Payment' or 'Parked'; after manual price adjustment, invoice posted with variance account posting"
+    }
+  }
+}

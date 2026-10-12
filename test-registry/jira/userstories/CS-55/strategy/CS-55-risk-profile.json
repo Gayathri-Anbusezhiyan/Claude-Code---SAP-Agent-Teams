@@ -1,0 +1,455 @@
+{
+  "userStory": "CS-55",
+  "summary": "Record A Deviation Directly Against An In-Process Control Result That",
+  "module": "PP/QM",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Assurance Specialist",
+  "businessObject": "Quality Notification (Deviation), In-Process Control Result, Process Order",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Create Quality Notification\" Fiori app, triggered from the in-process control result entry.",
+      "type": "NAVIGATION + INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically pre-populates the deviation with the process order, operation, batch, and out-of-spec result.",
+      "type": "VALIDATION_POSITIVE + BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The process order is automatically placed on hold at the affected operation pending deviation disposition.",
+      "type": "BUSINESS_RULE + STATE_TRANSITION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The QA user can document root cause, impact assessment, and corrective/preventive action (CAPA) on the deviation record.",
+      "type": "MANDATORY_FIELD + BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-5",
+      "text": "The process order cannot proceed to the next operation until the deviation is formally closed with an approved disposition.",
+      "type": "BUSINESS_RULE + STATE_TRANSITION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "A trend report is available showing deviation frequency by material, operation, and root-cause category.",
+      "type": "SUCCESS_CONFIRMATION + BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Record deviation for out-of-spec in-process result + auto-hold process order + document CAPA + close deviation with disposition + verify process order released",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "View trend report showing deviation frequency by material, operation, and root cause",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Record deviation with USE_AS_IS disposition (no rework)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Record deviation with REWORK disposition (process order returns to previous operation)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Record deviation with SCRAP disposition (batch cancelled)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to record deviation for in-spec result (result within specification limits) — expect error 'Result is within specification — deviation not required'",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to advance process order operation while deviation status is OUTSTANDING — expect error 'Operation on hold — deviation {number} must be closed'",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to close deviation without documenting root cause — expect validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to close deviation without disposition decision — expect validation error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Root Cause field",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Root Cause"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Impact Assessment field",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Impact Assessment"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Corrective Action field",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Corrective Action"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Preventive Action field",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Preventive Action"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Disposition Decision at closure",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Disposition Decision"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Root Cause text at minimum length (10 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "rootCauseText",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Root Cause text at maximum length (255 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "rootCauseText",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Impact Assessment text at minimum length (10 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "impactAssessmentText",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Impact Assessment text at maximum length (1000 characters)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "impactAssessmentText",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "In-process result exactly at lower spec limit (boundary — should NOT trigger deviation)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "parameter": "inspectionResultValue",
+        "boundary": "lowerSpec"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "In-process result exactly at upper spec limit (boundary — should NOT trigger deviation)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "parameter": "inspectionResultValue",
+        "boundary": "upperSpec"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "In-process result 0.01 below lower spec limit (should trigger deviation)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "parameter": "inspectionResultValue",
+        "boundary": "belowLowerSpec"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "In-process result 0.01 above upper spec limit (should trigger deviation)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "parameter": "inspectionResultValue",
+        "boundary": "aboveUpperSpec"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify deviation creation triggered from Fiori app 'Manage In-Process Inspection Results' (PP-QM integration)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "linkedModule": "Manage In-Process Inspection Results app"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify process order hold status updated in backend (QM → PP callback)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "linkedModule": "Process Order Management"
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify process order released after deviation closure (QM → PP callback)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "linkedModule": "Process Order Management"
+      },
+      {
+        "id": "INT-04",
+        "description": "Verify trend report aggregates data from multiple deviations across materials and operations",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "linkedModule": "Analytics/Reporting module"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 3,
+    "NEG": 4,
+    "ERR": 5,
+    "EDGE": 8,
+    "INT": 4,
+    "total": 26
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "processOrder",
+        "label": "Process Order",
+        "mandatory": true,
+        "validRange": "Existing process order in RELEASED or CONFIRMED status"
+      },
+      {
+        "name": "operationNumber",
+        "label": "Operation",
+        "mandatory": true,
+        "validRange": "Valid operation within the process order routing"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch linked to process order"
+      },
+      {
+        "name": "inspectionResultValue",
+        "label": "Inspection Result",
+        "mandatory": true,
+        "validRange": "Outside specification lower/upper limit"
+      },
+      {
+        "name": "characteristic",
+        "label": "Inspection Characteristic",
+        "mandatory": true,
+        "validRange": "Characteristic code from inspection plan"
+      },
+      {
+        "name": "notificationType",
+        "label": "Notification Type",
+        "mandatory": true,
+        "validRange": "QN for Quality Notification (Deviation type)"
+      },
+      {
+        "name": "rootCause",
+        "label": "Root Cause / Cause Code",
+        "mandatory": true,
+        "validRange": "Valid root cause codes from QM customizing (QMTT)"
+      },
+      {
+        "name": "impactAssessment",
+        "label": "Impact Assessment / Description",
+        "mandatory": true,
+        "validRange": "Free text, min 10 characters"
+      },
+      {
+        "name": "correctiveAction",
+        "label": "Corrective Action / CAPA",
+        "mandatory": true,
+        "validRange": "Free text, min 10 characters"
+      },
+      {
+        "name": "preventiveAction",
+        "label": "Preventive Action / CAPA",
+        "mandatory": true,
+        "validRange": "Free text, min 10 characters"
+      },
+      {
+        "name": "dispositionDecision",
+        "label": "Disposition",
+        "mandatory": true,
+        "validRange": "USE_AS_IS, REWORK, SCRAP, RETURN"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "trigger": "System reads from process order"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Material number confirmed"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "trigger": "System reads from process order"
+      },
+      {
+        "name": "workCenter",
+        "label": "Work Center",
+        "trigger": "System reads from operation"
+      },
+      {
+        "name": "inspectionPlan",
+        "label": "Inspection Plan",
+        "trigger": "Material + Plant + Operation"
+      },
+      {
+        "name": "specLowerLimit",
+        "label": "Lower Spec Limit",
+        "trigger": "Characteristic from inspection plan"
+      },
+      {
+        "name": "specUpperLimit",
+        "label": "Upper Spec Limit",
+        "trigger": "Characteristic from inspection plan"
+      },
+      {
+        "name": "processOrderStatus",
+        "label": "Order Status",
+        "trigger": "Process order header read"
+      },
+      {
+        "name": "deviationNumber",
+        "label": "Notification Number",
+        "trigger": "System generates on save"
+      }
+    ],
+    "output": [
+      {
+        "name": "deviationNumber",
+        "label": "Deviation Number",
+        "format": "12-digit numeric, begins with 1000xxxxxx"
+      },
+      {
+        "name": "processOrderHoldStatus",
+        "label": "Process Order Hold Status",
+        "format": "Status code HOLD in operation control key"
+      },
+      {
+        "name": "deviationStatus",
+        "label": "Deviation Status",
+        "format": "OUTSTANDING (open) → CLOSED after disposition"
+      },
+      {
+        "name": "capaActionId",
+        "label": "CAPA Action ID",
+        "format": "12-digit numeric (if CAPA module active)"
+      },
+      {
+        "name": "trendReportData",
+        "label": "Trend Report Data",
+        "format": "Multi-dimensional table: Material x Operation x Root Cause x Frequency"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "rootCauseText",
+        "label": "Root Cause Text",
+        "lowerBoundary": "10",
+        "upperBoundary": "255",
+        "zeroInvalid": true
+      },
+      {
+        "name": "impactAssessmentText",
+        "label": "Impact Assessment Text",
+        "lowerBoundary": "10",
+        "upperBoundary": "1000",
+        "zeroInvalid": true
+      },
+      {
+        "name": "correctiveActionText",
+        "label": "Corrective Action Text",
+        "lowerBoundary": "10",
+        "upperBoundary": "1000",
+        "zeroInvalid": true
+      },
+      {
+        "name": "preventiveActionText",
+        "label": "Preventive Action Text",
+        "lowerBoundary": "10",
+        "upperBoundary": "1000",
+        "zeroInvalid": true
+      },
+      {
+        "name": "inspectionResultValue",
+        "label": "In-Process Result Value",
+        "lowerBoundary": "< Lower Spec Limit",
+        "upperBoundary": "> Upper Spec Limit",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-13",
+  "type": "Story",
+  "summary": "As a Reviewer, I want to complete my assigned review task with the required verdict and review context so that the workflow advances to the final review stage",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "High",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "groomed",
+    "requirement-sourced"
+  ],
+  "components": [],
+  "description": "## Background\n\nAfter the SME initiates the workflow, the designated reviewer must complete their assigned review task to advance the workflow to the final review stage. This story covers the reviewer's authentication, task access, and task completion with the required verdict and review context.\n\n## What This Story Covers\n\nThe Reviewer authenticates to Veeva Vault QualityDocs using their credentials, navigates to the Home view, selects the recently assigned workflow task from the task list, completes the task by providing Verdict (\"Review Completed\") and Review Context (\"Quality Review\"), and submits the task — causing the document to transition from In Review to Review Completed and a final review task to be assigned to the SME.\n\n## Roles\n\n* **Primary actor:** Reviewer — completes the assigned review task with verdict and context\n* **Supporting roles:** None (SME becomes active again in CS-14)\n\n## Preconditions\n\n* CS-12 is complete: the workflow has been initiated and a task has been assigned to the reviewer\n* Reviewer account has valid credentials and Reviewer role permissions\n* The workflow task is visible in the reviewer's Home view task list\n* Document is in In Review state\n\n## Workflow Context\n\nState before: Document is in In Review; reviewer has an assigned workflow task visible in their Home view  \nState after:  Document is in Review Completed; final review task is assigned to the SME\n\n## Acceptance Criteria\n\n### Happy Path\n\n* \\[RP-FUNC-001\\] The Reviewer can authenticate to Veeva Vault QualityDocs using role-specific credentials\n* \\[NAV-001\\] After entering the application URL and submitting valid credentials, the reviewer gains access to the QualityDocs module\n* \\[RP-FUNC-005\\] The Reviewer can navigate from the QualityDocs landing page to the Home view\n* \\[NAV-005\\] After clicking \"Home\" in the navigation, the Home view is displayed with a task list\n* \\[RP-FUNC-011\\] The recently assigned workflow task is visible in the reviewer's task list\n* \\[AR-007\\] The task list displays recently assigned tasks with the most recent at the top\n* \\[NAV-006\\] The Reviewer can select the recently assigned workflow task from the list\n* \\[RP-FUNC-006\\] The task form is displayed with Verdict and Review Context fields\n* \\[RP-DATA-004\\] The Verdict field is a dropdown with predefined values including \"Review Completed\"\n* \\[RP-DATA-005\\] The Review Context field is a dropdown with predefined values including \"Quality Review\"\n* The Reviewer can select \"Review Completed\" from the Verdict dropdown\n* The Reviewer can select \"Quality Review\" from the Review Context dropdown\n* The Reviewer can submit the completed task form\n* \\[AR-003\\] After task submission, the document status transitions from In Review to Review Completed\n* \\[AR-004\\] After task submission, a final review task is created and assigned to the Quality Doc SME\n* \\[RP-FUNC-010\\] The SME sees the final review task in their Home view task list after the reviewer completes their task\n* \\[RP-DATA-002\\] The document status field displays \"Review Completed\" after the reviewer submits the task\n\n### Alternative Paths\n\n* If multiple tasks exist in the reviewer's task list, the reviewer can identify and select the most recently assigned task by its position at the top of the list\n\n### Validation and Error Cases\n\n* \\[GR-004\\] The Verdict field is mandatory; the system prevents task submission when Verdict is not selected\n* \\[GR-004\\] The Review Context field is mandatory; the system prevents task submission when Review Context is not selected\n* \\[RP-DATA-008\\] When a mandatory field is empty, the system displays an error message near the field and blocks form submission\n* \\[AR-006\\] When the user attempts to submit the task with missing mandatory fields, the system displays a validation error and does not allow submission\n* \\[GR-003\\] Only the assigned Reviewer can view and complete this task; other users cannot access or submit it\n* \\[RP-ROLE-002\\] The system enforces role-based access control: only the assigned reviewer can complete their assigned review task\n* \\[RP-NFR-004\\] The system validates all mandatory fields before allowing task submission\n* \\[RISK-006\\] The system shall prevent task completion when Verdict or Review Context fields are missing — HIGH severity risk mitigation\n\n### Business Rules\n\n* \\[BR-003\\] The Reviewer must provide a Verdict when completing their review task\n* \\[BR-004\\] The Reviewer must provide Review Context when completing their review task\n* \\[RP-BIZ-003\\] Both Verdict (\"Review Completed\") and Review Context (\"Quality Review\") must be provided to complete the review task\n* \\[BR-006\\] Only assigned users can access their respective workflow tasks\n\n### Inferred / TBC Items\n\n* Assumed: Verdict and Review Context are dropdown fields with predefined values (GAP-003)\n* Assumed: The task list displays tasks in reverse chronological order (most recent first) (GAP-005)\n* Assumed: System displays a standard field-level validation error message (GAP-001)\n\n**Covers:** RP-FUNC-005, RP-FUNC-006, RP-FUNC-010, RP-FUNC-011, RP-ROLE-002, RP-ROLE-005, RP-WFLOW-001, RP-WFLOW-003, RP-BIZ-003, RP-BIZ-005, RP-DATA-002, RP-DATA-004, RP-DATA-005, RP-DATA-008, RP-INT-001, RP-NFR-002, RP-NFR-004\n\n**Source:** requirements/Send for Review Verification Steps.txt | **Updated:** 2026-05-26T11:05:00Z",
+  "acceptanceCriteria": null,
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-05-22T19:16:24.663+0530",
+  "updated": "2026-05-26T16:17:23.503+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-13",
+  "fetchedAt": "2026-08-21T08:55:02.070Z"
+}

@@ -1,0 +1,61 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-29T18:29:29.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "TIMEOUT_ERROR",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 363,
+    "methodCall": "await purchaseOrderPage.searchAndOpenApp('Manage Purchase Orders')",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "failingMethod": "openSearch",
+    "methodLine": 131,
+    "locatorUsed": {
+      "type": "css",
+      "selector": "[title=\"Open Search\"]",
+      "note": "This was a previous self-healing patch applied on 2026-05-29 Phase 5"
+    },
+    "errorMessage": "Test timeout of 120000ms exceeded. Error: locator.waitFor: Test timeout of 120000ms exceeded. Call log: - waiting for locator('[title=\"Open Search\"]') to be visible",
+    "stackTrace": "at PurchaseOrderPage.openSearch (c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\automation\\pages\\mm\\purchase-order\\purchase-order.page.js:131:21)\nat PurchaseOrderPage.searchAndOpenApp (c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\automation\\pages\\mm\\purchase-order\\purchase-order.page.js:137:5)\nat c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\automation\\tests\\mm-purchase-order.spec.js:363:5"
+  },
+  "explorationComparison": {
+    "explorationLocator": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']", "confidence": "HIGH" }
+      ]
+    },
+    "scriptLocator": {
+      "type": "css",
+      "selector": "[title=\"Open Search\"]"
+    },
+    "match": "PARTIAL",
+    "note": "Script uses CSS selector [title='Open Search'] which matches exploration fallback. However, exploration recommends role-based selector as primary. Timeout suggests element not found at all — possible navigation issue or SAP shell not loading."
+  },
+  "rootCauseAnalysis": {
+    "category": "NAVIGATION_OR_SESSION_ISSUE",
+    "observations": [
+      "Test timed out at 120 seconds waiting for search button to appear",
+      "Element waited up to 90 seconds (method timeout) within 120s test timeout",
+      "Same failure occurred on retry attempt",
+      "Previous executions succeeded with same locator (Phase 3 exploration + Phase 5 patch)",
+      "Suggests SAP Fiori Launchpad home page may not have loaded at all"
+    ],
+    "possibleCauses": [
+      "SAP session timeout or authentication failure",
+      "SAP Fiori shell bar did not render (JavaScript error, network timeout)",
+      "Page navigation never completed (stuck at login or intermediate redirect)",
+      "Guided Tour dialog or other blocking overlay preventing shell bar visibility"
+    ]
+  },
+  "recommendation": "SELF_HEAL_WITH_RE_EXECUTION",
+  "confidence": "MEDIUM",
+  "notes": "Timeout on element that previously worked suggests environmental or session issue rather than locator staleness. Re-execution via MCP will determine if: (A) SAP is accessible and element still exists → script timing issue; (B) SAP is inaccessible → environmental failure; (C) Element changed → locator update needed.",
+  "nextStep": "Run re-execute-scriptless to verify SAP state and element availability",
+  "evidence": {
+    "screenshot": "test-results\\mm-purchase-order-MM-—-Man-e0dd9-ubmission-DESIGNED-TO-FAIL--sap-chromium\\test-failed-1.png",
+    "video": "test-results\\mm-purchase-order-MM-—-Man-e0dd9-ubmission-DESIGNED-TO-FAIL--sap-chromium\\video.webm",
+    "trace": "test-results\\mm-purchase-order-MM-—-Man-e0dd9-ubmission-DESIGNED-TO-FAIL--sap-chromium-retry1\\trace.zip"
+  }
+}

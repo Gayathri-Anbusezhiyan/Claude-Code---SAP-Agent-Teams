@@ -1,0 +1,419 @@
+{
+  "project": "CS",
+  "projectName": "SAP S/4HANA Cloud - Materials Management Test Data",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "module": "MM",
+  "testDataSets": {
+    "TD-CS-022-001": {
+      "id": "TD-CS-022-001",
+      "name": "Valid Vendor with Inspection History — Standard Scorecard View",
+      "userStory": "CS-22",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-200"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_PERCENT}}",
+        "expectedOTDRate": "{{EXPECTED_OTD_RATE_PERCENT}}",
+        "expectedStatusIndicator": "{{EXPECTED_STATUS_GREEN_YELLOW_RED}}"
+      },
+      "expectedOutcome": "Scorecard displays with all metrics; acceptance rate and OTD rate calculated correctly; visual status indicator shown"
+    },
+    "TD-CS-022-002": {
+      "id": "TD-CS-022-002",
+      "name": "Batch Acceptance Rate — Standard Time Period (90 Days)",
+      "userStory": "CS-22",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-201"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "standardTimePeriod": "{{STANDARD_TIME_PERIOD_90_DAYS}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_PERCENT}}"
+      },
+      "expectedOutcome": "Batch acceptance rate calculated over last 90 days; formula (Accepted / Total) × 100 applied correctly"
+    },
+    "TD-CS-022-003": {
+      "id": "TD-CS-022-003",
+      "name": "On-Time Delivery Performance — Valid PO and GR Data",
+      "userStory": "CS-22",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-202"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_PO_GR_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_PO_GR_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedOTDRate": "{{EXPECTED_OTD_RATE_PERCENT}}"
+      },
+      "expectedOutcome": "OTD rate calculated as (On-Time Deliveries / Total Deliveries) × 100; based on PO delivery date vs actual GR date"
+    },
+    "TD-CS-022-004": {
+      "id": "TD-CS-022-004",
+      "name": "Drill Down to Rejected Inspection Lots",
+      "userStory": "CS-22",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-203"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_REJECTED_LOTS}}",
+        "vendorName": "{{VENDOR_NAME_WITH_REJECTED_LOTS}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "User drills down from scorecard to detailed rejected inspection lot view; only rejected lots displayed"
+    },
+    "TD-CS-022-005": {
+      "id": "TD-CS-022-005",
+      "name": "Export Vendor Quality Scorecard",
+      "userStory": "CS-22",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-204"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "exportFormat": "{{EXPORT_FORMAT_PDF_OR_EXCEL}}"
+      },
+      "expectedOutcome": "Scorecard exported to selected format; report contains all key metrics and is audit-compliant"
+    },
+    "TD-CS-022-AP-001": {
+      "id": "TD-CS-022-AP-001",
+      "name": "Custom Time Period — Last 12 Months",
+      "userStory": "CS-22",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-205"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "customTimePeriod": "{{CUSTOM_TIME_PERIOD_12_MONTHS}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_12_MONTHS}}",
+        "expectedOTDRate": "{{EXPECTED_OTD_RATE_12_MONTHS}}"
+      },
+      "expectedOutcome": "Scorecard displays metrics calculated over custom 12-month period"
+    },
+    "TD-CS-022-AP-002": {
+      "id": "TD-CS-022-AP-002",
+      "name": "Filter by Specific Purchasing Organization",
+      "userStory": "CS-22",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-206"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_MULTI_ORG_DATA}}",
+        "vendorName": "{{VENDOR_NAME_WITH_MULTI_ORG_DATA}}",
+        "purchasingOrg": "{{PURCHASING_ORG_CODE}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_FOR_ORG}}",
+        "expectedOTDRate": "{{EXPECTED_OTD_RATE_FOR_ORG}}"
+      },
+      "expectedOutcome": "Scorecard displays data filtered by specified purchasing organization; metrics reflect only data for that org"
+    },
+    "TD-CS-022-AP-003": {
+      "id": "TD-CS-022-AP-003",
+      "name": "Vendor with Quality Threshold Met (Green Status)",
+      "userStory": "CS-22",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-207"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_GREEN_STATUS}}",
+        "vendorName": "{{VENDOR_NAME_GREEN_STATUS}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "qualityThreshold": "{{QUALITY_THRESHOLD_PERCENT}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_ABOVE_THRESHOLD}}",
+        "expectedStatusIndicator": "Green"
+      },
+      "expectedOutcome": "Vendor acceptance rate is above threshold; green status indicator displayed"
+    },
+    "TD-CS-022-AP-004": {
+      "id": "TD-CS-022-AP-004",
+      "name": "Vendor with Quality Threshold Warning (Yellow Status)",
+      "userStory": "CS-22",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-208"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_YELLOW_STATUS}}",
+        "vendorName": "{{VENDOR_NAME_YELLOW_STATUS}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "qualityThreshold": "{{QUALITY_THRESHOLD_PERCENT}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_NEAR_THRESHOLD}}",
+        "expectedStatusIndicator": "Yellow"
+      },
+      "expectedOutcome": "Vendor acceptance rate is near threshold (within warning range); yellow status indicator displayed"
+    },
+    "TD-CS-022-NEG-001": {
+      "id": "TD-CS-022-NEG-001",
+      "name": "Non-Existent Vendor ID",
+      "userStory": "CS-22",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-209"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_NON_EXISTENT}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "System displays error message: Vendor does not exist; scorecard is not displayed"
+    },
+    "TD-CS-022-NEG-002": {
+      "id": "TD-CS-022-NEG-002",
+      "name": "Vendor with No Inspection History",
+      "userStory": "CS-22",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-210"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_NO_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_NO_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "Scorecard displays with zero inspection lots; acceptance rate not calculable or displayed as N/A"
+    },
+    "TD-CS-022-NEG-003": {
+      "id": "TD-CS-022-NEG-003",
+      "name": "No Rejected Inspection Lots Exist",
+      "userStory": "CS-22",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-211"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_NO_REJECTED_LOTS}}",
+        "vendorName": "{{VENDOR_NAME_NO_REJECTED_LOTS}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "Rejected lots metric shows 0; drill-down link is disabled or displays empty list with informational message"
+    },
+    "TD-CS-022-NEG-004": {
+      "id": "TD-CS-022-NEG-004",
+      "name": "Vendor with No Purchase Orders or Goods Receipts",
+      "userStory": "CS-22",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-212"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_NO_PO_GR}}",
+        "vendorName": "{{VENDOR_NAME_NO_PO_GR}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "OTD metrics display as zero or N/A; no delivery data available message displayed"
+    },
+    "TD-CS-022-NEG-005": {
+      "id": "TD-CS-022-NEG-005",
+      "name": "Vendor Falls Below Quality Threshold (Red Flag)",
+      "userStory": "CS-22",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-213"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_RED_STATUS}}",
+        "vendorName": "{{VENDOR_NAME_RED_STATUS}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "qualityThreshold": "{{QUALITY_THRESHOLD_PERCENT}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_BELOW_THRESHOLD}}",
+        "expectedStatusIndicator": "Red"
+      },
+      "expectedOutcome": "Vendor acceptance rate is below threshold; red status indicator (flag) is displayed prominently"
+    },
+    "TD-CS-022-ERR-001": {
+      "id": "TD-CS-022-ERR-001",
+      "name": "Missing Vendor ID Field",
+      "userStory": "CS-22",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-214"],
+      "data": {
+        "vendorId": "{{EMPTY_VALUE}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "System highlights Vendor field as mandatory; Go button is disabled or query is blocked; error message displayed"
+    },
+    "TD-CS-022-ERR-002": {
+      "id": "TD-CS-022-ERR-002",
+      "name": "Invalid Date Range (To Date Before From Date)",
+      "userStory": "CS-22",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-215"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_TODAY}}",
+        "timePeriodTo": "{{DATE_90_DAYS_AGO}}"
+      },
+      "expectedOutcome": "System displays error message: To Date must be after From Date; query is not executed"
+    },
+    "TD-CS-022-ERR-003": {
+      "id": "TD-CS-022-ERR-003",
+      "name": "Export Fails Due to Insufficient Authorization",
+      "userStory": "CS-22",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-216"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "exportFormat": "{{EXPORT_FORMAT_PDF_OR_EXCEL}}"
+      },
+      "expectedOutcome": "Export action is blocked; error message displayed: User does not have authorization to export vendor quality reports"
+    },
+    "TD-CS-022-EDGE-001": {
+      "id": "TD-CS-022-EDGE-001",
+      "name": "Time Period = 1 Day (Minimum Boundary)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-217"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_YESTERDAY}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "Scorecard displays metrics for 1-day period; system accepts minimum boundary; calculations are performed correctly"
+    },
+    "TD-CS-022-EDGE-002": {
+      "id": "TD-CS-022-EDGE-002",
+      "name": "Time Period = 3 Years (Maximum Boundary)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-218"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_LONG_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_LONG_HISTORY}}",
+        "timePeriodFrom": "{{DATE_3_YEARS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "Scorecard displays metrics for 3-year period; system accepts maximum boundary; performance is acceptable for large data volume"
+    },
+    "TD-CS-022-EDGE-003": {
+      "id": "TD-CS-022-EDGE-003",
+      "name": "Quality Threshold = 0% (All Vendors Flagged)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-219"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "qualityThreshold": "0",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedStatusIndicator": "Red"
+      },
+      "expectedOutcome": "Threshold set to 0%; all vendors (including this one) are flagged as red regardless of actual acceptance rate"
+    },
+    "TD-CS-022-EDGE-004": {
+      "id": "TD-CS-022-EDGE-004",
+      "name": "Quality Threshold = 100% (No Vendors Flagged)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-220"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "qualityThreshold": "100",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedStatusIndicator": "Green"
+      },
+      "expectedOutcome": "Threshold set to 100%; only vendors with 100% acceptance rate would not be flagged; this vendor shows green or yellow status"
+    },
+    "TD-CS-022-EDGE-005": {
+      "id": "TD-CS-022-EDGE-005",
+      "name": "Batch Acceptance Rate = 0% (All Lots Rejected)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-221"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_ALL_REJECTED}}",
+        "vendorName": "{{VENDOR_NAME_ALL_REJECTED}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedAcceptanceRate": "0.00",
+        "expectedStatusIndicator": "Red"
+      },
+      "expectedOutcome": "Acceptance rate displays as 0.00%; red status indicator shown; calculation handles zero accepted lots correctly"
+    },
+    "TD-CS-022-EDGE-006": {
+      "id": "TD-CS-022-EDGE-006",
+      "name": "Batch Acceptance Rate = 100% (All Lots Accepted)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-222"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_ALL_ACCEPTED}}",
+        "vendorName": "{{VENDOR_NAME_ALL_ACCEPTED}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedAcceptanceRate": "100.00",
+        "expectedStatusIndicator": "Green"
+      },
+      "expectedOutcome": "Acceptance rate displays as 100.00%; green status indicator shown; calculation handles zero rejected lots correctly"
+    },
+    "TD-CS-022-EDGE-007": {
+      "id": "TD-CS-022-EDGE-007",
+      "name": "On-Time Delivery Rate = 0% (All Deliveries Late)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-223"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_ALL_LATE}}",
+        "vendorName": "{{VENDOR_NAME_ALL_LATE}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedOTDRate": "0.00",
+        "expectedStatusIndicator": "Red"
+      },
+      "expectedOutcome": "OTD rate displays as 0.00%; red status indicator shown; calculation handles zero on-time deliveries correctly"
+    },
+    "TD-CS-022-EDGE-008": {
+      "id": "TD-CS-022-EDGE-008",
+      "name": "On-Time Delivery Rate = 100% (All Deliveries On-Time)",
+      "userStory": "CS-22",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-224"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_ALL_ON_TIME}}",
+        "vendorName": "{{VENDOR_NAME_ALL_ON_TIME}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "expectedOTDRate": "100.00"
+      },
+      "expectedOutcome": "OTD rate displays as 100.00%; calculation handles zero late deliveries correctly"
+    },
+    "TD-CS-022-INT-001": {
+      "id": "TD-CS-022-INT-001",
+      "name": "Verify Batch Acceptance Rate Aggregates QM Inspection Lot Results",
+      "userStory": "CS-22",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-225"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_INSPECTION_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_INSPECTION_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "qmInspectionLotTable": "{{QM_INSPECTION_LOT_TABLE_QALS}}",
+        "expectedAcceptanceRate": "{{EXPECTED_ACCEPTANCE_RATE_FROM_QM}}"
+      },
+      "expectedOutcome": "Acceptance rate in scorecard matches manual calculation from QM inspection lot source data; integration with QM module is correct"
+    },
+    "TD-CS-022-INT-002": {
+      "id": "TD-CS-022-INT-002",
+      "name": "Verify On-Time Delivery Calculation Uses PO and GR Dates",
+      "userStory": "CS-22",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-226"],
+      "data": {
+        "vendorId": "{{VENDOR_ID_WITH_PO_GR_HISTORY}}",
+        "vendorName": "{{VENDOR_NAME_WITH_PO_GR_HISTORY}}",
+        "timePeriodFrom": "{{DATE_90_DAYS_AGO}}",
+        "timePeriodTo": "{{DATE_TODAY}}",
+        "poTable": "{{MM_PO_TABLE_EKKO_EKPO}}",
+        "grTable": "{{MM_GR_TABLE_MKPF_MSEG}}",
+        "expectedOTDRate": "{{EXPECTED_OTD_RATE_FROM_MM}}"
+      },
+      "expectedOutcome": "OTD rate in scorecard matches manual calculation comparing PO delivery dates (EKPO-EINDT) vs GR posting dates (MKPF-BUDAT); integration with MM module is correct"
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "userStory": "CS-3",
+  "summary": "View and Modify an Existing Purchase Order",
+  "module": "MM",
+  "generatedAt": "2026-05-12T08:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 9,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 1,
+    "EDGE": 3,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 2,
+    "HIGH": 4,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 8,
+  "allQualityGatesPassed": true,
+  "executionOrder": [
+    "TC-CS-012",
+    "TC-CS-013",
+    "TC-CS-014",
+    "TC-CS-015",
+    "TC-CS-016",
+    "TC-CS-017",
+    "TC-CS-018",
+    "TC-CS-019",
+    "TC-CS-020"
+  ],
+  "testCases": [
+    {
+      "id": "TC-CS-012",
+      "title": "View Purchase Order Details in Display Mode",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-003-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-013",
+      "title": "Modify Purchase Order Quantity in Edit Mode and Save Changes",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-003-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-5", "AC-6", "AC-7", "AC-8"]
+    },
+    {
+      "id": "TC-CS-014",
+      "title": "Attempt to Open Purchase Order with Non-existent PO Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-003-NEG-001",
+      "acsCovered": ["AC-2", "AC-9"]
+    },
+    {
+      "id": "TC-CS-015",
+      "title": "Verify Purchase Order Fields are Read-Only in Display Mode",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-003-NEG-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-016",
+      "title": "Attempt to Switch Purchase Order to Edit Mode Without Edit Authorization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-003-NEG-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-017",
+      "title": "Verify Goods-Receipted Purchase Order Line Item Field is Locked in Edit Mode",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-003-ERR-001",
+      "acsCovered": ["AC-10"]
+    },
+    {
+      "id": "TC-CS-018",
+      "title": "Modify Purchase Order Quantity to Minimum Valid Value (Boundary Lower)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-003-EDGE-001",
+      "acsCovered": ["AC-6", "AC-7"]
+    },
+    {
+      "id": "TC-CS-019",
+      "title": "Attempt to Set Purchase Order Quantity to Zero (Boundary Zero — Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-003-EDGE-002",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-020",
+      "title": "Attempt to Search for Purchase Order with Invalid PO Number Format",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-003-EDGE-003",
+      "acsCovered": ["AC-2", "AC-9"]
+    }
+  ],
+  "testdataFile": "testdata/CS-3/CS-3-testdata.json"
+}

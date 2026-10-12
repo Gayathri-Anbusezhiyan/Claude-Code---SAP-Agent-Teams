@@ -1,0 +1,781 @@
+- generic [ref=f7e1]:
+  - generic:
+    - status
+    - status
+    - generic [ref=f7e3436]: Ctrl+E
+  - generic:
+    - alert
+    - alert
+  - generic [ref=f7e21]:
+    - banner "Shell Bar" [ref=f7e27]:
+      - generic [ref=f7e28]:
+        - generic:
+          - button "Open Menu" [ref=f7e30] [cursor=pointer]
+          - button "Back" [ref=f7e844] [cursor=pointer]
+        - link [ref=f7e35] [cursor=pointer]:
+          - /url: "#Shell-home"
+      - generic [ref=f7e38]:
+        - generic [ref=f7e658] [cursor=pointer]:
+          - heading "Purchase Order" [level=1]
+          - button "Purchase Order" [ref=f7e1831]:
+            - generic [ref=f7e1512]: 
+        - toolbar [ref=f7e41]:
+          - generic "Open Search" [ref=f7e1515] [cursor=pointer]:
+            - button "Open Search" [ref=f7e1516]
+          - button "0 Notifications" [ref=f7e669] [cursor=pointer]
+          - button "Joule" [ref=f7e681] [cursor=pointer]
+          - button "Help" [ref=f7e683] [cursor=pointer]
+      - button [ref=f7e48] [cursor=pointer]:
+        - img "Avatar T0U" [ref=f7e52]
+    - generic [ref=f7e59]:
+      - text: 
+      - main "Shell Content" [ref=f7e106]:
+        - text:                        
+        - generic [ref=f7e1523]:
+          - text: "    :  :  :  :  :  :  :  :  :         "
+          - generic [ref=f7e1836]:
+            - banner "4500066120 Header area Object page header" [ref=f7e3439]:
+              - generic [ref=f7e1838]:
+                - button "4500066120 Standard PO"
+                - generic [ref=f7e1840]:
+                  - navigation "Breadcrumb Trail":
+                    - list
+                - generic [ref=f7e1842]:
+                  - generic [ref=f7e1847]:
+                    - heading "4500066120" [level=2] [ref=f7e3440]
+                    - generic [ref=f7e1850]: Standard PO
+                  - toolbar "Header actions" [ref=f7e1854]:
+                    - button "Edit" [active] [ref=f7e3442] [cursor=pointer]
+                    - button "Withdraw from Approval" [ref=f7e3445] [cursor=pointer]
+                    - button "Copy" [ref=f7e3448] [cursor=pointer]
+                    - button "Display Commitments" [disabled] [ref=f7e1855]
+                    - button "Status Details" [ref=f7e1858] [cursor=pointer]
+                    - button "Display Change Log" [ref=f7e1861] [cursor=pointer]
+                    - button "Output Preview" [ref=f7e1864] [cursor=pointer]
+                    - button "Summarize" [ref=f7e1867] [cursor=pointer]:
+                      - generic [ref=f7e1868]:
+                        - generic [ref=f7e1869]: 
+                        - generic [ref=f7e1870]: Summarize
+                    - button "Share (Shift+Ctrl+S)" [ref=f7e3452] [cursor=pointer]:
+                      - generic [ref=f7e3453]:
+                        - generic [ref=f7e3454]: 
+                        - text: 
+                - button "Expand Header" [ref=f7e3455] [cursor=pointer]:
+                  - generic [ref=f7e3456]: 
+              - navigation [ref=f7e3458]:
+                - tablist [ref=f7e3459]:
+                  - tab "General Information" [selected] [ref=f7e3460] [cursor=pointer]
+                  - tab "Items" [ref=f7e3465] [cursor=pointer]
+                  - tab "Limit Items" [ref=f7e3470] [cursor=pointer]
+                  - tab "Delivery and Invoice" [ref=f7e3475] [cursor=pointer]
+                  - tab "Supplier Contact Data" [ref=f7e3480] [cursor=pointer]
+                  - tab "Notes" [ref=f7e3485] [cursor=pointer]
+                  - tab "Output Management" [ref=f7e3490] [cursor=pointer]
+                  - tab "Attachments" [ref=f7e3495] [cursor=pointer]
+                  - tab "Approval Details" [ref=f7e3500] [cursor=pointer]
+            - generic [ref=f7e1928]:
+              - region [ref=f7e1929]:
+                - generic [ref=f7e1933]:
+                  - heading "General Information" [level=3] [ref=f7e1936]
+                  - region [ref=f7e1944]:
+                    - generic [ref=f7e1946]:
+                      - generic [ref=f7e3505]:
+                        - heading "Basic Data" [level=4] [ref=f7e2703]
+                        - generic "Basic Data" [ref=f7e3506]:
+                          - generic [ref=f7e3507]:
+                            - term [ref=f7e3508]:
+                              - generic "Purchasing Document Type" [ref=f7e3509]:
+                                - generic [ref=f7e3510]:
+                                  - generic [ref=f7e3511]: Purchasing Doc. Type
+                                  - generic [ref=f7e3512]: ":"
+                            - definition [ref=f7e3513]:
+                              - generic [ref=f7e3514]: Standard PO (NB)
+                          - generic [ref=f7e3516]:
+                            - term [ref=f7e3517]:
+                              - generic [ref=f7e3519]:
+                                - generic [ref=f7e3520]: Supplier
+                                - generic [ref=f7e3521]: ":"
+                            - definition [ref=f7e3522]:
+                              - generic [ref=f7e3523]: Carbon Tec Inc. (17300002)
+                          - generic [ref=f7e3525]:
+                            - term [ref=f7e3526]:
+                              - generic "Currency Key" [ref=f7e3527]:
+                                - generic [ref=f7e3528]:
+                                  - generic [ref=f7e3529]: Currency
+                                  - generic [ref=f7e3530]: ":"
+                            - definition [ref=f7e3531]:
+                              - generic [ref=f7e3532]: United States Dollar (USD)
+                          - generic [ref=f7e3534]:
+                            - term [ref=f7e3535]:
+                              - generic [ref=f7e3537]:
+                                - generic [ref=f7e3538]: Language Key
+                                - generic [ref=f7e3539]: ":"
+                            - definition [ref=f7e3540]:
+                              - generic [ref=f7e3541]: English (EN)
+                      - generic [ref=f7e3543]:
+                        - heading "Organization" [level=4] [ref=f7e2741]
+                        - generic "Organization" [ref=f7e3544]:
+                          - generic [ref=f7e3545]:
+                            - term [ref=f7e3546]:
+                              - generic [ref=f7e3548]:
+                                - generic [ref=f7e3549]: Purchasing Group
+                                - generic [ref=f7e3550]: ":"
+                            - definition [ref=f7e3551]:
+                              - generic [ref=f7e3552]: Group 001 (001)
+                          - generic [ref=f7e3554]:
+                            - term [ref=f7e3555]:
+                              - generic [ref=f7e3557]:
+                                - generic [ref=f7e3558]: Purchasing Organization
+                                - generic [ref=f7e3559]: ":"
+                            - definition [ref=f7e3560]:
+                              - generic [ref=f7e3561]: Purch. Org. 1710 (1710)
+                          - generic [ref=f7e3563]:
+                            - term [ref=f7e3564]:
+                              - generic [ref=f7e3566]:
+                                - generic [ref=f7e3567]: Company Code
+                                - generic [ref=f7e3568]: ":"
+                            - definition [ref=f7e3569]:
+                              - generic [ref=f7e3570]: Velotics Inc. (1710)
+                      - generic [ref=f7e3572]:
+                        - heading "Further Information" [level=4] [ref=f7e3573]
+                        - generic "Further Information" [ref=f7e3574]:
+                          - generic [ref=f7e3575]:
+                            - term [ref=f7e3576]:
+                              - generic "User of person who created a purchasing document" [ref=f7e3577]:
+                                - generic [ref=f7e3578]:
+                                  - generic [ref=f7e3579]: Created By
+                                  - generic [ref=f7e3580]: ":"
+                            - definition [ref=f7e3581]:
+                              - generic [ref=f7e3582]: Trial 0041520 User (CB9980020708)
+                          - generic [ref=f7e3584]:
+                            - term [ref=f7e3585]:
+                              - generic [ref=f7e3587]:
+                                - generic [ref=f7e3588]: Purchase Order Date
+                                - generic [ref=f7e3589]: ":"
+                            - definition [ref=f7e3590]:
+                              - generic [ref=f7e3591]: 07/20/2026
+                          - generic [ref=f7e3593]:
+                            - term [ref=f7e3594]:
+                              - generic "Approval Status of PO" [ref=f7e3595]:
+                                - generic [ref=f7e3596]:
+                                  - generic [ref=f7e3597]: Approval Status
+                                  - generic [ref=f7e3598]: ":"
+                            - definition [ref=f7e3599]:
+                              - generic [ref=f7e3600]: Workflow not yet started
+                          - generic [ref=f7e3602]:
+                            - term [ref=f7e3603]:
+                              - generic [ref=f7e3605]:
+                                - generic [ref=f7e3606]: Approver Name
+                                - generic [ref=f7e3607]: ":"
+                            - definition [ref=f7e3608]:
+                              - generic [ref=f7e3609]: Workflow not yet started
+                            - definition [ref=f7e3611]
+              - region "Items" [ref=f7e1986]:
+                - generic [ref=f7e1998]:
+                  - toolbar [ref=f7e3157]:
+                    - heading "Items (1)" [level=3] [ref=f7e3158]
+                    - separator [ref=f7e3159]
+                    - generic [ref=f7e3162]:
+                      - generic [ref=f7e3163]: Standard
+                      - button "View Standard" [ref=f7e3166] [cursor=pointer]:
+                        - generic [ref=f7e3167]: 
+                    - generic [ref=f7e3171]:
+                      - searchbox "Search" [ref=f7e3172]
+                      - generic [ref=f7e3173] [cursor=pointer]: 
+                    - button "Copy" [disabled] [ref=f7e3189]
+                    - button "Copy to Clipboard" [disabled] [ref=f7e3195]:
+                      - generic [ref=f7e3196]: 
+                    - button "Settings" [ref=f7e3198] [cursor=pointer]:
+                      - generic [ref=f7e3199]: 
+                    - group "Export Table Split Button Press Enter to trigger action and Arrow Down to open menu" [ref=f7e3202]:
+                      - generic [ref=f7e3203]:
+                        - button "excel-attachment" [ref=f7e3204] [cursor=pointer]:
+                          - generic [ref=f7e3205]: 
+                        - button "Open Menu" [ref=f7e3207] [cursor=pointer]:
+                          - generic [ref=f7e3208]: 
+                  - grid "Items (1)" [ref=f7e3613]:
+                    - row [ref=f7e2060]:
+                      - columnheader "Item" [ref=f7e2061] [cursor=pointer]
+                      - columnheader "Item Category" [ref=f7e2067] [cursor=pointer]
+                      - columnheader "Material" [ref=f7e2073] [cursor=pointer]
+                      - columnheader "Short Text" [ref=f7e2079] [cursor=pointer]
+                      - columnheader "Material Group" [ref=f7e2085] [cursor=pointer]
+                      - columnheader "Plant" [ref=f7e2091] [cursor=pointer]
+                      - columnheader "Order Quantity" [ref=f7e2097] [cursor=pointer]
+                      - columnheader "Net Order Price" [ref=f7e2103] [cursor=pointer]
+                      - columnheader "Price Unit" [ref=f7e2109] [cursor=pointer]
+                      - columnheader "Net Order Value" [ref=f7e2115] [cursor=pointer]
+                      - columnheader "Revision Level" [ref=f7e2121] [cursor=pointer]
+                      - columnheader "Supplier Material Number" [ref=f7e2127] [cursor=pointer]
+                      - columnheader "Status" [ref=f7e2133] [cursor=pointer]
+                      - columnheader "Row Actions" [ref=f7e2139]
+                    - generic [ref=f7e2140]:
+                      - generic [ref=f7e2779]:
+                        - row [ref=f7e3614]:
+                          - gridcell "10" [ref=f7e3212]
+                          - gridcell "Standard" [ref=f7e3616]
+                          - gridcell "Input 1 (WATER) (RMPI001)" [ref=f7e3618]
+                          - gridcell "Input 1 (WATER)" [ref=f7e3620]
+                          - gridcell "Raw Materials (L002)" [ref=f7e3412]
+                          - gridcell "Plant 1 US (1710)" [ref=f7e3623]
+                          - gridcell "10.000 KG" [ref=f7e3625]:
+                            - generic [ref=f7e3626]:
+                              - generic [ref=f7e3627]: "10.000"
+                              - generic [ref=f7e3628]: KG
+                          - gridcell "0.08 USD" [ref=f7e3629]:
+                            - generic [ref=f7e3630]:
+                              - generic [ref=f7e3631]: "0.08"
+                              - generic [ref=f7e3632]: USD
+                          - gridcell "1.000 KG" [ref=f7e3633]:
+                            - generic [ref=f7e3634]:
+                              - generic [ref=f7e3635]: "1.000"
+                              - generic [ref=f7e3636]: KG
+                          - gridcell "0.80 USD" [ref=f7e3426]:
+                            - generic [ref=f7e3637]:
+                              - generic [ref=f7e3638]: "0.80"
+                              - generic [ref=f7e3639]: USD
+                          - gridcell [ref=f7e3640]
+                          - gridcell [ref=f7e3641]
+                          - gridcell [ref=f7e2795]
+                          - gridcell [ref=f7e2796] [cursor=pointer]
+                          - gridcell [ref=f7e2797]:
+                            - button [ref=f7e3322] [cursor=pointer]: 
+                        - row [ref=f7e2798]:
+                          - gridcell [ref=f7e2799]
+                          - gridcell [ref=f7e2800]
+                          - gridcell [ref=f7e2801]
+                          - gridcell [ref=f7e2802]
+                          - gridcell [ref=f7e2803]
+                          - gridcell [ref=f7e2804]
+                          - gridcell [ref=f7e2805]
+                          - gridcell [ref=f7e2806]
+                          - gridcell [ref=f7e2807]
+                          - gridcell [ref=f7e2808]
+                          - gridcell [ref=f7e2809]
+                          - gridcell [ref=f7e2810]
+                          - gridcell [ref=f7e2811]
+                          - gridcell [ref=f7e2812] [cursor=pointer]
+                          - gridcell [ref=f7e2813]: 
+                        - row [ref=f7e2814]:
+                          - gridcell [ref=f7e2815]
+                          - gridcell [ref=f7e2816]
+                          - gridcell [ref=f7e2817]
+                          - gridcell [ref=f7e2818]
+                          - gridcell [ref=f7e2819]
+                          - gridcell [ref=f7e2820]
+                          - gridcell [ref=f7e2821]
+                          - gridcell [ref=f7e2822]
+                          - gridcell [ref=f7e2823]
+                          - gridcell [ref=f7e2824]
+                          - gridcell [ref=f7e2825]
+                          - gridcell [ref=f7e2826]
+                          - gridcell [ref=f7e2827]
+                          - gridcell [ref=f7e2828] [cursor=pointer]
+                          - gridcell [ref=f7e2829]: 
+                        - row [ref=f7e2830]:
+                          - gridcell [ref=f7e2831]
+                          - gridcell [ref=f7e2832]
+                          - gridcell [ref=f7e2833]
+                          - gridcell [ref=f7e2834]
+                          - gridcell [ref=f7e2835]
+                          - gridcell [ref=f7e2836]
+                          - gridcell [ref=f7e2837]
+                          - gridcell [ref=f7e2838]
+                          - gridcell [ref=f7e2839]
+                          - gridcell [ref=f7e2840]
+                          - gridcell [ref=f7e2841]
+                          - gridcell [ref=f7e2842]
+                          - gridcell [ref=f7e2843]
+                          - gridcell [ref=f7e2844] [cursor=pointer]
+                          - gridcell [ref=f7e2845]: 
+                        - row [ref=f7e2846]:
+                          - gridcell [ref=f7e2847]
+                          - gridcell [ref=f7e2848]
+                          - gridcell [ref=f7e2849]
+                          - gridcell [ref=f7e2850]
+                          - gridcell [ref=f7e2851]
+                          - gridcell [ref=f7e2852]
+                          - gridcell [ref=f7e2853]
+                          - gridcell [ref=f7e2854]
+                          - gridcell [ref=f7e2855]
+                          - gridcell [ref=f7e2856]
+                          - gridcell [ref=f7e2857]
+                          - gridcell [ref=f7e2858]
+                          - gridcell [ref=f7e2859]
+                          - gridcell [ref=f7e2860] [cursor=pointer]
+                          - gridcell [ref=f7e2861]: 
+                        - row [ref=f7e2862]:
+                          - gridcell [ref=f7e2863]
+                          - gridcell [ref=f7e2864]
+                          - gridcell [ref=f7e2865]
+                          - gridcell [ref=f7e2866]
+                          - gridcell [ref=f7e2867]
+                          - gridcell [ref=f7e2868]
+                          - gridcell [ref=f7e2869]
+                          - gridcell [ref=f7e2870]
+                          - gridcell [ref=f7e2871]
+                          - gridcell [ref=f7e2872]
+                          - gridcell [ref=f7e2873]
+                          - gridcell [ref=f7e2874]
+                          - gridcell [ref=f7e2875]
+                          - gridcell [ref=f7e2876] [cursor=pointer]
+                          - gridcell [ref=f7e2877]: 
+                      - row [ref=f7e2879]
+                      - row [ref=f7e2880]
+                      - row [ref=f7e2881]
+                      - row [ref=f7e2882]
+                      - row [ref=f7e2883]
+                      - row [ref=f7e2884]
+                      - row [ref=f7e2885]
+                      - row [ref=f7e2886]
+                      - row [ref=f7e2887]
+                      - row [ref=f7e2888]
+                      - row [ref=f7e2889]
+                      - row [ref=f7e2890]
+                  - separator "Items (1)" [ref=f7e3642]:
+                    - generic [ref=f7e2158]: 
+              - region "Limit Items" [ref=f7e2160]:
+                - generic [ref=f7e2172]:
+                  - toolbar [ref=f7e3333]:
+                    - heading "Limit Items" [level=3] [ref=f7e3334]
+                    - separator [ref=f7e3335]
+                    - generic [ref=f7e3338]:
+                      - generic [ref=f7e3339]: Standard
+                      - button "View Standard" [ref=f7e3342] [cursor=pointer]:
+                        - generic [ref=f7e3343]: 
+                    - generic [ref=f7e3347]:
+                      - searchbox "Search" [ref=f7e3348]
+                      - generic [ref=f7e3349] [cursor=pointer]: 
+                    - button "Copy to Clipboard" [disabled] [ref=f7e3365]:
+                      - generic [ref=f7e3366]: 
+                    - button "Settings" [ref=f7e3368] [cursor=pointer]:
+                      - generic [ref=f7e3369]: 
+                    - group "Export Table Split Button Press Enter to trigger action and Arrow Down to open menu" [disabled] [ref=f7e3372]:
+                      - generic [ref=f7e3373]:
+                        - button "excel-attachment" [disabled] [ref=f7e3374]:
+                          - generic [ref=f7e3375]: 
+                        - button "Open Menu" [disabled] [ref=f7e3377]:
+                          - generic [ref=f7e3378]: 
+                  - grid "Limit Items" [ref=f7e3644]:
+                    - row [ref=f7e2228]:
+                      - columnheader "Item" [ref=f7e2229] [cursor=pointer]
+                      - columnheader "Short Text" [ref=f7e2235] [cursor=pointer]
+                      - columnheader "Expected Value" [ref=f7e2241] [cursor=pointer]
+                      - columnheader "Overall Limit" [ref=f7e2247] [cursor=pointer]
+                      - columnheader "Contract for Limit" [ref=f7e2253] [cursor=pointer]
+                      - columnheader "Contract Item for Limit" [ref=f7e2259] [cursor=pointer]
+                      - columnheader "Account Assignment Category" [ref=f7e2265] [cursor=pointer]
+                      - columnheader "Product Type Group" [ref=f7e2271] [cursor=pointer]
+                      - columnheader "Plant" [ref=f7e2277] [cursor=pointer]
+                      - columnheader "Revision Level" [ref=f7e2283] [cursor=pointer]
+                      - columnheader "Supplier Material Number" [ref=f7e2289] [cursor=pointer]
+                      - columnheader "Status" [ref=f7e2295] [cursor=pointer]
+                      - columnheader "Row Actions" [ref=f7e2301]
+                    - generic [ref=f7e2302]:
+                      - table [ref=f7e2901]:
+                        - rowgroup [ref=f7e2902]:
+                          - row [ref=f7e2903]:
+                            - gridcell [ref=f7e2904]
+                            - gridcell [ref=f7e2905]
+                            - gridcell [ref=f7e2906]
+                            - gridcell [ref=f7e2907]
+                            - gridcell [ref=f7e2908]
+                            - gridcell [ref=f7e2909]
+                            - gridcell [ref=f7e2910]
+                            - gridcell [ref=f7e2911]
+                            - gridcell [ref=f7e2912]
+                            - gridcell [ref=f7e2913]
+                            - gridcell [ref=f7e2914]
+                            - gridcell [ref=f7e2915]
+                            - gridcell [ref=f7e2916] [cursor=pointer]
+                            - gridcell [ref=f7e2917]: 
+                          - row [ref=f7e2918]:
+                            - gridcell [ref=f7e2919]
+                            - gridcell [ref=f7e2920]
+                            - gridcell [ref=f7e2921]
+                            - gridcell [ref=f7e2922]
+                            - gridcell [ref=f7e2923]
+                            - gridcell [ref=f7e2924]
+                            - gridcell [ref=f7e2925]
+                            - gridcell [ref=f7e2926]
+                            - gridcell [ref=f7e2927]
+                            - gridcell [ref=f7e2928]
+                            - gridcell [ref=f7e2929]
+                            - gridcell [ref=f7e2930]
+                            - gridcell [ref=f7e2931] [cursor=pointer]
+                            - gridcell [ref=f7e2932]: 
+                          - row [ref=f7e2933]:
+                            - gridcell [ref=f7e2934]
+                            - gridcell [ref=f7e2935]
+                            - gridcell [ref=f7e2936]
+                            - gridcell [ref=f7e2937]
+                            - gridcell [ref=f7e2938]
+                            - gridcell [ref=f7e2939]
+                            - gridcell [ref=f7e2940]
+                            - gridcell [ref=f7e2941]
+                            - gridcell [ref=f7e2942]
+                            - gridcell [ref=f7e2943]
+                            - gridcell [ref=f7e2944]
+                            - gridcell [ref=f7e2945]
+                            - gridcell [ref=f7e2946] [cursor=pointer]
+                            - gridcell [ref=f7e2947]: 
+                          - row [ref=f7e2948]:
+                            - gridcell [ref=f7e2949]
+                            - gridcell [ref=f7e2950]
+                            - gridcell [ref=f7e2951]
+                            - gridcell [ref=f7e2952]
+                            - gridcell [ref=f7e2953]
+                            - gridcell [ref=f7e2954]
+                            - gridcell [ref=f7e2955]
+                            - gridcell [ref=f7e2956]
+                            - gridcell [ref=f7e2957]
+                            - gridcell [ref=f7e2958]
+                            - gridcell [ref=f7e2959]
+                            - gridcell [ref=f7e2960]
+                            - gridcell [ref=f7e2961] [cursor=pointer]
+                            - gridcell [ref=f7e2962]: 
+                          - row [ref=f7e2963]:
+                            - gridcell [ref=f7e2964]
+                            - gridcell [ref=f7e2965]
+                            - gridcell [ref=f7e2966]
+                            - gridcell [ref=f7e2967]
+                            - gridcell [ref=f7e2968]
+                            - gridcell [ref=f7e2969]
+                            - gridcell [ref=f7e2970]
+                            - gridcell [ref=f7e2971]
+                            - gridcell [ref=f7e2972]
+                            - gridcell [ref=f7e2973]
+                            - gridcell [ref=f7e2974]
+                            - gridcell [ref=f7e2975]
+                            - gridcell [ref=f7e2976] [cursor=pointer]
+                            - gridcell [ref=f7e2977]: 
+                          - row [ref=f7e2978]:
+                            - gridcell [ref=f7e2979]
+                            - gridcell [ref=f7e2980]
+                            - gridcell [ref=f7e2981]
+                            - gridcell [ref=f7e2982]
+                            - gridcell [ref=f7e2983]
+                            - gridcell [ref=f7e2984]
+                            - gridcell [ref=f7e2985]
+                            - gridcell [ref=f7e2986]
+                            - gridcell [ref=f7e2987]
+                            - gridcell [ref=f7e2988]
+                            - gridcell [ref=f7e2989]
+                            - gridcell [ref=f7e2990]
+                            - gridcell [ref=f7e2991] [cursor=pointer]
+                            - gridcell [ref=f7e2992]: 
+                      - generic [ref=f7e2993]:
+                        - row [ref=f7e2994]
+                        - row [ref=f7e2995]
+                        - row [ref=f7e2996]
+                        - row [ref=f7e2997]
+                        - row [ref=f7e2998]
+                        - row [ref=f7e2999]
+                      - row [ref=f7e3000]
+                      - row [ref=f7e3001]
+                      - row [ref=f7e3002]
+                      - row [ref=f7e3003]
+                      - row [ref=f7e3004]
+                      - row [ref=f7e3005]
+                      - gridcell "There are no entries yet When there are, you’ll see them here." [ref=f7e3006]:
+                        - figure [ref=f7e3007]:
+                          - generic [ref=f7e3008]:
+                            - img "There are no entries yet" [ref=f7e3009]
+                            - generic [ref=f7e3011]:
+                              - heading "There are no entries yet" [level=2] [ref=f7e3012]
+                              - generic [ref=f7e3013]: When there are, you’ll see them here.
+                  - separator "Limit Items" [ref=f7e3645]:
+                    - generic [ref=f7e2320]: 
+              - region [ref=f7e2322]:
+                - generic [ref=f7e2326]:
+                  - heading "Delivery and Invoice" [level=3] [ref=f7e2329]
+                  - region [ref=f7e2337]:
+                    - generic [ref=f7e2339]:
+                      - generic [ref=f7e3647]:
+                        - generic [ref=f7e3648]:
+                          - term [ref=f7e3649]
+                          - definition [ref=f7e3650]
+                          - definition [ref=f7e3651]:
+                            - button [ref=f7e3652] [cursor=pointer]:
+                              - generic [ref=f7e3653]: 
+                        - generic [ref=f7e3655]:
+                          - term [ref=f7e3656]
+                          - definition [ref=f7e3657]
+                          - definition [ref=f7e3658]
+                        - generic [ref=f7e3659]:
+                          - term [ref=f7e3660]
+                          - definition [ref=f7e3661]
+                          - definition [ref=f7e3662]
+                        - generic [ref=f7e3663]:
+                          - term [ref=f7e3664]
+                          - definition [ref=f7e3665]
+                      - generic [ref=f7e3667]:
+                        - generic [ref=f7e3668]:
+                          - term [ref=f7e3669]
+                          - definition [ref=f7e3670]
+                        - generic [ref=f7e3671]:
+                          - term [ref=f7e3672]
+                          - definition [ref=f7e3673]
+                        - generic [ref=f7e3674]:
+                          - term [ref=f7e3675]:
+                            - generic [ref=f7e3677]:
+                              - generic [ref=f7e3678]: Incoterms Location 1 ID
+                              - generic [ref=f7e3679]: ":"
+                          - definition [ref=f7e3680]
+                        - generic [ref=f7e3681]:
+                          - term [ref=f7e3682]
+                          - definition [ref=f7e3683]
+                        - generic [ref=f7e3684]:
+                          - term [ref=f7e3685]:
+                            - generic [ref=f7e3687]:
+                              - generic [ref=f7e3688]: Deviating Place of Destination ID
+                              - generic [ref=f7e3689]: ":"
+                          - definition [ref=f7e3690]
+                        - generic [ref=f7e3691]:
+                          - term [ref=f7e3692]:
+                            - generic [ref=f7e3694]:
+                              - generic [ref=f7e3695]: Deviating Place of Destination
+                              - generic [ref=f7e3696]: ":"
+                          - definition [ref=f7e3697]
+                        - generic [ref=f7e3698]:
+                          - term [ref=f7e3699]:
+                            - generic [ref=f7e3701]:
+                              - generic [ref=f7e3702]: Incoterms Location 2 ID
+                              - generic [ref=f7e3703]: ":"
+                          - definition [ref=f7e3704]
+                        - generic [ref=f7e3705]:
+                          - term [ref=f7e3706]
+                          - definition [ref=f7e3707]
+                      - generic [ref=f7e3709]:
+                        - generic [ref=f7e3710]:
+                          - term [ref=f7e3711]
+                          - definition [ref=f7e3712]
+                        - generic [ref=f7e3713]:
+                          - term [ref=f7e3714]
+                          - definition [ref=f7e3715]
+                        - generic [ref=f7e3716]:
+                          - term [ref=f7e3717]
+                          - definition [ref=f7e3718]
+                        - generic [ref=f7e3719]:
+                          - term [ref=f7e3720]
+                          - definition [ref=f7e3721]
+                        - generic [ref=f7e3722]:
+                          - term [ref=f7e3723]
+                          - definition [ref=f7e3724]
+                        - generic [ref=f7e3725]:
+                          - term [ref=f7e3726]
+                          - definition [ref=f7e3727]
+              - region [ref=f7e2422]:
+                - generic [ref=f7e2426]:
+                  - heading "Supplier Contact Data" [level=3] [ref=f7e2429]
+                  - region [ref=f7e2437]:
+                    - generic [ref=f7e2439]:
+                      - generic [ref=f7e3728]:
+                        - heading "Supplier Address" [level=5] [ref=f7e2441]
+                        - generic "Supplier Address" [ref=f7e3729]:
+                          - generic [ref=f7e3730]:
+                            - term [ref=f7e3731]
+                            - definition [ref=f7e3732]
+                          - generic [ref=f7e3733]:
+                            - term [ref=f7e3734]
+                            - definition [ref=f7e3735]
+                          - generic [ref=f7e3736]:
+                            - term [ref=f7e3737]
+                            - definition [ref=f7e3738]
+                          - generic [ref=f7e3739]:
+                            - term [ref=f7e3740]
+                            - definition [ref=f7e3741]
+                          - generic [ref=f7e3742]:
+                            - term [ref=f7e3743]
+                            - definition [ref=f7e3744]
+                      - generic [ref=f7e3745]:
+                        - heading [level=5] [ref=f7e2459]
+                        - generic [ref=f7e3746]:
+                          - generic [ref=f7e3747]:
+                            - term [ref=f7e3748]
+                            - definition [ref=f7e3749]
+                          - generic [ref=f7e3750]:
+                            - term [ref=f7e3751]
+                            - definition [ref=f7e3752]
+                          - generic [ref=f7e3753]:
+                            - term [ref=f7e3754]
+                            - definition [ref=f7e3755]
+                          - generic [ref=f7e3756]:
+                            - term [ref=f7e3757]
+                            - definition [ref=f7e3758]
+                          - generic [ref=f7e3759]:
+                            - term [ref=f7e3760]
+                            - definition [ref=f7e3761]
+                      - generic [ref=f7e3762]:
+                        - heading "Contact Person" [level=5] [ref=f7e2477]
+                        - generic "Contact Person" [ref=f7e3763]:
+                          - generic [ref=f7e3764]:
+                            - term [ref=f7e3765]
+                            - definition [ref=f7e3766]
+                          - generic [ref=f7e3767]:
+                            - term [ref=f7e3768]
+                            - definition [ref=f7e3769]
+                          - generic [ref=f7e3770]:
+                            - term [ref=f7e3771]
+                            - definition [ref=f7e3772]
+                          - generic [ref=f7e3773]:
+                            - term [ref=f7e3774]
+                            - definition [ref=f7e3775]
+              - region [ref=f7e2491]:
+                - generic [ref=f7e2495]:
+                  - heading "Notes" [level=3] [ref=f7e2498]
+                  - generic [ref=f7e3778]:
+                    - navigation [ref=f7e3779]:
+                      - tablist [ref=f7e3780]:
+                        - tab "Header Text" [selected] [ref=f7e3781] [cursor=pointer]
+                        - tab "Header Note" [ref=f7e3786] [cursor=pointer]
+                        - tab "Pricing Types" [ref=f7e3791] [cursor=pointer]
+                        - tab "Deadlines" [ref=f7e3796] [cursor=pointer]
+                        - tab "Terms of Delivery" [ref=f7e3801] [cursor=pointer]
+                        - tab "Shipping Instructions" [ref=f7e3806] [cursor=pointer]
+                        - tab "Terms of Payment" [ref=f7e3811] [cursor=pointer]
+                        - tab "Warranties" [ref=f7e3816] [cursor=pointer]
+                      - button "More" [ref=f7e3822] [cursor=pointer]:
+                        - generic [ref=f7e3824]:
+                          - generic [ref=f7e3825]: More
+                          - generic: 
+                    - tabpanel "Header Text" [ref=f7e3827]:
+                      - textbox "Header Text" [ref=f7e3830]
+              - region "Output Management" [ref=f7e3831]:
+                - generic [ref=f7e3843]:
+                  - toolbar [ref=f7e3845]:
+                    - heading "Output Management" [level=3] [ref=f7e3846]
+                    - separator [ref=f7e3847]
+                    - generic [ref=f7e3850]:
+                      - generic [ref=f7e3851]: Standard
+                      - button "View Standard" [ref=f7e3854] [cursor=pointer]:
+                        - generic [ref=f7e3855]: 
+                    - button "Send Output" [disabled] [ref=f7e3858]
+                    - button "Duplicate" [disabled] [ref=f7e3861]
+                    - button "Retry" [disabled] [ref=f7e3864]
+                    - button "Set to Completed" [disabled] [ref=f7e3867]
+                    - button "Add" [disabled] [ref=f7e3870]
+                    - button "Delete" [disabled] [ref=f7e3873]
+                    - button "Submit" [disabled] [ref=f7e3876]
+                    - button "Reset" [disabled] [ref=f7e3879]
+                    - button "Copy to Clipboard" [disabled] [ref=f7e3882]:
+                      - generic [ref=f7e3883]: 
+                    - button "Settings" [ref=f7e3885] [cursor=pointer]:
+                      - generic [ref=f7e3886]: 
+                    - group "Export Table Split Button Press Enter to trigger action and Arrow Down to open menu" [disabled] [ref=f7e3889]:
+                      - generic [ref=f7e3890]:
+                        - button "excel-attachment" [disabled] [ref=f7e3891]:
+                          - generic [ref=f7e3892]: 
+                        - button "Open Menu" [disabled] [ref=f7e3894]:
+                          - generic [ref=f7e3895]: 
+                  - grid "Output Management" [ref=f7e3899]:
+                    - rowgroup [ref=f7e3900]:
+                      - row [ref=f7e3901]:
+                        - columnheader "Selection" [ref=f7e3902]:
+                          - checkbox "Select All" [ref=f7e3903]
+                        - columnheader "Item ID" [ref=f7e3905]:
+                          - generic "Item ID" [ref=f7e3907] [cursor=pointer]
+                        - columnheader "Log" [ref=f7e3908]:
+                          - generic "Log" [ref=f7e3910] [cursor=pointer]
+                        - columnheader "Status" [ref=f7e3911]:
+                          - generic "Status" [ref=f7e3913] [cursor=pointer]
+                        - columnheader "Dispatch Time" [ref=f7e3914]:
+                          - generic "Dispatch Time" [ref=f7e3916] [cursor=pointer]
+                        - columnheader "Output Type" [ref=f7e3917]:
+                          - generic "Output Type" [ref=f7e3919] [cursor=pointer]
+                        - columnheader "Role" [ref=f7e3920]:
+                          - generic "Role" [ref=f7e3922] [cursor=pointer]
+                        - columnheader "Recipient" [ref=f7e3923]:
+                          - generic "Recipient" [ref=f7e3925] [cursor=pointer]
+                        - columnheader "Channel" [ref=f7e3926]:
+                          - generic "Channel" [ref=f7e3928] [cursor=pointer]
+                    - rowgroup [ref=f7e3929]:
+                      - row [ref=f7e3930]:
+                        - gridcell "No data available" [ref=f7e3931]
+              - region "Attachments" [ref=f7e2565]:
+                - generic [ref=f7e3936]:
+                  - generic [ref=f7e3937]:
+                    - heading "Attachments (0)" [level=3] [ref=f7e3938]
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - button "Upload" [disabled]
+                          - generic:
+                            - button [disabled]
+                    - button "Add a Link" [disabled] [ref=f7e3940]
+                  - list "Attachments (0)" [ref=f7e3943]:
+                    - listitem [ref=f7e3944]:
+                      - figure [ref=f7e3945]:
+                        - heading "No files found." [level=4] [ref=f7e3948]
+              - region [ref=f7e2604]:
+                - generic [ref=f7e2608]:
+                  - heading "Approval Details" [level=3] [ref=f7e2611]
+                  - generic [ref=f7e3950]:
+                    - generic [ref=f7e3954]:
+                      - toolbar [disabled] [ref=f7e3955]:
+                        - heading [level=4]
+                        - button "Edit" [disabled] [ref=f7e3957]
+                        - button "Create" [disabled] [ref=f7e3960]
+                        - group [disabled] [ref=f7e3964]:
+                          - generic [ref=f7e3965]:
+                            - button "Create" [disabled] [ref=f7e3966]
+                            - button "Open Menu" [disabled] [ref=f7e3969]:
+                              - generic [ref=f7e3970]: 
+                        - button "Delete" [disabled] [ref=f7e3972]
+                        - button "Move up" [disabled] [ref=f7e3975]:
+                          - generic [ref=f7e3976]: 
+                        - button "Move down" [disabled] [ref=f7e3978]:
+                          - generic [ref=f7e3979]: 
+                        - button "Settings" [disabled] [ref=f7e3981]:
+                          - generic [ref=f7e3982]: 
+                      - grid [ref=f7e3984]:
+                        - rowgroup [ref=f7e3985]:
+                          - row [ref=f7e3986]:
+                            - columnheader "Type" [ref=f7e3987]
+                            - columnheader "Name" [ref=f7e3990]
+                            - columnheader "Run with Previous" [ref=f7e3993]
+                            - columnheader "Status" [ref=f7e3996]
+                            - columnheader "Deadline" [ref=f7e3999]
+                            - columnheader "Processors" [ref=f7e4002]
+                            - columnheader "Recipients" [ref=f7e4005]
+                            - columnheader "Row Action" [ref=f7e4008]
+                        - rowgroup [ref=f7e4009]:
+                          - row [ref=f7e4010]:
+                            - gridcell "There are no steps for execution" [ref=f7e4011]
+                    - generic [ref=f7e4016]:
+                      - toolbar [disabled] [ref=f7e4017]:
+                        - heading [level=4]
+                        - button "Edit" [disabled] [ref=f7e4019]
+                        - button "Create" [disabled] [ref=f7e4022]
+                        - group [disabled] [ref=f7e4026]:
+                          - generic [ref=f7e4027]:
+                            - button "Create" [disabled] [ref=f7e4028]
+                            - button "Open Menu" [disabled] [ref=f7e4031]:
+                              - generic [ref=f7e4032]: 
+                        - button "Delete" [disabled] [ref=f7e4034]
+                        - button "Move up" [disabled] [ref=f7e4037]:
+                          - generic [ref=f7e4038]: 
+                        - button "Move down" [disabled] [ref=f7e4040]:
+                          - generic [ref=f7e4041]: 
+                        - button "Settings" [disabled] [ref=f7e4043]:
+                          - generic [ref=f7e4044]: 
+                      - grid [ref=f7e4046]:
+                        - rowgroup [ref=f7e4047]:
+                          - row [ref=f7e4048]:
+                            - columnheader "Type" [ref=f7e4049]
+                            - columnheader "Name" [ref=f7e4052]
+                            - columnheader "Run with Previous" [ref=f7e4055]
+                            - columnheader "Status" [ref=f7e4058]
+                            - columnheader "Deadline" [ref=f7e4061]
+                            - columnheader "Processors" [ref=f7e4064]
+                            - columnheader "Recipients" [ref=f7e4067]
+                            - columnheader "Row Action" [ref=f7e4070]
+                        - rowgroup [ref=f7e4071]:
+                          - row [ref=f7e4072]:
+                            - gridcell "There are no steps for execution" [ref=f7e4073]
+    - contentinfo
+  - generic:
+    - region "Notification"

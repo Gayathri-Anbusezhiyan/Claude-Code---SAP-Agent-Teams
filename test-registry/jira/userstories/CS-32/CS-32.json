@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-32",
+  "type": "Task",
+  "summary": "Move Expired Batches To A Designated Blocked Storage Location Automati",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Warehouse Operator, I want to move expired batches to a designated Blocked storage location automatically, so that expired GMP materials cannot be accidentally picked for production or shipment.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Stock\" Fiori app or a scheduled background job for expiration monitoring.\n2. The system runs a daily background check comparing batch expiration dates to the current date.\n3. Batches identified as expired are automatically restricted from unrestricted-use stock.\n4. The system generates a notification to the Warehouse and QA teams listing newly expired batches.\n5. An authorized user must complete a disposition (destroy, return, rework) before the batch can be removed from blocked status.\n6. The system maintains a report of all expired batch dispositions for regulatory audit.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:18.768+0530",
+  "updated": "2026-08-21T14:11:18.838+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-32",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

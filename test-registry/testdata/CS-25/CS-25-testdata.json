@@ -1,0 +1,430 @@
+{
+  "userStory": "CS-25",
+  "module": "MM",
+  "feature": "Batch-Specific Physical Inventory Count",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-25-001": {
+      "id": "TD-CS-25-001",
+      "name": "Valid Physical Inventory Count — Within Tolerance",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-199"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_WITHIN_TOLERANCE}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_WITHIN_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_WITHIN_TOL}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "storageBin": "{{STORAGE_BIN_COLD_CHAIN}}"
+      },
+      "expectedOutcome": "Physical inventory document created and posted successfully; variance within tolerance; no approval required; audit trail complete"
+    },
+    "TD-CS-25-002": {
+      "id": "TD-CS-25-002",
+      "name": "Physical Inventory Count — Exceeds Tolerance with Approval",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-200"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_EXCEEDS_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_EXCEEDS_TOL}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "{{REASON_CODE_VARIANCE}}",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}",
+        "storageBin": "{{STORAGE_BIN_COLD_CHAIN}}"
+      },
+      "expectedOutcome": "Physical inventory document created; variance exceeds tolerance; reason code documented; supervisor approval obtained; document posted successfully"
+    },
+    "TD-CS-25-AP-001": {
+      "id": "TD-CS-25-AP-001",
+      "name": "Physical Inventory Count — Multiple Batches Same Location",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-201"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber1": "{{BATCH_NUMBER_1}}",
+        "batchNumber2": "{{BATCH_NUMBER_2}}",
+        "materialId1": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialId2": "{{MATERIAL_ID_BATCH_MANAGED_2}}",
+        "bookQuantity1": "{{BOOK_QUANTITY_BATCH_1}}",
+        "bookQuantity2": "{{BOOK_QUANTITY_BATCH_2}}",
+        "countedQuantity1": "{{COUNTED_QUANTITY_BATCH_1}}",
+        "countedQuantity2": "{{COUNTED_QUANTITY_BATCH_2}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount1": "{{VARIANCE_AMOUNT_BATCH_1}}",
+        "varianceAmount2": "{{VARIANCE_AMOUNT_BATCH_2}}",
+        "storageBin": "{{STORAGE_BIN_COLD_CHAIN}}"
+      },
+      "expectedOutcome": "Count document created with multiple batches; variance calculated per batch; document posted successfully"
+    },
+    "TD-CS-25-AP-002": {
+      "id": "TD-CS-25-AP-002",
+      "name": "Physical Inventory Count — Zero Variance (No Approval)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-202"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "0",
+        "variancePercentage": "0",
+        "storageBin": "{{STORAGE_BIN_COLD_CHAIN}}"
+      },
+      "expectedOutcome": "Physical inventory document posted successfully; zero variance; no approval required; counted = book"
+    },
+    "TD-CS-25-NEG-001": {
+      "id": "TD-CS-25-NEG-001",
+      "name": "Invalid Storage Location — Non-existent",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-203"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "invalidStorageLocation": "{{STORAGE_LOCATION_INVALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}"
+      },
+      "expectedOutcome": "SAP displays error: Storage location does not exist; count document NOT created"
+    },
+    "TD-CS-25-NEG-002": {
+      "id": "TD-CS-25-NEG-002",
+      "name": "Invalid Batch Number — Non-existent",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-204"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "invalidBatchNumber": "{{BATCH_NUMBER_INVALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}"
+      },
+      "expectedOutcome": "SAP displays error: Batch does not exist; count document NOT created"
+    },
+    "TD-CS-25-NEG-003": {
+      "id": "TD-CS-25-NEG-003",
+      "name": "Negative Counted Quantity — Invalid Entry",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-205"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "negativeQuantity": "{{COUNTED_QUANTITY_NEGATIVE}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "SAP displays error: Negative quantity not allowed; posting blocked"
+    },
+    "TD-CS-25-NEG-004": {
+      "id": "TD-CS-25-NEG-004",
+      "name": "High Variance Missing Reason Code",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-206"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_EXCEEDS_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_EXCEEDS_TOL}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}"
+      },
+      "note": "reasonCode intentionally empty to test missing mandatory field",
+      "expectedOutcome": "SAP displays error: Reason code required for high variance; posting blocked"
+    },
+    "TD-CS-25-NEG-005": {
+      "id": "TD-CS-25-NEG-005",
+      "name": "High Variance Missing Supervisor Approval",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-207"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_EXCEEDS_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_EXCEEDS_TOL}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "{{REASON_CODE_VARIANCE}}",
+        "supervisorApproval": ""
+      },
+      "note": "supervisorApproval intentionally empty to test missing mandatory field",
+      "expectedOutcome": "SAP displays error: Supervisor approval required for high variance; posting blocked"
+    },
+    "TD-CS-25-ERR-001": {
+      "id": "TD-CS-25-ERR-001",
+      "name": "Missing Mandatory Field — Storage Location",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-208"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}"
+      },
+      "note": "storageLocation intentionally empty",
+      "expectedOutcome": "SAP highlights Storage Location field as mandatory; prevents document creation"
+    },
+    "TD-CS-25-ERR-002": {
+      "id": "TD-CS-25-ERR-002",
+      "name": "Missing Mandatory Field — Counted Quantity",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-209"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "note": "countedQuantity intentionally empty",
+      "expectedOutcome": "SAP highlights Counted Quantity field as mandatory; prevents posting"
+    },
+    "TD-CS-25-ERR-003": {
+      "id": "TD-CS-25-ERR-003",
+      "name": "Missing Mandatory Field — Plant",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-210"],
+      "data": {
+        "plant": "",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}"
+      },
+      "note": "plant intentionally empty",
+      "expectedOutcome": "SAP highlights Plant field as mandatory; prevents document creation"
+    },
+    "TD-CS-25-ERR-004": {
+      "id": "TD-CS-25-ERR-004",
+      "name": "Missing Mandatory Field — Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-211"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}"
+      },
+      "note": "batchNumber intentionally empty",
+      "expectedOutcome": "SAP highlights Batch field as mandatory; prevents document creation"
+    },
+    "TD-CS-25-ERR-005": {
+      "id": "TD-CS-25-ERR-005",
+      "name": "Missing Mandatory Field — Reason Code (High Variance)",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-212"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_EXCEEDS_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_EXCEEDS_TOL}}",
+        "reasonCode": "",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}"
+      },
+      "note": "reasonCode intentionally empty when variance exceeds tolerance",
+      "expectedOutcome": "SAP highlights Reason Code field as mandatory for high variance; prevents posting"
+    },
+    "TD-CS-25-ERR-006": {
+      "id": "TD-CS-25-ERR-006",
+      "name": "Missing Mandatory Field — Supervisor Approval (High Variance)",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-213"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_EXCEEDS_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_EXCEEDS_TOL}}",
+        "reasonCode": "{{REASON_CODE_VARIANCE}}",
+        "supervisorApproval": ""
+      },
+      "note": "supervisorApproval intentionally empty when variance exceeds tolerance",
+      "expectedOutcome": "SAP highlights Supervisor Approval field as mandatory for high variance; prevents posting"
+    },
+    "TD-CS-25-EDGE-001": {
+      "id": "TD-CS-25-EDGE-001",
+      "name": "Minimum Counted Quantity Boundary (Zero Stock)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-214"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "0",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_NEGATIVE_FULL}}",
+        "variancePercentage": "-100",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "{{REASON_CODE_VARIANCE}}",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}"
+      },
+      "expectedOutcome": "Zero stock count accepted; significant variance requires approval; document posted"
+    },
+    "TD-CS-25-EDGE-002": {
+      "id": "TD-CS-25-EDGE-002",
+      "name": "Maximum Counted Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-215"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_MAX}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_POSITIVE_MAX}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_MAX}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "{{REASON_CODE_VARIANCE}}",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}"
+      },
+      "expectedOutcome": "Maximum quantity accepted; high variance requires approval; document posted"
+    },
+    "TD-CS-25-EDGE-003": {
+      "id": "TD-CS-25-EDGE-003",
+      "name": "Variance Exactly At Tolerance Threshold (Not Exceeding)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-216"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_AT_TOLERANCE}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_AT_TOL}}",
+        "variancePercentage": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}"
+      },
+      "expectedOutcome": "Variance at threshold accepted without approval; document posted successfully"
+    },
+    "TD-CS-25-EDGE-004": {
+      "id": "TD-CS-25-EDGE-004",
+      "name": "Variance One Unit Above Tolerance Threshold (Exceeding)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-217"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_STANDARD}}",
+        "countedQuantity": "{{COUNTED_QUANTITY_ABOVE_TOLERANCE}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_AMOUNT_ABOVE_TOL}}",
+        "variancePercentage": "{{VARIANCE_PERCENTAGE_ABOVE_TOL}}",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "{{REASON_CODE_VARIANCE}}",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}"
+      },
+      "expectedOutcome": "Variance exceeds tolerance by minimal amount; approval required; document posted"
+    },
+    "TD-CS-25-EDGE-005": {
+      "id": "TD-CS-25-EDGE-005",
+      "name": "Complete Inventory Loss (Counted=0, Book>0)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-218"],
+      "data": {
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_COLD_CHAIN}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "bookQuantity": "{{BOOK_QUANTITY_HIGH}}",
+        "countedQuantity": "0",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "varianceAmount": "{{VARIANCE_NEGATIVE_FULL_HIGH}}",
+        "variancePercentage": "-100",
+        "toleranceThreshold": "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+        "reasonCode": "{{REASON_CODE_COMPLETE_LOSS}}",
+        "supervisorApproval": "{{SUPERVISOR_USER_ID}}"
+      },
+      "expectedOutcome": "Complete loss scenario accepted; critical variance requires approval; document posted with full audit trail"
+    }
+  },
+  "allPlaceholders": [
+    "{{PLANT_CODE}}",
+    "{{STORAGE_LOCATION_COLD_CHAIN}}",
+    "{{STORAGE_LOCATION_INVALID}}",
+    "{{BATCH_NUMBER_VALID}}",
+    "{{BATCH_NUMBER_1}}",
+    "{{BATCH_NUMBER_2}}",
+    "{{BATCH_NUMBER_INVALID}}",
+    "{{MATERIAL_ID_BATCH_MANAGED}}",
+    "{{MATERIAL_ID_BATCH_MANAGED_2}}",
+    "{{MATERIAL_DESCRIPTION}}",
+    "{{BOOK_QUANTITY_STANDARD}}",
+    "{{BOOK_QUANTITY_BATCH_1}}",
+    "{{BOOK_QUANTITY_BATCH_2}}",
+    "{{BOOK_QUANTITY_HIGH}}",
+    "{{COUNTED_QUANTITY_WITHIN_TOLERANCE}}",
+    "{{COUNTED_QUANTITY_EXCEEDS_TOLERANCE}}",
+    "{{COUNTED_QUANTITY_BATCH_1}}",
+    "{{COUNTED_QUANTITY_BATCH_2}}",
+    "{{COUNTED_QUANTITY_NEGATIVE}}",
+    "{{COUNTED_QUANTITY_MAX}}",
+    "{{COUNTED_QUANTITY_AT_TOLERANCE}}",
+    "{{COUNTED_QUANTITY_ABOVE_TOLERANCE}}",
+    "{{UNIT_OF_MEASURE}}",
+    "{{VARIANCE_AMOUNT_WITHIN_TOL}}",
+    "{{VARIANCE_AMOUNT_EXCEEDS_TOL}}",
+    "{{VARIANCE_AMOUNT_BATCH_1}}",
+    "{{VARIANCE_AMOUNT_BATCH_2}}",
+    "{{VARIANCE_AMOUNT_AT_TOL}}",
+    "{{VARIANCE_AMOUNT_ABOVE_TOL}}",
+    "{{VARIANCE_NEGATIVE_FULL}}",
+    "{{VARIANCE_NEGATIVE_FULL_HIGH}}",
+    "{{VARIANCE_POSITIVE_MAX}}",
+    "{{VARIANCE_PERCENTAGE_WITHIN_TOL}}",
+    "{{VARIANCE_PERCENTAGE_EXCEEDS_TOL}}",
+    "{{VARIANCE_PERCENTAGE_MAX}}",
+    "{{VARIANCE_PERCENTAGE_ABOVE_TOL}}",
+    "{{TOLERANCE_THRESHOLD_PERCENTAGE}}",
+    "{{REASON_CODE_VARIANCE}}",
+    "{{REASON_CODE_COMPLETE_LOSS}}",
+    "{{SUPERVISOR_USER_ID}}",
+    "{{STORAGE_BIN_COLD_CHAIN}}"
+  ]
+}

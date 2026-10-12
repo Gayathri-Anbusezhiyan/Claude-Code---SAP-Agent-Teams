@@ -1,0 +1,264 @@
+{
+  "userStory": "CS-30",
+  "module": "MM",
+  "feature": "GMP-Regulated Material Master Creation",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-030-001": {
+      "id": "TD-CS-030-001",
+      "name": "Valid GMP Material Master — Complete Mandatory Fields",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-101"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "companyCode": "{{COMPANY_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material Master created successfully; batch management enabled; shelf-life parameters stored; QM inspection type assigned; material released for procurement; change log entry created"
+    },
+    "TD-CS-030-NEG-001": {
+      "id": "TD-CS-030-NEG-001",
+      "name": "GMP Material Without Batch Management Indicator",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-102"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicatorUnchecked": false,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "System rejects creation; error message: 'Batch management indicator is required for GMP-regulated materials' or similar; material NOT created"
+    },
+    "TD-CS-030-NEG-002": {
+      "id": "TD-CS-030-NEG-002",
+      "name": "GMP Material Without QM Inspection Type",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-103"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionTypeEmpty": ""
+      },
+      "expectedOutcome": "System rejects creation; error message: 'QM Inspection Type is required for GMP-relevant materials' or similar; material NOT created"
+    },
+    "TD-CS-030-NEG-003": {
+      "id": "TD-CS-030-NEG-003",
+      "name": "GMP Material with Incomplete Fields — Procurement Release Blocked",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-104"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLifeEmpty": "",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "System prevents procurement release; error message: 'Material cannot be released for procurement until all mandatory GMP fields are completed' or similar; material status remains unreleased"
+    },
+    "TD-CS-030-ERR-001": {
+      "id": "TD-CS-030-ERR-001",
+      "name": "Missing Total Shelf Life",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-105"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "emptyValue": "",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "System displays mandatory field error: 'Total Shelf Life is required'; material NOT saved"
+    },
+    "TD-CS-030-ERR-002": {
+      "id": "TD-CS-030-ERR-002",
+      "name": "Missing Minimum Remaining Shelf Life",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-106"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "System displays mandatory field error: 'Minimum Remaining Shelf Life is required'; material NOT saved"
+    },
+    "TD-CS-030-ERR-003": {
+      "id": "TD-CS-030-ERR-003",
+      "name": "Missing Batch Management Indicator",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-107"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicatorUnchecked": false,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "System displays mandatory field error: 'Batch Management indicator is required for GMP materials'; material NOT saved"
+    },
+    "TD-CS-030-ERR-004": {
+      "id": "TD-CS-030-ERR-004",
+      "name": "Missing QM Inspection Type",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-108"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "emptyValue": ""
+      },
+      "expectedOutcome": "System displays mandatory field error: 'QM Inspection Type is required for GMP materials'; material NOT saved"
+    },
+    "TD-CS-030-EDGE-001": {
+      "id": "TD-CS-030-EDGE-001",
+      "name": "Total Shelf Life Minimum Boundary (1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-109"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "minTotalShelfLife": "{{TOTAL_SHELF_LIFE_MIN_BOUNDARY}}",
+        "minRemainingShelfLifeForMinTotal": "{{MIN_REMAINING_SHELF_LIFE_FOR_MIN_TOTAL}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material created successfully; Total Shelf Life = 1 day stored correctly; SLED calculation logic handles 1-day shelf life"
+    },
+    "TD-CS-030-EDGE-002": {
+      "id": "TD-CS-030-EDGE-002",
+      "name": "Total Shelf Life Maximum Boundary (3650 Days)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-110"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "maxTotalShelfLife": "{{TOTAL_SHELF_LIFE_MAX_BOUNDARY}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material created successfully; Total Shelf Life = 3650 days stored correctly"
+    },
+    "TD-CS-030-EDGE-003": {
+      "id": "TD-CS-030-EDGE-003",
+      "name": "Minimum Remaining Shelf Life Lower Boundary (1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-111"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minMinRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_MIN_BOUNDARY}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material created successfully; Minimum Remaining Shelf Life = 1 day stored correctly"
+    },
+    "TD-CS-030-EDGE-004": {
+      "id": "TD-CS-030-EDGE-004",
+      "name": "Minimum Remaining Shelf Life Maximum Valid Boundary (Total - 1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-112"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLifeForEdge": "{{TOTAL_SHELF_LIFE_FOR_EDGE_TEST}}",
+        "maxMinRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_MAX_VALID_BOUNDARY}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material created successfully; Minimum Remaining Shelf Life = Total - 1 day stored correctly"
+    },
+    "TD-CS-030-EDGE-005": {
+      "id": "TD-CS-030-EDGE-005",
+      "name": "Invalid Boundary — Minimum Remaining Shelf Life Equal to Total Shelf Life",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-113"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_STANDARD}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLifeForInvalidEdge": "{{TOTAL_SHELF_LIFE_FOR_EDGE_TEST}}",
+        "invalidEqualMinRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_INVALID_EQUAL}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "System rejects creation; error message: 'Minimum Remaining Shelf Life must be less than Total Shelf Life' or similar; material NOT created"
+    },
+    "TD-CS-030-EDGE-006": {
+      "id": "TD-CS-030-EDGE-006",
+      "name": "Material Description Minimum Length (1 Character)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-114"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "minLengthMaterialDesc": "{{MATERIAL_DESCRIPTION_MIN_LENGTH}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material created successfully; Material Description with 1 character stored correctly"
+    },
+    "TD-CS-030-EDGE-007": {
+      "id": "TD-CS-030-EDGE-007",
+      "name": "Material Description Maximum Length (40 Characters)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-115"],
+      "data": {
+        "materialType": "{{MATERIAL_TYPE_GMP}}",
+        "maxLengthMaterialDesc": "{{MATERIAL_DESCRIPTION_MAX_LENGTH}}",
+        "baseUoM": "{{BASE_UOM_STANDARD}}",
+        "batchIndicator": true,
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "minRemainingShelfLife": "{{MIN_REMAINING_SHELF_LIFE_STANDARD}}",
+        "plant": "{{PLANT_CODE}}",
+        "qmInspectionType": "{{QM_INSPECTION_TYPE_VALID}}"
+      },
+      "expectedOutcome": "Material created successfully; Material Description with 40 characters stored correctly without truncation"
+    }
+  }
+}

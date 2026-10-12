@@ -1,0 +1,363 @@
+{
+  "userStory": "CS-34",
+  "module": "SD",
+  "feature": "Sales Order License Verification for Controlled Substances",
+  "generatedAt": "2026-08-23T23:45:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-034-001": {
+      "id": "TD-CS-034-001",
+      "name": "Valid Sales Order — Customer with Non-Expiring License",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-035"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "licenseStatus": "{{LICENSE_STATUS_VALID}}",
+        "licenseExpiryValid": "{{LICENSE_EXPIRY_DATE_FUTURE_60D}}",
+        "warningThresholdDays": "{{WARNING_THRESHOLD_DAYS_DEFAULT}}"
+      },
+      "expectedOutcome": "Sales Order created successfully; license verification passed; no warning displayed; audit log: PASS"
+    },
+    "TD-CS-034-002": {
+      "id": "TD-CS-034-002",
+      "name": "Valid Sales Order — License Nearing Expiration (Warning Displayed)",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-036"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_LICENSE_NEAR_EXPIRY}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "licenseStatus": "{{LICENSE_STATUS_VALID}}",
+        "licenseExpiryNearExpiration": "{{LICENSE_EXPIRY_DATE_FUTURE_15D}}",
+        "warningThresholdDays": "{{WARNING_THRESHOLD_DAYS_DEFAULT}}",
+        "daysUntilExpiry": "{{DAYS_UNTIL_EXPIRY_15}}"
+      },
+      "expectedOutcome": "Sales Order created; warning displayed: 'License expires in 15 days'; audit log: PASS_WITH_WARNING"
+    },
+    "TD-CS-034-003": {
+      "id": "TD-CS-034-003",
+      "name": "Valid Sales Order — Compliance Override Applied",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-037"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_EXPIRED_LICENSE}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "licenseExpiryExpired": "{{LICENSE_EXPIRY_DATE_PAST}}",
+        "overrideJustification": "{{OVERRIDE_JUSTIFICATION_VALID}}"
+      },
+      "expectedOutcome": "Sales Order created after override; audit log: OVERRIDE_APPROVED + justification"
+    },
+    "TD-CS-034-NEG-001": {
+      "id": "TD-CS-034-NEG-001",
+      "name": "Negative — Customer Has No License on File",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-038"],
+      "data": {
+        "customerIdNoLicense": "{{CUSTOMER_ID_NO_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "SO creation blocked; error: 'No valid license on file'; audit log: FAIL_NO_LICENSE"
+    },
+    "TD-CS-034-NEG-002": {
+      "id": "TD-CS-034-NEG-002",
+      "name": "Negative — Customer License Has Expired",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-039"],
+      "data": {
+        "customerIdExpiredLicense": "{{CUSTOMER_ID_EXPIRED_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "licenseExpiryExpired": "{{LICENSE_EXPIRY_DATE_PAST}}"
+      },
+      "expectedOutcome": "SO creation blocked; error: 'Customer license expired'; audit log: FAIL_LICENSE_EXPIRED"
+    },
+    "TD-CS-034-NEG-003": {
+      "id": "TD-CS-034-NEG-003",
+      "name": "Negative — License Classification Mismatch",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-040"],
+      "data": {
+        "customerIdMismatchLicense": "{{CUSTOMER_ID_MISMATCH_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}",
+        "licenseClassification": "{{LICENSE_CLASSIFICATION_MISMATCH}}"
+      },
+      "expectedOutcome": "SO creation blocked; error: 'License classification mismatch'; audit log: FAIL_LICENSE_CLASSIFICATION_MISMATCH"
+    },
+    "TD-CS-034-NEG-004": {
+      "id": "TD-CS-034-NEG-004",
+      "name": "Negative — Unauthorized Override Attempt",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "customerIdExpiredLicense": "{{CUSTOMER_ID_EXPIRED_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "overrideJustification": "{{OVERRIDE_JUSTIFICATION_VALID}}"
+      },
+      "expectedOutcome": "Override denied; SO NOT created; audit log: FAIL_LICENSE_EXPIRED + OVERRIDE_DENIED"
+    },
+    "TD-CS-034-ERR-001": {
+      "id": "TD-CS-034-ERR-001",
+      "name": "Error — Missing Customer ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "customerId": "",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}"
+      },
+      "note": "customerId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SO creation blocked; error: 'Sold-To Party is required'"
+    },
+    "TD-CS-034-ERR-002": {
+      "id": "TD-CS-034-ERR-002",
+      "name": "Error — Missing Material ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "note": "materialId intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SO creation blocked; error: 'Material is required'"
+    },
+    "TD-CS-034-ERR-003": {
+      "id": "TD-CS-034-ERR-003",
+      "name": "Error — Missing Override Justification",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "customerIdExpiredLicense": "{{CUSTOMER_ID_EXPIRED_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "overrideJustification": ""
+      },
+      "note": "overrideJustification intentionally empty to test mandatory justification enforcement",
+      "expectedOutcome": "Override rejected; error: 'Justification required for override'"
+    },
+    "TD-CS-034-ERR-004": {
+      "id": "TD-CS-034-ERR-004",
+      "name": "Error — Invalid Customer ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-045"],
+      "data": {
+        "invalidCustomerId": "{{CUSTOMER_ID_INVALID}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}"
+      },
+      "expectedOutcome": "SO creation blocked; error: 'Customer not found in customer master'"
+    },
+    "TD-CS-034-ERR-005": {
+      "id": "TD-CS-034-ERR-005",
+      "name": "Error — Invalid Material ID",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-046"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID}}"
+      },
+      "expectedOutcome": "SO creation blocked; error: 'Material not found or not flagged as controlled'"
+    },
+    "TD-CS-034-EDGE-001": {
+      "id": "TD-CS-034-EDGE-001",
+      "name": "Edge — License Expiration Date Equals Today",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-047"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_LICENSE_EXPIRES_TODAY}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "licenseExpiryEqualsToday": "{{LICENSE_EXPIRY_DATE_TODAY}}"
+      },
+      "expectedOutcome": "SO creation blocked OR allowed (boundary condition — verify system behavior)"
+    },
+    "TD-CS-034-EDGE-002": {
+      "id": "TD-CS-034-EDGE-002",
+      "name": "Edge — Warning Threshold 1 Day (Minimum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-048"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "licenseExpiryValid": "{{LICENSE_EXPIRY_DATE_FUTURE_2D}}",
+        "warningThresholdDays": "{{WARNING_THRESHOLD_DAYS_MIN}}"
+      },
+      "expectedOutcome": "Warning displayed if license expires within 1 day; SO created"
+    },
+    "TD-CS-034-EDGE-003": {
+      "id": "TD-CS-034-EDGE-003",
+      "name": "Edge — Warning Threshold 365 Days (Maximum)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-049"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "licenseExpiryValid": "{{LICENSE_EXPIRY_DATE_FUTURE_360D}}",
+        "warningThresholdDays": "{{WARNING_THRESHOLD_DAYS_MAX}}"
+      },
+      "expectedOutcome": "Warning displayed if license expires within 365 days; SO created"
+    },
+    "TD-CS-034-EDGE-004": {
+      "id": "TD-CS-034-EDGE-004",
+      "name": "Edge — License Expires on Threshold Day",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-050"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "licenseExpiryValid": "{{LICENSE_EXPIRY_DATE_FUTURE_30D}}",
+        "warningThresholdDays": "{{WARNING_THRESHOLD_DAYS_DEFAULT}}"
+      },
+      "expectedOutcome": "Warning displayed (expires exactly on threshold); SO created"
+    },
+    "TD-CS-034-EDGE-005": {
+      "id": "TD-CS-034-EDGE-005",
+      "name": "Edge — Zero-Day Warning Threshold",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-051"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "licenseExpiryValid": "{{LICENSE_EXPIRY_DATE_FUTURE_60D}}",
+        "warningThresholdDays": "0"
+      },
+      "expectedOutcome": "No warning displayed (threshold = 0 should disable warning); SO created"
+    },
+    "TD-CS-034-INT-001": {
+      "id": "TD-CS-034-INT-001",
+      "name": "Integration — Customer Master Missing License Fields",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-052"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_MISSING_LICENSE_FIELDS}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "expectedOutcome": "SO creation blocked; error: 'License data not maintained in customer master'; audit log: FAIL_NO_LICENSE"
+    },
+    "TD-CS-034-INT-002": {
+      "id": "TD-CS-034-INT-002",
+      "name": "Integration — Material Master Missing Controlled Substance Flag",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_NOT_FLAGGED_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "expectedOutcome": "SO created WITHOUT license check (material not flagged) OR error if license check mandatory for all materials"
+    },
+    "TD-CS-034-INT-003": {
+      "id": "TD-CS-034-INT-003",
+      "name": "Integration — Audit Log Write Failure",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_VALID_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "note": "Requires simulated audit log write failure (e.g., DB connection failure, table lock)",
+      "expectedOutcome": "SO creation blocked if audit log write fails (regulatory compliance requirement); error: 'Audit log write failed'"
+    },
+    "TD-CS-034-INT-004": {
+      "id": "TD-CS-034-INT-004",
+      "name": "Integration — Authorization Check Failure During Override",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "customerIdExpiredLicense": "{{CUSTOMER_ID_EXPIRED_LICENSE}}",
+        "materialId": "{{MATERIAL_ID_CONTROLLED}}",
+        "orderQuantity": "{{SO_QUANTITY_STANDARD}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "overrideJustification": "{{OVERRIDE_JUSTIFICATION_VALID}}"
+      },
+      "note": "Requires simulated authorization check failure (e.g., auth service unavailable)",
+      "expectedOutcome": "Override denied if authorization check fails; SO NOT created; audit log: OVERRIDE_DENIED (auth check failed)"
+    }
+  },
+  "allPlaceholders": [
+    "{{CUSTOMER_ID_VALID_LICENSE}}",
+    "{{CUSTOMER_NAME_VALID}}",
+    "{{CUSTOMER_ID_LICENSE_NEAR_EXPIRY}}",
+    "{{CUSTOMER_ID_EXPIRED_LICENSE}}",
+    "{{CUSTOMER_ID_NO_LICENSE}}",
+    "{{CUSTOMER_ID_MISMATCH_LICENSE}}",
+    "{{CUSTOMER_ID_LICENSE_EXPIRES_TODAY}}",
+    "{{CUSTOMER_ID_MISSING_LICENSE_FIELDS}}",
+    "{{CUSTOMER_ID_INVALID}}",
+    "{{MATERIAL_ID_CONTROLLED}}",
+    "{{MATERIAL_DESCRIPTION_CONTROLLED}}",
+    "{{MATERIAL_ID_NOT_FLAGGED_CONTROLLED}}",
+    "{{MATERIAL_ID_INVALID}}",
+    "{{SO_QUANTITY_STANDARD}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}",
+    "{{LICENSE_STATUS_VALID}}",
+    "{{LICENSE_EXPIRY_DATE_FUTURE_60D}}",
+    "{{LICENSE_EXPIRY_DATE_FUTURE_30D}}",
+    "{{LICENSE_EXPIRY_DATE_FUTURE_15D}}",
+    "{{LICENSE_EXPIRY_DATE_FUTURE_2D}}",
+    "{{LICENSE_EXPIRY_DATE_FUTURE_360D}}",
+    "{{LICENSE_EXPIRY_DATE_TODAY}}",
+    "{{LICENSE_EXPIRY_DATE_PAST}}",
+    "{{WARNING_THRESHOLD_DAYS_DEFAULT}}",
+    "{{WARNING_THRESHOLD_DAYS_MIN}}",
+    "{{WARNING_THRESHOLD_DAYS_MAX}}",
+    "{{DAYS_UNTIL_EXPIRY_15}}",
+    "{{OVERRIDE_JUSTIFICATION_VALID}}",
+    "{{LICENSE_CLASSIFICATION_MISMATCH}}"
+  ]
+}

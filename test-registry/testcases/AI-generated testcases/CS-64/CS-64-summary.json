@@ -1,0 +1,209 @@
+{
+  "userStory": "CS-64",
+  "summary": "Review A Batch Release Dashboard Showing All Batches Pending Final Qa",
+  "module": "PP/QM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 18,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 2,
+    "EDGE": 4,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 6,
+    "HIGH": 9,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 14,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-167",
+      "title": "Access Batch Release Dashboard and View Batches in Quality Inspection Status with Days Pending and Process Orders",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-001"
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Drill Down into Batch with Open Deviations and Review Compiled Batch Record",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-002"
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Identify Batch Approaching Customer Ship Date, Record Release Disposition, and Verify Stock Status Updated to Unrestricted",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-064-003"
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Record Reject Disposition on Batch and Verify Stock Status Remains Blocked",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-AP-001"
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Record Rework Disposition on Batch and Verify Stock Status Remains in Quality Inspection",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-AP-002"
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Drill Down into Batch with No Open Deviations and Confirm Empty Deviation List",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-AP-003"
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Access Dashboard When No Batches Are in Quality Inspection Status and Verify Empty State Message",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-NEG-001"
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Select Batch with No Associated Customer Ship Date and Verify No Priority Highlight",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-NEG-002"
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Attempt Disposition Action Without Selecting a Batch and Verify Validation Error",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-NEG-003"
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Attempt Drill-Down Without Batch Number and Verify Error",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-ERR-001"
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Attempt to Submit Disposition Without Selecting Disposition Type and Verify Error",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-ERR-002"
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Verify Batch with Zero Days Pending (Entered QI Status Today)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-EDGE-001"
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Verify Batch with Ship Date in the Past (Overdue) Displays Highest Priority Highlight",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-EDGE-002"
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Verify Batch with Ship Date Today Displays Immediate Priority Highlight",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-EDGE-003"
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Verify Batch with Ship Date Far in Future (30+ Days) Displays No Priority Highlight",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-064-EDGE-004"
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Verify Released Batch Becomes Available in Sales & Distribution for Sales Order Picking",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-064-INT-001"
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "Verify Rejected Batch Is Excluded from Sales & Distribution Available-to-Promise (ATP)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-064-INT-002"
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Verify Process Order Linkage Displayed Correctly for Batches Created via Production Order",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-064-INT-003"
+    }
+  ],
+  "testdataFile": "testdata/CS-64/CS-64-testdata.json"
+}

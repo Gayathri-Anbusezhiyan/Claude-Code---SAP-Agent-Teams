@@ -1,0 +1,247 @@
+{
+  "userStory": "CS-56",
+  "module": "PP/QM",
+  "feature": "Batch Genealogy Report",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-056-001": {
+      "id": "TD-CS-056-001",
+      "name": "Single-Level Genealogy — Valid Finished Goods Batch",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "finishedGoodsBatchNumber": "{{FINISHED_GOODS_BATCH_SINGLE_LEVEL}}",
+        "finishedGoodsMaterialId": "{{FINISHED_GOODS_MATERIAL_ID}}",
+        "plant": "{{PLANT_CODE}}",
+        "componentBatch1": "{{COMPONENT_BATCH_1}}",
+        "componentBatch2": "{{COMPONENT_BATCH_2}}",
+        "manufacturingOrderNumber": "{{MANUFACTURING_ORDER_NUMBER}}",
+        "manufacturingDate": "{{MANUFACTURING_DATE}}",
+        "releaseDate": "{{RELEASE_DATE}}",
+        "vendorName1": "{{VENDOR_NAME_COMPONENT_1}}",
+        "vendorName2": "{{VENDOR_NAME_COMPONENT_2}}"
+      },
+      "expectedOutcome": "Complete single-level genealogy report displayed with all component batches and vendor information"
+    },
+    "TD-CS-056-002": {
+      "id": "TD-CS-056-002",
+      "name": "Multi-Level Genealogy — Finished Goods with Intermediate Batches",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "finishedGoodsBatchMultiLevel": "{{FINISHED_GOODS_BATCH_MULTI_LEVEL}}",
+        "finishedGoodsMaterialIdMultiLevel": "{{FINISHED_GOODS_MATERIAL_ID_MULTI_LEVEL}}",
+        "intermediateBatch": "{{INTERMEDIATE_BATCH}}",
+        "intermediateMaterialId": "{{INTERMEDIATE_MATERIAL_ID}}",
+        "rawMaterialBatch1": "{{RAW_MATERIAL_BATCH_1}}",
+        "rawMaterialBatch2": "{{RAW_MATERIAL_BATCH_2}}",
+        "plant": "{{PLANT_CODE}}",
+        "manufacturingDateFinished": "{{MANUFACTURING_DATE_FINISHED}}",
+        "manufacturingDateIntermediate": "{{MANUFACTURING_DATE_INTERMEDIATE}}",
+        "releaseDate": "{{RELEASE_DATE}}",
+        "vendorNameRaw1": "{{VENDOR_NAME_RAW_1}}",
+        "vendorNameRaw2": "{{VENDOR_NAME_RAW_2}}"
+      },
+      "expectedOutcome": "Complete multi-level genealogy report displayed spanning raw materials → intermediate → finished goods (at least 3 BOM levels)"
+    },
+    "TD-CS-056-003": {
+      "id": "TD-CS-056-003",
+      "name": "Where-Used Chain — Finished Goods Batch Further Processed",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "finishedGoodsBatchWhereUsed": "{{FINISHED_GOODS_BATCH_WHERE_USED}}",
+        "finishedGoodsMaterialIdWhereUsed": "{{FINISHED_GOODS_MATERIAL_ID_WHERE_USED}}",
+        "repackagedBatch": "{{REPACKAGED_BATCH}}",
+        "repackagedMaterialId": "{{REPACKAGED_MATERIAL_ID}}",
+        "repackagingOrderNumber": "{{REPACKAGING_ORDER_NUMBER}}",
+        "plant": "{{PLANT_CODE}}",
+        "manufacturingDate": "{{MANUFACTURING_DATE}}",
+        "repackagingDate": "{{REPACKAGING_DATE}}",
+        "releaseDate": "{{RELEASE_DATE}}"
+      },
+      "expectedOutcome": "Where-used chain displayed showing finished goods → repackaged batch relationship"
+    },
+    "TD-CS-056-004": {
+      "id": "TD-CS-056-004",
+      "name": "Export Genealogy Report — Valid Batch",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "finishedGoodsBatchExport": "{{FINISHED_GOODS_BATCH_EXPORT}}",
+        "finishedGoodsMaterialIdExport": "{{FINISHED_GOODS_MATERIAL_ID_EXPORT}}",
+        "exportFormat": "{{EXPORT_FORMAT_PDF_OR_EXCEL}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Genealogy report successfully exported to PDF or Excel file format"
+    },
+    "TD-CS-056-005": {
+      "id": "TD-CS-056-005",
+      "name": "Simplified Search — Batch Number Only (Material Auto-Derived)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "finishedGoodsBatchSimplified": "{{FINISHED_GOODS_BATCH_SIMPLIFIED}}",
+        "finishedGoodsMaterialIdSimplified": "{{FINISHED_GOODS_MATERIAL_ID_SIMPLIFIED}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "System derives material from batch number; genealogy report displayed without manual material entry"
+    },
+    "TD-CS-056-006": {
+      "id": "TD-CS-056-006",
+      "name": "Bidirectional Genealogy — Component View + Where-Used View",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "finishedGoodsBatchBidirectional": "{{FINISHED_GOODS_BATCH_BIDIRECTIONAL}}",
+        "finishedGoodsMaterialIdBidirectional": "{{FINISHED_GOODS_MATERIAL_ID_BIDIRECTIONAL}}",
+        "componentBatchUpstream": "{{COMPONENT_BATCH_UPSTREAM}}",
+        "repackagedBatchBidirectional": "{{REPACKAGED_BATCH_DOWNSTREAM}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Bidirectional genealogy report displayed showing both upstream components and downstream where-used batches"
+    },
+    "TD-CS-056-NEG-001": {
+      "id": "TD-CS-056-NEG-001",
+      "name": "Non-Existent Batch Number",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "nonExistentBatchNumber": "{{NON_EXISTENT_BATCH_NUMBER}}"
+      },
+      "expectedOutcome": "System displays error message: Batch does not exist or no data found; no genealogy report generated"
+    },
+    "TD-CS-056-NEG-002": {
+      "id": "TD-CS-056-NEG-002",
+      "name": "Invalid Batch Number Format",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "invalidBatchFormat": "{{INVALID_BATCH_FORMAT}}"
+      },
+      "expectedOutcome": "System displays validation error: Invalid batch number format; no genealogy report generated"
+    },
+    "TD-CS-056-NEG-003": {
+      "id": "TD-CS-056-NEG-003",
+      "name": "Unauthorized User Access",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "unauthorizedUserEmail": "{{UNAUTHORIZED_USER_EMAIL}}",
+        "unauthorizedUserPassword": "{{UNAUTHORIZED_USER_PASSWORD}}"
+      },
+      "expectedOutcome": "System displays authorization error or does not show Batch Information Cockpit in app list; access denied"
+    },
+    "TD-CS-056-NEG-004": {
+      "id": "TD-CS-056-NEG-004",
+      "name": "Batch with No Component Batches",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "batchWithNoComponents": "{{BATCH_WITH_NO_COMPONENTS}}",
+        "materialIdNoComponents": "{{MATERIAL_ID_NO_COMPONENTS}}"
+      },
+      "expectedOutcome": "System displays batch header but no component batches; informational message indicates no genealogy data available"
+    },
+    "TD-CS-056-ERR-001": {
+      "id": "TD-CS-056-ERR-001",
+      "name": "Missing Mandatory Batch Number Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "emptyValue": ""
+      },
+      "expectedOutcome": "System displays validation error: Batch number is required; field highlighted; no genealogy query executed"
+    },
+    "TD-CS-056-ERR-002": {
+      "id": "TD-CS-056-ERR-002",
+      "name": "Export Failure Due to Authorization or Technical Error",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "finishedGoodsBatchExportFail": "{{FINISHED_GOODS_BATCH_EXPORT_FAIL}}",
+        "exportFormatFail": "{{EXPORT_FORMAT_PDF_OR_EXCEL}}"
+      },
+      "expectedOutcome": "System displays export error message; no file downloaded; in-app report remains accessible"
+    },
+    "TD-CS-056-EDGE-001": {
+      "id": "TD-CS-056-EDGE-001",
+      "name": "Maximum BOM Depth — 10+ Levels",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "finishedGoodsBatchMaxDepth": "{{FINISHED_GOODS_BATCH_MAX_DEPTH}}",
+        "expectedBOMDepth": "{{EXPECTED_BOM_DEPTH_10_PLUS}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "System displays deep genealogy report spanning 10+ BOM levels; query completes within acceptable time threshold"
+    },
+    "TD-CS-056-EDGE-002": {
+      "id": "TD-CS-056-EDGE-002",
+      "name": "Complex Assembly — Hundreds of Component Batches",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "finishedGoodsBatchComplexAssembly": "{{FINISHED_GOODS_BATCH_COMPLEX_ASSEMBLY}}",
+        "expectedComponentCount": "{{EXPECTED_COMPONENT_COUNT_200_PLUS}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "System displays wide genealogy report with hundreds of component batches; query completes within acceptable time threshold"
+    },
+    "TD-CS-056-EDGE-003": {
+      "id": "TD-CS-056-EDGE-003",
+      "name": "Performance Threshold Validation",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-181"],
+      "data": {
+        "finishedGoodsBatchPerformanceThreshold": "{{FINISHED_GOODS_BATCH_PERFORMANCE}}",
+        "acceptableTimeThresholdSeconds": "{{ACCEPTABLE_TIME_THRESHOLD_SECONDS}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Genealogy query completes at or below acceptable time threshold (e.g., ≤ 10 seconds); actual time documented for compliance"
+    },
+    "TD-CS-056-EDGE-004": {
+      "id": "TD-CS-056-EDGE-004",
+      "name": "Batch with Incomplete Date Information",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-182"],
+      "data": {
+        "finishedGoodsBatchIncompleteDates": "{{FINISHED_GOODS_BATCH_INCOMPLETE_DATES}}",
+        "releaseDate": "{{RELEASE_DATE}}",
+        "missingDateField": "{{MISSING_DATE_FIELD_NAME}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "System displays batch genealogy with available dates; missing dates shown as empty/N/A; no error; report remains usable"
+    },
+    "TD-CS-056-INT-001": {
+      "id": "TD-CS-056-INT-001",
+      "name": "MM-PP Integration — Vendor Batch Linkage",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-183"],
+      "data": {
+        "finishedGoodsBatchIntegrationMM": "{{FINISHED_GOODS_BATCH_INTEGRATION_MM}}",
+        "rawMaterialBatchMM": "{{RAW_MATERIAL_BATCH_MM}}",
+        "vendorBatchNumber": "{{VENDOR_BATCH_NUMBER}}",
+        "vendorName": "{{VENDOR_NAME}}",
+        "goodsReceiptNumber": "{{GOODS_RECEIPT_NUMBER}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Vendor batch number from MM goods receipt displayed in PP genealogy report; complete vendor traceability confirmed"
+    },
+    "TD-CS-056-INT-002": {
+      "id": "TD-CS-056-INT-002",
+      "name": "QM-PP Integration — Inspection Lot Results",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-184"],
+      "data": {
+        "finishedGoodsBatchIntegrationQM": "{{FINISHED_GOODS_BATCH_INTEGRATION_QM}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER}}",
+        "inspectionResults": "{{INSPECTION_RESULTS}}",
+        "releaseDate": "{{RELEASE_DATE}}",
+        "usageDecision": "{{USAGE_DECISION}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Inspection lot number and results from QM displayed in PP genealogy report; complete quality traceability confirmed"
+    }
+  }
+}

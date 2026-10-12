@@ -1,0 +1,174 @@
+{
+  "userStory": "CS-18",
+  "summary": "Receive Materials Into Batch-Managed Stock And Capture The Manufacturi",
+  "module": "MM",
+  "generatedAt": "2026-08-21T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 14,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 1
+  },
+  "byPriority": {
+    "CRITICAL": 2,
+    "HIGH": 7,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 10,
+  "automationPartial": 4,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-039",
+      "title": "Post Goods Receipt for Batch-Managed Material with Manual Batch Entry and Date Capture",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-18-001"
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Post Goods Receipt for Batch-Managed Material with Auto-Calculated Expiration Date",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-18-002"
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Post Goods Receipt with Manual Override of Auto-Calculated Expiration Date",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-18-AP-001"
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Attempt to Post Goods Receipt with Expiration Date Already Passed",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-NEG-001"
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Attempt to Post Goods Receipt with Expiration Date Earlier Than Manufacturing Date",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-NEG-002"
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Attempt to Post Goods Receipt with Manufacturing Date in the Future",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-NEG-003"
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to Post Goods Receipt with Batch Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-ERR-001"
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Attempt to Post Goods Receipt with Manufacturing Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-ERR-002"
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Attempt to Post Goods Receipt with Expiration Date Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-ERR-003"
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Post Goods Receipt with Minimum Valid Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationPartial": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-EDGE-001"
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Attempt to Post Goods Receipt with Zero Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-EDGE-002"
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Post Goods Receipt with Manufacturing Date Equal to Today",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationPartial": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-EDGE-003"
+    },
+    {
+      "id": "TC-CS-051",
+      "title": "Post Goods Receipt with Expiration Date Equal to Manufacturing Date Plus One Day",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationPartial": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-18-EDGE-004"
+    },
+    {
+      "id": "TC-CS-052",
+      "title": "Verify Batch Classification Data Visible in Display Batch App",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationPartial": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-18-INT-001"
+    }
+  ],
+  "testdataFile": "testdata/CS-18/CS-18-testdata.json"
+}

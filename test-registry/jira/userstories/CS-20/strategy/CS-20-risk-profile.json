@@ -1,0 +1,307 @@
+{
+  "userStory": "CS-20",
+  "summary": "Create A Purchase Requisition That Automatically Routes For Approval B",
+  "module": "MM",
+  "analysedAt": "2026-08-24T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Officer",
+  "businessObject": "Purchase Requisition (with Release Strategy / Approval Workflow)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Create Purchase Requisition\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically determines the approval workflow (release strategy) based on the requisition's total value and material type.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-3",
+      "text": "The requisition cannot be converted into a Purchase Order until all required approval steps are completed.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "Approvers receive a task notification in their Fiori \"My Inbox\" app with the option to approve, reject, or send back for revision.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "AP", "INT"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-5",
+      "text": "The system displays the current approval status and history on the requisition.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The requisitioner receives a notification when the requisition is fully approved or rejected.",
+      "type": "INTEGRATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "INT"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create PR below approval threshold or single-level approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create PR requiring multi-level approval (high-value GMP-critical material)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Approver sends PR back for revision",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Multi-step approval chain (first approver approves, second approver pending)",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Invalid material type (material does not exist in plant)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to convert PR to PO before all approvals completed",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Approver rejects PR",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Quantity"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Delivery Date field",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Delivery Date"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "PR total value exactly at approval threshold boundary",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "totalValue",
+        "boundary": "threshold"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Minimum quantity boundary (quantity = 1)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Zero price per unit (price = 0)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "price",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Delivery date = today + 1 day (minimum lead time)",
+        "risk": "LOW",
+        "acIds": ["AC-1"],
+        "parameter": "deliveryDate",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Fiori My Inbox task creation and delivery to approver",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Notification delivery to requisitioner (approval complete)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "INT-03",
+        "description": "Notification delivery to requisitioner (rejection)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 3,
+    "total": 18
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in plant (MARC table)"
+      },
+      {
+        "name": "quantity",
+        "label": "Quantity",
+        "mandatory": true,
+        "validRange": "> 0, per UoM"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid plant in SAP (T001W)"
+      },
+      {
+        "name": "deliveryDate",
+        "label": "Delivery Date",
+        "mandatory": true,
+        "validRange": "Future date >= current date"
+      },
+      {
+        "name": "pricePerUnit",
+        "label": "Price per Unit",
+        "mandatory": false,
+        "validRange": ">= 0"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "UoM",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "totalValue",
+        "label": "Total Value",
+        "trigger": "Enter Quantity + Price"
+      },
+      {
+        "name": "releaseStrategy",
+        "label": "Release Strategy Code",
+        "trigger": "Save PR (after total value calculated)"
+      },
+      {
+        "name": "purchasingOrganization",
+        "label": "Purchasing Organization",
+        "trigger": "Confirm Plant"
+      }
+    ],
+    "output": [
+      {
+        "name": "prNumber",
+        "label": "Purchase Requisition Number",
+        "format": "10-digit numeric, begins with 10"
+      },
+      {
+        "name": "releaseStatus",
+        "label": "Release Status",
+        "format": "Enumerated: Not Released / Partially Released / Released / Rejected"
+      },
+      {
+        "name": "approvalHistory",
+        "label": "Approval History",
+        "format": "Table with timestamp, approver name, action, comments"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "totalValue",
+        "label": "Total Value",
+        "lowerBoundary": "Threshold_1 (e.g., $1000)",
+        "upperBoundary": "Threshold_2 (e.g., $10000)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "quantity",
+        "label": "Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

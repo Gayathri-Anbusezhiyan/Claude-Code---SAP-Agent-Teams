@@ -1,0 +1,105 @@
+{
+  "feature": "mm-purchase-order-view",
+  "explorationDate": "2026-04-16",
+  "exploredBy": "Scriptless execution via Playwright MCP Server",
+  "environment": "SAP S/4HANA Cloud - my429998",
+  "browser": "Chromium",
+  "appType": "SAP GUI for HTML (ME23N) in iframe",
+  "notes": "ME23N (Display PO) has the IDENTICAL UI structure as ME22N (Change PO). Same toolbar, header fields, tabs, items grid. Only difference: no Save/Check buttons in Display mode.",
+  "phases": [
+    {
+      "phase": "launchpad-search",
+      "url": "https://my429998.s4hana.cloud.sap/ui#Shell-home",
+      "description": "Search for Display Purchase Order - Advanced",
+      "elements": [
+        { "role": "button", "name": "Open Search", "description": "Button to reveal search bar" },
+        { "role": "searchbox", "name": "Search", "description": "Search input" },
+        { "role": "listitem", "name": "Display Purchase Order - Advanced", "description": "Search result for ME23N app" }
+      ],
+      "notes": "Same search flow as Change PO."
+    },
+    {
+      "phase": "sap-gui-me23n-initial",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-display?sap-ui-tech-hint=GUI&uitype=advancedNoPar",
+      "description": "Display Purchase Order (ME23N) initial state in SAP GUI iframe",
+      "elements": [
+        { "context": "iframe", "role": "button", "name": "Menu", "description": "Main menu button" },
+        { "context": "iframe", "role": "button", "name": "Document Overview On", "description": "Toggle document overview" },
+        { "context": "iframe", "role": "button", "name": "Other Purchase Order", "description": "Opens Select Document dialog" },
+        { "context": "iframe", "role": "button", "name": "Help", "description": "Context help" },
+        { "context": "iframe", "role": "button", "name": "Personal Setting", "description": "User settings" }
+      ],
+      "notes": "Same as ME22N initial state but without Create button."
+    },
+    {
+      "phase": "select-document-dialog",
+      "url": "same as ME23N",
+      "description": "Select Document dialog (identical to ME22N)",
+      "elements": [
+        { "context": "iframe-dialog", "role": "textbox", "name": "Pur. Order", "description": "Purchase order number input field" },
+        { "context": "iframe-dialog", "role": "radio", "name": "Pur. Order", "description": "Radio for PO type (default)" },
+        { "context": "iframe-dialog", "role": "radio", "name": "Purch. Requisition", "description": "Radio for PR type" },
+        { "context": "iframe-dialog", "role": "button", "name": "Other Document", "description": "Confirm and load" },
+        { "context": "iframe-dialog", "role": "button", "name": "Cancel", "description": "Cancel dialog" }
+      ],
+      "notes": "Identical to ME22N Select Document dialog."
+    },
+    {
+      "phase": "sap-gui-me23n-po-loaded",
+      "url": "same as ME23N",
+      "description": "PO loaded in Display mode (read-only)",
+      "elements": [
+        { "context": "iframe-toolbar", "role": "button", "name": "Menu", "description": "Main menu" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Document Overview On", "description": "Toggle overview" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Display/Change", "description": "Toggle mode (switches to ME22N if authorized)" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Other Purchase Order", "description": "Load different PO" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Help", "description": "Context help" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Personal Setting", "description": "User settings" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Save As Template", "description": "Save as template" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Print Preview", "description": "Preview PO print" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Messages", "description": "View messages" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Find", "description": "Find in document" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Exit", "description": "Exit transaction" },
+        { "context": "iframe-header", "role": "textbox", "name": "Order Type", "description": "PO type (e.g., NB) — read-only" },
+        { "context": "iframe-header", "role": "textbox", "name": "Purchasing Document", "description": "PO number — read-only" },
+        { "context": "iframe-header", "role": "textbox", "name": "Supplier", "description": "Supplier number — read-only" },
+        { "context": "iframe-header", "role": "textbox", "name": "Doc. Date", "description": "Document date — read-only" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Delivery/Invoice", "description": "Delivery and invoice tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Conditions (PO header)", "description": "Header conditions" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Delivery Address", "description": "Delivery address" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Communication", "description": "Communication" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Additional Data", "description": "Additional data" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Status", "description": "PO status" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Release Strategy", "description": "Release strategy" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Version", "description": "Version" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Partners", "description": "Partners" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Texts", "description": "Texts" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Incoterms", "description": "Incoterms" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Item", "description": "Item number column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Material", "description": "Material number" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Short Text", "description": "Material short text" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "PO Quantity", "description": "Order quantity — read-only in Display mode" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "OUn", "description": "Order unit" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Delivery Date", "description": "Delivery date" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Net Price", "description": "Net price" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Crcy", "description": "Currency" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Per", "description": "Per unit" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Tax Code", "description": "Tax code" }
+      ],
+      "notes": "All fields are read-only in Display mode. No Save or Check buttons in toolbar. Display/Change toggles to ME22N (Change mode) if authorized."
+    },
+    {
+      "phase": "profile-and-signout",
+      "url": "same as Fiori shell",
+      "description": "Profile dialog and sign out flow (shared with all apps)",
+      "elements": [
+        { "role": "button", "name": "Profile of Trial 0030517 User", "description": "Profile button in Shell Bar" },
+        { "role": "listitem", "name": "Sign Out", "description": "Sign Out (last item in profile dialog list)" },
+        { "role": "alertdialog", "name": "Sign Out", "description": "Confirmation: Are you sure you want to sign out?" },
+        { "role": "button", "name": "OK", "description": "Confirm sign out" },
+        { "role": "button", "name": "Cancel", "description": "Cancel sign out" }
+      ],
+      "notes": "Same sign out flow as all Fiori apps."
+    }
+  ]
+}

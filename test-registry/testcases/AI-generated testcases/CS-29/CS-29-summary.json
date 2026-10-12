@@ -1,0 +1,174 @@
+{
+  "userStory": "CS-29",
+  "summary": "Perform Three-Way Match Invoice Verification For A Gmp Material Purchase",
+  "module": "MM/FI",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 15,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 4,
+    "NEG": 2,
+    "ERR": 3,
+    "EDGE": 2,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 5,
+    "MEDIUM": 5,
+    "LOW": 0
+  },
+  "automationCandidates": 15,
+  "testCases": [
+    {
+      "id": "TC-CS-110",
+      "title": "Create supplier invoice for GMP material PO with perfect three-way match",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-HP-001",
+      "acCoverage": ["AC-1", "AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-111",
+      "title": "Create supplier invoice with quantity exceeding GR beyond tolerance",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-ERR-001",
+      "acCoverage": ["AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-112",
+      "title": "Create supplier invoice with price exceeding PO price beyond tolerance",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-ERR-002",
+      "acCoverage": ["AC-4", "AC-5"]
+    },
+    {
+      "id": "TC-CS-113",
+      "title": "Verify blocked invoice appears in Manage Blocked Invoices worklist",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-29-INT-001",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-114",
+      "title": "Correct blocked invoice quantity to match GR and verify auto-release",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-29-INT-002",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-115",
+      "title": "Create supplier invoice with quantity variance within tolerance",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-AP-001",
+      "acCoverage": ["AC-1", "AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-116",
+      "title": "Create supplier invoice with price variance within tolerance",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-AP-002",
+      "acCoverage": ["AC-1", "AC-2", "AC-4"]
+    },
+    {
+      "id": "TC-CS-117",
+      "title": "Correct blocked invoice price to match PO and verify auto-release",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-29-INT-003",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-118",
+      "title": "Create supplier invoice with quantity exactly at tolerance boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-EDGE-001",
+      "acCoverage": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-119",
+      "title": "Create supplier invoice with price exactly at tolerance boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-EDGE-002",
+      "acCoverage": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-120",
+      "title": "Create supplier invoice referencing PO with multiple GRs",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-29-AP-003",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-121",
+      "title": "Create supplier invoice referencing PO with partial GR",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-29-AP-004",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-122",
+      "title": "Attempt to create supplier invoice with non-existent PO number",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-NEG-001",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-123",
+      "title": "Attempt to create supplier invoice for PO with no goods receipt",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-NEG-002",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-124",
+      "title": "Create supplier invoice with both quantity and price variances beyond tolerance",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-29-ERR-003",
+      "acCoverage": ["AC-3", "AC-4", "AC-5"]
+    }
+  ],
+  "testdataFile": "testdata/CS-29/CS-29-testdata.json",
+  "qualityGates": {
+    "acCoverageComplete": true,
+    "scenarioTypeCoveragePass": true,
+    "riskPrioritizationPass": true,
+    "automationEligibilityPass": true
+  },
+  "estimatedExecutionEffort": {
+    "small": 2,
+    "medium": 11,
+    "large": 2,
+    "totalHours": "12-15 hours"
+  }
+}

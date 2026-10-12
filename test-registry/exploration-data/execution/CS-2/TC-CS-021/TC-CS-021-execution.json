@@ -1,0 +1,182 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "appName": "Manage Purchase Orders",
+  "executedAt": "2026-05-21T13:32:00.000Z",
+  "executedBy": "automation-agent/skills/explore-and-capture (e2e-automation-v2 v7)",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-21 v7)",
+  "status": "FAIL",
+  "failureReason": "ASSERTION_FAILURE — SAP displays role=alert 'Purchase order has been created.' without 10-digit PO number. No dedicated success notification toast, banner, or dialog. TC designed to fail at this assertion to validate defect logging pipeline.",
+  "stepCount": 26,
+  "criticalAssertionStep": 22,
+  "capturedSelectors": {
+    "openSearchButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']", "confidence": "HIGH" }
+      ]
+    },
+    "searchInput": {
+      "primary": { "strategy": "role", "value": "searchbox", "name": "Search", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='search']", "confidence": "MEDIUM" }
+      ]
+    },
+    "createPOButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "Create PO", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button[id*='Create']", "confidence": "MEDIUM" }
+      ]
+    },
+    "supplierField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Supplier", "exact": true, "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Supplier'][type='text']", "confidence": "HIGH" }
+      ]
+    },
+    "itemsCreateButton": {
+      "primary": { "strategy": "toolbar+label", "value": "getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button:has-text('Create')", "confidence": "LOW", "note": "ambiguous — multiple Create buttons on page" }
+      ]
+    },
+    "materialField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Material", "exact": true, "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Material'][type='text']", "confidence": "MEDIUM" }
+      ]
+    },
+    "orderQuantityField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Order Quantity", "exact": true, "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='OrderQuantity']", "confidence": "MEDIUM" }
+      ]
+    },
+    "netOrderPriceField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Net Order Price", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='NetPriceAmount']", "confidence": "MEDIUM" }
+      ]
+    },
+    "plantField": {
+      "primary": { "strategy": "role", "value": "textbox", "name": "Plant", "exact": true, "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Plant'][type='text']", "confidence": "MEDIUM" }
+      ]
+    },
+    "orderButton": {
+      "primary": { "strategy": "css", "value": "button:has-text('Order')", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "role", "value": "button", "name": "Order", "confidence": "HIGH" }
+      ]
+    },
+    "userProfileButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "Profile of Trial 0034157 User", "confidence": "MEDIUM", "note": "username may differ per environment" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button[id*='meAreaButton']", "confidence": "HIGH" }
+      ]
+    },
+    "signOutButton": {
+      "primary": { "strategy": "css", "value": "[id$='-logoutBtn']", "confidence": "HIGH", "note": "dynamic prefix, stable suffix" },
+      "fallbacks": [
+        { "strategy": "text", "value": "Sign Out", "confidence": "MEDIUM" }
+      ]
+    },
+    "signOutOKButton": {
+      "primary": { "strategy": "role", "value": "button", "name": "OK", "confidence": "HIGH" },
+      "fallbacks": []
+    }
+  },
+  "dynamicPopups": [
+    {
+      "condition": "Guided Tour dialog appears after login",
+      "detection": "dialog ' Start Guided Tour' with 'Leave Tour' button",
+      "resolution": "browser_click getByRole('button', { name: 'Leave Tour' })",
+      "frequency": "ALWAYS_ON_FIRST_LOGIN_SESSION",
+      "notes": "Also triggered when clicking Open Menu button in shell bar (accidentally opened nav drawer)"
+    }
+  ],
+  "observedMessages": {
+    "successAfterOrder": {
+      "role": "alert",
+      "text": "Purchase order has been created.",
+      "ref": "e2323",
+      "location": "top-level aria alert — NOT a toast or dialog",
+      "containsPONumber": false,
+      "notes": "CRITICAL: this is the defect. Alert text does NOT contain 10-digit PO number. AC-6 'displayed' requirement not met."
+    }
+  },
+  "sapAutoPopulatedValues": {
+    "supplier_17300002": {
+      "supplierName": "Carbon Tec Inc.",
+      "currency": "United States Dollar (USD)",
+      "purchasingOrg": "Purch. Org. 1710 (1710)",
+      "purchasingGroup": "Group 001 (001)",
+      "companyCode": "1710 (Velotics Inc.)",
+      "languageKey": "English (EN)"
+    },
+    "material_RMPI001": {
+      "shortText": "Input 1 (WATER)",
+      "materialGroup": "Raw Materials (L002)",
+      "unitOfMeasure": "KG"
+    }
+  },
+  "postOrderBehavior": {
+    "navigationTarget": "Manage Purchase Orders list page",
+    "urlAfterOrder": "#PurchaseOrder-manage&/",
+    "pageTitle": "Manage Purchase Orders",
+    "successAlertText": "Purchase order has been created.",
+    "successAlertContainsPONumber": false,
+    "dedicatedSuccessNotification": false,
+    "summaryForDefectLogging": "SAP does not display the generated PO number in any success notification after clicking Order. The system shows a generic role=alert message and navigates to the PO list. The PO number is NOT visible to the user at the moment of submission confirmation."
+  },
+  "issues": [
+    {
+      "type": "APP_DEFECT",
+      "step": 22,
+      "description": "SAP alert 'Purchase order has been created.' does not contain the 10-digit PO number. AC-6 'displayed upon successful order submission' requirement not fully met.",
+      "acViolated": "AC-6",
+      "recommendation": "LOG_DEFECT — escalate to Phase 6 (Defect Logging)"
+    }
+  ],
+  "healed": [
+    {
+      "timestamp": "2026-05-29T18:29:29.000Z",
+      "patchFile": "self-healing/patches/20260529-182929-TC-CS-021-patch.md",
+      "changeType": "INTERACTION_UPDATE",
+      "element": "openSearchButton",
+      "issue": "Element not in DOM initially after login due to SAP Fiori shell bar lazy-loading",
+      "resolution": "Added prerequisite action: click 'Open Menu' button to trigger full shell bar render before clicking 'Open Search'",
+      "oldStrategy": "Direct wait for locator('[title=\"Open Search\"]') with 90s timeout",
+      "newStrategy": "Conditional check → if not visible, click Open Menu → wait for re-render → then click Open Search with 15s timeout",
+      "triggeredBy": "self-healing-agent (TC-CS-021 failure re-execution)"
+    },
+    {
+      "timestamp": "2026-06-02T10:50:00.000Z",
+      "patchFile": "self-healing/patches/20260602-105000-TC-CS-021-patch.md",
+      "changeType": "WAIT_UPDATE",
+      "element": "shellBar.searchButton",
+      "issue": "loc() method timeout too aggressive for shell bar lazy-loading (5000ms insufficient)",
+      "resolution": "Increased waitFor timeout in loc() method: primary 5000ms → 15000ms, fallbacks 3000ms → 8000ms",
+      "oldStrategy": "locator.waitFor({ state: 'attached', timeout: 5000 })",
+      "newStrategy": "locator.waitFor({ state: 'attached', timeout: 15000 }) for primary, 8000ms for fallbacks",
+      "triggeredBy": "self-healing-agent/skills/patch-scripts",
+      "verificationCommand": "npx playwright test --config=automation/config/playwright.config.js --grep \"TC-CS-021\""
+    },
+    {
+      "timestamp": "2026-06-04T15:19:00.000Z",
+      "patchFile": "self-healing/patches/20260604-151900-TC-CS-021-patch.md",
+      "changeType": "FIXTURE_TIMING_FIX",
+      "element": "purchaseOrderPage fixture",
+      "issue": "Fixture calls navigateToApp() immediately after login, but shell bar takes 10-15s to lazy-load. navigateToApp() tries to click shellBar.searchButton before it exists in DOM, causing 'All locator strategies failed' error.",
+      "resolution": "Added explicit waitForSelector('[title=\"Open Search\"]', { state: 'visible', timeout: 20000 }) in fixture setup (line 46) BEFORE calling navigateToApp(). This ensures shell bar is fully rendered before navigation begins.",
+      "oldStrategy": "dismissGuidedTour() → navigateToApp() (immediate)",
+      "newStrategy": "dismissGuidedTour() → wait for shell bar visible (20s timeout) → navigateToApp()",
+      "triggeredBy": "self-healing-agent/skills/patch-scripts (full re-execution cycle 2026-06-04)",
+      "verificationCommand": "npx playwright test --config=automation/config/playwright.config.js --grep \"TC-CS-021\"",
+      "notes": "Locators are NOT at fault — both CSS and role locators work correctly. Issue was fixture initialization timing. Prior patches (increased loc() timeout) were correct but insufficient because they didn't address the fixture calling navigateToApp() before shell bar exists."
+    }
+  ]
+}

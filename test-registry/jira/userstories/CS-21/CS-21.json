@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-21",
+  "type": "Task",
+  "summary": "Record A Return Delivery For A Rejected Batch Back To The Vendor",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Warehouse Operator, I want to record a Return Delivery for a rejected batch back to the vendor, so that non-conforming GMP materials are formally removed from inventory with full traceability.",
+  "acceptanceCriteria": "1. The user can access the \"Post Goods Movement\" (Return Delivery) Fiori app.\n2. The user can select the original Purchase Order and the specific rejected batch to be returned.\n3. The system requires a rejection reason code (e.g., failed specification, damaged packaging, expired) before the return can be posted.\n4. The stock is removed from Blocked/Quality Inspection stock upon posting of the return delivery.\n5. The system generates a Return Delivery document that references the original goods receipt and inspection lot.\n6. A debit memo request can be triggered from the return delivery for vendor cost recovery.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:08.839+0530",
+  "updated": "2026-08-21T14:11:08.933+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-21",
+  "fetchedAt": "2026-08-21T09:01:00.000Z"
+}

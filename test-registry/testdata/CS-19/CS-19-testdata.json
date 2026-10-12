@@ -1,0 +1,330 @@
+{
+  "userStory": "CS-19",
+  "module": "MM",
+  "feature": "Batch Stock Status Management — Quality Hold",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps (Step 1)",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login email step (Step 2)",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login password step (Step 4)"
+  },
+  "testDataSets": {
+    "TD-CS-19-001": {
+      "id": "TD-CS-19-001",
+      "name": "Valid Batch — Block with Blocked Stock Status",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_01}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "Batch status changed to Blocked Stock; material document generated; audit log entry created"
+    },
+    "TD-CS-19-002": {
+      "id": "TD-CS-19-002",
+      "name": "Valid Batch — Block with Quality Inspection Status",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber2": "{{BATCH_NUMBER_UNRESTRICTED_02}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeQI": "{{STOCK_TYPE_QUALITY_INSPECTION}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "Batch status changed to Quality Inspection; material document generated; audit log entry created"
+    },
+    "TD-CS-19-003": {
+      "id": "TD-CS-19-003",
+      "name": "Valid Batch — QA User Releases Quality Hold",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberBlocked": "{{BATCH_NUMBER_BLOCKED_01}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeUnrestricted": "{{STOCK_TYPE_UNRESTRICTED}}",
+        "reasonCodeRelease": "{{REASON_CODE_RELEASE}}"
+      },
+      "expectedOutcome": "Batch status changed from Blocked/QI to Unrestricted-Use; material document generated; audit log entry created"
+    },
+    "TD-CS-19-004": {
+      "id": "TD-CS-19-004",
+      "name": "Valid Batch — Block via Batch Where-Used List App (Alternative Navigation)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-056"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_03}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "Batch status changed to Blocked Stock via alternative app; material document generated"
+    },
+    "TD-CS-19-005": {
+      "id": "TD-CS-19-005",
+      "name": "Blocked Batch — Attempt Goods Issue Transaction",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-057"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberBlocked": "{{BATCH_NUMBER_BLOCKED_02}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "movementType": "{{GOODS_ISSUE_MOVEMENT_TYPE}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "System prevents goods issue; error message displayed indicating batch is blocked"
+    },
+    "TD-CS-19-006": {
+      "id": "TD-CS-19-006",
+      "name": "Blocked Batch — Attempt Production Order Consumption",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-058"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberBlocked": "{{BATCH_NUMBER_BLOCKED_03}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "productionOrder": "{{PRODUCTION_ORDER_ACTIVE}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "System prevents production order consumption; error message displayed indicating batch is blocked"
+    },
+    "TD-CS-19-007": {
+      "id": "TD-CS-19-007",
+      "name": "Blocked Batch — Unauthorized User Attempts Release",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-059"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberBlocked": "{{BATCH_NUMBER_BLOCKED_04}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeUnrestricted": "{{STOCK_TYPE_UNRESTRICTED}}",
+        "reasonCodeRelease": "{{REASON_CODE_RELEASE}}",
+        "unauthorizedUser": "{{USER_UNAUTHORIZED_NO_QA_ROLE}}"
+      },
+      "expectedOutcome": "System prevents release; authorization error displayed; batch remains blocked"
+    },
+    "TD-CS-19-008": {
+      "id": "TD-CS-19-008",
+      "name": "Batch with Zero Stock — Attempt to Block",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-060"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberZeroStock": "{{BATCH_NUMBER_ZERO_STOCK}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System prevents block operation; error message indicating zero or no stock available"
+    },
+    "TD-CS-19-009": {
+      "id": "TD-CS-19-009",
+      "name": "Missing Material Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-061"],
+      "data": {
+        "materialNumber": "",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_04}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System highlights Material field as mandatory; prevents search/block operation"
+    },
+    "TD-CS-19-010": {
+      "id": "TD-CS-19-010",
+      "name": "Missing Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-062"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "batchNumber": "",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System highlights Batch field as mandatory; prevents search/block operation"
+    },
+    "TD-CS-19-011": {
+      "id": "TD-CS-19-011",
+      "name": "Missing Plant",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-063"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_05}}",
+        "plant": "",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System highlights Plant field as mandatory; prevents search/block operation"
+    },
+    "TD-CS-19-012": {
+      "id": "TD-CS-19-012",
+      "name": "Missing Storage Location",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-064"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_06}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System highlights Storage Location field as mandatory; prevents search/block operation"
+    },
+    "TD-CS-19-013": {
+      "id": "TD-CS-19-013",
+      "name": "Missing Reason Code",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-065"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_07}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": ""
+      },
+      "expectedOutcome": "System highlights Reason Code field as mandatory; prevents save operation"
+    },
+    "TD-CS-19-014": {
+      "id": "TD-CS-19-014",
+      "name": "Non-existent Material Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-066"],
+      "data": {
+        "materialNumberInvalid": "{{MATERIAL_ID_NONEXISTENT}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED_08}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System displays error indicating material does not exist; no batch list displayed"
+    },
+    "TD-CS-19-015": {
+      "id": "TD-CS-19-015",
+      "name": "Non-existent Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-067"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "batchNumberInvalid": "{{BATCH_NUMBER_NONEXISTENT}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System displays error or no data found message; batch is not displayed"
+    },
+    "TD-CS-19-016": {
+      "id": "TD-CS-19-016",
+      "name": "Material Not Batch-Managed",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-068"],
+      "data": {
+        "materialNumberNonBatch": "{{MATERIAL_ID_NON_BATCH_MANAGED}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "System displays error indicating material is not batch-managed; batch field not available"
+    },
+    "TD-CS-19-017": {
+      "id": "TD-CS-19-017",
+      "name": "Minimum Valid Stock Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-069"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberMinStock": "{{BATCH_NUMBER_MIN_STOCK}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockQuantityMin": "{{STOCK_QUANTITY_MIN}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "Batch with minimum stock (0.001 UoM) is successfully blocked; material document generated"
+    },
+    "TD-CS-19-018": {
+      "id": "TD-CS-19-018",
+      "name": "Maximum Stock Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-070"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberMaxStock": "{{BATCH_NUMBER_MAX_STOCK}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockQuantityMax": "{{STOCK_QUANTITY_MAX}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}"
+      },
+      "expectedOutcome": "Batch with maximum stock (999999999.999 UoM) is successfully blocked; material document generated"
+    },
+    "TD-CS-19-019": {
+      "id": "TD-CS-19-019",
+      "name": "Release Hold on Batch That Was Never Blocked (Invalid State Transition)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-071"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberUnrestricted": "{{BATCH_NUMBER_UNRESTRICTED_09}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeUnrestricted": "{{STOCK_TYPE_UNRESTRICTED}}",
+        "reasonCodeRelease": "{{REASON_CODE_RELEASE}}"
+      },
+      "expectedOutcome": "System displays error or no-op message; batch status remains Unrestricted-Use (already unrestricted)"
+    },
+    "TD-CS-19-020": {
+      "id": "TD-CS-19-020",
+      "name": "Block Batch Used in Active Process Order — Notification to Production Planning",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-072"],
+      "data": {
+        "materialNumber": "{{MATERIAL_BATCH_MANAGED_VALID}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumberInProcessOrder": "{{BATCH_NUMBER_IN_ACTIVE_PROCESS_ORDER}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_CODE}}",
+        "stockTypeBlocked": "{{STOCK_TYPE_BLOCKED}}",
+        "reasonCode": "{{REASON_CODE_BLOCK}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_ACTIVE}}",
+        "notificationRecipient": "{{PRODUCTION_PLANNING_EMAIL}}"
+      },
+      "expectedOutcome": "Batch status changed to Blocked Stock; notification sent to Production Planning; process order status updated or flagged"
+    }
+  }
+}

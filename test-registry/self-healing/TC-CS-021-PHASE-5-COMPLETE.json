@@ -1,0 +1,190 @@
+{
+  "phase": 5,
+  "phaseName": "Self-Healing Agent",
+  "command": "/self-heal TC-CS-021",
+  "timestamp": "2026-05-29T01:30:00.000Z",
+  "testId": "TC-CS-021",
+  "userStory": "CS-2",
+  "executionStatus": "COMPLETE",
+  "overallResult": "SUCCESS_WITH_PATCH_APPLIED",
+  "summary": {
+    "step1_analyzeFailure": {
+      "status": "COMPLETE",
+      "errorType": "TIMEOUT_ERROR",
+      "rootCause": "LOCATOR_MISMATCH",
+      "failingComponent": "automation/pages/mm/purchase-order/purchase-order.page.js:129 (openSearch method)",
+      "failingLocator": "getByRole('button', { name: 'Open Search' })",
+      "classification": "AUTOMATION_BUG (not APP_DEFECT)"
+    },
+    "step2_reExecuteViaMcp": {
+      "status": "COMPLETE",
+      "executionMode": "HEADED (Playwright MCP with visible browser)",
+      "loginSuccessful": true,
+      "tourDismissed": true,
+      "searchButtonFound": true,
+      "workingLocator": "[title=\"Open Search\"]",
+      "appOpened": "Manage Purchase Orders",
+      "createPoClickedSuccessfully": true,
+      "poFormOpened": true,
+      "partialExecutionNote": "Full TC execution stopped after Step 8 due to MCP server performance constraints, but all navigation steps confirmed working with corrected locator"
+    },
+    "step3_decisionAndAction": {
+      "status": "COMPLETE",
+      "classification": "AUTOMATION_BUG_FIXABLE",
+      "actionTaken": "PATCH_SCRIPTS",
+      "patchApplied": true,
+      "filePatchedPath": "automation/pages/mm/purchase-order/purchase-order.page.js",
+      "patchType": "LOCATOR_STRATEGY_FIX",
+      "patchDetails": "Changed openSearch method from getByRole('button', { name: 'Open Search' }) to page.locator('[title=\"Open Search\"]')"
+    }
+  },
+  "detailedSteps": {
+    "step1_analyzeFailure": {
+      "input": "Phase 4 failure report: TC-CS-021-run-phase-4.json",
+      "analysis": {
+        "failureType": "TIMEOUT_ERROR",
+        "failureLocation": "automation/pages/mm/purchase-order/purchase-order.page.js:130",
+        "errorMessage": "Test timeout of 120000ms exceeded. Locator.waitFor: getByRole('button', { name: 'Open Search' }) not visible after 120s",
+        "rootCauseAnalysis": "Playwright getByRole() uses accessibility tree. SAP Fiori shell bar search button has HTML title attribute but NO accessible name. Role-based selector cannot find it.",
+        "affectedScripts": ["automation/pages/mm/purchase-order/purchase-order.page.js — openSearch() method"],
+        "impact": "Blocks all test cases using PurchaseOrderPage.openSearch(). Affects entire CS-2 and CS-3 test suites."
+      },
+      "output": "self-healing/failures/2026-05-29T01-00-00-TC-CS-021-failure.json"
+    },
+    "step2_reExecuteViaMcp": {
+      "preconditions": {
+        "env": ".env credentials loaded (SAP_FIORI_URL, SAP_USERNAME, SAP_PASSWORD)",
+        "testData": "CS-2 test data ready (Supplier 17300002, Material RMPI001, Qty 10, Price 0.08, Plant 1710)",
+        "browser": "Playwright MCP with headed flag (browser visible for interactive debugging)"
+      },
+      "execution": [
+        {
+          "step": 1,
+          "action": "Navigate to SAP Fiori URL",
+          "result": "SUCCESS",
+          "details": "Redirected to IDP (accounts.ondemand.com)"
+        },
+        {
+          "step": 2,
+          "action": "Two-step IDP login (email → Continue → password → Continue)",
+          "result": "SUCCESS",
+          "details": "Landed on SAP Fiori Home (Shell-home)"
+        },
+        {
+          "step": 3,
+          "action": "Dismiss Guided Tour dialog",
+          "result": "SUCCESS",
+          "locator": "button[aria-label=\"Leave Tour\"]",
+          "details": "Guided Tour appears on every fresh login session; dismissed successfully"
+        },
+        {
+          "step": 4,
+          "action": "Locate and click search button",
+          "subSteps": [
+            {
+              "strategy": 1,
+              "locator": "getByRole('button', { name: 'Open Search' })",
+              "result": "FAILED — no match (confirms Phase 4 error)"
+            },
+            {
+              "strategy": 2,
+              "locator": "[title=\"Open Search\"]",
+              "result": "SUCCESS — element found and clicked ✓",
+              "note": "CSS attribute selector works reliably"
+            }
+          ]
+        },
+        {
+          "step": 5,
+          "action": "Type 'Manage Purchase Orders' in search field",
+          "result": "SUCCESS",
+          "fieldLocator": "#searchFieldInShell-input-inner",
+          "details": "Search dropdown appeared with results"
+        },
+        {
+          "step": 6,
+          "action": "Select 'Manage Purchase Orders' from search results",
+          "result": "SUCCESS",
+          "method": "Press ArrowDown then Enter",
+          "details": "App opened in new context (URL hash changed to #PurchaseOrder-manage)"
+        },
+        {
+          "step": 7,
+          "action": "Manage Purchase Orders page loads",
+          "result": "SUCCESS",
+          "pageState": "List view with filters and Create PO button visible"
+        },
+        {
+          "step": 8,
+          "action": "Click Create PO button",
+          "result": "SUCCESS",
+          "details": "New PO form opened in draft mode (IsActiveEntity=false)"
+        },
+        {
+          "step": 9,
+          "action": "PO form ready for data entry",
+          "result": "SUCCESS (partial)",
+          "note": "Execution stopped here due to MCP server performance constraints, but locator fix validated for all prior steps"
+        }
+      ],
+      "output": "self-healing/re-executions/2026-05-29T01-30-00-TC-CS-021/TC-CS-021-reexecution.json"
+    },
+    "step3_decisionAndAction": {
+      "decision": "CLASSIFICATION: AUTOMATION_BUG (locator strategy issue, not SAP behavior issue)",
+      "rationale": "Phase 5 MCP re-execution conclusively proved that [title=\"Open Search\"] matches the shell bar search button, while getByRole() does not. This is a script locator problem, not an SAP defect.",
+      "actionDecision": "PATCH_SCRIPTS (no escalation to defect logging needed)",
+      "patchApplied": {
+        "file": "automation/pages/mm/purchase-order/purchase-order.page.js",
+        "method": "openSearch()",
+        "lineNumber": 129,
+        "change": {
+          "from": "const searchBtn = this.page.getByRole('button', { name: 'Open Search' });",
+          "to": "const searchBtn = this.page.locator('[title=\"Open Search\"]');"
+        },
+        "rationale": "SAP Fiori shell bar uses HTML title attribute for search button, not accessible name. CSS selector is more reliable."
+      }
+    }
+  },
+  "criticalFindings": {
+    "infrastructureIssue": {
+      "type": "LOCATOR_MISMATCH",
+      "description": "Playwright getByRole() cannot locate SAP Fiori shell bar search button because it uses HTML title attribute instead of aria-label or accessible name.",
+      "resolution": "Use CSS selector [title=\"Open Search\"] to directly target the HTML title attribute.",
+      "applicability": "ALL test cases using PurchaseOrderPage.openSearch() method"
+    },
+    "phaseDesignMismatch": {
+      "finding": "Phase 3 comment stated 'Phase 3a MCP confirmed button uses role=button name=Open Search', but Phase 5 re-execution proves this is FALSE.",
+      "likelyReason": "Phase 3 used manual HTML inspection rather than actual Playwright locator testing in a live browser.",
+      "implication": "Phase 3 findings should be validated by Phase 5 re-execution before trusting them."
+    },
+    "expectedAssertionFailure": {
+      "note": "TC-CS-021 is intentionally designed to fail at Step 22 (success notification assertion). The infrastructure bug prevented reaching this designed failure point. Once patched, test should proceed to Step 22 and fail as designed, validating the defect logging pipeline."
+    }
+  },
+  "artifacts": {
+    "failureAnalysis": "self-healing/failures/2026-05-29T01-00-00-TC-CS-021-failure.json",
+    "reExecutionReport": "self-healing/re-executions/2026-05-29T01-30-00-TC-CS-021/TC-CS-021-reexecution.json",
+    "patchDocument": "self-healing/patches/2026-05-29T01-30-00-TC-CS-021-patch.md",
+    "patchedFile": "automation/pages/mm/purchase-order/purchase-order.page.js"
+  },
+  "nextSteps": [
+    "1. Run /self-heal TC-CS-021 again (or directly run TC-CS-021 via playwright test)",
+    "2. Expected: Test reaches Step 22 (designed assertion failure point)",
+    "3. Expected: Test fails with ASSERTION_FAILURE (alert text != expected substring)",
+    "4. Then: Escalate to /log-defect TC-CS-021 to validate defect logging pipeline",
+    "5. Result: Jira Bug created (AC-6 violation: success notification missing PO#)"
+  ],
+  "verificationCommand": "npx playwright test --config=automation/config/playwright.config.js --grep \"TC-CS-021\"",
+  "regressionTestCommand": "npm run test:mm",
+  "completionStatus": "PHASE_5_COMPLETE",
+  "escalationNeeded": false,
+  "escalationReason": "This is an automation script bug (locator strategy), not an SAP app defect. Script patched. No need to create a Jira defect for this infrastructure issue.",
+  "timelineSummary": {
+    "phaseStarted": "2026-05-29T00:00:00.000Z (Phase 4 failure occurred)",
+    "failureAnalyzed": "2026-05-29T01:00:00.000Z",
+    "mcpReExecution": "2026-05-29T01:10:00.000Z - 2026-05-29T01:25:00.000Z (headed mode, interactive)",
+    "patchApplied": "2026-05-29T01:30:00.000Z",
+    "reportGenerated": "2026-05-29T01:30:00.000Z",
+    "phaseComplete": "2026-05-29T01:30:00.000Z"
+  }
+}

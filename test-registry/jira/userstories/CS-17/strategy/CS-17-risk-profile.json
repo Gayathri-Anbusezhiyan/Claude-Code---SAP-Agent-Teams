@@ -1,0 +1,363 @@
+{
+  "userStory": "CS-17",
+  "summary": "Maintain An Approved Vendor List (Source List) For Critical Gmp Raw Ma",
+  "module": "MM",
+  "analysedAt": "2026-08-21T09:01:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Officer",
+  "businessObject": "Source List (Approved Vendor List) for Materials",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Source Lists\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system allows the user to designate one or more vendors as \"Approved\" for a specific material and plant combination.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system blocks creation of a Purchase Order for a restricted material if the vendor is not present on the approved source list.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "The system displays a warning/error message identifying the material as requiring vendor qualification when a non-approved vendor is selected.",
+      "type": "ERROR_HANDLING",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "Approved vendor status can be time-bound with validity start and end dates reflecting audit/certification expiry.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA", "ST"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-6",
+      "text": "The system sends a notification to the Procurement team a configurable number of days before a vendor's approval validity expires.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create source list entry with single approved vendor for critical GMP material",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create source list entry with multiple approved vendors for same material-plant combination",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Successfully create PO for restricted material using approved vendor from source list",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Notification sent to Procurement team before vendor approval validity expires",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create PO for restricted material with non-approved vendor — PO creation blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create PO for restricted material with vendor not present in source list — PO creation blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to create PO for restricted material with expired vendor approval (validity end date passed) — PO creation blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4", "AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Vendor field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Vendor"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Non-existent Material ID entered",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Non-existent Plant code entered",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Non-existent Vendor ID entered",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Vendor"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Valid To date earlier than Valid From date",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "field": "Valid To"
+      },
+      {
+        "id": "ERR-08",
+        "description": "Valid From date in the past",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "field": "Valid From"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Valid From date = today (current date, start of validity period)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "validFrom",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Valid To date = Valid From date (one-day validity period)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "validTo",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Valid To date = far future date (10 years ahead, maximum validity)",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "parameter": "validTo",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Valid To date = null (indefinite approval, no expiry)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "validTo",
+        "boundary": "null"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Notification lead time = 1 day (minimum boundary for AC-6)",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "parameter": "notificationLeadTime",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Notification lead time = 365 days (maximum boundary for AC-6)",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "notificationLeadTime",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Notification lead time = 0 (notification disabled)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "parameter": "notificationLeadTime",
+        "boundary": "zero"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 8,
+    "EDGE": 7,
+    "INT": 0,
+    "total": 22
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in SAP master, flagged as GMP/critical"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Existing plant code (4-digit)"
+      },
+      {
+        "name": "vendorId",
+        "label": "Vendor",
+        "mandatory": true,
+        "validRange": "Existing vendor in SAP master, qualified status"
+      },
+      {
+        "name": "validFrom",
+        "label": "Valid From",
+        "mandatory": false,
+        "validRange": "Date in YYYY-MM-DD format, defaults to today if not provided"
+      },
+      {
+        "name": "validTo",
+        "label": "Valid To",
+        "mandatory": false,
+        "validRange": "Date in YYYY-MM-DD format, must be ≥ Valid From"
+      },
+      {
+        "name": "sourceListType",
+        "label": "Source List Type",
+        "mandatory": true,
+        "validRange": "\"Approved\" or \"Blocked\" (AC-2 specifies \"Approved\")"
+      },
+      {
+        "name": "notificationLeadTime",
+        "label": "Notification Days",
+        "mandatory": false,
+        "validRange": "Number of days before expiry for notification (e.g., 30, 60, 90)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "vendorName",
+        "label": "Vendor Name",
+        "trigger": "Confirm Vendor ID"
+      },
+      {
+        "name": "purchasingOrganization",
+        "label": "Purchasing Org",
+        "trigger": "Confirm Vendor ID"
+      },
+      {
+        "name": "lastAuditDate",
+        "label": "Last Audit Date",
+        "trigger": "Vendor qualification record lookup"
+      }
+    ],
+    "output": [
+      {
+        "name": "sourceListEntryNumber",
+        "label": "Source List Entry Number",
+        "format": "Alphanumeric, internal key (EORD-ZEORD)"
+      },
+      {
+        "name": "status",
+        "label": "Status",
+        "format": "\"Active\", \"Expired\", \"Blocked\""
+      },
+      {
+        "name": "createdBy",
+        "label": "Created By",
+        "format": "SAP user ID"
+      },
+      {
+        "name": "createdOn",
+        "label": "Created On",
+        "format": "YYYY-MM-DD HH:MM:SS"
+      },
+      {
+        "name": "notificationId",
+        "label": "Notification ID",
+        "format": "Workflow or BAdI notification reference"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "validFrom",
+        "label": "Valid From",
+        "lowerBoundary": "Today (current date)",
+        "upperBoundary": "No limit",
+        "zeroInvalid": false
+      },
+      {
+        "name": "validTo",
+        "label": "Valid To",
+        "lowerBoundary": "Valid From date",
+        "upperBoundary": "System date + 10 years (configurable)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "notificationLeadTime",
+        "label": "Notification Days",
+        "lowerBoundary": "1 day",
+        "upperBoundary": "365 days",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "userStory": "CS-42",
+  "module": "SD",
+  "feature": "Billing Document Creation with Batch and Quality Management Validation",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-042-001": {
+      "id": "TD-CS-042-001",
+      "name": "Valid Billing Document — Approved Batch and Released Quality Status",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-021"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "soldToParty": "{{SOLD_TO_PARTY_VALID}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER_ACCEPTED}}",
+        "billingQuantity": "{{BILLING_QUANTITY_STANDARD}}",
+        "netValue": "{{NET_VALUE_CALCULATED}}"
+      },
+      "expectedOutcome": "Billing document created with unique document number; status Posted; references delivery, batch, and inspection lot"
+    },
+    "TD-CS-042-NEG-001": {
+      "id": "TD-CS-042-NEG-001",
+      "name": "Negative — Batch Status Restricted/Blocked",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-022"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumberRestrictedBatch": "{{DELIVERY_NUMBER_RESTRICTED_BATCH}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "batchNumberRestricted": "{{BATCH_NUMBER_RESTRICTED}}"
+      },
+      "expectedOutcome": "System displays error: 'Batch X is restricted'; billing document NOT created"
+    },
+    "TD-CS-042-NEG-002": {
+      "id": "TD-CS-042-NEG-002",
+      "name": "Negative — Quality Inspection Status Not Released",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-023"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumberNotReleased": "{{DELIVERY_NUMBER_NOT_RELEASED}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumberNotReleased": "{{BATCH_NUMBER_NOT_RELEASED}}",
+        "inspectionLotNumberNotReleased": "{{INSPECTION_LOT_NUMBER_NOT_RELEASED}}"
+      },
+      "expectedOutcome": "System displays error: 'Usage decision not made' or 'Inspection lot not released'; billing document NOT created"
+    },
+    "TD-CS-042-NEG-003": {
+      "id": "TD-CS-042-NEG-003",
+      "name": "Negative — Non-existent Delivery",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-024"],
+      "data": {
+        "deliveryNumberInvalid": "{{DELIVERY_NUMBER_INVALID}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}"
+      },
+      "expectedOutcome": "System displays error: 'Delivery document does not exist'; no delivery data loaded; billing document NOT created"
+    },
+    "TD-CS-042-NEG-004": {
+      "id": "TD-CS-042-NEG-004",
+      "name": "Negative — Delivery Already Fully Billed (Duplicate Billing)",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-025"],
+      "data": {
+        "deliveryNumberFullyBilled": "{{DELIVERY_NUMBER_FULLY_BILLED}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "existingBillingDocNumber": "{{BILLING_DOCUMENT_NUMBER_EXISTING}}"
+      },
+      "expectedOutcome": "System displays error: 'Delivery already billed' or 'No remaining quantity available for billing'; billing document NOT created"
+    },
+    "TD-CS-042-NEG-005": {
+      "id": "TD-CS-042-NEG-005",
+      "name": "Negative — No Quality Inspection Lot Created",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-026"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumberNoInspectionLot": "{{DELIVERY_NUMBER_NO_INSPECTION_LOT}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumberNoInspectionLot": "{{BATCH_NUMBER_NO_INSPECTION_LOT}}"
+      },
+      "expectedOutcome": "System displays error: 'No inspection lot found' or 'Quality inspection missing'; billing document NOT created"
+    },
+    "TD-CS-042-ERR-001": {
+      "id": "TD-CS-042-ERR-001",
+      "name": "Error — Missing Mandatory Field: Delivery",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-027"],
+      "data": {
+        "deliveryNumber": "",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}"
+      },
+      "note": "deliveryNumber intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "System highlights Delivery field as mandatory; prevents submission; billing document NOT created"
+    },
+    "TD-CS-042-ERR-002": {
+      "id": "TD-CS-042-ERR-002",
+      "name": "Error — Missing Mandatory Field: Billing Type",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-028"],
+      "data": {
+        "billingType": "",
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "billingDate": "{{BILLING_DATE_CURRENT}}"
+      },
+      "note": "billingType intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "System highlights Billing Type field as mandatory; prevents submission; billing document NOT created"
+    },
+    "TD-CS-042-ERR-003": {
+      "id": "TD-CS-042-ERR-003",
+      "name": "Error — Invalid Delivery Reference Format",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-029"],
+      "data": {
+        "deliveryNumberInvalidFormat": "{{DELIVERY_NUMBER_INVALID_FORMAT}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}"
+      },
+      "expectedOutcome": "System displays error: 'Invalid delivery number format'; billing document NOT created"
+    },
+    "TD-CS-042-EDGE-001": {
+      "id": "TD-CS-042-EDGE-001",
+      "name": "Edge Case — Multiple Batches (Partial Release Scenario)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-030"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumberMultiBatch": "{{DELIVERY_NUMBER_MULTI_BATCH}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber1": "{{BATCH_NUMBER_1_UNRESTRICTED}}",
+        "batchNumber2": "{{BATCH_NUMBER_2_UNRESTRICTED}}",
+        "inspectionLotNumber1": "{{INSPECTION_LOT_NUMBER_1_ACCEPTED}}",
+        "inspectionLotNumber2": "{{INSPECTION_LOT_NUMBER_2_ACCEPTED}}",
+        "netValue": "{{NET_VALUE_MULTI_BATCH}}"
+      },
+      "expectedOutcome": "Billing document created with all batches; status Posted; all batch and quality validations passed"
+    },
+    "TD-CS-042-EDGE-002": {
+      "id": "TD-CS-042-EDGE-002",
+      "name": "Edge Case — Quality Status Changes During Billing Process (Concurrent Update)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumberConcurrent": "{{DELIVERY_NUMBER_CONCURRENT}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumberConcurrent": "{{BATCH_NUMBER_CONCURRENT}}",
+        "inspectionLotNumberConcurrent": "{{INSPECTION_LOT_NUMBER_CONCURRENT}}"
+      },
+      "note": "Inspection lot usage decision changes from 'Accepted' to 'Rejected' during billing process via concurrent QM session",
+      "expectedOutcome": "System detects concurrent quality status change at final validation; displays error: 'Usage decision not made'; billing document NOT created"
+    },
+    "TD-CS-042-EDGE-003": {
+      "id": "TD-CS-042-EDGE-003",
+      "name": "Edge Case — Minimum Billing Quantity (Partial Billing)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumberPartial": "{{DELIVERY_NUMBER_PARTIAL}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER_ACCEPTED}}",
+        "minBillingQuantity": "{{BILLING_QUANTITY_MIN}}",
+        "deliveryQuantity": "{{DELIVERY_QUANTITY_FULL}}"
+      },
+      "expectedOutcome": "Billing document created with partial billing quantity (minimum); status Posted; delivery remains partially billed"
+    },
+    "TD-CS-042-EDGE-004": {
+      "id": "TD-CS-042-EDGE-004",
+      "name": "Edge Case — Billing Date at Posting Period Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-033"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "billingType": "F2",
+        "billingDatePeriodBoundary": "{{BILLING_DATE_PERIOD_BOUNDARY}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER_ACCEPTED}}",
+        "fiscalPeriod": "{{FISCAL_PERIOD_OPEN}}"
+      },
+      "note": "Billing date set to last day of fiscal posting period (e.g., 2026-12-31 for period 012.2026)",
+      "expectedOutcome": "Billing document created with period boundary date; status Posted; fiscal period validation passed"
+    },
+    "TD-CS-042-INT-001": {
+      "id": "TD-CS-042-INT-001",
+      "name": "Integration — SD-QM Quality Status Lookup from QALS",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-034"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER_ACCEPTED}}"
+      },
+      "expectedOutcome": "SD-QM integration successful; quality status read from QALS; billing document created with inspection lot reference"
+    },
+    "TD-CS-042-INT-002": {
+      "id": "TD-CS-042-INT-002",
+      "name": "Integration — SD-MM Batch Status Validation from MCH1",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-035"],
+      "data": {
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_VALID}}",
+        "deliveryNumber": "{{DELIVERY_NUMBER_VALID}}",
+        "billingType": "F2",
+        "billingDate": "{{BILLING_DATE_CURRENT}}",
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER_ACCEPTED}}"
+      },
+      "expectedOutcome": "SD-MM integration successful; batch status read from MCH1; billing document created with batch reference"
+    }
+  },
+  "allPlaceholders": [
+    "{{SALES_ORDER_NUMBER_VALID}}",
+    "{{DELIVERY_NUMBER_VALID}}",
+    "{{DELIVERY_NUMBER_RESTRICTED_BATCH}}",
+    "{{DELIVERY_NUMBER_NOT_RELEASED}}",
+    "{{DELIVERY_NUMBER_INVALID}}",
+    "{{DELIVERY_NUMBER_FULLY_BILLED}}",
+    "{{DELIVERY_NUMBER_NO_INSPECTION_LOT}}",
+    "{{DELIVERY_NUMBER_INVALID_FORMAT}}",
+    "{{DELIVERY_NUMBER_MULTI_BATCH}}",
+    "{{DELIVERY_NUMBER_CONCURRENT}}",
+    "{{DELIVERY_NUMBER_PARTIAL}}",
+    "{{BILLING_DATE_CURRENT}}",
+    "{{BILLING_DATE_PERIOD_BOUNDARY}}",
+    "{{SOLD_TO_PARTY_VALID}}",
+    "{{MATERIAL_ID_BATCH_MANAGED}}",
+    "{{BATCH_NUMBER_UNRESTRICTED}}",
+    "{{BATCH_NUMBER_RESTRICTED}}",
+    "{{BATCH_NUMBER_NOT_RELEASED}}",
+    "{{BATCH_NUMBER_NO_INSPECTION_LOT}}",
+    "{{BATCH_NUMBER_1_UNRESTRICTED}}",
+    "{{BATCH_NUMBER_2_UNRESTRICTED}}",
+    "{{BATCH_NUMBER_CONCURRENT}}",
+    "{{INSPECTION_LOT_NUMBER_ACCEPTED}}",
+    "{{INSPECTION_LOT_NUMBER_NOT_RELEASED}}",
+    "{{INSPECTION_LOT_NUMBER_1_ACCEPTED}}",
+    "{{INSPECTION_LOT_NUMBER_2_ACCEPTED}}",
+    "{{INSPECTION_LOT_NUMBER_CONCURRENT}}",
+    "{{BILLING_QUANTITY_STANDARD}}",
+    "{{BILLING_QUANTITY_MIN}}",
+    "{{DELIVERY_QUANTITY_FULL}}",
+    "{{NET_VALUE_CALCULATED}}",
+    "{{NET_VALUE_MULTI_BATCH}}",
+    "{{BILLING_DOCUMENT_NUMBER_EXISTING}}",
+    "{{FISCAL_PERIOD_OPEN}}"
+  ]
+}

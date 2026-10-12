@@ -1,0 +1,170 @@
+{
+  "feature": "mm-purchase-order-change",
+  "explorationDate": "2026-04-16",
+  "exploredBy": "Scriptless execution via Playwright MCP Server",
+  "environment": "SAP S/4HANA Cloud - my429998",
+  "browser": "Chromium",
+  "appType": "SAP GUI for HTML (ME22N) in iframe",
+  "phases": [
+    {
+      "phase": "login",
+      "url": "https://accounts.ondemand.com (IDP redirect from my429998.s4hana.cloud.sap)",
+      "description": "SAP IDP/IAS two-step login flow",
+      "elements": [
+        { "role": "textbox", "name": "Email, User ID or Login Name", "description": "Email/username input on first login step" },
+        { "role": "button", "name": "Continue", "description": "Continue button (used twice: after email and after password)" },
+        { "role": "textbox", "name": "Password", "description": "Password input on second login step" }
+      ],
+      "notes": "Login is two-step: enter email -> Continue -> enter password -> Continue. Redirects to accounts.ondemand.com IDP."
+    },
+    {
+      "phase": "launchpad-home",
+      "url": "https://my429998.s4hana.cloud.sap/ui#Shell-home",
+      "description": "SAP Fiori Launchpad home after login",
+      "elements": [
+        { "role": "banner", "name": "Shell Bar", "description": "Top shell bar containing navigation and actions" },
+        { "role": "button", "name": "Open Search", "description": "Button to reveal the search bar (search is hidden by default)" },
+        { "role": "button", "name": "Back", "description": "Back navigation button in shell bar" },
+        { "role": "button", "name": "SAP Logo", "description": "SAP Logo button in shell bar" },
+        { "role": "button", "name": "Joule", "description": "AI assistant button in shell bar" },
+        { "role": "button", "name": "Open Help", "description": "Help button in shell bar" },
+        { "role": "button", "name": "Notifications", "description": "Notifications button in shell bar" },
+        { "role": "button", "name": "Profile of Trial 0030517 User", "description": "User profile button (dynamic name includes user)" }
+      ],
+      "notes": "Search field is NOT visible by default. Must click 'Open Search' button first."
+    },
+    {
+      "phase": "search",
+      "url": "https://my429998.s4hana.cloud.sap/ui#Shell-home",
+      "description": "Enterprise search for Change Purchase Order - Advanced",
+      "elements": [
+        { "role": "searchbox", "name": "Search", "description": "Search input revealed after clicking Open Search" },
+        { "role": "listitem", "name": "Change Purchase Order - Advanced", "description": "Search result for the Change PO app (ME22N)" }
+      ],
+      "notes": "Search results appear as list items. Click on the result to navigate to the app."
+    },
+    {
+      "phase": "sap-gui-me22n-initial",
+      "url": "https://my429998.s4hana.cloud.sap/ui#PurchaseOrder-change?sap-ui-tech-hint=GUI&uitype=advancedNoPar",
+      "description": "Change Purchase Order (ME22N) initial state in SAP GUI iframe",
+      "elements": [
+        { "context": "iframe", "role": "button", "name": "Menu", "description": "Main menu button" },
+        { "context": "iframe", "role": "button", "name": "Document Overview On", "description": "Toggle document overview panel" },
+        { "context": "iframe", "role": "button", "name": "Create", "description": "Create new purchase order" },
+        { "context": "iframe", "role": "button", "name": "Other Purchase Order", "description": "Opens Select Document dialog to enter PO number" },
+        { "context": "iframe", "role": "button", "name": "Help", "description": "Context help" },
+        { "context": "iframe", "role": "button", "name": "Personal Setting", "description": "User settings" }
+      ],
+      "notes": "ME22N opens inside an iframe. Initial state shows toolbar with buttons. No PO is loaded yet."
+    },
+    {
+      "phase": "select-document-dialog",
+      "url": "same as ME22N",
+      "description": "Select Document dialog opened by 'Other Purchase Order' button",
+      "elements": [
+        { "context": "iframe-dialog", "role": "textbox", "name": "Pur. Order", "description": "Purchase order number input field (active by default)" },
+        { "context": "iframe-dialog", "role": "radio", "name": "Pur. Order", "description": "Radio button for Purchase Order type (selected by default)" },
+        { "context": "iframe-dialog", "role": "radio", "name": "Purch. Requisition", "description": "Radio button for Purchase Requisition type" },
+        { "context": "iframe-dialog", "role": "button", "name": "Other Document", "description": "Button to confirm and load document" },
+        { "context": "iframe-dialog", "role": "button", "name": "Cancel", "description": "Cancel and close dialog" }
+      ],
+      "notes": "Dialog is modal within the iframe. Enter PO number in the textbox and press Enter or click 'Other Document'."
+    },
+    {
+      "phase": "sap-gui-me22n-po-loaded-display",
+      "url": "same as ME22N",
+      "description": "PO loaded in Display mode (before clicking Display/Change)",
+      "elements": [
+        { "context": "iframe-toolbar", "role": "button", "name": "Menu", "description": "Main menu" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Document Overview On", "description": "Toggle overview" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Create", "description": "Create new PO" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Display/Change", "description": "Toggle between Display and Change mode" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Other Purchase Order", "description": "Load different PO" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Help", "description": "Context help" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Personal Setting", "description": "User settings" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Save As Template", "description": "Save current PO as template" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Check", "description": "Validate PO data" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Print Preview", "description": "Preview PO print" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Messages", "description": "View messages" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Find", "description": "Find in document" },
+        { "context": "iframe-toolbar", "role": "button", "name": "Exit", "description": "Exit transaction" },
+        { "context": "iframe-header", "role": "textbox", "name": "Order Type", "description": "PO order type field (e.g., NB)" },
+        { "context": "iframe-header", "role": "textbox", "name": "Purchasing Document", "description": "PO number field (read-only in display)" },
+        { "context": "iframe-header", "role": "textbox", "name": "Supplier", "description": "Supplier number field" },
+        { "context": "iframe-header", "role": "textbox", "name": "Doc. Date", "description": "Document date field" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Delivery/Invoice", "description": "Delivery and invoice tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Conditions (PO header)", "description": "Header conditions tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Delivery Address", "description": "Delivery address tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Communication", "description": "Communication tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Additional Data", "description": "Additional data tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Status", "description": "Status tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Release Strategy", "description": "Release strategy tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Version", "description": "Version tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Partners", "description": "Partners tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Texts", "description": "Texts tab" },
+        { "context": "iframe-tabs", "role": "tab", "name": "Incoterms", "description": "Incoterms tab" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Item", "description": "Item number column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Material", "description": "Material number column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Short Text", "description": "Material short text column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "PO Quantity", "description": "Order quantity column — EDITABLE in Change mode" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "OUn", "description": "Order unit column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Delivery Date", "description": "Delivery date column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Net Price", "description": "Net price column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Crcy", "description": "Currency column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Per", "description": "Per unit column" },
+        { "context": "iframe-grid", "role": "columnheader", "name": "Tax Code", "description": "Tax code column" }
+      ],
+      "notes": "After loading PO, all toolbar buttons, header fields, tabs, and grid columns are visible. In Display mode, fields are read-only."
+    },
+    {
+      "phase": "sap-gui-me22n-po-loaded-change",
+      "url": "same as ME22N",
+      "description": "PO loaded in Change mode (after clicking Display/Change)",
+      "elements": [
+        { "context": "iframe-toolbar", "role": "button", "name": "Save Emphasized", "description": "Save button — only visible in Change mode" },
+        { "context": "iframe-grid", "role": "gridcell", "name": "PO Quantity", "description": "Editable grid cell for PO quantity — clicking activates inline edit" },
+        { "context": "iframe-grid-edit", "role": "textbox", "name": "PO Quantity (active)", "description": "Active input field after clicking PO Quantity grid cell — NEW ref generated" }
+      ],
+      "notes": "In Change mode, Save button appears. Grid cells become clickable. Clicking a cell activates an inline edit textbox with a new element ref."
+    },
+    {
+      "phase": "profile-dialog",
+      "url": "same as Fiori shell",
+      "description": "User profile dialog accessed from Shell Bar",
+      "elements": [
+        { "role": "dialog", "name": "Trial 0030517 User", "description": "Profile dialog" },
+        { "role": "listitem", "name": "Settings", "description": "User settings (1st item)" },
+        { "role": "listitem", "name": "Recent Activities", "description": "Recent activities (2nd item)" },
+        { "role": "listitem", "name": "Frequently Used", "description": "Frequently used apps (3rd item)" },
+        { "role": "listitem", "name": "App Finder", "description": "App finder (4th item)" },
+        { "role": "listitem", "name": "Keyboard Shortcuts", "description": "Keyboard shortcuts (5th item)" },
+        { "role": "listitem", "name": "My User Sessions", "description": "User sessions (6th item)" },
+        { "role": "listitem", "name": "About", "description": "About info (7th item)" },
+        { "role": "listitem", "name": "Sign Out", "description": "Sign out button (8th/last item), internal ID: __list9-8-logoutBtn" }
+      ],
+      "notes": "Sign Out is the LAST list item. Use exact text match or ID-based selector."
+    },
+    {
+      "phase": "sign-out-confirmation",
+      "url": "same as Fiori shell",
+      "description": "Sign Out confirmation dialog",
+      "elements": [
+        { "role": "alertdialog", "name": "Sign Out Are you sure you want to sign out?", "description": "Confirmation dialog" },
+        { "role": "heading", "name": "Sign Out", "level": 1, "description": "Dialog title" },
+        { "role": "button", "name": "OK", "description": "Confirm sign out" },
+        { "role": "button", "name": "Cancel", "description": "Cancel sign out" }
+      ],
+      "notes": "Alert dialog with OK/Cancel buttons. After OK, redirects to /sap/public/bc/icf/logoff."
+    },
+    {
+      "phase": "logoff-page",
+      "url": "https://my429998.s4hana.cloud.sap/sap/public/bc/icf/logoff",
+      "description": "SAP logoff confirmation page",
+      "elements": [
+        { "role": "paragraph", "text": "Goodbye — You have been logged off", "description": "Logoff confirmation text" },
+        { "role": "img", "name": "SAP logo", "description": "SAP logo on logoff page" }
+      ],
+      "notes": "Simple HTML page with Goodbye message."
+    }
+  ]
+}

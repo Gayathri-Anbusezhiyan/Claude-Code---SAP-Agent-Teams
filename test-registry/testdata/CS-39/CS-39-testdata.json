@@ -1,0 +1,391 @@
+{
+  "userStory": "CS-39",
+  "module": "SD",
+  "feature": "Free Goods (Sample) Order Creation for Healthcare Providers",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-039-001": {
+      "id": "TD-CS-039-001",
+      "name": "Valid Free Goods Order — Single Sample Item",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-039"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_HEALTHCARE_VALID}}",
+        "customerAddress": "{{CUSTOMER_ADDRESS_HEALTHCARE}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_FREE_GOODS}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "netValue": "0.00",
+        "deliveryDate": "{{DATE_FUTURE_7D}}",
+        "shippingPoint": "{{SHIPPING_POINT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Free Goods sales order created with unique order number; status Open/In Process; net value 0.00"
+    },
+    "TD-CS-039-002": {
+      "id": "TD-CS-039-002",
+      "name": "Valid Free Goods Order — Batch-Managed Material",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-040"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "batchMaterialId": "{{MATERIAL_ID_BATCH_MANAGED_VALID}}",
+        "batchMaterialDesc": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "batchExpiry": "{{BATCH_EXPIRY_FUTURE}}",
+        "netValue": "0.00",
+        "deliveryDate": "{{DATE_FUTURE_7D}}",
+        "shippingPoint": "{{SHIPPING_POINT_CODE}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division": "{{DIVISION_CODE}}"
+      },
+      "expectedOutcome": "Free Goods sales order created with batch number and expiry date captured"
+    },
+    "TD-CS-039-AP-001": {
+      "id": "TD-CS-039-AP-001",
+      "name": "Free Goods Order — Multiple Sample Items",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_FREE_GOODS}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "netValue": "0.00",
+        "materialId2": "{{MATERIAL_ID_FREE_GOODS_VALID_2}}",
+        "materialDesc2": "{{MATERIAL_DESCRIPTION_FREE_GOODS_2}}",
+        "quantity2": "{{ORDER_QUANTITY_STANDARD_2}}",
+        "uom2": "{{UNIT_OF_MEASURE_2}}",
+        "netValue2": "0.00",
+        "deliveryDate": "{{DATE_FUTURE_7D}}"
+      },
+      "expectedOutcome": "Free Goods sales order created with two line items; both have zero pricing"
+    },
+    "TD-CS-039-AP-002": {
+      "id": "TD-CS-039-AP-002",
+      "name": "Free Goods Order — Automatic Delivery Creation",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION_FREE_GOODS}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "deliveryDate": "{{DATE_FUTURE_7D}}"
+      },
+      "expectedOutcome": "Free Goods sales order created; delivery document automatically created and linked"
+    },
+    "TD-CS-039-NEG-001": {
+      "id": "TD-CS-039-NEG-001",
+      "name": "Invalid Customer — Non-existent ID",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "invalidCustomerId": "{{CUSTOMER_ID_INVALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: Customer does not exist; sales order NOT created"
+    },
+    "TD-CS-039-NEG-002": {
+      "id": "TD-CS-039-NEG-002",
+      "name": "Customer Not Healthcare Provider",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "nonHealthcareCustomerId": "{{CUSTOMER_ID_NON_HEALTHCARE}}",
+        "nonHealthcareCustomerName": "{{CUSTOMER_NAME_NON_HEALTHCARE}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: Customer account group not authorized for healthcare sample distribution; sales order NOT created"
+    },
+    "TD-CS-039-NEG-003": {
+      "id": "TD-CS-039-NEG-003",
+      "name": "Material Not Configured for Free Goods",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-045"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "nonFreeGoodsMaterialId": "{{MATERIAL_ID_NON_FREE_GOODS}}",
+        "nonFreeGoodsMaterialDesc": "{{MATERIAL_DESCRIPTION_NON_FREE_GOODS}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: Material not configured for free goods (item category mismatch); sales order NOT created"
+    },
+    "TD-CS-039-NEG-004": {
+      "id": "TD-CS-039-NEG-004",
+      "name": "Non-Zero Pricing — Pricing Procedure Error",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-046"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "nonZeroNetValue": "{{NET_VALUE_NON_ZERO}}"
+      },
+      "note": "Simulates pricing procedure error where net value is incorrectly non-zero",
+      "expectedOutcome": "SAP displays error: Free goods orders must have zero net value; pricing procedure violation; sales order NOT created"
+    },
+    "TD-CS-039-NEG-005": {
+      "id": "TD-CS-039-NEG-005",
+      "name": "Past Delivery Date",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-047"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "pastDeliveryDate": "{{DATE_PAST}}"
+      },
+      "expectedOutcome": "SAP displays error: Delivery date cannot be in the past; sales order NOT created"
+    },
+    "TD-CS-039-NEG-006": {
+      "id": "TD-CS-039-NEG-006",
+      "name": "Batch-Managed Material Without Batch Number",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-048"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "batchMaterialId": "{{MATERIAL_ID_BATCH_MANAGED_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "emptyBatchNumber": ""
+      },
+      "note": "Batch number intentionally empty",
+      "expectedOutcome": "SAP displays error: Batch number is mandatory for batch-managed materials; sales order NOT created"
+    },
+    "TD-CS-039-ERR-001": {
+      "id": "TD-CS-039-ERR-001",
+      "name": "Missing Customer Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-049"],
+      "data": {
+        "emptyValue": "",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "note": "Customer field intentionally empty",
+      "expectedOutcome": "SAP highlights Customer field as mandatory; prevents submission"
+    },
+    "TD-CS-039-ERR-002": {
+      "id": "TD-CS-039-ERR-002",
+      "name": "Missing Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-050"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "emptyValue": "",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "note": "Material field intentionally empty",
+      "expectedOutcome": "SAP highlights Material field as mandatory; prevents submission"
+    },
+    "TD-CS-039-ERR-003": {
+      "id": "TD-CS-039-ERR-003",
+      "name": "Missing Order Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-051"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "emptyValue": ""
+      },
+      "note": "Order Quantity field intentionally empty",
+      "expectedOutcome": "SAP highlights Order Quantity field as mandatory; prevents submission"
+    },
+    "TD-CS-039-ERR-004": {
+      "id": "TD-CS-039-ERR-004",
+      "name": "Missing Delivery Date Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-052"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "emptyValue": ""
+      },
+      "note": "Delivery Date field intentionally empty",
+      "expectedOutcome": "SAP highlights Delivery Date field as mandatory; prevents submission"
+    },
+    "TD-CS-039-EDGE-001": {
+      "id": "TD-CS-039-EDGE-001",
+      "name": "Minimum Order Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-053"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "minQuantity": "{{ORDER_QUANTITY_MIN}}"
+      },
+      "expectedOutcome": "Free Goods sales order created successfully with minimum quantity (1 unit)"
+    },
+    "TD-CS-039-EDGE-002": {
+      "id": "TD-CS-039-EDGE-002",
+      "name": "Maximum Order Quantity Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-054"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "maxQuantity": "{{ORDER_QUANTITY_MAX_REGULATORY}}"
+      },
+      "expectedOutcome": "Free Goods sales order created successfully with maximum regulatory quantity"
+    },
+    "TD-CS-039-EDGE-003": {
+      "id": "TD-CS-039-EDGE-003",
+      "name": "Zero Order Quantity — Invalid Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-055"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "zeroQuantity": "0"
+      },
+      "expectedOutcome": "SAP rejects zero quantity; validation error displayed; sales order NOT created"
+    },
+    "TD-CS-039-EDGE-004": {
+      "id": "TD-CS-039-EDGE-004",
+      "name": "Delivery Date = Today (Same-Day Delivery)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-056"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "todayDate": "{{DATE_TODAY}}"
+      },
+      "expectedOutcome": "Free Goods sales order created successfully with delivery date = today"
+    },
+    "TD-CS-039-EDGE-005": {
+      "id": "TD-CS-039-EDGE-005",
+      "name": "Batch Minimum Shelf Life Remaining",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-057"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "batchMaterialId": "{{MATERIAL_ID_BATCH_MANAGED_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "minShelfLifeBatch": "{{BATCH_NUMBER_MIN_SHELF_LIFE}}",
+        "minShelfLifeExpiry": "{{BATCH_EXPIRY_MIN_SHELF_LIFE}}"
+      },
+      "note": "Batch expiry = today + 30 days (minimum shelf life)",
+      "expectedOutcome": "Free Goods sales order created successfully; batch with minimum shelf life accepted"
+    },
+    "TD-CS-039-EDGE-006": {
+      "id": "TD-CS-039-EDGE-006",
+      "name": "Expired Batch — Invalid Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-058"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "batchMaterialId": "{{MATERIAL_ID_BATCH_MANAGED_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}",
+        "expiredBatch": "{{BATCH_NUMBER_EXPIRED}}",
+        "expiredBatchDate": "{{BATCH_EXPIRY_PAST}}"
+      },
+      "note": "Batch expiry date is in the past (expired)",
+      "expectedOutcome": "SAP rejects expired batch; validation error displayed; sales order NOT created"
+    },
+    "TD-CS-039-INT-001": {
+      "id": "TD-CS-039-INT-001",
+      "name": "Compliance Tracking Log Verification",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-059"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Free Goods sales order created; compliance tracking log entry created and linked"
+    },
+    "TD-CS-039-INT-002": {
+      "id": "TD-CS-039-INT-002",
+      "name": "Delivery Document Verification",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-060"],
+      "data": {
+        "customerId": "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+        "orderType": "{{ORDER_TYPE_FREE_GOODS}}",
+        "materialId": "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Free Goods sales order created; delivery document created and linked"
+    }
+  },
+  "allPlaceholders": [
+    "{{CUSTOMER_ID_HEALTHCARE_VALID}}",
+    "{{CUSTOMER_NAME_HEALTHCARE_VALID}}",
+    "{{CUSTOMER_ADDRESS_HEALTHCARE}}",
+    "{{CUSTOMER_ID_INVALID}}",
+    "{{CUSTOMER_ID_NON_HEALTHCARE}}",
+    "{{CUSTOMER_NAME_NON_HEALTHCARE}}",
+    "{{ORDER_TYPE_FREE_GOODS}}",
+    "{{MATERIAL_ID_FREE_GOODS_VALID}}",
+    "{{MATERIAL_DESCRIPTION_FREE_GOODS}}",
+    "{{MATERIAL_ID_FREE_GOODS_VALID_2}}",
+    "{{MATERIAL_DESCRIPTION_FREE_GOODS_2}}",
+    "{{MATERIAL_ID_BATCH_MANAGED_VALID}}",
+    "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+    "{{MATERIAL_ID_NON_FREE_GOODS}}",
+    "{{MATERIAL_DESCRIPTION_NON_FREE_GOODS}}",
+    "{{ORDER_QUANTITY_STANDARD}}",
+    "{{ORDER_QUANTITY_STANDARD_2}}",
+    "{{ORDER_QUANTITY_MIN}}",
+    "{{ORDER_QUANTITY_MAX_REGULATORY}}",
+    "{{UNIT_OF_MEASURE}}",
+    "{{UNIT_OF_MEASURE_2}}",
+    "{{BATCH_NUMBER_VALID}}",
+    "{{BATCH_EXPIRY_FUTURE}}",
+    "{{BATCH_NUMBER_MIN_SHELF_LIFE}}",
+    "{{BATCH_EXPIRY_MIN_SHELF_LIFE}}",
+    "{{BATCH_NUMBER_EXPIRED}}",
+    "{{BATCH_EXPIRY_PAST}}",
+    "{{DATE_FUTURE_7D}}",
+    "{{DATE_TODAY}}",
+    "{{DATE_PAST}}",
+    "{{NET_VALUE_NON_ZERO}}",
+    "{{SHIPPING_POINT_CODE}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "userStory": "CS-36",
+  "summary": "Place An Automatic Sales & Distribution Block On A Recalled Batch",
+  "module": "QM-SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 9,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 4,
+    "ERR": 2,
+    "EDGE": 0,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 8,
+    "MEDIUM": 0,
+    "LOW": 0
+  },
+  "automationCandidates": 7,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-036",
+      "title": "Place SD Block on Valid Batch for Batch-Managed Material",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-036-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Attempt to Create Sales Order for Material-Batch with Active SD Block",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-036-NEG-001",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Attempt to Process Delivery for Blocked Batch",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-036-NEG-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-039",
+      "title": "Attempt to Place SD Block on Non-Existent Batch",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-036-NEG-003",
+      "acsCovered": ["AC-7", "AC-8"]
+    },
+    {
+      "id": "TC-CS-040",
+      "title": "Attempt to Place SD Block on Material That Is Not Batch-Managed",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-036-NEG-004",
+      "acsCovered": ["AC-8"]
+    },
+    {
+      "id": "TC-CS-041",
+      "title": "Attempt to Place SD Block with Batch Number Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-036-ERR-001",
+      "acsCovered": ["AC-7"]
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Attempt to Place SD Block with Material Number Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-036-ERR-002",
+      "acsCovered": ["AC-7"]
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Verify QM Batch Status Change Triggers SD Block Automatically",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-036-INT-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Verify Existing Open Sales Orders Against Blocked Batch Are Flagged or Reported",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-036-INT-002",
+      "acsCovered": ["AC-4"]
+    }
+  ],
+  "testdataFile": "testdata/CS-36/CS-36-testdata.json",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "result": "8/8 ACs covered",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "All 1 HP scenarios",
+      "result": "1/1 generated",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "All 4 NEG scenarios",
+      "result": "4/4 generated",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "All 2 ERR scenarios",
+      "result": "2/2 generated",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "N/A",
+      "result": "0/0",
+      "status": "N/A"
+    },
+    "intCoverage": {
+      "threshold": "All 2 INT scenarios",
+      "result": "2/2 generated",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "result": "0 found",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 5 TCs flagged YES",
+      "result": "7/9 flagged YES (78%)",
+      "status": "PASS"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "key": "CS-54",
+  "summary": "User Story PP-005",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:38.144Z",
+  "updated": "2026-08-21T08:41:38.249Z",
+  "description": "As a Production Planner, I want the system to run MRP to generate Planned Orders for upcoming batch production based on the demand plan and current inventory, so that raw material procurement and production scheduling are aligned with anticipated customer demand.",
+  "acceptanceCriteria": "1. The user can access the \"Stock/Requirements List\" or \"Schedule MRP Runs\" Fiori app.2. The system generates planned orders based on net requirements calculated from sales orders, forecasts, and current stock levels.3. The system accounts for minimum batch size and lot-sizing rules defined for the finished product.4. The planner can convert planned orders into process orders or purchase requisitions directly from the planning result.5. The system flags any planned order affected by a raw material shortage or shelf-life constraint.6. The system displays a capacity overview to help the planner sequence orders against available cleanroom/suite capacity.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

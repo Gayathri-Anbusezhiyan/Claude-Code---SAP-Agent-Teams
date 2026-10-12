@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-36",
+  "type": "Task",
+  "summary": "Place automatic S&D block on recalled batch",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Quality Assurance Manager, I want the system to automatically place a Sales and Distribution block on all stock of a recalled batch, so that no further sales orders or deliveries can be created for that batch until the recall is resolved.",
+  "acceptanceCriteria": "1. The user can mark a batch as \"Recalled\" in the batch master record or via a recall transaction.\n2. The system immediately places an S&D block on all unrestricted stock of the recalled batch across all plants and storage locations.\n3. The system prevents creation of new Sales Orders for the recalled batch.\n4. The system prevents release of existing Sales Orders that contain the recalled batch.\n5. The system prevents picking and goods issue for Outbound Deliveries that contain the recalled batch.\n6. The system sends a notification to all relevant stakeholders (Sales, Warehouse, Quality) when a batch is recalled and blocked.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:32:31.246+0530",
+  "updated": "2026-08-21T14:32:31.332+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-36",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

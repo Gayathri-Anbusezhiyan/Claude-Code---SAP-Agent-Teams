@@ -1,0 +1,387 @@
+{
+  "userStory": "CS-65",
+  "summary": "Maintain A Bill Of Material (Bom) For A Pharmaceutical Finished Produc",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Master Data Specialist",
+  "businessObject": "Bill of Material (BOM)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Bills of Material\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system requires each BOM component to reference an approved, active material master record.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system supports alternative/substitute components, each individually flagged with regulatory approval status.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "Any change to a released BOM triggers a new version and requires re-approval before use in a process order.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "ST"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system prevents process order creation against a BOM version not in \"Released\" status.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system maintains a full change history of BOM revisions for regulatory audit purposes.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ST"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create BOM for finished pharmaceutical product with single active ingredient and excipient components, all approved and active",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create BOM with alternative/substitute components, each flagged with regulatory approval status",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create BOM with multiple alternative components for a single item (multiple approved substitutes)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to add BOM component with non-existent material ID",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to add BOM component with inactive/blocked material master",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to add substitute component without regulatory approval status flag",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to create process order against BOM with Draft status",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to create process order against BOM with In Review status",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Attempt to create process order against BOM with Obsolete status",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Finished Product Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Finished Product Material"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Component Material field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Component Material"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Component Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Component Quantity"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Component UoM field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Component UoM"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum component quantity (0.001 or smallest precision based on UoM)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Component Quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Maximum component quantity (system upper limit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Component Quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Zero component quantity (invalid)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Component Quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Single-component BOM (minimum valid BOM structure)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Number of Components",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "BOM with maximum number of components (system-configured limit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Number of Components",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Maximum number of alternatives per component item",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "Number of Alternatives",
+        "boundary": "upper"
+      }
+    ],
+    "ST": [
+      {
+        "id": "ST-01",
+        "description": "Modify released BOM → verify new version created, status = Draft, old version remains Released",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-6"]
+      },
+      {
+        "id": "ST-02",
+        "description": "Change Draft BOM (no new version created — in-place edit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4", "AC-6"]
+      },
+      {
+        "id": "ST-03",
+        "description": "Release new BOM version → verify status transition Draft → Released",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-5"]
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 6,
+    "ERR": 5,
+    "EDGE": 6,
+    "ST": 3,
+    "INT": 0,
+    "total": 23
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "finishedProductMaterial",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material master with material type FERT or HALB, plant-specific"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Existing plant in SAP organizational structure"
+      },
+      {
+        "name": "componentMaterial",
+        "label": "Component",
+        "mandatory": true,
+        "validRange": "Existing material master, active status, approved for use"
+      },
+      {
+        "name": "componentQuantity",
+        "label": "Quantity",
+        "mandatory": true,
+        "validRange": "> 0, precision based on UoM"
+      },
+      {
+        "name": "componentUoM",
+        "label": "UoM",
+        "mandatory": true,
+        "validRange": "Valid UoM from material master"
+      },
+      {
+        "name": "alternativeComponent",
+        "label": "Alternative Component",
+        "mandatory": false,
+        "validRange": "Existing material master, same material group/category"
+      },
+      {
+        "name": "regulatoryApprovalStatus",
+        "label": "Approval Status",
+        "mandatory": true,
+        "validRange": "Approved / Pending / Rejected"
+      },
+      {
+        "name": "bomUsage",
+        "label": "BOM Usage",
+        "mandatory": true,
+        "validRange": "Production / Engineering / Universal"
+      },
+      {
+        "name": "validFromDate",
+        "label": "Valid From",
+        "mandatory": true,
+        "validRange": "Today or future date"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "componentDescription",
+        "label": "Component Description",
+        "trigger": "Select Component Material"
+      },
+      {
+        "name": "baseUoM",
+        "label": "Base Unit",
+        "trigger": "Select Component Material"
+      },
+      {
+        "name": "materialGroup",
+        "label": "Material Group",
+        "trigger": "Select Component Material"
+      },
+      {
+        "name": "bomStatus",
+        "label": "BOM Status",
+        "trigger": "Initial creation"
+      },
+      {
+        "name": "currentVersion",
+        "label": "BOM Version",
+        "trigger": "BOM header retrieval"
+      }
+    ],
+    "output": [
+      {
+        "name": "bomNumber",
+        "label": "BOM Number",
+        "format": "8-digit alphanumeric, plant-specific"
+      },
+      {
+        "name": "bomVersion",
+        "label": "BOM Version",
+        "format": "2-digit numeric, increments on change to released BOM"
+      },
+      {
+        "name": "changeNumber",
+        "label": "Change Number",
+        "format": "12-digit alphanumeric"
+      },
+      {
+        "name": "changeLogEntry",
+        "label": "Change Log Entry",
+        "format": "Timestamp, user ID, object key, field-level changes"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "componentQuantity",
+        "label": "Component Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "9999999.999",
+        "zeroInvalid": true
+      },
+      {
+        "name": "numberOfComponents",
+        "label": "Number of Components",
+        "lowerBoundary": "1",
+        "upperBoundary": "9999",
+        "zeroInvalid": true
+      },
+      {
+        "name": "numberOfAlternatives",
+        "label": "Number of Alternatives per Component",
+        "lowerBoundary": "0",
+        "upperBoundary": "99",
+        "zeroInvalid": false
+      },
+      {
+        "name": "validFromDate",
+        "label": "Valid From Date",
+        "lowerBoundary": "Today",
+        "upperBoundary": "No upper limit",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

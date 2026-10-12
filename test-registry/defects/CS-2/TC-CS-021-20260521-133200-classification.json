@@ -1,0 +1,37 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-21T13:32:00.000Z",
+  "classifiedBy": "defect-logging-agent/skills/classify-failure",
+  "pipelineRun": "/e2e-automation-v2 CS-2 (re-run 2026-05-21 v7)",
+  "reExecutionFile": "self-healing/re-executions/20260521-133200-TC-CS-021/TC-CS-021-reexecution.json",
+  "reExecutionStatus": "FAIL",
+  "sapBehavior": "DIFFERENT",
+  "classification": "APP_DEFECT",
+  "evidence": {
+    "sapActualBehavior": "After clicking Order with valid PO data (Supplier 17300002, Material RMPI001, Qty 10, Price 0.08, Plant 1710), SAP displays a transient role=alert 'Purchase order has been created.' without the 10-digit PO number. The alert auto-dismisses and the system navigates to the Manage Purchase Orders list page. No dedicated success notification (toast, banner, or dialog) showing the PO number is presented to the user.",
+    "acViolated": "AC-6",
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+    "acSource": "jira/userstories/CS-2/CS-2.json",
+    "tcExpectedResult": "A dedicated success confirmation notification is displayed immediately after clicking Order. The notification explicitly states that the Purchase Order was created with the 10-digit PO number clearly visible.",
+    "explorationEvidence": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json (v7)",
+    "consecutiveConfirmations": 5,
+    "firstConfirmedAt": "2026-05-18T10:49:00.000Z",
+    "latestConfirmedAt": "2026-05-21T13:32:00.000Z"
+  },
+  "defectMetadata": {
+    "module": "MM",
+    "jiraPriority": "High",
+    "labels": ["defect", "automation-detected", "mm", "CS-2"],
+    "acViolated": "AC-6",
+    "existingBugKey": "CS-6",
+    "existingBugUrl": "https://jira-naqet.atlassian.net/browse/CS-6"
+  },
+  "recommendation": "LOG_DEFECT",
+  "duplicateCheck": {
+    "existingDefectFound": true,
+    "existingBugKey": "CS-6",
+    "action": "SKIP_CREATION — add re-confirmation comment to CS-2 only"
+  },
+  "notes": "APP_DEFECT confirmed for the 5th consecutive MCP execution. Jira Bug CS-6 already exists and is Open. Skipping duplicate Bug creation. Adding re-confirmation comment to parent story CS-2."
+}

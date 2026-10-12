@@ -1,0 +1,37 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "classifiedAt": "2026-05-19T09:00:00.000Z",
+  "classifiedBy": "defect-logging-agent/skills/classify-failure (e2e-automation-v2 CS-2)",
+  "pipelineRun": "/e2e-automation-v2 CS-2",
+
+  "classification": "APP_DEFECT",
+
+  "inputs": {
+    "reExecutionReport": "self-healing/re-executions/2026-05-19-TC-CS-021/TC-CS-021-reexecution.json",
+    "failureReport": "self-healing/failures/2026-05-19-TC-CS-021-failure.json",
+    "testCaseFile": "testcases/AI-generated testcases/CS-2/testcases/TC-CS-021.md",
+    "storyJSON": "jira/userstories/CS-2/CS-2.json"
+  },
+
+  "acAnalysis": {
+    "acId": "AC-6",
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+    "acKeyword": "displayed",
+    "sapActualBehavior": "SAP shows role=alert: 'Purchase order has been created.' — PO number IS generated but NOT displayed in the success notification",
+    "acViolated": true,
+    "violationDescription": "The AC requires the PO number to be 'displayed' in the success confirmation. SAP displays a generic alert without the PO number. The PO number only appears in the document heading when the user navigates to the PO — it is not shown in any explicit success notification."
+  },
+
+  "classificationReason": "Re-execution (Phase 3a MCP, headed mode) confirmed: SAP processes the PO creation successfully (PO is created in the system) but the success notification does not contain the 10-digit PO number. This violates the 'displayed' requirement of AC-6. The failure is in SAP application behavior, not in the automation script assertion.",
+
+  "duplicateDefectCheck": {
+    "existingBugKey": "CS-6",
+    "existingBugUrl": "https://jira-naqet.atlassian.net/browse/CS-6",
+    "existingBugSummary": "[MM] TC-CS-021: PO success notification does not display generated PO number — AC-6 violated",
+    "existingBugStatus": "To Do",
+    "linkedToStory": "CS-2",
+    "previouslyLoggedAt": "2026-05-18T11:15:00.000Z",
+    "action": "SKIP_CREATION — defect CS-6 already exists and is linked to CS-2"
+  }
+}

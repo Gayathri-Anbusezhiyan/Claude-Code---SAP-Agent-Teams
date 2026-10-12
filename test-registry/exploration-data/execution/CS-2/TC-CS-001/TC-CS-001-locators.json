@@ -1,0 +1,121 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "exploredAt": "2026-07-08T14:42:00.000Z",
+  "locators": {
+    "usernameInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Email, User ID or Login Name" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='email']" }
+      ]
+    },
+    "passwordInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Password" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='password']" }
+      ]
+    },
+    "continueButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Continue" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button[type='submit']" }
+      ]
+    },
+    "openSearchButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Open Search" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']" }
+      ]
+    },
+    "searchInput": {
+      "primary": { "strategy": "role", "role": "combobox", "name": "Search", "exact": true },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[type='search']" }
+      ]
+    },
+    "managePOAppTile": {
+      "primary": { "strategy": "label", "value": "Manage Purchase Orders Navigation Tile" },
+      "fallbacks": [
+        { "strategy": "text", "value": "Manage Purchase Orders" }
+      ]
+    },
+    "createPOButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Create" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button:has-text('Create')" }
+      ]
+    },
+    "supplierInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Supplier" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Supplier']" }
+      ]
+    },
+    "itemsCreateButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Create", "toolbar": "Items" },
+      "selector": "getByRole('toolbar', { name: 'Items', exact: true }).getByLabel('Create')",
+      "fallbacks": [
+        { "strategy": "css", "value": "[id$='ItemsFacet::addEntry']" }
+      ]
+    },
+    "materialInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Material", "exact": true },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Material']" }
+      ]
+    },
+    "orderQuantityInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Order Quantity", "exact": true },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='OrderQuantity']" }
+      ]
+    },
+    "netPriceInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Net Order Price" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='NetPrice']" }
+      ]
+    },
+    "plantInput": {
+      "primary": { "strategy": "role", "role": "textbox", "name": "Plant" },
+      "fallbacks": [
+        { "strategy": "css", "value": "input[id*='Plant']" }
+      ]
+    },
+    "orderButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Order", "description": "Default Action" },
+      "fallbacks": [
+        { "strategy": "text", "value": "button:has-text('Order')" }
+      ]
+    },
+    "userProfileButton": {
+      "primary": { "strategy": "role", "role": "button", "name": "Avatar T0U" },
+      "fallbacks": [
+        { "strategy": "role", "role": "button", "nameContains": "Avatar" }
+      ]
+    },
+    "signOutButton": {
+      "primary": { "strategy": "text", "value": "Sign Out" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[id$='-logoutBtn']" },
+        { "strategy": "role", "role": "listitem", "nameContains": "Sign Out" }
+      ]
+    },
+    "signOutConfirmOK": {
+      "primary": { "strategy": "role", "role": "button", "name": "OK" },
+      "fallbacks": [
+        { "strategy": "css", "value": "button:has-text('OK')" }
+      ]
+    }
+  },
+  "explorationNotes": [
+    "orderQuantityInput: exact:true required — label 'Order Quantity' appears in composite 'Order Price Unit Order Quantity'",
+    "orderButton: description:'Default Action' required to disambiguate from 'Purchase Order' title button",
+    "signOutButton: [id$='-logoutBtn'] CSS selector FAILED - use getByText('Sign Out') as primary",
+    "No guided tour dialog in this session",
+    "Success indicated by page title change to '{PO_NUMBER} (Standard PO) - Purchase Order'",
+    "URL changes from IsActiveEntity=false to IsActiveEntity=true after successful Order"
+  ]
+}

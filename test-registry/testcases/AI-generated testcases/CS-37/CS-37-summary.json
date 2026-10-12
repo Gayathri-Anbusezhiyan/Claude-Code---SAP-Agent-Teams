@@ -1,0 +1,159 @@
+{
+  "userStory": "CS-37",
+  "summary": "Process A Return Order For A Customer Complaint About A Defective Phar",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 13,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 3,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 3,
+    "HIGH": 7,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 9,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Create Return Order with Valid Customer, Material, Quantity, Return Reason, and Quality Notification Link",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-037-001"
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Attempt to Create Return Order with Non-existent Customer ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-NEG-001"
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Attempt to Create Return Order with Non-existent Material ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-NEG-002"
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt to Create Return Order with Non-existent Quality Notification Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-NEG-003"
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Attempt to Submit Return Order with Customer Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-ERR-001"
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt to Submit Return Order with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-ERR-002"
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Attempt to Submit Return Order with Quantity Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-ERR-003"
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Attempt to Submit Return Order with Return Reason Code Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-ERR-004"
+    },
+    {
+      "id": "TC-CS-029",
+      "title": "Create Return Order with Return Quantity at Minimum Boundary (1 Unit)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-EDGE-001"
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Create Return Order with Return Quantity Matching Original Order Quantity (Maximum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-037-EDGE-002"
+    },
+    {
+      "id": "TC-CS-031",
+      "title": "Attempt to Create Return Order with Return Quantity Exceeding Original Order Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-037-EDGE-003"
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "Verify Return Order Integration with Quality Notification (QM Module)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-037-INT-001"
+    },
+    {
+      "id": "TC-CS-033",
+      "title": "Verify Credit Memo Request Creation After Return Order Creation (FI/CO Integration)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-037-INT-002"
+    }
+  ],
+  "testdataFile": "testdata/CS-37/CS-37-testdata.json"
+}

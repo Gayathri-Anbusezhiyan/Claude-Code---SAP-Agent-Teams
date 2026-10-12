@@ -1,0 +1,21 @@
+{
+  "key": "CS-47",
+  "summary": "Link A Customer Complaint Captured In Sales To A Formal Quality Notifi",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:31.998Z",
+  "updated": "2026-08-21T08:41:32.083Z",
+  "description": "As a Quality Assurance Specialist, I want to link a Customer Complaint captured in Sales to a formal Quality Notification, so that product quality issues raised by customers are investigated using the same GMP-compliant process as internally identified deviations.",
+  "acceptanceCriteria": "1. The user can access the \"Create Quality Notification\" Fiori app, initiated from the sales/return order.2. The system pre-populates the notification with the customer, material, batch, and complaint details from the originating document.3. The notification routes to the QA team's worklist for investigation and root-cause analysis.4. The system tracks the notification status (Open, Under Investigation, Closed) and displays it back on the originating sales document.5. The system prevents closure of the notification until a documented disposition and corrective action are recorded.6. A report is available showing complaint volume and trends by material and batch.",
+  "labels": [
+    "&",
+    "Distribution",
+    "Sales"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

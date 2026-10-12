@@ -1,0 +1,20 @@
+{
+  "key": "CS-50",
+  "summary": "Create A Process Order For A Validated Master Recipe To Manufacture A",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:34.656Z",
+  "updated": "2026-08-21T08:41:34.759Z",
+  "description": "As a Production Supervisor, I want to create a Process Order for a validated master recipe to manufacture a pharmaceutical batch, so that production is executed according to the GMP-approved formula and process parameters.",
+  "acceptanceCriteria": "1. The user can access the \"Create Process Order\" Fiori app.2. The system only allows selection of a master recipe with an \"Approved/Released\" status.3. The system automatically pulls the Bill of Material (active ingredients and excipients) and routing/operations from the released recipe.4. The process order is assigned a unique batch number linked to the finished product batch record.5. The system prevents release of the process order if any component material is on quality hold.6. The order displays required in-process control (IPC) steps as defined in the master recipe.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

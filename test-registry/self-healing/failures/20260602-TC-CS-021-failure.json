@@ -1,0 +1,52 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-06-02T00:00:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "LOCATOR_FAILURE",
+  "failingStep": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "specLine": 268,
+    "testTitle": "TC-CS-021 (NEG) Success alert should contain PO number (DESIGNED TO FAIL)",
+    "actualFailureStep": "navigateToApp()",
+    "expectedFailureStep": "Step 22 — PO number assertion (intentional defect validation)",
+    "methodCall": "await purchaseOrderPage.navigateToApp()",
+    "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "pageMethod": "navigateToApp",
+    "pageLine": 149,
+    "locatorName": "shellBar.searchButton",
+    "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+    "locatorUsed": {
+      "primary": { "strategy": "css", "value": "[title=\"Open Search\"]" },
+      "fallbacks": [
+        { "strategy": "role", "role": "button", "name": "Open Search" }
+      ]
+    },
+    "errorMessage": "All locator strategies failed for: shellBar.searchButton",
+    "errorDetail": "Both primary CSS selector [title=\"Open Search\"] and fallback role-based selector failed after waiting with timeout. Element not found in DOM or not attached.",
+    "stackTrace": "at PurchaseOrderPage.loc (purchase-order.page.js:57:13)\n    at PurchaseOrderPage.navigateToApp (purchase-order.page.js:149:23)"
+  },
+  "explorationComparison": {
+    "explorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+    "explorationLocator": {
+      "primary": { "strategy": "role", "value": "button", "name": "Open Search", "confidence": "HIGH" },
+      "fallbacks": [
+        { "strategy": "css", "value": "[title='Open Search']", "confidence": "HIGH" }
+      ]
+    },
+    "match": true,
+    "note": "Locators match between script and exploration. Exploration captured this element successfully. Previous healing record shows lazy-loading issue: element not immediately present after login.",
+    "previousHeal": {
+      "timestamp": "2026-05-29T18:29:29.000Z",
+      "patchFile": "self-healing/patches/20260529-182929-TC-CS-021-patch.md",
+      "changeType": "INTERACTION_UPDATE",
+      "resolution": "Added prerequisite action: click 'Open Menu' button to trigger full shell bar render before clicking 'Open Search'",
+      "status": "PATCH_MAY_HAVE_REGRESSED"
+    }
+  },
+  "rootCause": "SAP Fiori shell bar lazy-loading: 'Open Search' button not immediately rendered in DOM after login. Previous patch added workaround (click Open Menu first), but current failure suggests either: (1) workaround not implemented in navigateToApp() method, (2) SAP behavior changed, or (3) element requires different wait strategy.",
+  "recommendation": "SELF_HEAL",
+  "confidence": "HIGH",
+  "notes": "Test designed to fail at Step 22 (PO number assertion), but infrastructure bug prevents reaching that point. Need to re-execute via MCP to determine current working interaction pattern.",
+  "nextStep": "Re-execute TC-CS-021 via Playwright MCP to capture current working locators and interaction sequence for shell bar search button"
+}

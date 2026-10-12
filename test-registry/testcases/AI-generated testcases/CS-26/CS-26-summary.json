@@ -1,0 +1,206 @@
+{
+  "userStory": "CS-26",
+  "summary": "Generate A Batch Traceability Report Showing All Goods Movements For A",
+  "module": "MM",
+  "generatedAt": "2026-08-23T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 12,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 1,
+    "EDGE": 2,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 3,
+    "HIGH": 7,
+    "MEDIUM": 2,
+    "LOW": 0
+  },
+  "automationCandidates": 12,
+  "testCases": [
+    {
+      "id": "TC-CS-081",
+      "title": "Generate Batch Traceability Report with Process Order Linkage and Excel Export",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-082",
+      "title": "Search Batch Traceability Report by Material Number",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-3"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-083",
+      "title": "Search Batch Traceability Report by Vendor Batch Reference",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-003",
+      "acsCovered": ["AC-1", "AC-2", "AC-3"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-084",
+      "title": "Export Batch Traceability Report to PDF",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-004",
+      "acsCovered": ["AC-1", "AC-5"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-085",
+      "title": "Attempt Batch Traceability Search with Non-Existent Batch Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-NEG-001",
+      "acsCovered": ["AC-1", "AC-2"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-086",
+      "title": "Attempt Batch Traceability Search with Non-Batch-Managed Material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-NEG-002",
+      "acsCovered": ["AC-1", "AC-2"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-087",
+      "title": "Attempt Batch Traceability Search for Batch with Zero Goods Movements",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-NEG-003",
+      "acsCovered": ["AC-1", "AC-2", "AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-088",
+      "title": "Attempt Batch Traceability Search without Entering Batch Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-ERR-001",
+      "acsCovered": ["AC-1", "AC-2"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-089",
+      "title": "Verify Batch Traceability Report Performance with Large Dataset",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-EDGE-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-6"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-090",
+      "title": "Verify Batch Traceability Report with Multi-Plant Complexity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-EDGE-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-3"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-091",
+      "title": "Verify Batch Traceability Report with Process Order Linkage Integration",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-INT-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-092",
+      "title": "Verify Batch Traceability Report with Delivery Linkage Integration",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-026-INT-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4"],
+      "estimatedEffort": "MEDIUM"
+    }
+  ],
+  "testdataFile": "testdata/CS-26/CS-26-testdata.json",
+  "qualityGates": {
+    "acCoverage": {
+      "threshold": "100%",
+      "actual": "100%",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": 1,
+      "actual": 1,
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": 3,
+      "actual": 3,
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": 1,
+      "actual": 1,
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": 2,
+      "actual": 2,
+      "status": "PASS"
+    },
+    "apCoverage": {
+      "threshold": 3,
+      "actual": 3,
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "threshold": 2,
+      "actual": 2,
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "actual": "0 hardcoded values",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 10 TCs",
+      "actual": "12 TCs",
+      "status": "PASS"
+    }
+  }
+}

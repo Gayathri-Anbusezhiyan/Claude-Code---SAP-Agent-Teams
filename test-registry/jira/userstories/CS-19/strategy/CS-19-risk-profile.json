@@ -1,0 +1,337 @@
+{
+  "userStory": "CS-19",
+  "summary": "Place A Specific Batch Of Raw Material On Quality Hold",
+  "module": "MM",
+  "analysedAt": "2026-08-24T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Plant Manager",
+  "businessObject": "Material Batch, Stock Status, Batch Stock Transaction",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Stock\" or \"Batch Where-Used List\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can select a specific batch and change its stock status to \"Blocked\" or \"Quality Inspection.\"",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "Once blocked, the system prevents any goods issue transaction against that batch, including production order consumption.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system logs the reason code and the user who initiated the hold, along with a timestamp.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system allows an authorized QA user to release the hold once the investigation is closed, restoring the batch to Unrestricted-Use stock.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "A notification is sent to Production Planning when a batch used in an active process order is placed on hold.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["INT"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Select batch and change status to \"Blocked Stock\"",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Select batch and change status to \"Quality Inspection Stock\"",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      },
+      {
+        "id": "HP-03",
+        "description": "QA user releases batch hold, restoring to Unrestricted-Use stock",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Block batch via \"Batch Where-Used List\" app (alternative navigation path)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt goods issue transaction against blocked batch",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt production order consumption against blocked batch",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Unauthorized user attempts to release batch hold",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to block batch with zero stock quantity",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Material Number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Batch Number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Batch"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Plant",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Storage Location",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Storage Location"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Reason Code",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Reason Code"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Non-existent Material Number",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Non-existent Batch Number",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Batch"
+      },
+      {
+        "id": "ERR-08",
+        "description": "Material not batch-managed",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Block batch with minimum valid stock quantity (0.001 UoM)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "stockQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Block batch with maximum stock quantity",
+        "risk": "LOW",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "stockQuantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Release hold on batch that was never blocked",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "batchStatus",
+        "boundary": "invalid-state"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Block batch used in active process order → notification sent to Production Planning",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 8,
+    "EDGE": 3,
+    "INT": 1,
+    "total": 20
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing batch-managed material in SAP master"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch in MCHB (batch stock table)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid plant assigned to user authorization"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "mandatory": true,
+        "validRange": "Valid storage location in plant"
+      },
+      {
+        "name": "stockType",
+        "label": "Stock Type",
+        "mandatory": true,
+        "validRange": "Blocked Stock or Quality Inspection Stock"
+      },
+      {
+        "name": "reasonCode",
+        "label": "Reason for Block",
+        "mandatory": true,
+        "validRange": "Configured reason code (e.g., DEVINV for deviation investigation)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Enter Material Number"
+      },
+      {
+        "name": "currentStockQuantity",
+        "label": "Available Quantity",
+        "trigger": "Select Batch"
+      },
+      {
+        "name": "currentStockStatus",
+        "label": "Current Status",
+        "trigger": "Select Batch"
+      },
+      {
+        "name": "batchCreationDate",
+        "label": "Created On",
+        "trigger": "Select Batch"
+      },
+      {
+        "name": "userId",
+        "label": "Changed By",
+        "trigger": "Save transaction"
+      },
+      {
+        "name": "timestamp",
+        "label": "Changed At",
+        "trigger": "Save transaction"
+      }
+    ],
+    "output": [
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document Number",
+        "format": "10-digit numeric (49xxxxxxxx)"
+      },
+      {
+        "name": "materialDocumentYear",
+        "label": "Material Document Year",
+        "format": "4-digit year (YYYY)"
+      },
+      {
+        "name": "changeLogEntry",
+        "label": "Change Log Entry",
+        "format": "Text log with user, timestamp, old status, new status"
+      },
+      {
+        "name": "notificationNumber",
+        "label": "Notification Number",
+        "format": "10-12 digit numeric (if PP integration active)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "stockQuantity",
+        "label": "Stock Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "999999999.999",
+        "zeroInvalid": true
+      },
+      {
+        "name": "reasonCodeLength",
+        "label": "Reason Code",
+        "lowerBoundary": "1 character",
+        "upperBoundary": "10 characters",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

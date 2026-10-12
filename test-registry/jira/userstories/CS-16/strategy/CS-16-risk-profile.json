@@ -1,0 +1,309 @@
+{
+  "userStory": "CS-16",
+  "summary": "Create A Quality Inspection Lot Automatically Upon Goods Receipt For G",
+  "module": "QM",
+  "analysedAt": "2026-08-21T10:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Inspector",
+  "businessObject": "Quality Inspection Lot, Goods Receipt, Quality Inspection Stock",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Inspection Lots\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "An inspection lot is automatically generated when goods receipt is posted for materials flagged with a quality inspection type in the material master.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "INT"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The received stock is automatically posted to Quality Inspection stock and is not available for unrestricted use or production consumption.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The inspector can record results of physical/chemical tests against the inspection characteristics defined in the inspection plan.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system allows Usage Decision (UD) recording — Accept, Reject, or Conditional Accept.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["DT", "EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "Upon \"Accept\" UD, the stock is automatically transferred from Quality Inspection to Unrestricted-Use stock.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "Upon \"Reject\" UD, the stock is transferred to Blocked stock and cannot be issued to production.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["AP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-8",
+      "text": "The system maintains a complete audit trail of inspection results and UD decisions for regulatory traceability.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access \"Manage Inspection Lots\" app",
+        "risk": "LOW",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Post GR for QM-active material → inspection lot auto-created → stock posted to Quality Inspection → record test results (all within spec) → record Accept UD → stock transferred to Unrestricted-Use → verify audit trail",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-8"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Post GR for QM-active material → inspection lot auto-created → record test results → record Reject UD → stock transferred to Blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-7"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Post GR for QM-active material → inspection lot auto-created → record test results → record Conditional Accept UD → stock transferred to Unrestricted-Use with restriction note",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Post GR for material WITHOUT QM inspection type configured → no inspection lot created, stock posted directly to Unrestricted-Use",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to issue material from Quality Inspection stock to production (without UD) → system rejects",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to issue material from Blocked stock to production (after Reject UD) → system rejects",
+        "risk": "CRITICAL",
+        "acIds": ["AC-7"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Inspection Lot Number (system generation failure)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"],
+        "field": "Inspection Lot Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Test Result entry for mandatory characteristic",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Test Result"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Usage Decision before attempting to close inspection lot",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Usage Decision"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Test result value exactly at lower specification limit",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "Test Result Value",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Test result value exactly at upper specification limit",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "Test Result Value",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Test result value outside specification range (out-of-spec) → system should flag and enforce Reject or Conditional Accept UD",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-5"],
+        "parameter": "Test Result Value",
+        "boundary": "out-of-spec"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Post Goods Receipt via \"Post Goods Receipt\" Fiori app for QM-active material → verify inspection lot auto-created in \"Manage Inspection Lots\" app",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "linkedIssue": "Implicit MM-QM integration"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 1,
+    "total": 14
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material with QM inspection type configured"
+      },
+      {
+        "name": "inspectionPlan",
+        "label": "Inspection Plan",
+        "mandatory": true,
+        "validRange": "Valid inspection plan for material (auto-derived)"
+      },
+      {
+        "name": "inspectionCharacteristics",
+        "label": "Characteristic",
+        "mandatory": true,
+        "validRange": "Defined in inspection plan (e.g., pH, purity, moisture)"
+      },
+      {
+        "name": "testResults",
+        "label": "Result Value",
+        "mandatory": true,
+        "validRange": "Per characteristic specification (numeric range or qualitative)"
+      },
+      {
+        "name": "usageDecision",
+        "label": "UD Code",
+        "mandatory": true,
+        "validRange": "A (Accept), R (Reject), or C (Conditional Accept)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "inspectionLotNumber",
+        "label": "Inspection Lot",
+        "trigger": "Goods Receipt posting"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Material Number confirmation"
+      },
+      {
+        "name": "quantityReceived",
+        "label": "Inspection Lot Qty",
+        "trigger": "Goods Receipt posting"
+      },
+      {
+        "name": "qualityInspectionStock",
+        "label": "Stock Type",
+        "trigger": "Goods Receipt posting"
+      },
+      {
+        "name": "inspectorName",
+        "label": "Created By / Changed By",
+        "trigger": "User login"
+      },
+      {
+        "name": "timestamp",
+        "label": "Created On / Changed On",
+        "trigger": "Inspection lot creation / UD recording"
+      }
+    ],
+    "output": [
+      {
+        "name": "inspectionLotNumber",
+        "label": "Inspection Lot Number",
+        "format": "12-digit numeric"
+      },
+      {
+        "name": "udDecisionCode",
+        "label": "Usage Decision Code",
+        "format": "A / R / C"
+      },
+      {
+        "name": "stockTransferDocument",
+        "label": "Material Document Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "auditTrailLog",
+        "label": "Audit Trail Log",
+        "format": "System table QALS, QAVE"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "testResultValue",
+        "label": "Test Result Value (numeric)",
+        "lowerBoundary": "Per characteristic lower spec",
+        "upperBoundary": "Per characteristic upper spec",
+        "zeroInvalid": false
+      },
+      {
+        "name": "inspectionLotQuantity",
+        "label": "Inspection Lot Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "GR quantity",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

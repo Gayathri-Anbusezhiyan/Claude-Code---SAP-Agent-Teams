@@ -1,0 +1,272 @@
+{
+  "userStory": "CS-53",
+  "module": "PP-QM",
+  "feature": "Electronic Batch Record Review and Approval",
+  "generatedAt": "2026-08-24T14:30:00Z",
+  "testDataSets": {
+    "TD-CS-53-001": {
+      "id": "TD-CS-53-001",
+      "name": "Valid Batch Record — All In-Spec Results, No Deviations",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION}}",
+        "plant": "{{PLANT_CODE}}",
+        "componentConsumption": "{{COMPONENT_CONSUMPTION_DATA}}",
+        "inspectionResults": "{{INSPECTION_RESULTS_IN_SPEC}}"
+      },
+      "expectedOutcome": "Batch record approved successfully; status = APPROVED; EBR document number generated; batch eligible for Unrestricted-Use stock transfer"
+    },
+    "TD-CS-53-002": {
+      "id": "TD-CS-53-002",
+      "name": "Valid Batch Record — Out-of-Spec Result with Approved Deviation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "processOrderNumberWithDeviation": "{{PROCESS_ORDER_NUMBER_DEVIATION}}",
+        "batchNumberWithDeviation": "{{BATCH_NUMBER_WITH_DEVIATION}}",
+        "deviationReference": "{{DEVIATION_REFERENCE_APPROVED}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}",
+        "materialDescriptionDeviation": "{{MATERIAL_DESCRIPTION_DEVIATION}}",
+        "plantDeviation": "{{PLANT_CODE_DEVIATION}}",
+        "outOfSpecResult": "{{OUT_OF_SPEC_RESULT}}"
+      },
+      "expectedOutcome": "Batch record approved successfully despite out-of-spec result; approved deviation linked; status = APPROVED; EBR document number generated"
+    },
+    "TD-CS-53-003": {
+      "id": "TD-CS-53-003",
+      "name": "Archived Batch Record — For Retrieval",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "batchNumberArchived": "{{BATCH_NUMBER_ARCHIVED}}",
+        "archiveReference": "{{ARCHIVE_REFERENCE_EBR}}",
+        "processOrderNumberArchived": "{{PROCESS_ORDER_NUMBER_ARCHIVED}}",
+        "materialDescriptionArchived": "{{MATERIAL_DESCRIPTION_ARCHIVED}}",
+        "reviewedByArchived": "{{REVIEWER_USER_ID_ARCHIVED}}",
+        "signedOnTimestamp": "{{SIGNED_ON_TIMESTAMP_UTC}}"
+      },
+      "expectedOutcome": "Archived batch record retrieved successfully; all data intact; electronic signature details visible; read-only access enforced"
+    },
+    "TD-CS-53-004": {
+      "id": "TD-CS-53-004",
+      "name": "Valid Batch Record — With Reviewer Comments",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "reviewerComments": "{{REVIEWER_COMMENTS_STANDARD}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "Batch record approved successfully; reviewer comments saved and visible; status = APPROVED; EBR document number generated"
+    },
+    "TD-CS-53-NEG-001": {
+      "id": "TD-CS-53-NEG-001",
+      "name": "Invalid Batch Record — Missing Mandatory In-Process Control Result",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "processOrderNumberIncomplete": "{{PROCESS_ORDER_NUMBER_INCOMPLETE}}",
+        "batchNumberIncomplete": "{{BATCH_NUMBER_INCOMPLETE}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}",
+        "missingControlCharacteristic": "{{MISSING_CONTROL_CHARACTERISTIC_NAME}}"
+      },
+      "expectedOutcome": "System displays error: Mandatory in-process control result missing; approval blocked; status remains PENDING"
+    },
+    "TD-CS-53-NEG-002": {
+      "id": "TD-CS-53-NEG-002",
+      "name": "Invalid Batch Record — Out-of-Spec Result Without Deviation",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "processOrderNumberOutOfSpec": "{{PROCESS_ORDER_NUMBER_OUT_OF_SPEC}}",
+        "batchNumberOutOfSpec": "{{BATCH_NUMBER_OUT_OF_SPEC}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}",
+        "outOfSpecCharacteristic": "{{OUT_OF_SPEC_CHARACTERISTIC_NAME}}"
+      },
+      "expectedOutcome": "System displays error: Out-of-spec result without approved deviation; approval blocked; status remains PENDING"
+    },
+    "TD-CS-53-NEG-003": {
+      "id": "TD-CS-53-NEG-003",
+      "name": "Unauthorized User — No QA Authorization",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "unauthorizedUsername": "{{ENV.SAP_USERNAME_UNAUTHORIZED}}",
+        "unauthorizedPassword": "{{ENV.SAP_PASSWORD_UNAUTHORIZED}}"
+      },
+      "expectedOutcome": "System displays authorization error; Review Batch Records app inaccessible; no batch record data visible"
+    },
+    "TD-CS-53-NEG-004": {
+      "id": "TD-CS-53-NEG-004",
+      "name": "Stock Transfer Blocked — Batch Record Not Approved",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "processOrderNumberUnapproved": "{{PROCESS_ORDER_NUMBER_UNAPPROVED}}",
+        "batchNumberUnapproved": "{{BATCH_NUMBER_UNAPPROVED}}",
+        "materialNumberUnapproved": "{{MATERIAL_NUMBER_UNAPPROVED}}",
+        "plantUnapproved": "{{PLANT_CODE_UNAPPROVED}}",
+        "storageLocationUnapproved": "{{STORAGE_LOCATION_UNAPPROVED}}",
+        "quantityToTransfer": "{{QUANTITY_TO_TRANSFER}}"
+      },
+      "expectedOutcome": "System displays error: Batch release pending; stock transfer blocked; batch remains in Restricted-Use stock"
+    },
+    "TD-CS-53-ERR-001": {
+      "id": "TD-CS-53-ERR-001",
+      "name": "Missing Process Order Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "emptyValue": "",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Process Order is required; field highlighted; batch record loading blocked"
+    },
+    "TD-CS-53-ERR-002": {
+      "id": "TD-CS-53-ERR-002",
+      "name": "Missing Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "emptyValue": ""
+      },
+      "expectedOutcome": "System displays error: Batch Number is required; field highlighted; batch record loading blocked"
+    },
+    "TD-CS-53-ERR-003": {
+      "id": "TD-CS-53-ERR-003",
+      "name": "Missing Electronic Signature Password",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "emptyValue": ""
+      },
+      "expectedOutcome": "System displays error: Password is required; field highlighted; electronic signature blocked; status remains PENDING"
+    },
+    "TD-CS-53-ERR-004": {
+      "id": "TD-CS-53-ERR-004",
+      "name": "Invalid Electronic Signature Password",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "invalidPassword": "{{INVALID_PASSWORD}}"
+      },
+      "expectedOutcome": "System displays error: Invalid password; authentication failed; electronic signature blocked; status remains PENDING"
+    },
+    "TD-CS-53-ERR-005": {
+      "id": "TD-CS-53-ERR-005",
+      "name": "Non-existent Process Order Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "nonExistentProcessOrder": "{{NON_EXISTENT_PROCESS_ORDER}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}"
+      },
+      "expectedOutcome": "System displays error: Process Order does not exist; field highlighted; batch record loading blocked"
+    },
+    "TD-CS-53-ERR-006": {
+      "id": "TD-CS-53-ERR-006",
+      "name": "Non-existent Batch Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "nonExistentBatch": "{{NON_EXISTENT_BATCH}}"
+      },
+      "expectedOutcome": "System displays error: Batch does not exist; field highlighted; batch record loading blocked"
+    },
+    "TD-CS-53-ERR-007": {
+      "id": "TD-CS-53-ERR-007",
+      "name": "Process Order Not TECO Status",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "processOrderNumberNotTECO": "{{PROCESS_ORDER_NUMBER_NOT_TECO}}",
+        "batchNumberNotTECO": "{{BATCH_NUMBER_NOT_TECO}}",
+        "processOrderStatusNotTECO": "{{PROCESS_ORDER_STATUS_NOT_TECO}}"
+      },
+      "expectedOutcome": "System displays error: Process Order not technically complete; approval disabled; status remains PENDING"
+    },
+    "TD-CS-53-EDGE-001": {
+      "id": "TD-CS-53-EDGE-001",
+      "name": "Batch Record — Zero Deviations (Boundary Lower)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "processOrderNumberZeroDeviations": "{{PROCESS_ORDER_NUMBER_ZERO_DEVIATIONS}}",
+        "batchNumberZeroDeviations": "{{BATCH_NUMBER_ZERO_DEVIATIONS}}",
+        "deviationCount": "0",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}"
+      },
+      "expectedOutcome": "Batch record approved successfully; zero deviations is valid state; status = APPROVED"
+    },
+    "TD-CS-53-EDGE-002": {
+      "id": "TD-CS-53-EDGE-002",
+      "name": "Batch Record — Maximum Comments Length (Boundary Upper)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-141"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "reviewerCommentsMaxLength": "{{REVIEWER_COMMENTS_255_CHARS}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}"
+      },
+      "expectedOutcome": "Batch record approved successfully; 255-character comments saved without truncation; status = APPROVED"
+    },
+    "TD-CS-53-INT-001": {
+      "id": "TD-CS-53-INT-001",
+      "name": "PP-QM Integration — Batch Record Data Compilation",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-142"],
+      "data": {
+        "processOrderNumberIntegration": "{{PROCESS_ORDER_NUMBER_INTEGRATION}}",
+        "batchNumberIntegration": "{{BATCH_NUMBER_INTEGRATION}}",
+        "expectedOperationCount": "{{EXPECTED_OPERATION_COUNT}}",
+        "expectedComponentCount": "{{EXPECTED_COMPONENT_COUNT}}",
+        "expectedInspectionLot": "{{EXPECTED_INSPECTION_LOT}}",
+        "expectedControlResultCount": "{{EXPECTED_CONTROL_RESULT_COUNT}}"
+      },
+      "expectedOutcome": "Batch record compiled successfully; PP data (operations, components) and QM data (inspection lot, results) integrated correctly"
+    },
+    "TD-CS-53-INT-002": {
+      "id": "TD-CS-53-INT-002",
+      "name": "MM-QM Integration — Batch Release and Stock Transfer",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-143"],
+      "data": {
+        "processOrderNumberMMQM": "{{PROCESS_ORDER_NUMBER_MM_QM}}",
+        "batchNumberMMQM": "{{BATCH_NUMBER_MM_QM}}",
+        "materialNumberMMQM": "{{MATERIAL_NUMBER_MM_QM}}",
+        "plantMMQM": "{{PLANT_CODE_MM_QM}}",
+        "storageLocationMMQM": "{{STORAGE_LOCATION_MM_QM}}",
+        "quantityToTransferMMQM": "{{QUANTITY_TO_TRANSFER_MM_QM}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}"
+      },
+      "expectedOutcome": "Batch record approved; batch released; stock transfer to Unrestricted-Use executed successfully; goods movement document created"
+    },
+    "TD-CS-53-INT-003": {
+      "id": "TD-CS-53-INT-003",
+      "name": "21 CFR Part 11 Compliance — Electronic Signature Verification",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-144"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_TECO}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "signaturePassword": "{{ENV.SAP_PASSWORD}}",
+        "expectedAuditAction": "{{EXPECTED_AUDIT_ACTION}}"
+      },
+      "expectedOutcome": "Electronic signature recorded with user ID, timestamp (UTC), and action; audit trail entry created; 21 CFR Part 11 compliant"
+    }
+  }
+}

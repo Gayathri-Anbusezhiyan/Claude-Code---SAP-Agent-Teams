@@ -1,0 +1,327 @@
+{
+  "userStory": "CS-36",
+  "summary": "Place automatic S&D block on recalled batch",
+  "module": "MM/QM/SD",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Assurance Manager",
+  "businessObject": "Batch, Stock, S&D Block, Sales Order, Outbound Delivery",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can mark a batch as \"Recalled\" in the batch master record or via a recall transaction.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system immediately places an S&D block on all unrestricted stock of the recalled batch across all plants and storage locations.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system prevents creation of new Sales Orders for the recalled batch.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "The system prevents release of existing Sales Orders that contain the recalled batch.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["NEG", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system prevents picking and goods issue for Outbound Deliveries that contain the recalled batch.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system sends a notification to all relevant stakeholders (Sales, Warehouse, Quality) when a batch is recalled and blocked.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Mark batch as recalled via batch master → S&D block applied → verify block flag set",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Stakeholder notification sent successfully to all roles",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Batch exists in multiple plants → S&D block applied to all plants",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Batch exists in multiple storage locations within plant → S&D block applied to all storage locations",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Existing open Sales Order contains recalled batch → SO release blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "AP-04",
+        "description": "Existing open Delivery contains recalled batch → picking/GI blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create new Sales Order with recalled batch → system rejects with error",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to release existing Sales Order with recalled batch → system rejects with error",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to pick/post goods issue for Delivery with recalled batch → system rejects with error",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Mark non-existent batch as recalled → system rejects with error",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Batch Number field → system prevents recall trigger",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Batch Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material Number field → system prevents recall trigger",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material Number"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Plant field → system prevents recall trigger",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Plant"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Batch has zero unrestricted stock → no S&D block needed (informational message)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Stock Quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Batch already has existing S&D block → system confirms re-application or skips",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Block Status",
+        "boundary": "existing"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Batch has stock in restricted or blocked status only (no unrestricted) → no S&D block applied",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "Stock Type",
+        "boundary": "restricted-only"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 4,
+    "NEG": 4,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 16
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch in SAP with unrestricted stock"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Material assigned to batch"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Plant where batch exists"
+      },
+      {
+        "name": "recallStatusFlag",
+        "label": "Recalled / Block Indicator",
+        "mandatory": true,
+        "validRange": "Checked = Recalled"
+      },
+      {
+        "name": "recallReason",
+        "label": "Recall Reason Code",
+        "mandatory": false,
+        "validRange": "Quality reason codes"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Name",
+        "trigger": "Material Number entry"
+      },
+      {
+        "name": "plantName",
+        "label": "Plant Name",
+        "trigger": "Plant entry"
+      },
+      {
+        "name": "currentStockQuantity",
+        "label": "Unrestricted Stock",
+        "trigger": "Batch + Material + Plant entry"
+      },
+      {
+        "name": "storageLocations",
+        "label": "Storage Location List",
+        "trigger": "Batch + Plant entry"
+      },
+      {
+        "name": "existingSOCount",
+        "label": "Open Sales Orders",
+        "trigger": "Batch recall trigger"
+      },
+      {
+        "name": "existingDeliveryCount",
+        "label": "Open Deliveries",
+        "trigger": "Batch recall trigger"
+      }
+    ],
+    "output": [
+      {
+        "name": "sdBlockFlag",
+        "label": "S&D Block Flag",
+        "format": "Boolean (MCHB-VMCHB field)"
+      },
+      {
+        "name": "blockTimestamp",
+        "label": "Block Timestamp",
+        "format": "Timestamp (YYYYMMDD HHMMSS)"
+      },
+      {
+        "name": "notificationId",
+        "label": "Notification ID",
+        "format": "Alphanumeric notification number"
+      },
+      {
+        "name": "affectedSOList",
+        "label": "Affected SO List",
+        "format": "Array of SO numbers"
+      },
+      {
+        "name": "affectedDeliveryList",
+        "label": "Affected Delivery List",
+        "format": "Array of delivery numbers"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "stockQuantity",
+        "label": "Stock Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      },
+      {
+        "name": "plantCount",
+        "label": "Number of Plants",
+        "lowerBoundary": "1",
+        "upperBoundary": "all plants in system",
+        "zeroInvalid": true
+      },
+      {
+        "name": "storageLocationCount",
+        "label": "Number of Storage Locations",
+        "lowerBoundary": "1",
+        "upperBoundary": "all storage locations in plant",
+        "zeroInvalid": true
+      },
+      {
+        "name": "openSOCount",
+        "label": "Open SO Count",
+        "lowerBoundary": "0",
+        "upperBoundary": "system maximum",
+        "zeroInvalid": false
+      },
+      {
+        "name": "openDeliveryCount",
+        "label": "Open Delivery Count",
+        "lowerBoundary": "0",
+        "upperBoundary": "system maximum",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

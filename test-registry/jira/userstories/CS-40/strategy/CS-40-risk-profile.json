@@ -1,0 +1,376 @@
+{
+  "userStory": "CS-40",
+  "summary": "User Story SD-008 - ATP check excluding batches nearing expiration",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Sales Order Processor",
+  "businessObject": "Sales Order (batch-managed pharmaceutical material)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Sales Order for a batch-managed pharmaceutical material.",
+      "type": "NAVIGATION + BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system performs an ATP check against all unrestricted stock batches.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "The system excludes batches from the ATP calculation if their remaining shelf-life is less than the minimum required shelf-life threshold (configurable by material, e.g., 6 months before expiration).",
+      "type": "BUSINESS_RULE + VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system confirms availability and proposes a delivery date only if sufficient stock with adequate shelf-life exists.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system displays a warning message if the ATP check fails due to insufficient stock with adequate shelf-life, even if physical stock is available.",
+      "type": "VALIDATION_NEGATIVE + ERROR_HANDLING",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system allows the user to override the shelf-life restriction with appropriate authorization (e.g., for discount sales or urgent orders).",
+      "type": "BUSINESS_RULE + AUTHORIZATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["AP", "NEG"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Sales Order for batch-managed pharmaceutical material with sufficient stock having adequate shelf-life (> min threshold), ATP check passes, delivery date confirmed, order saved successfully",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "User with override authorization creates Sales Order and manually overrides shelf-life restriction to use a batch nearing expiration (e.g., discount sale scenario), order saved successfully",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Create Sales Order for batch-managed material where all available batches have remaining shelf-life < min threshold, ATP check fails, warning message displayed, order cannot be saved",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-5"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "User without override authorization attempts to override shelf-life restriction, system rejects override, order cannot proceed with near-expiration batch",
+        "risk": "HIGH",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Create Sales Order for batch-managed material with zero unrestricted stock, ATP check fails, warning message displayed (standard ATP failure, not shelf-life specific)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-5"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Create Sales Order for material that is NOT batch-managed (MARA.XCHPF = blank), system performs standard ATP check without shelf-life logic (feature not applicable)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Sold-to Party (Customer ID)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sold-to Party"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material ID",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Order Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Order Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Sales Organization",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sales Organization"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Invalid Customer ID (does not exist in customer master)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sold-to Party"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Invalid Material ID (does not exist in material master)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Material not extended to Sales Org/Distribution Channel (MVKE entry missing)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material / Sales Org"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Batch expiration date exactly equals (current date + min shelf-life threshold) — boundary condition — verify if batch is included or excluded from ATP",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "parameter": "batch expiration date",
+        "boundary": "exact threshold"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Order Quantity equals exact available ATP stock (with shelf-life filter applied) — full consumption — verify delivery date and stock allocation",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-4"],
+        "parameter": "order quantity",
+        "boundary": "exact ATP stock"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Order Quantity exceeds available ATP stock (with shelf-life filter applied) by 1 unit — verify ATP failure warning",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "order quantity",
+        "boundary": "ATP stock + 1"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Requested Delivery Date is today (same day) — verify ATP check uses today as base date for shelf-life calculation",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "requested delivery date",
+        "boundary": "current date"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Minimum shelf-life threshold configured as 0 days (no restriction) — verify all batches included in ATP regardless of expiration date",
+        "risk": "LOW",
+        "acIds": ["AC-3"],
+        "parameter": "shelf-life threshold",
+        "boundary": "0 days"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Material has multiple batches: one with adequate shelf-life (> threshold), one near expiration (< threshold) — verify system selects only adequate batch",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "parameter": "batch selection",
+        "boundary": "mixed shelf-life batches"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 7,
+    "EDGE": 6,
+    "INT": 0,
+    "total": 19
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "customerId",
+        "label": "Sold-to Party",
+        "mandatory": true,
+        "validRange": "Existing customer in SAP customer master (KNA1)"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing batch-managed pharmaceutical material with shelf-life config (MARA.XCHPF = 'X', MHDHB populated)"
+      },
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "> 0, within available ATP stock"
+      },
+      {
+        "name": "requestedDeliveryDate",
+        "label": "Requested Delivery Date",
+        "mandatory": false,
+        "validRange": "Future date (current date or later)"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "mandatory": true,
+        "validRange": "Valid sales org from TVKO table"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "mandatory": true,
+        "validRange": "Valid distribution channel from TVTW table"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "mandatory": true,
+        "validRange": "Valid division from TSPA table"
+      },
+      {
+        "name": "overrideShelfLife",
+        "label": "Override Shelf-Life (checkbox or flag)",
+        "mandatory": false,
+        "validRange": "Only if user has override authorization"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-to Party Name",
+        "trigger": "Confirm Customer ID"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "Base Unit of Measure",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "availableQuantityATP",
+        "label": "Available Quantity",
+        "trigger": "ATP check execution"
+      },
+      {
+        "name": "proposedDeliveryDate",
+        "label": "Confirmed Delivery Date",
+        "trigger": "ATP check success"
+      },
+      {
+        "name": "salesOrderType",
+        "label": "Order Type",
+        "trigger": "Default per sales org config"
+      },
+      {
+        "name": "pricingElements",
+        "label": "Net Price, Tax, Total",
+        "trigger": "Pricing condition"
+      },
+      {
+        "name": "batchNumbers",
+        "label": "Batch",
+        "trigger": "Batch determination during ATP"
+      }
+    ],
+    "output": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "format": "10-digit numeric (e.g., 0000001234)"
+      },
+      {
+        "name": "salesOrderStatus",
+        "label": "Document status after creation",
+        "format": "Open / Partially Delivered / Delivered"
+      },
+      {
+        "name": "deliveryDateConfirmed",
+        "label": "System-confirmed delivery date based on ATP",
+        "format": "Date (DD.MM.YYYY)"
+      },
+      {
+        "name": "atpWarningMessage",
+        "label": "Warning message if ATP fails due to shelf-life",
+        "format": "Text: 'No sufficient stock with required shelf-life available' (exact text TBD per SAP tenant config)"
+      },
+      {
+        "name": "batchAllocation",
+        "label": "Batches allocated to the Sales Order line item",
+        "format": "List of batch numbers (MCH1.CHARG)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "0.001 (minimum positive)",
+        "upperBoundary": "Available ATP stock quantity",
+        "zeroInvalid": true
+      },
+      {
+        "name": "requestedDeliveryDate",
+        "label": "Requested Delivery Date",
+        "lowerBoundary": "Current date (today)",
+        "upperBoundary": "System-configured max future date (e.g., 365 days)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "shelfLifeThreshold",
+        "label": "Remaining Shelf-Life Threshold",
+        "lowerBoundary": "0 days (no restriction)",
+        "upperBoundary": "Material-specific max (e.g., total shelf-life)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "batchExpirationDate",
+        "label": "Batch Expiration Date",
+        "lowerBoundary": "Exact threshold date (current date + min shelf-life)",
+        "upperBoundary": "Far future date (many years)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

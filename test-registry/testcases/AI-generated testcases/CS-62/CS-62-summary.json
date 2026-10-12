@@ -1,0 +1,169 @@
+{
+  "userStory": "CS-62",
+  "summary": "Technically Complete A Process Order Only After All Mandatory Quality",
+  "module": "PP",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 14,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 2,
+    "EDGE": 3,
+    "INT": 5
+  },
+  "byPriority": {
+    "CRITICAL": 7,
+    "HIGH": 4,
+    "MEDIUM": 3,
+    "LOW": 0
+  },
+  "automationCandidates": 8,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-167",
+      "title": "Technically Complete Process Order with All Quality Requirements Met",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-001"
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Attempt Technical Completion with Open Deviations Linked to Process Order",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-NEG-001"
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Attempt Technical Completion with Missing In-Process Control Results",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-NEG-002"
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Attempt Technical Completion with Unsigned Mandatory Batch Record Sections",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-NEG-003"
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Attempt Technical Completion with Non-Existent Process Order Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-062-ERR-001"
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Attempt Technical Completion Without Required Authorization",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-062-ERR-002"
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Technical Completion with Zero Open Deviations (Lower Boundary Valid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-062-EDGE-001"
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Attempt Technical Completion with Exactly One Open Deviation (Lower Boundary Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-062-EDGE-002"
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Attempt Duplicate Technical Completion on Already Completed Order",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-062-EDGE-003"
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Verify Stock Status Remains Quality Inspection After TECO (MM Integration)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-INT-001"
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Verify Open Deviations from QM Deviation Management Block TECO (QM Integration)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-INT-002"
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Verify Missing IPC Results from QM In-Process Control Block TECO (QM Integration)",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-INT-003"
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Verify Unsigned Batch Record Sections from e-Signature Module Block TECO (e-Signature Integration)",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-INT-004"
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Verify QM Inspection Lot Status Unaffected by TECO (QM Integration)",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-062-INT-005"
+    }
+  ],
+  "testdataFile": "testdata/CS-62/CS-62-testdata.json"
+}

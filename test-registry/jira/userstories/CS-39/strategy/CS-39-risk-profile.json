@@ -1,0 +1,283 @@
+{
+  "userStory": "CS-39",
+  "summary": "Process Free Goods (Sample) order for healthcare provider",
+  "module": "SD",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Sales Representative",
+  "businessObject": "Sales Order (Free Goods / Promotional Sample type)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Sales Order with an order type designated for \"Free Goods\" or \"Promotional Samples\".",
+      "type": "NAVIGATION, BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically sets the pricing condition to zero for all line items in the Free Goods order.",
+      "type": "VALIDATION_POSITIVE, BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system requires the user to specify a reason code for the free goods (e.g., \"New Product Launch\", \"Physician Sample\", \"Patient Assistance\").",
+      "type": "MANDATORY_FIELD, VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system validates that the customer is an approved healthcare provider eligible to receive promotional samples.",
+      "type": "VALIDATION_NEGATIVE, BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system tracks the cumulative quantity of free goods shipped to each healthcare provider for compliance reporting.",
+      "type": "BUSINESS_RULE, SUCCESS_CONFIRMATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system prevents processing of Free Goods orders if the healthcare provider has exceeded the annual sample limit or if the material is restricted from promotional sampling.",
+      "type": "VALIDATION_NEGATIVE, BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 3
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Free Goods Sales Order for approved healthcare provider with valid reason code, material not restricted, quantity within annual limit, pricing auto-set to zero",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Customer is not approved for promotional samples",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Material is restricted from promotional sampling",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Customer has exceeded annual sample limit",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to manually override pricing to non-zero value",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Reason Code for Free Goods",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Reason Code"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Customer (Sold-to Party)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Customer"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Material",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Order Quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Order Quantity"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Order quantity exactly at annual sample limit (boundary)",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "parameter": "quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Order quantity = 1 (minimum valid quantity)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Cumulative quantity = 0 (first Free Goods order for this customer)",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "parameter": "cumulativeQuantity",
+        "boundary": "lower"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 12
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "orderType",
+        "label": "Order Type",
+        "mandatory": true,
+        "validRange": "Specific order type code for Free Goods (e.g., ZFGS, ZSAM)"
+      },
+      {
+        "name": "customerId",
+        "label": "Sold-to Party",
+        "mandatory": true,
+        "validRange": "Existing healthcare provider customer with eligibility flag"
+      },
+      {
+        "name": "materialId",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material not restricted from sampling"
+      },
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "Positive integer, must not exceed annual sample limit for customer"
+      },
+      {
+        "name": "reasonCode",
+        "label": "Free Goods Reason / Reason for Sample",
+        "mandatory": true,
+        "validRange": "Valid reason code from configured value list (e.g., \"New Product Launch\", \"Physician Sample\", \"Patient Assistance\")"
+      },
+      {
+        "name": "requestedDeliveryDate",
+        "label": "Requested Delivery Date",
+        "mandatory": false,
+        "validRange": "Future date, must align with delivery scheduling"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-to Party Name",
+        "trigger": "Confirm Customer ID"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material ID"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "trigger": "User defaults or order type config"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "trigger": "User defaults or order type config"
+      },
+      {
+        "name": "netPrice",
+        "label": "Net Value / Item Net Price",
+        "trigger": "Material + Order Type confirmation (set to 0.00 by pricing procedure)"
+      },
+      {
+        "name": "currency",
+        "label": "Currency",
+        "trigger": "Sales organization + Customer"
+      }
+    ],
+    "output": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "overallStatus",
+        "label": "Overall Status",
+        "format": "Text (e.g., \"Open\", \"In Process\")"
+      },
+      {
+        "name": "cumulativeFreeGoodsQuantity",
+        "label": "Cumulative Free Goods Quantity",
+        "format": "Numeric (aggregated across all prior Free Goods orders)"
+      },
+      {
+        "name": "complianceCheckResult",
+        "label": "Compliance Check Result",
+        "format": "Text or status flag (Pass/Fail)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "Annual sample limit minus cumulative quantity already shipped",
+        "zeroInvalid": true
+      },
+      {
+        "name": "cumulativeQuantity",
+        "label": "Cumulative Quantity",
+        "lowerBoundary": "0",
+        "upperBoundary": "Annual sample limit (e.g., 10,000 units per year)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,211 @@
+- generic [ref=f7e1]:
+  - generic:
+    - status
+    - status
+  - generic:
+    - alert
+    - alert
+  - generic [ref=f7e21]:
+    - banner "Shell Bar" [ref=f7e27]:
+      - generic [ref=f7e28]:
+        - button "Open Menu" [ref=f7e30] [cursor=pointer]
+        - link [ref=f7e35] [cursor=pointer]:
+          - /url: "#Shell-home"
+      - generic [ref=f7e38]:
+        - generic [ref=f7e658] [cursor=pointer]:
+          - heading "Home" [level=1]
+          - button "Home" [ref=f7e659]:
+            - generic [ref=f7e661]: 
+        - toolbar [ref=f7e41]:
+          - generic [ref=f7e798]:
+            - generic [ref=f7e800] [cursor=pointer]:
+              - combobox "Search In" [ref=f7e801]: All
+              - textbox [ref=f7e802]: All
+              - generic [ref=f7e803]: All
+              - generic [ref=f7e804]: 
+            - generic "Search" [ref=f7e806]:
+              - combobox "Search" [active] [ref=f7e809]
+            - button "Close Search" [ref=f7e811] [cursor=pointer]:
+              - generic [ref=f7e812]: 
+          - button "0 Notifications" [ref=f7e669] [cursor=pointer]
+          - button "Joule" [ref=f7e681] [cursor=pointer]
+          - button "Help" [ref=f7e683] [cursor=pointer]
+      - button [ref=f7e48] [cursor=pointer]:
+        - img "Avatar T0U" [ref=f7e52]
+    - generic [ref=f7e59]:
+      - navigation "Space Page" [ref=f7e64]:
+        - tablist [ref=f7e65]:
+          - tab "My Home" [selected] [ref=f7e66] [cursor=pointer]
+          - separator
+          - tab "Finance" [ref=f7e71] [cursor=pointer]
+          - tab "Manufacturing and Supply Chain" [ref=f7e76] [cursor=pointer]
+          - tab "Procurement" [ref=f7e81] [cursor=pointer]
+          - tab "Project Management" [ref=f7e86] [cursor=pointer]
+          - tab "Sales" [ref=f7e91] [cursor=pointer]
+          - tab "Other" [ref=f7e96] [cursor=pointer]
+      - main "Shell Content" [ref=f7e106]:
+        - generic [ref=f7e115]:
+          - toolbar [ref=f7e117]:
+            - generic [ref=f7e118]:
+              - generic [ref=f7e119]: Monday, July 20, 2026
+              - heading "Hi Trial 0041520, great to see you!" [level=2] [ref=f7e122]
+            - button "Recap" [ref=f7e124] [cursor=pointer]
+            - button "My Home Settings" [ref=f7e127] [cursor=pointer]
+          - generic [ref=f7e130]:
+            - generic [ref=f7e133]:
+              - generic [ref=f7e134]:
+                - heading "News" [level=4] [ref=f7e136]
+                - button "News" [ref=f7e139] [cursor=pointer]:
+                  - generic [ref=f7e140]: 
+              - application [ref=f7e146]:
+                - generic [ref=f7e149]: 
+                - generic [ref=f7e151] [cursor=pointer]:
+                  - button "Previous" [ref=f7e152]:
+                    - generic [ref=f7e153]: 
+                  - button "Next" [ref=f7e172]:
+                    - generic [ref=f7e173]: 
+                - generic [ref=f7e175]:
+                  - generic [ref=f7e180] [cursor=pointer]:
+                    - generic [ref=f7e182]:
+                      - generic [ref=f7e183]: Cross Applications
+                      - generic [ref=f7e185]: Discover new features and changes of this release
+                    - generic [ref=f7e187]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e192] [cursor=pointer]:
+                    - generic [ref=f7e194]:
+                      - generic [ref=f7e195]: Finance
+                      - generic [ref=f7e197]: Discover new features and changes of this release
+                    - generic [ref=f7e199]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e204] [cursor=pointer]:
+                    - generic [ref=f7e206]:
+                      - generic [ref=f7e207]: Manufacturing
+                      - generic [ref=f7e209]: Discover new features and changes of this release
+                    - generic [ref=f7e211]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e216] [cursor=pointer]:
+                    - generic [ref=f7e218]:
+                      - generic [ref=f7e219]: Professional Services
+                      - generic [ref=f7e221]: Discover new features and changes of this release
+                    - generic [ref=f7e223]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e228] [cursor=pointer]:
+                    - generic [ref=f7e230]:
+                      - generic [ref=f7e231]: Sales
+                      - generic [ref=f7e233]: Discover new features and changes of this release
+                    - generic [ref=f7e235]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e240] [cursor=pointer]:
+                    - generic [ref=f7e242]:
+                      - generic [ref=f7e243]: Service
+                      - generic [ref=f7e245]: Discover new features and changes of this release
+                    - generic [ref=f7e247]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e252] [cursor=pointer]:
+                    - generic [ref=f7e254]:
+                      - generic [ref=f7e255]: Sourcing and Procurement
+                      - generic [ref=f7e257]: Discover new features and changes of this release
+                    - generic [ref=f7e259]: SAP S/4HANA Cloud Public Edition 2602
+                  - generic [ref=f7e264] [cursor=pointer]:
+                    - generic [ref=f7e266]:
+                      - generic [ref=f7e267]: Supply Chain
+                      - generic [ref=f7e269]: Discover new features and changes of this release
+                    - generic [ref=f7e271]: SAP S/4HANA Cloud Public Edition 2602
+            - generic [ref=f7e272]:
+              - generic [ref=f7e274]:
+                - heading "Pages" [level=4] [ref=f7e276]
+                - button "Pages" [ref=f7e279] [cursor=pointer]:
+                  - generic [ref=f7e280]: 
+              - tabpanel "Pages" [ref=f7e285]:
+                - generic [ref=f7e287]:
+                  - listitem "Finance Navigation Tile" [ref=f7e288] [cursor=pointer]:
+                    - generic [ref=f7e290]:
+                      - generic [ref=f7e291]: 
+                      - generic [ref=f7e293]: Finance
+                  - listitem "Manufacturing and Supply Chain Navigation Tile" [ref=f7e297] [cursor=pointer]:
+                    - generic [ref=f7e299]:
+                      - generic [ref=f7e300]: 
+                      - generic [ref=f7e302]: Manufacturing and Supply Chain
+                  - listitem "Procurement Navigation Tile" [ref=f7e306] [cursor=pointer]:
+                    - generic [ref=f7e308]:
+                      - generic [ref=f7e309]: 
+                      - generic [ref=f7e311]: Procurement
+                  - listitem "Project Management Navigation Tile" [ref=f7e315] [cursor=pointer]:
+                    - generic [ref=f7e317]:
+                      - generic [ref=f7e318]: 
+                      - generic [ref=f7e320]: Project Management
+                  - listitem "Sales Navigation Tile" [ref=f7e324] [cursor=pointer]:
+                    - generic [ref=f7e326]:
+                      - generic [ref=f7e327]: 
+                      - generic [ref=f7e329]: Sales
+                  - listitem "Other Navigation Tile" [ref=f7e333] [cursor=pointer]:
+                    - generic [ref=f7e335]:
+                      - generic [ref=f7e336]: 
+                      - generic [ref=f7e338]: Other
+            - generic [ref=f7e573]:
+              - generic [ref=f7e575]:
+                - heading "Apps" [level=4] [ref=f7e577]
+                - button "Apps" [ref=f7e580] [cursor=pointer]:
+                  - generic [ref=f7e581]: 
+              - generic [ref=f7e584]:
+                - navigation [ref=f7e585]:
+                  - tablist [ref=f7e586]:
+                    - tab "Favorites" [ref=f7e587] [cursor=pointer]
+                    - tab "Most Used" [ref=f7e592] [cursor=pointer]
+                    - tab "Recently Used" [ref=f7e597] [cursor=pointer]
+                    - tab "Recommended" [selected] [ref=f7e602] [cursor=pointer]
+                - tabpanel "Recommended" [ref=f7e608]:
+                  - generic [ref=f7e687]:
+                    - note [ref=f7e689]:
+                      - generic: Message Strip Information Closable
+                      - generic [ref=f7e690]: 
+                      - generic [ref=f7e692]:
+                        - text: Here, you can see applications that are recommended to you by SAP Business AI. You can use settings to disable this tab.
+                        - link "Settings" [ref=f7e693] [cursor=pointer]:
+                          - /url: "#"
+                      - button "Information Message Strip Close" [ref=f7e694] [cursor=pointer]:
+                        - generic [ref=f7e695]: 
+                    - list [ref=f7e701]:
+                      - listitem "Create Supplier Invoice Navigation Flat Wide Tile" [ref=f7e703] [cursor=pointer]:
+                        - generic [ref=f7e704]: 
+                        - generic [ref=f7e706]: Create Supplier Invoice
+                      - listitem "Create Customer Projects Navigation Flat Wide Tile" [ref=f7e711] [cursor=pointer]:
+                        - generic [ref=f7e712]: 
+                        - generic [ref=f7e714]: Create Customer Projects
+                      - listitem "Plan Customer Projects Navigation Flat Wide Tile" [ref=f7e719] [cursor=pointer]:
+                        - generic [ref=f7e720]: 
+                        - generic [ref=f7e722]: Plan Customer Projects
+                      - listitem "Display Line Items in General Ledger Navigation Flat Wide Tile" [ref=f7e727] [cursor=pointer]:
+                        - generic [ref=f7e728]: 
+                        - generic [ref=f7e730]: Display Line Items in General Ledger
+                      - listitem "Manage Supplier Line Items Navigation Flat Wide Tile" [ref=f7e735] [cursor=pointer]:
+                        - generic [ref=f7e736]: 
+                        - generic [ref=f7e738]: Manage Supplier Line Items
+                      - listitem "Supplier Invoices List Navigation Flat Wide Tile" [ref=f7e743] [cursor=pointer]:
+                        - generic [ref=f7e744]: 
+                        - generic [ref=f7e746]: Supplier Invoices List
+                      - listitem "Manage Customer Line Items Navigation Flat Wide Tile" [ref=f7e751] [cursor=pointer]:
+                        - generic [ref=f7e752]: 
+                        - generic [ref=f7e754]: Manage Customer Line Items
+                      - listitem "Manage My Timesheet Navigation Flat Wide Tile" [ref=f7e759] [cursor=pointer]:
+                        - generic [ref=f7e760]: 
+                        - generic [ref=f7e762]: Manage My Timesheet
+                      - listitem "My Inbox All Items Navigation Flat Wide Tile" [ref=f7e767] [cursor=pointer]:
+                        - generic [ref=f7e768]: 
+                        - generic [ref=f7e770]:
+                          - generic [ref=f7e771]: My Inbox
+                          - generic [ref=f7e773]: All Items
+                      - listitem "My Inbox Expert Mode (All Items) Navigation Flat Wide Tile" [ref=f7e776] [cursor=pointer]:
+                        - generic [ref=f7e777]: 
+                        - generic [ref=f7e779]:
+                          - generic [ref=f7e780]: My Inbox
+                          - generic [ref=f7e782]: Expert Mode (All Items)
+    - contentinfo
+  - generic:
+    - dialog [ref=f7e784]:
+      - banner [ref=f7e785]:
+        - heading " Start Guided Tour" [level=2] [ref=f7e786]
+        - button "Leave Tour" [ref=f7e787] [cursor=pointer]:
+          - generic: 
+      - article [ref=f7e789]:
+        - paragraph [ref=f7e790]: Would you like to know more about how to create and invoice a purchase order in SAP S/4HANA Cloud?
+        - paragraph [ref=f7e791]: If so, take this tour.
+      - navigation [ref=f7e792]:
+        - button "Start" [ref=f7e793] [cursor=pointer]:
+          - text: Start
+          - generic: 
+    - region "Notification"

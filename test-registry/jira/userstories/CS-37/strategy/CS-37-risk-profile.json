@@ -1,0 +1,410 @@
+{
+  "userStory": "CS-37",
+  "summary": "Process Return Order for customer complaint about defective pharmaceutical",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Customer Service Representative",
+  "businessObject": "Return Order, Return Delivery, Quality Notification",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Return Order referencing the original Sales Order and Delivery.",
+      "type": "NAVIGATION, VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-2",
+      "text": "The system allows the user to specify a reason code for the return (e.g., \"Defective Product\", \"Quality Complaint\", \"Packaging Damage\").",
+      "type": "VALIDATION_POSITIVE, MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-3",
+      "text": "The system captures the batch number, lot number, and expiration date from the returned product.",
+      "type": "VALIDATION_POSITIVE, MANDATORY_FIELD",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR", "EDGE"],
+      "minTCCount": 7
+    },
+    {
+      "id": "AC-4",
+      "text": "The system creates a Return Delivery document for goods receipt of the returned product.",
+      "type": "SUCCESS_CONFIRMATION, BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system places the returned batch in a \"Quality Inspection\" stock type for investigation by Quality Assurance.",
+      "type": "BUSINESS_RULE, VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system creates a quality notification or complaint record linked to the Return Order for investigation and root cause analysis.",
+      "type": "INTEGRATION, SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Return Order with valid SO/Delivery reference, reason code, batch/lot/expiration, verify Return Delivery created, batch moved to Quality Inspection stock, Quality Notification generated and linked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create Return Order with different return reason codes (\"Defective Product\", \"Quality Complaint\", \"Packaging Damage\")",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Create Return Order with non-existent Sales Order reference",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Create Return Order with non-existent Delivery reference",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Create Return Order with invalid return reason code",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Create Return Order with invalid batch number (not from original delivery)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Create Return Order with expired batch (expiration date in past)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Create Return Order with mismatched lot number (not associated with batch)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-07",
+        "description": "Return Order with quantity exceeding original delivery quantity",
+        "risk": "MEDIUM",
+        "acIds": []
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Sales Order reference",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sales Order"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Delivery reference",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Delivery"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Return Reason Code",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Return Reason"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Batch Number",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "field": "Batch"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Lot Number",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "field": "Lot Number"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Missing Expiration Date",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"],
+        "field": "Expiration Date"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Missing Returned Quantity",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Return Quantity"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Return quantity = 1 (minimum boundary)",
+        "risk": "MEDIUM",
+        "acIds": [],
+        "parameter": "returnQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Return quantity = original delivery quantity (maximum boundary)",
+        "risk": "MEDIUM",
+        "acIds": [],
+        "parameter": "returnQuantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Return quantity = 0 (zero boundary - invalid)",
+        "risk": "MEDIUM",
+        "acIds": [],
+        "parameter": "returnQuantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Batch expiration date = today (boundary date)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "expirationDate",
+        "boundary": "today"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify Quality Notification created and linked to Return Order",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify returned batch moved to Quality Inspection stock type (not unrestricted stock)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 7,
+    "ERR": 7,
+    "EDGE": 4,
+    "INT": 2,
+    "total": 22
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "originalSalesOrder",
+        "label": "Sales Order",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Existing sales order in SAP with completed delivery"
+      },
+      {
+        "name": "originalDelivery",
+        "label": "Delivery",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Existing delivery document with goods issue posted"
+      },
+      {
+        "name": "returnReasonCode",
+        "label": "Return Reason",
+        "mandatory": true,
+        "dataType": "Dropdown",
+        "validRange": "Pre-configured return reason codes (e.g., ZDEF, ZQUA, ZPKG)"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Valid batch from original delivery"
+      },
+      {
+        "name": "lotNumber",
+        "label": "Lot Number",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Valid lot number associated with batch"
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date",
+        "mandatory": true,
+        "dataType": "Date",
+        "validRange": "Must match batch master data"
+      },
+      {
+        "name": "returnedQuantity",
+        "label": "Return Quantity",
+        "mandatory": true,
+        "dataType": "Numeric",
+        "validRange": "Must not exceed original delivery quantity"
+      },
+      {
+        "name": "customerNumber",
+        "label": "Sold-to Party",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Existing customer from original sales order"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-to Party Name",
+        "trigger": "Confirm Customer Number",
+        "source": "Customer master KNA1"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "trigger": "Reference Sales Order",
+        "source": "Original SO line item"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Populate Material",
+        "source": "Material master MARA"
+      },
+      {
+        "name": "originalDeliveryDate",
+        "label": "Delivery Date",
+        "trigger": "Reference Delivery",
+        "source": "Delivery document LIKP"
+      },
+      {
+        "name": "shipToParty",
+        "label": "Ship-to Party",
+        "trigger": "Reference Sales Order",
+        "source": "Sales order header VBAK"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "trigger": "Reference Sales Order",
+        "source": "Sales order header VBAK"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "trigger": "Reference Sales Order",
+        "source": "Sales order header VBAK"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "trigger": "Reference Sales Order",
+        "source": "Sales order header VBAK"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "trigger": "Reference Delivery",
+        "source": "Delivery item LIPS"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "trigger": "Reference Delivery",
+        "source": "Delivery item LIPS"
+      }
+    ],
+    "output": [
+      {
+        "name": "returnOrderNumber",
+        "label": "Return Order Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "returnDeliveryNumber",
+        "label": "Return Delivery Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "qualityNotificationNumber",
+        "label": "Quality Notification Number",
+        "format": "12-digit numeric"
+      },
+      {
+        "name": "returnOrderStatus",
+        "label": "Return Order Status",
+        "format": "Text: Open, In Process, Completed"
+      },
+      {
+        "name": "stockType",
+        "label": "Stock Type",
+        "format": "Text: Quality Inspection"
+      },
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document Number",
+        "format": "10-digit numeric"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "returnedQuantity",
+        "label": "Return Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "original delivery quantity",
+        "zeroInvalid": true
+      },
+      {
+        "name": "expirationDate",
+        "label": "Expiration Date",
+        "lowerBoundary": "Must match batch master data",
+        "upperBoundary": "N/A",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

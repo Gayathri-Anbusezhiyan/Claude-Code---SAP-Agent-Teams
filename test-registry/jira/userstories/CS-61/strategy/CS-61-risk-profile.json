@@ -1,0 +1,299 @@
+{
+  "userStory": "CS-61",
+  "summary": "View A Capacity Planning Overview For Cleanroom/Sterile Manufacturing",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Planner",
+  "businessObject": "Work Center Capacity / Process Order Schedule",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Capacity Planning\" or \"Monitor Work Center Load\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system displays planned and confirmed load against each work center's available capacity by time period.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "The system highlights overload situations where scheduled process orders exceed available capacity.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The planner can reschedule or resequence process orders directly from the capacity overview.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The system accounts for required cleaning/changeover time between batches of different products on the same line.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system reflects updated capacity load immediately after a process order is rescheduled.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "View capacity planning overview with planned and confirmed load displayed",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Identify overload situation highlighted on work center capacity view",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Reschedule a process order from capacity overview and verify updated start date",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-04",
+        "description": "View capacity load including cleaning/changeover time between different products",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Resequence (change order) of multiple process orders without changing dates",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to schedule process order into time period with insufficient capacity (overload)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Schedule two incompatible products back-to-back without accounting for required changeover time",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Attempt to reschedule process order to a past date",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Start Date"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Attempt to reschedule process order to a work center without capability for the material",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Work Center"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Attempt to access capacity planning for non-existent work center",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Work Center"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "View capacity planning at 100% utilization (no overload)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "capacityUtilization",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "View capacity planning at 0% utilization (idle work center)",
+        "risk": "LOW",
+        "acIds": ["AC-2"],
+        "parameter": "capacityUtilization",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Reschedule process order with zero changeover time (same product continuation)",
+        "risk": "LOW",
+        "acIds": ["AC-5"],
+        "parameter": "changeoverTime",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Reschedule process order from Capacity Planning and verify process order header updated in Manage Process Orders app",
+        "risk": "HIGH",
+        "acIds": ["AC-4", "AC-6"],
+        "linkedIssue": "Process Order Management"
+      },
+      {
+        "id": "INT-02",
+        "description": "Reschedule process order and verify material availability dates re-calculated in MRP",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "linkedIssue": "Material Requirements Planning"
+      },
+      {
+        "id": "INT-03",
+        "description": "Confirm operation in Shop Floor Execution and verify capacity load updated in Capacity Planning",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "linkedIssue": "Shop Floor Execution"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 1,
+    "NEG": 2,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 3,
+    "total": 16
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "workCenterId",
+        "label": "Work Center",
+        "mandatory": true,
+        "validRange": "Existing work center in SAP master (cleanroom/sterile classification)"
+      },
+      {
+        "name": "timePeriod",
+        "label": "Period / Horizon",
+        "mandatory": true,
+        "validRange": "Future date range (days/weeks/months)"
+      },
+      {
+        "name": "processOrderId",
+        "label": "Process Order",
+        "mandatory": true,
+        "validRange": "Existing process order in SAP (for reschedule action)"
+      },
+      {
+        "name": "newStartDateTime",
+        "label": "Start Date",
+        "mandatory": true,
+        "validRange": "Future date/time within planning horizon (for reschedule action)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "workCenterDescription",
+        "label": "Work Center Name",
+        "trigger": "Confirm Work Center ID"
+      },
+      {
+        "name": "availableCapacity",
+        "label": "Available Capacity",
+        "trigger": "Load time period"
+      },
+      {
+        "name": "plannedLoad",
+        "label": "Planned Load",
+        "trigger": "Load time period"
+      },
+      {
+        "name": "confirmedLoad",
+        "label": "Confirmed Load",
+        "trigger": "Load time period"
+      },
+      {
+        "name": "capacityUtilization",
+        "label": "Utilization",
+        "trigger": "Load time period"
+      },
+      {
+        "name": "changeoverTime",
+        "label": "Changeover Duration",
+        "trigger": "Process order sequence"
+      }
+    ],
+    "output": [
+      {
+        "name": "overloadIndicator",
+        "label": "Overload Indicator",
+        "format": "Color-coded cell or icon (red/yellow)"
+      },
+      {
+        "name": "capacityLoadChart",
+        "label": "Capacity Load Chart",
+        "format": "Bar chart or timeline"
+      },
+      {
+        "name": "reschedulingConfirmation",
+        "label": "Rescheduling Confirmation",
+        "format": "Text message"
+      },
+      {
+        "name": "updatedStartDate",
+        "label": "Updated Start Date",
+        "format": "Date/Time"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "capacityUtilization",
+        "label": "Capacity Utilization %",
+        "lowerBoundary": "0%",
+        "upperBoundary": "100% or >100% (overload)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "changeoverTime",
+        "label": "Cleaning/Changeover Time",
+        "lowerBoundary": "0 (same product continuation)",
+        "upperBoundary": "System-configured maximum",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

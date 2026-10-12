@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-40",
+  "type": "Task",
+  "summary": "User Story SD-008 - ATP check excluding batches nearing expiration",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Sales Order Processor, I want the system to perform an Available-to-Promise (ATP) check that excludes batches nearing expiration, so that customers receive products with adequate remaining shelf-life and the risk of returns due to short expiration dates is minimized.",
+  "acceptanceCriteria": "1. The user can create a Sales Order for a batch-managed pharmaceutical material.\n2. The system performs an ATP check against all unrestricted stock batches.\n3. The system excludes batches from the ATP calculation if their remaining shelf-life is less than the minimum required shelf-life threshold (configurable by material, e.g., 6 months before expiration).\n4. The system confirms availability and proposes a delivery date only if sufficient stock with adequate shelf-life exists.\n5. The system displays a warning message if the ATP check fails due to insufficient stock with adequate shelf-life, even if physical stock is available.\n6. The system allows the user to override the shelf-life restriction with appropriate authorization (e.g., for discount sales or urgent orders).",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:36:04.582+0530",
+  "updated": "2026-08-21T14:36:04.668+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-40",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

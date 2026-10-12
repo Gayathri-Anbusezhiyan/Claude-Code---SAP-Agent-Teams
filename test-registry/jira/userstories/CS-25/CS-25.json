@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-25",
+  "type": "Task",
+  "summary": "Perform A Batch-Specific Physical Inventory Count For Cold-Chain-Store",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Warehouse Operator, I want to perform a Batch-Specific Physical Inventory count for cold-chain-stored biologics, so that inventory accuracy is validated and any discrepancies are documented for regulatory audit purposes.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Physical Inventory\" Fiori app.\n2. The system allows the user to generate a count document filtered by storage location and batch.\n3. The user can enter counted quantities against each batch within the designated storage bin.\n4. The system calculates and displays variances between book quantity and counted quantity by batch.\n5. Variances exceeding a configurable tolerance threshold require a documented reason and supervisor approval before posting.\n6. The system maintains a complete count history for audit trail purposes.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:12.456+0530",
+  "updated": "2026-08-21T14:11:12.547+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-25",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

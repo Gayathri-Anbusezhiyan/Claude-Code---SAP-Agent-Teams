@@ -1,0 +1,107 @@
+{
+  "module": "SD",
+  "feature": "Sales Order (Create / Change / Display)",
+  "generatedAt": "2026-05-11T00:00:00.000Z",
+  "generatedBy": "testdata-extraction from testcases/",
+  "sourceFiles": [
+    "testcases/Create Sales Order.txt",
+    "testcases/Change Sales order.txt",
+    "testcases/Display Sales order.txt"
+  ],
+  "envDependencies": {
+    "SAP_BASE_URL": "Read from .env — used as the base URL in navigation steps",
+    "SAP_USERNAME": "Read from .env — email address for SAP Fiori login",
+    "SAP_PASSWORD": "Read from .env — password for SAP Fiori login"
+  },
+  "testDataSets": {
+    "TD-SD-CREATE-001": {
+      "id": "TD-SD-CREATE-001",
+      "name": "Create Standard Sales Order — Primary Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "sourceTestCase": "Create Sales Order.txt",
+      "usedByTestCases": ["Create Sales Order"],
+      "data": {
+        "salesDocumentType":      "{{SALES_DOCUMENT_TYPE}}",
+        "salesOrg":               "{{SALES_ORG_CODE}}",
+        "distributionChannel":    "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "division":               "{{DIVISION_CODE}}",
+        "salesOffice":            "{{SALES_OFFICE_CODE}}",
+        "salesGroup":             "{{SALES_GROUP_CODE}}",
+        "soldToParty":            "{{SOLD_TO_PARTY}}",
+        "shipToParty":            "{{SHIP_TO_PARTY}}",
+        "customerReference":      "{{CUSTOMER_REFERENCE}}",
+        "customerReferenceDate":  "{{CUSTOMER_REFERENCE_DATE}}",
+        "materialId":             "{{MATERIAL_ID_SD}}",
+        "orderQuantity":          "{{SO_ORDER_QUANTITY}}",
+        "grossWeight":            "{{GROSS_WEIGHT}}",
+        "netWeight":              "{{NET_WEIGHT}}",
+        "pricingConditionType":   "{{PRICING_CONDITION_TYPE}}",
+        "pricingAmount":          "{{PRICING_AMOUNT}}"
+      },
+      "hardcodedValuesExtracted": {
+        "salesDocumentType":      "OR (Standard Order)",
+        "soldToParty":            "USCU_L01",
+        "shipToParty":            "USCU_L01",
+        "customerReference":      "ABC",
+        "customerReferenceDate":  "04/14/2026",
+        "materialId":             "RMPI001",
+        "orderQuantity":          "10",
+        "grossWeight":            "10",
+        "netWeight":              "10",
+        "pricingConditionType":   "PPRO",
+        "pricingAmount":          "100"
+      },
+      "expectedOutcome": "Standard Sales Order created with unique document number; confirmation message displayed"
+    },
+    "TD-SD-CHANGE-001": {
+      "id": "TD-SD-CHANGE-001",
+      "name": "Change Existing Sales Order — Update Quantity",
+      "scenarioType": "CHANGE",
+      "sourceTestCase": "Change Sales order.txt",
+      "usedByTestCases": ["Change Sales order"],
+      "data": {
+        "existingSalesOrderNumber": "{{EXISTING_SALES_ORDER_NUMBER}}",
+        "changeQuantity":           "{{SO_CHANGE_QUANTITY}}"
+      },
+      "hardcodedValuesExtracted": {
+        "existingSalesOrderNumber": "319776",
+        "changeQuantity":           "5"
+      },
+      "expectedOutcome": "Sales order quantity updated; message 'Standard Order {{EXISTING_SALES_ORDER_NUMBER}} has been saved' displayed"
+    },
+    "TD-SD-DISPLAY-001": {
+      "id": "TD-SD-DISPLAY-001",
+      "name": "Display Existing Sales Order — Read-only View",
+      "scenarioType": "DISPLAY",
+      "sourceTestCase": "Display Sales order.txt",
+      "usedByTestCases": ["Display Sales order"],
+      "data": {
+        "existingSalesOrderNumber": "{{EXISTING_SALES_ORDER_NUMBER}}"
+      },
+      "hardcodedValuesExtracted": {
+        "existingSalesOrderNumber": "319776"
+      },
+      "expectedOutcome": "Sales order displayed in read-only (display) mode; all header and item data visible; no editable fields"
+    }
+  },
+  "allPlaceholders": [
+    "{{SALES_DOCUMENT_TYPE}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{DIVISION_CODE}}",
+    "{{SALES_OFFICE_CODE}}",
+    "{{SALES_GROUP_CODE}}",
+    "{{SOLD_TO_PARTY}}",
+    "{{SHIP_TO_PARTY}}",
+    "{{CUSTOMER_REFERENCE}}",
+    "{{CUSTOMER_REFERENCE_DATE}}",
+    "{{MATERIAL_ID_SD}}",
+    "{{SO_ORDER_QUANTITY}}",
+    "{{GROSS_WEIGHT}}",
+    "{{NET_WEIGHT}}",
+    "{{PRICING_CONDITION_TYPE}}",
+    "{{PRICING_AMOUNT}}",
+    "{{EXISTING_SALES_ORDER_NUMBER}}",
+    "{{SO_CHANGE_QUANTITY}}"
+  ]
+}

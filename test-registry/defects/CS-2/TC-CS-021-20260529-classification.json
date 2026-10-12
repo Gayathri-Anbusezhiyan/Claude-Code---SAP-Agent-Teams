@@ -1,0 +1,107 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "classifiedAt": "2026-05-29T18:45:00.000Z",
+  "classifiedBy": "defect-logging-agent/skills/classify-failure",
+  "failureReportRef": "self-healing/failures/20260529-182929-TC-CS-021-failure.json",
+  "reExecutionReportRef": "self-healing/re-executions/20260529-182929-TC-CS-021/TC-CS-021-reexecution.json",
+  "testCaseRef": "testcases/AI-generated testcases/CS-2/testcases/TC-CS-021.md",
+  "storyRef": "jira/userstories/CS-2/CS-2.json",
+
+  "classification": "AUTOMATION_BUG",
+  "classificationReason": "Current test failure is a script locator issue, not an application defect",
+
+  "failureAnalysis": {
+    "currentFailure": {
+      "errorType": "LOCATOR_FAILURE",
+      "failingStep": 7,
+      "action": "Click the search icon in the shell bar",
+      "method": "openSearch()",
+      "locatorUsed": "[title=\"Open Search\"]",
+      "error": "Timeout 90000ms exceeded waiting for locator to be visible",
+      "rootCause": "SAP Fiori shell bar lazy-loads the 'Open Search' button. It's not in the DOM immediately after login. Requires clicking 'Open Menu' button first to trigger full shell bar render.",
+      "sapBehavior": "CORRECT",
+      "sapBehaviorNote": "SAP is functioning correctly. The search button exists and works as expected once the shell bar is fully initialized. This is a UI lazy-loading pattern, not an application defect."
+    },
+
+    "reExecutionResult": {
+      "status": "PASS_PARTIAL",
+      "stepsExecuted": 7,
+      "workingLocator": {
+        "strategy": "role",
+        "selector": "getByRole('button', { name: 'Open Search' })",
+        "ref": "e487"
+      },
+      "prerequisiteAction": {
+        "description": "Click 'Open Menu' button before attempting to click 'Open Search'",
+        "locator": "getByTitle('Open Menu')",
+        "ref": "e56",
+        "reason": "SAP Fiori shell bar does not render 'Open Search' button until navigation menu is toggled once"
+      },
+      "recommendation": "PATCH_SCRIPTS",
+      "patchStrategy": "Add prerequisite step in openSearch() method: if 'Open Search' button not immediately visible, click 'Open Menu' button once to trigger full shell bar render, then proceed with clicking 'Open Search'."
+    },
+
+    "acViolationAnalysis": {
+      "tcDesignedPurpose": "TC-CS-021 is designed to validate AC-6: 'A unique Standard Purchase Order number is generated and displayed upon successful order submission.' The test expects a dedicated success confirmation notification (toast, banner, or dialog) that explicitly shows the PO number.",
+      "acTested": "AC-6",
+      "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+      "knownSapBehavior": "SAP displays the PO number inside the document heading as a link (e.g., 'Purchase Order 4500065467') but does NOT display a dedicated success notification toast, banner, or dialog. No explicit 'created successfully' confirmation separate from the document itself.",
+      "acViolated": true,
+      "acViolationStatus": "ALREADY_LOGGED",
+      "existingDefect": {
+        "key": "CS-6",
+        "summary": "[MM] TC-CS-021: PO success notification does not display generated PO number — AC-6 violated",
+        "status": "To Do",
+        "linkedToStory": true,
+        "firstReportedAt": "2026-05-18T16:19:01.275+0530",
+        "reconfirmedAt": [
+          "2026-05-18T16:19:01.275+0530",
+          "2026-05-19T11:16:41.473+0530",
+          "2026-05-21T19:12:40.538+0530"
+        ],
+        "totalConfirmations": 3,
+        "note": "The AC-6 defect is already logged and tracked in Jira. No need to create a duplicate defect."
+      }
+    }
+  },
+
+  "comparisonToAcceptanceCriteria": {
+    "acNumber": "AC-6",
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+    "expectedBehavior": "A dedicated success confirmation notification appears immediately after clicking Order (toast, banner, dialog, or equivalent) that explicitly states the Purchase Order was created and displays the 10-digit PO number prominently.",
+    "actualSapBehavior": "SAP displays the PO number inside the document heading as a link but does not display a dedicated success notification separate from the document content.",
+    "violatesAc": true,
+    "defectType": "APP_DEFECT",
+    "defectAlreadyLogged": true,
+    "defectKey": "CS-6"
+  },
+
+  "decision": {
+    "shouldCreateJiraDefect": false,
+    "reason": "Two-part decision: (1) Current failure is an automation script bug (locator issue), not an app defect. (2) The underlying AC-6 violation that TC-CS-021 is designed to test is already logged as Bug CS-6 with multiple re-confirmations.",
+    "recommendedActions": [
+      {
+        "action": "RUN_SELF_HEAL",
+        "command": "/self-heal TC-CS-021",
+        "purpose": "Patch the openSearch() method to handle SAP shell bar lazy-loading by clicking 'Open Menu' before 'Open Search'",
+        "outcome": "Once patched, the test will successfully navigate to the app and reach the designed assertion failure on AC-6 (success notification)"
+      },
+      {
+        "action": "VERIFY_EXISTING_DEFECT",
+        "defectKey": "CS-6",
+        "jiraUrl": "https://jira-naqet.atlassian.net/browse/CS-6",
+        "purpose": "Review the existing defect for AC-6 violation. It has been confirmed 3 times across multiple pipeline runs.",
+        "outcome": "Defect remains open. No further action needed unless SAP behavior changes."
+      }
+    ]
+  },
+
+  "summary": {
+    "currentFailureClassification": "AUTOMATION_BUG — Script needs patch for shell bar initialization",
+    "underlyingAcDefectClassification": "APP_DEFECT — Already logged as CS-6",
+    "jiraDefectCreated": false,
+    "nextStep": "Run /self-heal TC-CS-021 to fix the locator issue"
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "userStory": "CS-42",
+  "summary": "Generate Billing Document only after batch QA release",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Billing Clerk",
+  "businessObject": "Billing Document (linked to Outbound Delivery, Batch, QA Status)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can perform goods issue for an Outbound Delivery containing a batch-managed pharmaceutical material.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system checks the QA release status of all batches in the delivery before allowing billing.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system blocks automatic billing if any batch in the delivery does not have a QA release status of \"Released\" or \"Approved\".",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system sends a notification to the Billing team when a batch receives QA release, triggering billing eligibility.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The user can manually create a Billing Document only after all batches in the delivery have been QA-released.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system logs the QA release date and approver information in the Billing Document for traceability.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Complete goods issue → all batches QA-released → automatic billing allowed → verify billing document created with QA traceability",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Complete goods issue → all batches QA-released → manual billing → verify billing document created with QA traceability",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Batch receives QA release → notification sent to Billing team → verify notification received",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt automatic billing when at least one batch is NOT QA-released (status = \"Pending\") → verify billing blocked with error message",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt automatic billing when at least one batch is QA-rejected (status = \"Rejected\") → verify billing blocked with error message",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt manual billing creation when at least one batch is NOT QA-released → verify billing document cannot be saved",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Delivery Number when attempting billing",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-5"],
+        "field": "Delivery Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Delivery without goods issue completed",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Goods Issue Status"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing batch assignment on delivery line item",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Batch Number"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Multiple batches in delivery (boundary: minimum = 1 batch all QA-released) → verify billing succeeds",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-5"],
+        "parameter": "batchCount",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Multiple batches in delivery (boundary: mix of released and pending) → verify billing blocked",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "batchStatus",
+        "boundary": "mixed"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Delivery with maximum allowed batch count, all QA-released → verify billing succeeds",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-5"],
+        "parameter": "batchCount",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "QA release date = current date (same day billing) → verify billing allowed and date logged",
+        "risk": "LOW",
+        "acIds": ["AC-6"],
+        "parameter": "qaReleaseDate",
+        "boundary": "current"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Batch QA status updated in MM module → verify SD billing block status updates in real-time",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"],
+        "integration": "MM Batch Management → SD Billing"
+      },
+      {
+        "id": "INT-02",
+        "description": "QA release event triggers notification workflow → verify notification reaches Billing team inbox/email",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "integration": "SD → Workflow System"
+      },
+      {
+        "id": "INT-03",
+        "description": "Billing document created → verify QA release date and approver data copied from batch master",
+        "risk": "HIGH",
+        "acIds": ["AC-6"],
+        "integration": "MM Batch Master → SD Billing Document"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 3,
+    "total": 16
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "deliveryNumber",
+        "label": "Outbound Delivery",
+        "mandatory": true,
+        "validRange": "Existing delivery in SAP with goods issue completed"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch assigned to delivery line items"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Batch-managed pharmaceutical material"
+      },
+      {
+        "name": "qaReleaseStatus",
+        "label": "QA Status",
+        "mandatory": true,
+        "validRange": "Released, Approved, Rejected, Pending"
+      },
+      {
+        "name": "qaReleaseDate",
+        "label": "QA Release Date",
+        "mandatory": true,
+        "validRange": "Date of QA approval"
+      },
+      {
+        "name": "qaApprover",
+        "label": "Released By",
+        "mandatory": true,
+        "validRange": "SAP user who approved QA"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerName",
+        "label": "Sold-to Party Name",
+        "trigger": "Delivery selection"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Delivery selection"
+      },
+      {
+        "name": "deliveryQuantity",
+        "label": "Delivery Quantity",
+        "trigger": "Delivery selection"
+      },
+      {
+        "name": "billingBlock",
+        "label": "Billing Block",
+        "trigger": "QA status check"
+      },
+      {
+        "name": "billingDate",
+        "label": "Billing Date",
+        "trigger": "Billing document creation"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "trigger": "Delivery selection"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "trigger": "Delivery selection"
+      }
+    ],
+    "output": [
+      {
+        "name": "billingDocumentNumber",
+        "label": "Billing Document Number",
+        "format": "10-digit numeric, begins with 90"
+      },
+      {
+        "name": "billingDocumentStatus",
+        "label": "Billing Document Status",
+        "format": "Open, Completed, Blocked"
+      },
+      {
+        "name": "qaTraceabilityLog",
+        "label": "QA Traceability Log",
+        "format": "Text field with date, approver, batch"
+      },
+      {
+        "name": "notificationId",
+        "label": "Notification ID",
+        "format": "Workflow notification ID"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "batchCount",
+        "label": "Batch Count",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured (typically 10-50)",
+        "zeroInvalid": true
+      },
+      {
+        "name": "qaReleaseDate",
+        "label": "QA Release Date",
+        "lowerBoundary": "past date",
+        "upperBoundary": "current date",
+        "zeroInvalid": true
+      },
+      {
+        "name": "deliveryQuantity",
+        "label": "Delivery Quantity",
+        "lowerBoundary": "greater than 0",
+        "upperBoundary": "system-configured max",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

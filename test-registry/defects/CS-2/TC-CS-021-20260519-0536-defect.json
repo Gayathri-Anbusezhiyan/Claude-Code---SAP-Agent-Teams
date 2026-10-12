@@ -1,0 +1,31 @@
+{
+  "bugKey": "CS-6",
+  "bugUrl": "https://jira-naqet.atlassian.net/browse/CS-6",
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "storyUrl": "https://jira-naqet.atlassian.net/browse/CS-2",
+  "loggedAt": "2026-05-18T11:15:00.000Z",
+  "reConfirmedAt": "2026-05-19T05:36:00.000Z",
+  "loggedBy": "defect-logging-agent/skills/log-defect",
+  "reConfirmedBy": "defect-logging-agent/skills/log-defect (e2e-automation-v2 CS-2 re-run 2026-05-19)",
+  "summary": "[MM] TC-CS-021: PO success notification does not display generated PO number — AC-6 violated",
+  "priority": "High",
+  "labels": ["defect", "automation-detected", "mm", "CS-2"],
+  "acViolated": "AC-6",
+  "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+  "sapActualBehavior": "After clicking Order with valid PO data, SAP displays a transient role=alert 'Purchase order has been created.' without the 10-digit PO number. Page navigates to list. PO IS created but number absent from notification.",
+  "classificationFile": "defects/CS-2/TC-CS-021-20260519-0536-classification.json",
+  "reExecutionFile": "self-healing/re-executions/20260519-0536-TC-CS-021/TC-CS-021-reexecution.json",
+  "explorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+  "jiraNewBugCreated": false,
+  "duplicateSkipReason": "CS-6 already exists — logged 2026-05-18 for the same AC-6 violation by TC-CS-021",
+  "jiraCommentAdded": true,
+  "jiraCommentId": "52438",
+  "jiraCommentNote": "Re-confirmation comment added to CS-2 on 2026-05-19 noting pipeline re-run confirmed identical SAP behavior",
+  "status": "CONFIRMED_EXISTING",
+  "runCount": {
+    "total": 3,
+    "dates": ["2026-05-18", "2026-05-19 (Phase 3a)", "2026-05-19 (Phase 5b)"],
+    "allConfirmedSameBehavior": true
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "userStory": "CS-2",
+  "module": "MM",
+  "app": "Manage Purchase Orders",
+  "feature": "Standard Purchase Order Creation",
+  "generatedAt": "2026-07-30T12:00:00Z",
+  "generatedBy": "automation-agent/phase-4-script-generation",
+  "sourceStories": ["CS-2"],
+  "totalTestCases": 12,
+  "environmentVariables": {
+    "SAP_FIORI_URL": "https://my426318.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e8bc3755f84d8126e10000000a4450e5#Shell-home",
+    "SAP_USERNAME": "sunil.yogi@capgemini.com",
+    "SAP_PASSWORD": "SAP12345@1",
+    "SAP_CLIENT": "100",
+    "SAP_LANGUAGE": "en"
+  },
+  "resolvedMasterData": {
+    "SUPPLIER_ID_VALID": "17300002",
+    "SUPPLIER_NAME_VALID": "Carbon Tec Inc.",
+    "MATERIAL_ID_VALID": "RMPI001",
+    "MATERIAL_DESCRIPTION_VALID": "Input 1 (WATER)",
+    "UNIT_OF_MEASURE": "KG",
+    "PO_QUANTITY_STANDARD": "10",
+    "PO_QUANTITY_STANDARD_2": "5",
+    "PO_QUANTITY_MIN": "1",
+    "NET_PRICE_VALID": "0.08",
+    "CURRENCY_CODE": "USD",
+    "PURCHASING_ORG_CODE": "1710",
+    "PURCHASING_GROUP_CODE": "001",
+    "PLANT_CODE": "1710",
+    "COMPANY_CODE": "1710"
+  },
+  "unresolvedPlaceholders": [
+    "MATERIAL_ID_2_VALID",
+    "SUPPLIER_ID_INVALID",
+    "MATERIAL_ID_INVALID",
+    "DATE_FUTURE_7D"
+  ],
+  "testDataSets": {
+    "TD-CS-002-001": {
+      "id": "TD-CS-002-001",
+      "name": "Valid Standard PO — Single Line Item (Happy Path)",
+      "usedByTestCase": "TC-CS-001",
+      "data": {
+        "supplierId": "17300002",
+        "supplierName": "Carbon Tec Inc.",
+        "materialId": "RMPI001",
+        "materialDesc": "Input 1 (WATER)",
+        "uom": "KG",
+        "quantity": "10",
+        "price": "0.08",
+        "currency": "USD",
+        "purchasingOrg": "1710",
+        "purchasingGroup": "001",
+        "plant": "1710",
+        "companyCode": "1710"
+      },
+      "expectedOutcome": "Standard Purchase Order created with unique 10-digit PO number; status Open or Sent"
+    },
+    "TD-CS-002-AP-001": {
+      "id": "TD-CS-002-AP-001",
+      "name": "Valid Standard PO — Multiple Line Items (Alternative Path)",
+      "usedByTestCase": "TC-CS-002",
+      "data": {
+        "supplierId": "17300002",
+        "supplierName": "Carbon Tec Inc.",
+        "materialId": "RMPI001",
+        "quantity": "10",
+        "materialId2": "{{MATERIAL_ID_2_VALID}}",
+        "quantity2": "5",
+        "price": "0.08",
+        "currency": "USD",
+        "purchasingOrg": "1710",
+        "plant": "1710"
+      },
+      "note": "materialId2 is unresolved; test will execute with single line item only",
+      "expectedOutcome": "Standard Purchase Order created with 2 line items (or 1 if materialId2 unresolved)"
+    },
+    "TD-CS-002-NEG-001": {
+      "id": "TD-CS-002-NEG-001",
+      "name": "Invalid Supplier — Non-existent Supplier ID (Negative)",
+      "usedByTestCase": "TC-CS-003",
+      "data": {
+        "invalidSupplierId": "{{SUPPLIER_ID_INVALID}}"
+      },
+      "note": "SUPPLIER_ID_INVALID is unresolved; test skipped",
+      "testStatus": "SKIPPED",
+      "skipReason": "Unresolved placeholder: {{SUPPLIER_ID_INVALID}} — needs re-validation for my426318 tenant"
+    },
+    "TD-CS-002-NEG-002": {
+      "id": "TD-CS-002-NEG-002",
+      "name": "Invalid Material — Non-existent Material Number (Negative)",
+      "usedByTestCase": "TC-CS-004",
+      "data": {
+        "supplierId": "17300002",
+        "invalidMaterialId": "{{MATERIAL_ID_INVALID}}",
+        "quantity": "10",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "note": "MATERIAL_ID_INVALID is unresolved; test skipped",
+      "testStatus": "SKIPPED",
+      "skipReason": "Unresolved placeholder: {{MATERIAL_ID_INVALID}} — needs re-validation for my426318 tenant"
+    },
+    "TD-CS-002-ERR-001": {
+      "id": "TD-CS-002-ERR-001",
+      "name": "Missing Mandatory Field — Supplier (Error)",
+      "usedByTestCase": "TC-CS-005",
+      "data": {
+        "emptySupplier": "",
+        "materialId": "RMPI001",
+        "quantity": "10",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "expectedOutcome": "SAP blocks submission; validation error for missing Supplier; PO NOT created"
+    },
+    "TD-CS-002-ERR-002": {
+      "id": "TD-CS-002-ERR-002",
+      "name": "Missing Mandatory Field — Material (Error)",
+      "usedByTestCase": "TC-CS-006",
+      "data": {
+        "supplierId": "17300002",
+        "emptyMaterial": "",
+        "quantity": "10",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "expectedOutcome": "SAP blocks submission; validation error for missing Material; PO NOT created"
+    },
+    "TD-CS-002-ERR-003": {
+      "id": "TD-CS-002-ERR-003",
+      "name": "Missing Mandatory Field — Order Quantity (Error)",
+      "usedByTestCase": "TC-CS-007",
+      "data": {
+        "supplierId": "17300002",
+        "materialId": "RMPI001",
+        "emptyQuantity": "",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "expectedOutcome": "SAP blocks submission; validation error for missing Order Quantity; PO NOT created"
+    },
+    "TD-CS-002-ERR-004": {
+      "id": "TD-CS-002-ERR-004",
+      "name": "Missing Mandatory Field — Net Order Price (Error)",
+      "usedByTestCase": "TC-CS-008",
+      "data": {
+        "supplierId": "17300002",
+        "materialId": "RMPI001",
+        "quantity": "10",
+        "emptyPrice": "",
+        "plant": "1710"
+      },
+      "expectedOutcome": "SAP blocks submission; validation error for missing or zero Net Order Price; PO NOT created"
+    },
+    "TD-CS-002-EDGE-001": {
+      "id": "TD-CS-002-EDGE-001",
+      "name": "Minimum Valid Order Quantity — Lower Boundary (Edge Case)",
+      "usedByTestCase": "TC-CS-009",
+      "data": {
+        "supplierId": "17300002",
+        "materialId": "RMPI001",
+        "minQuantity": "1",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "expectedOutcome": "PO accepted with minimum quantity 1; PO number generated; status Open or Sent"
+    },
+    "TD-CS-002-EDGE-002": {
+      "id": "TD-CS-002-EDGE-002",
+      "name": "Zero Order Quantity — Invalid Below-Minimum Boundary (Edge Case)",
+      "usedByTestCase": "TC-CS-010",
+      "data": {
+        "supplierId": "17300002",
+        "materialId": "RMPI001",
+        "zeroQuantity": "0",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "expectedOutcome": "SAP rejects zero quantity with validation error; PO NOT created"
+    },
+    "TD-CS-002-EDGE-003": {
+      "id": "TD-CS-002-EDGE-003",
+      "name": "Zero Net Order Price — Price Boundary (Edge Case)",
+      "usedByTestCase": "TC-CS-011",
+      "data": {
+        "supplierId": "17300002",
+        "materialId": "RMPI001",
+        "quantity": "10",
+        "zeroPrice": "0.00",
+        "plant": "1710"
+      },
+      "expectedOutcome": "SAP rejects zero price or accepts with configuration-specific behavior"
+    },
+    "TD-CS-002-DEFECT-001": {
+      "id": "TD-CS-002-DEFECT-001",
+      "name": "Valid PO — Success Notification Assertion Test (Designed to Fail)",
+      "usedByTestCase": "TC-CS-021",
+      "data": {
+        "supplierId": "17300002",
+        "materialId": "RMPI001",
+        "quantity": "10",
+        "price": "0.08",
+        "plant": "1710"
+      },
+      "expectedAssertion": {
+        "type": "successNotification",
+        "expectedText": "created successfully",
+        "assertionWillFail": true,
+        "failureReason": "SAP shows role=alert 'Purchase order has been created.' without PO number or 'created successfully' message. This test is designed to fail to validate defect logging pipeline."
+      },
+      "expectedOutcome": "FAIL — SAP does not display a dedicated success notification matching the assertion"
+    }
+  },
+  "validationRules": {
+    "poNumberPattern": "^450\\d{7}$",
+    "poNumberDescription": "10-digit number starting with 45",
+    "quantityValidation": "Must be >= 1",
+    "priceValidation": "Must be > 0",
+    "supplierMustExist": true,
+    "materialMustExist": true
+  },
+  "phase3ExplorationSummary": {
+    "status": "NOT_YET_CAPTURED",
+    "note": "Phase 3 exploration data will be captured during scriptless test execution via Playwright MCP. This file is generated for Phase 4 (script generation) using known SAP behaviors from memory.",
+    "placeholders": [
+      "Real element refs from SAP (e.g., ref=e23)",
+      "Actual locator strategies (role, label, CSS)",
+      "Page load times observed",
+      "Dynamic popup handling",
+      "Auto-populated field values",
+      "Error message exact text"
+    ]
+  },
+  "notes": [
+    "Test data resolved from old tenant (my429998) exploration - must be re-validated for new tenant (my426318)",
+    "Unresolved placeholders: MATERIAL_ID_2_VALID, SUPPLIER_ID_INVALID, MATERIAL_ID_INVALID, DATE_FUTURE_7D",
+    "Tests using unresolved placeholders will be skipped at runtime with clear reason",
+    "Designed-to-fail test (TC-CS-021) intentionally triggers defect logging pipeline",
+    "All PO numbers should match pattern 450XXXXXXX (10 digits)",
+    "Expected PO status after submission: 'Open' or 'Sent' (tenant configuration dependent)"
+  ]
+}

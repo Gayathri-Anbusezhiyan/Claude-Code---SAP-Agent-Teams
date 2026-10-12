@@ -1,0 +1,39 @@
+- generic [ref=e1]:
+  - img [ref=e2]
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img "logo" [ref=e10]
+        - heading "Sign In" [level=1] [ref=e12]
+        - heading "a1vzdfrar" [level=2] [ref=e15]
+      - form [ref=e18]:
+        - generic [ref=e20]:
+          - group [ref=e21]:
+            - text: Email, User ID or Login Name
+            - textbox "Email, User ID or Login Name" [disabled]: sunil.yogi@capgemini.com
+            - generic [ref=e22]: Change
+            - generic [ref=e23]:
+              - generic [ref=e25]: Password
+              - textbox "Password" [active] [ref=e26]
+              - button "Show Password" [ref=e27] [cursor=pointer]
+          - generic [ref=e28]:
+            - generic [ref=e34] [cursor=pointer]:
+              - checkbox "Keep me signed in"
+              - generic [ref=e35]: 
+              - generic [ref=e37]: Keep me signed in
+            - link "Forgot password?" [ref=e39] [cursor=pointer]:
+              - /url: /ui/createForgottenPasswordMail?spId=696dfb09d672993764b053cf&targetUrl=&sourceUrl=
+      - button "Continue" [ref=e45] [cursor=pointer]:
+        - generic [ref=e46]: Continue
+  - contentinfo [ref=e47]:
+    - list [ref=e49]:
+      - listitem
+      - listitem [ref=e50]:
+        - link "Privacy Policy" [ref=e52] [cursor=pointer]:
+          - /url: https://accounts.sap.com/ui/public/viewTextResource?scenario=788c7859-5fb6-4b2d-b0aa-d40ba33d6638&resourceType=RESOURCE_PRIVACYPOLICY
+      - listitem [ref=e53]:
+        - link "Legal Disclosure" [ref=e55] [cursor=pointer]:
+          - /url: https://www.sap.com/corporate/en/legal/impressum.html
+      - listitem [ref=e56]:
+        - link "Cookie Statement" [ref=e58] [cursor=pointer]:
+          - /url: https://account.sap.com/core/doc/SAP_IDService-CookieStatement.pdf

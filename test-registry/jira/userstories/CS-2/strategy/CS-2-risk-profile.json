@@ -1,0 +1,299 @@
+{
+  "userStory": "CS-2",
+  "summary": "Create a New Standard Purchase Order in SAP S/4HANA Cloud",
+  "module": "MM",
+  "analysedAt": "2026-08-12T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Procurement Officer",
+  "businessObject": "Purchase Order (Standard PO)",
+  "complexity": "Simple",
+  "storyPoints": 2,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": true,
+  "linkedIssueCount": 1,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Manage Purchase Orders\" application from the SAP Fiori launchpad.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "A new Purchase Order form is available by clicking \"Create\" on the Manage Purchase Orders page.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "The system validates the entered Supplier ID and auto-populates supplier details upon confirmation.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The user can add one or more line items to the order by specifying a material, order quantity, and net order price.",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-5",
+      "text": "The system validates the material number and auto-populates material details upon confirmation.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "The system prevents submission if any mandatory field (Supplier, Material, Quantity, Price) is missing and clearly indicates which fields need to be filled.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-8",
+      "text": "The system displays a descriptive error message if the supplier or material entered does not exist in the system.",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Navigate to Manage Purchase Orders, create PO with valid single line item (supplier, material, quantity, price), submit, verify PO number generated",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create PO with multiple line items (2+ materials)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Enter non-existent Supplier ID, verify descriptive error message displayed",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-8"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Enter non-existent Material Number, verify descriptive error message displayed",
+        "risk": "HIGH",
+        "acIds": ["AC-5", "AC-8"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Supplier field — verify submission prevented and field indicated",
+        "risk": "HIGH",
+        "acIds": ["AC-7"],
+        "field": "Supplier"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material field — verify submission prevented and field indicated",
+        "risk": "HIGH",
+        "acIds": ["AC-7"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Quantity field (or zero quantity) — verify submission prevented and field indicated",
+        "risk": "HIGH",
+        "acIds": ["AC-7"],
+        "field": "Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Price field (or zero price) — verify submission prevented and field indicated",
+        "risk": "HIGH",
+        "acIds": ["AC-7"],
+        "field": "Price"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Minimum valid quantity (1) — verify PO created successfully",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Zero quantity — verify submission rejected with clear error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4", "AC-7"],
+        "parameter": "quantity",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Minimum valid price (0.01 or currency-dependent minimum) — verify PO created successfully",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "price",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Zero price — verify submission rejected with clear error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4", "AC-7"],
+        "parameter": "price",
+        "boundary": "zero"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify PO number generation and display behavior — confirm defect CS-6 (PO generated but NOT displayed in success message)",
+        "risk": "HIGH",
+        "linkedIssue": "CS-6"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 0,
+    "NEG": 2,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 1,
+    "total": 13
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "supplierId",
+        "label": "Supplier",
+        "mandatory": true,
+        "validRange": "Existing vendor in SAP Vendor Master (LFA1)"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material in Material Master (MARA), extended to plant"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "Greater than 0, per UoM"
+      },
+      {
+        "name": "netOrderPrice",
+        "label": "Net Order Price",
+        "mandatory": true,
+        "validRange": "Greater than 0, per currency"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid plant code for purchasing org"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "supplierName",
+        "label": "Supplier Name",
+        "trigger": "Confirm Supplier ID"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material Number"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "Order Unit",
+        "trigger": "Confirm Material Number"
+      },
+      {
+        "name": "currency",
+        "label": "Currency",
+        "trigger": "Confirm Supplier ID or Purchasing Org"
+      },
+      {
+        "name": "purchasingGroup",
+        "label": "Purchasing Group",
+        "trigger": "Confirm Supplier ID"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "trigger": "Confirm Purchasing Org"
+      },
+      {
+        "name": "materialGroup",
+        "label": "Material Group",
+        "trigger": "Confirm Material Number"
+      }
+    ],
+    "output": [
+      {
+        "name": "poNumber",
+        "label": "Purchase Order Number",
+        "format": "10-digit numeric, typically begins with 45"
+      },
+      {
+        "name": "poStatus",
+        "label": "PO Status",
+        "format": "e.g., 'Sent', 'Open', 'Released'"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "quantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      },
+      {
+        "name": "price",
+        "label": "Net Order Price",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

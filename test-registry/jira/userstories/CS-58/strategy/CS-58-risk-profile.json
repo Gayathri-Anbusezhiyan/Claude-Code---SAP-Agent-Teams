@@ -1,0 +1,381 @@
+{
+  "userStory": "CS-58",
+  "summary": "Record Environmental Monitoring Readings (E.G., Cleanroom Particle Cou",
+  "module": "PP",
+  "analysedAt": "2026-08-21T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Operator",
+  "businessObject": "Process Order (Environmental Monitoring Data)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Confirm Process Order\" Fiori app with an environmental monitoring input step.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system requires entry of environmental readings at the process order operations flagged as environmentally controlled.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system compares entered readings against predefined acceptable ranges and flags any out-of-range value.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-4",
+      "text": "An out-of-range environmental reading automatically triggers a linked deviation record.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "Environmental monitoring data is included in the compiled Electronic Batch Record.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "A trend report is available to track environmental conditions across batches and production suites over time.",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Record environmental readings (particle count, temperature, humidity) for an active Process Order operation (all readings in range) — verify confirmation created, no deviation triggered, EBR contains readings",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Record readings for multiple operations within same Process Order (verify each operation's readings independently recorded and flagged)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Enter particle count above acceptable range (e.g., 5000 for ISO 5 cleanroom with max 3520) — verify system flags out-of-range, still saves reading, triggers deviation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Enter temperature below acceptable range (e.g., 15.0°C when min is 18.0°C) — verify system flags out-of-range, triggers deviation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Enter humidity above acceptable range (e.g., 75.0% when max is 60.0%) — verify system flags out-of-range, triggers deviation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to access non-environmentally-controlled operation (no environmental monitoring step configured) — verify system does not prompt for readings",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to record readings for inactive/completed Process Order — verify system prevents entry",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Particle Count field (when operation requires it) — verify system prevents confirmation submission",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Particle Count"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Temperature field (when operation requires it) — verify system prevents confirmation submission",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Temperature"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Humidity field (when operation requires it) — verify system prevents confirmation submission",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Humidity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Invalid Process Order Number (non-existent) — verify system displays error 'Process Order does not exist'",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Process Order"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Invalid Operation Number (not part of selected Process Order) — verify system displays error 'Operation not found'",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1", "AC-2"],
+        "field": "Operation"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Particle Count at exact lower boundary (0 particles/m³) — verify system accepts, no out-of-range flag",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "particleCount",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Particle Count at exact upper boundary (e.g., 3520 for ISO 5) — verify system accepts, no out-of-range flag",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "particleCount",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Particle Count at upper boundary + 1 (3521) — verify system flags out-of-range, triggers deviation",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "particleCount",
+        "boundary": "upper+1"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Temperature at exact lower boundary (18.0°C) — verify system accepts, no flag",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "temperature",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Temperature at exact upper boundary (25.0°C) — verify system accepts, no flag",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "temperature",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Temperature at lower boundary - 0.1°C (17.9°C) — verify system flags out-of-range",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "temperature",
+        "boundary": "lower-1"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Humidity at exact lower boundary (30.0%) — verify system accepts, no flag",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "humidity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-08",
+        "description": "Humidity at exact upper boundary (60.0%) — verify system accepts, no flag",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "humidity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-09",
+        "description": "Humidity at lower boundary - 0.1% (29.9%) — verify system flags out-of-range",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "humidity",
+        "boundary": "lower-1"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify deviation record automatically created in QM module when out-of-range reading entered — check deviation linked to Process Order and operation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify environmental readings appear in compiled Electronic Batch Record (EBR) — check all operations' readings aggregated correctly",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify trend report displays environmental data across multiple Process Orders/batches and production suites over time — check date range filtering and chart accuracy",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 5,
+    "ERR": 5,
+    "EDGE": 9,
+    "INT": 3,
+    "total": 24
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "processOrderNumber",
+        "label": "Process Order",
+        "mandatory": true,
+        "dataType": "Alphanumeric",
+        "validRange": "Existing active Process Order with environmental monitoring operation"
+      },
+      {
+        "name": "operationNumber",
+        "label": "Operation",
+        "mandatory": true,
+        "dataType": "Numeric",
+        "validRange": "Operation flagged as environmentally controlled"
+      },
+      {
+        "name": "particleCount",
+        "label": "Particle Count (Particles/m³)",
+        "mandatory": true,
+        "dataType": "Numeric (Integer)",
+        "validRange": "0 to system-configured max (e.g., ISO 5 cleanroom = 0-3520)"
+      },
+      {
+        "name": "temperature",
+        "label": "Temperature (°C)",
+        "mandatory": true,
+        "dataType": "Numeric (Decimal, 1 place)",
+        "validRange": "System-configured range (e.g., 18.0 to 25.0)"
+      },
+      {
+        "name": "humidity",
+        "label": "Relative Humidity (%)",
+        "mandatory": true,
+        "dataType": "Numeric (Decimal, 1 place)",
+        "validRange": "System-configured range (e.g., 30.0 to 60.0)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "processOrderDescription",
+        "label": "Order Description",
+        "trigger": "Confirm Process Order selection"
+      },
+      {
+        "name": "material",
+        "label": "Material",
+        "trigger": "Confirm Process Order selection"
+      },
+      {
+        "name": "batch",
+        "label": "Batch Number",
+        "trigger": "Confirm Process Order selection"
+      },
+      {
+        "name": "operationShortText",
+        "label": "Operation Description",
+        "trigger": "Confirm Operation selection"
+      },
+      {
+        "name": "acceptableRangeLowerLimit",
+        "label": "Min Value",
+        "trigger": "Load Operation/Characteristic"
+      },
+      {
+        "name": "acceptableRangeUpperLimit",
+        "label": "Max Value",
+        "trigger": "Load Operation/Characteristic"
+      },
+      {
+        "name": "productionSuite",
+        "label": "Work Center",
+        "trigger": "Confirm Operation selection"
+      }
+    ],
+    "output": [
+      {
+        "name": "confirmationNumber",
+        "label": "Confirmation Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "outOfRangeFlag",
+        "label": "Out-of-Range Indicator",
+        "format": "Boolean (icon/color in UI)"
+      },
+      {
+        "name": "deviationRecordNumber",
+        "label": "Deviation Record Number",
+        "format": "12-digit alphanumeric (begins with QM prefix)"
+      },
+      {
+        "name": "ebrEntryId",
+        "label": "Electronic Batch Record Entry ID",
+        "format": "System-internal ID"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "particleCount",
+        "label": "Particle Count",
+        "lowerBoundary": "0",
+        "upperBoundary": "ISO-class-specific max (e.g., 3520 for ISO 5)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "temperature",
+        "label": "Temperature (°C)",
+        "lowerBoundary": "System-configured min (e.g., 18.0)",
+        "upperBoundary": "System-configured max (e.g., 25.0)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "humidity",
+        "label": "Relative Humidity (%)",
+        "lowerBoundary": "System-configured min (e.g., 30.0)",
+        "upperBoundary": "System-configured max (e.g., 60.0)",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,426 @@
+{
+  "userStory": "CS-24",
+  "module": "MM",
+  "feature": "Subcontracting Purchase Order Creation",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in Step 1 of every test case",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login Step 2",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login Step 4"
+  },
+  "testDataSets": {
+    "TD-CS-24-HP-001": {
+      "id": "TD-CS-24-HP-001",
+      "name": "Valid Subcontracting PO — Single Component",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-199"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "Subcontracting PO created with unique PO number; item category L; special stock indicator O; component list populated from BOM; PO status Open/Sent"
+    },
+    "TD-CS-24-HP-002": {
+      "id": "TD-CS-24-HP-002",
+      "name": "Component Issue to CMO — Movement Type 541",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-200"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NUMBER}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID}}",
+        "componentQuantity": "{{COMPONENT_QUANTITY}}",
+        "movementType": "541"
+      },
+      "expectedOutcome": "Material document posted with movement type 541; component stock reduced at issuing plant; stock provided to vendor (special stock O) increased at CMO for subcontracting PO"
+    },
+    "TD-CS-24-HP-003": {
+      "id": "TD-CS-24-HP-003",
+      "name": "Goods Receipt with Auto-Consumption of Components",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-201"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NUMBER}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "receivedQuantity": "{{PO_QUANTITY_STANDARD}}",
+        "componentAutoConsumption": "true"
+      },
+      "expectedOutcome": "Goods receipt posted for finished material; component stock at CMO (special stock O) automatically consumed per BOM; inspection lot created if QM active"
+    },
+    "TD-CS-24-HP-004": {
+      "id": "TD-CS-24-HP-004",
+      "name": "Stock Overview Query — View CMO Component Balances",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-202"],
+      "data": {
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID}}",
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "plant": "{{PLANT_CODE}}",
+        "stockType": "O"
+      },
+      "expectedOutcome": "Stock Overview displays component material stock provided to vendor (special stock O); balance matches issued quantity minus consumed quantity"
+    },
+    "TD-CS-24-AP-001": {
+      "id": "TD-CS-24-AP-001",
+      "name": "Subcontracting PO with Multiple Components (2-3 Components)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-203"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_MULTI_BOM}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L",
+        "expectedComponentCount": "{{COMPONENT_COUNT_MULTI}}"
+      },
+      "expectedOutcome": "Subcontracting PO created; component list shows all components from multi-level BOM (2-3 items); each component line linked to subcontracting item"
+    },
+    "TD-CS-24-AP-002": {
+      "id": "TD-CS-24-AP-002",
+      "name": "Partial Goods Receipt — Less Than PO Quantity",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-204"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NUMBER}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "receivedQuantity": "{{PO_QUANTITY_PARTIAL}}",
+        "totalPoQuantity": "{{PO_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "Partial goods receipt posted; components consumed proportionally to received quantity; PO remains open with remaining quantity; inspection lot created for partial quantity"
+    },
+    "TD-CS-24-NEG-001": {
+      "id": "TD-CS-24-NEG-001",
+      "name": "Invalid Vendor — No Subcontracting Indicator",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-205"],
+      "data": {
+        "invalidSupplierId": "{{SUPPLIER_ID_STANDARD}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP displays error: Vendor not configured for subcontracting; item category L not allowed; PO not created"
+    },
+    "TD-CS-24-NEG-002": {
+      "id": "TD-CS-24-NEG-002",
+      "name": "Invalid Material — No Subcontracting Item Category L Support",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-206"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "invalidMaterialId": "{{MATERIAL_ID_STANDARD}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP displays error: Material not configured for subcontracting; item category L not allowed; PO not created"
+    },
+    "TD-CS-24-NEG-003": {
+      "id": "TD-CS-24-NEG-003",
+      "name": "Invalid Component — Component Not in BOM",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-207"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NUMBER}}",
+        "invalidComponentId": "{{COMPONENT_NOT_IN_BOM}}",
+        "componentQuantity": "{{COMPONENT_QUANTITY}}",
+        "movementType": "541"
+      },
+      "expectedOutcome": "SAP displays error: Component not assigned to BOM for finished material; material document not posted; stock not issued"
+    },
+    "TD-CS-24-NEG-004": {
+      "id": "TD-CS-24-NEG-004",
+      "name": "Insufficient Component Stock at Vendor for Goods Receipt",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-208"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NO_COMPONENT_STOCK}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "receivedQuantity": "{{PO_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: Insufficient component stock at vendor (special stock O); goods receipt blocked or posted with warning; backflush fails"
+    },
+    "TD-CS-24-ERR-001": {
+      "id": "TD-CS-24-ERR-001",
+      "name": "Missing Supplier — Empty Supplier Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-209"],
+      "data": {
+        "cmoSupplierId": "",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP highlights Supplier field as mandatory; prevents submission; Order button disabled or submission blocked"
+    },
+    "TD-CS-24-ERR-002": {
+      "id": "TD-CS-24-ERR-002",
+      "name": "Missing Material — Empty Material Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-210"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP highlights Material field as mandatory; prevents submission; Order button disabled or submission blocked"
+    },
+    "TD-CS-24-ERR-003": {
+      "id": "TD-CS-24-ERR-003",
+      "name": "Missing Plant — Empty Plant Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-211"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP highlights Plant field as mandatory; prevents submission; Order button disabled or submission blocked"
+    },
+    "TD-CS-24-ERR-004": {
+      "id": "TD-CS-24-ERR-004",
+      "name": "Missing Quantity — Empty Order Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-212"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP displays error: Enter a quantity / Please enter an order quantity; prevents submission; Order button disabled or submission blocked"
+    },
+    "TD-CS-24-ERR-005": {
+      "id": "TD-CS-24-ERR-005",
+      "name": "Missing Delivery Date — Empty Delivery Date Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-213"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP highlights Delivery Date field as mandatory; prevents submission; Order button disabled or submission blocked"
+    },
+    "TD-CS-24-ERR-006": {
+      "id": "TD-CS-24-ERR-006",
+      "name": "Missing or Wrong Item Category — Standard Item Category Instead of L",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-214"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": ""
+      },
+      "expectedOutcome": "SAP displays error: Item category required for subcontracting; components not exploded; PO not created or saved with incorrect category"
+    },
+    "TD-CS-24-EDGE-001": {
+      "id": "TD-CS-24-EDGE-001",
+      "name": "Minimum Quantity Boundary — Quantity = 1",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-215"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_MIN}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "Subcontracting PO created with quantity 1; components exploded per BOM for 1 unit; PO status Open/Sent"
+    },
+    "TD-CS-24-EDGE-002": {
+      "id": "TD-CS-24-EDGE-002",
+      "name": "Zero Quantity — Invalid Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-216"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "0",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP displays error: Enter a quantity / Order quantity must be greater than 0; prevents submission; PO not created"
+    },
+    "TD-CS-24-EDGE-003": {
+      "id": "TD-CS-24-EDGE-003",
+      "name": "Maximum Quantity Boundary — Upper Limit",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-217"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_MAX}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "Subcontracting PO created with maximum quantity; components exploded per BOM for max quantity; PO status Open/Sent; net order value calculated correctly"
+    },
+    "TD-CS-24-EDGE-004": {
+      "id": "TD-CS-24-EDGE-004",
+      "name": "Delivery Date Today — Same Day Delivery",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-218"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_TODAY}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "Subcontracting PO created with delivery date = today; SAP may display warning about immediate delivery; PO status Open/Sent"
+    },
+    "TD-CS-24-EDGE-005": {
+      "id": "TD-CS-24-EDGE-005",
+      "name": "Past Delivery Date — Date in the Past",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-219"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_PAST}}",
+        "itemCategory": "L"
+      },
+      "expectedOutcome": "SAP displays warning: Delivery date is in the past; PO may be created with warning or blocked depending on system config"
+    },
+    "TD-CS-24-EDGE-006": {
+      "id": "TD-CS-24-EDGE-006",
+      "name": "Component Quantity Override to Zero",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-220"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NUMBER}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID}}",
+        "componentQuantity": "0",
+        "movementType": "541"
+      },
+      "expectedOutcome": "SAP displays error: Component quantity must be greater than 0; material document not posted; issue blocked"
+    },
+    "TD-CS-24-INT-001": {
+      "id": "TD-CS-24-INT-001",
+      "name": "MM-IM Integration — Full Subcontracting Flow (PO + Issue + GR)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-221"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "componentMaterialId": "{{COMPONENT_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L",
+        "movementType": "541"
+      },
+      "expectedOutcome": "Subcontracting PO created; component issued with movement type 541 to special stock O at CMO; goods receipt posted for finished material; components auto-consumed; stock balances updated correctly across MM and IM"
+    },
+    "TD-CS-24-INT-002": {
+      "id": "TD-CS-24-INT-002",
+      "name": "MM-QM Integration — Goods Receipt with Inspection Lot Creation",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-222"],
+      "data": {
+        "subconPoNumber": "{{SUBCON_PO_NUMBER}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID_QM_ACTIVE}}",
+        "receivedQuantity": "{{PO_QUANTITY_STANDARD}}",
+        "inspectionLotRequired": "true"
+      },
+      "expectedOutcome": "Goods receipt posted for finished material; inspection lot automatically created per QM master record; finished goods stock posted to quality inspection stock (not unrestricted); inspection lot status = Released for Inspection"
+    },
+    "TD-CS-24-INT-003": {
+      "id": "TD-CS-24-INT-003",
+      "name": "MM-PP-BOM Integration — BOM Explosion and Component Determination",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-223"],
+      "data": {
+        "cmoSupplierId": "{{CMO_SUPPLIER_ID}}",
+        "finishedMaterialId": "{{FINISHED_MATERIAL_ID}}",
+        "quantity": "{{PO_QUANTITY_STANDARD}}",
+        "price": "{{NET_PRICE_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "deliveryDate": "{{DELIVERY_DATE_FUTURE}}",
+        "itemCategory": "L",
+        "bomAlternative": "{{BOM_ALTERNATIVE}}"
+      },
+      "expectedOutcome": "Subcontracting PO created; system accesses BOM master (PP module) for finished material and plant; component list auto-populated with all active BOM components; component quantities calculated per BOM explosion"
+    }
+  },
+  "allPlaceholders": [
+    "{{CMO_SUPPLIER_ID}}",
+    "{{CMO_SUPPLIER_NAME}}",
+    "{{FINISHED_MATERIAL_ID}}",
+    "{{FINISHED_MATERIAL_DESC}}",
+    "{{FINISHED_MATERIAL_MULTI_BOM}}",
+    "{{FINISHED_MATERIAL_ID_QM_ACTIVE}}",
+    "{{COMPONENT_MATERIAL_ID}}",
+    "{{COMPONENT_DESC}}",
+    "{{COMPONENT_QUANTITY}}",
+    "{{COMPONENT_COUNT_MULTI}}",
+    "{{COMPONENT_NOT_IN_BOM}}",
+    "{{PO_QUANTITY_STANDARD}}",
+    "{{PO_QUANTITY_MIN}}",
+    "{{PO_QUANTITY_MAX}}",
+    "{{PO_QUANTITY_PARTIAL}}",
+    "{{NET_PRICE_VALID}}",
+    "{{CURRENCY_CODE}}",
+    "{{PLANT_CODE}}",
+    "{{PURCHASING_ORG_CODE}}",
+    "{{PURCHASING_GROUP_CODE}}",
+    "{{COMPANY_CODE}}",
+    "{{UNIT_OF_MEASURE}}",
+    "{{DELIVERY_DATE_FUTURE}}",
+    "{{DELIVERY_DATE_TODAY}}",
+    "{{DELIVERY_DATE_PAST}}",
+    "{{SUBCON_PO_NUMBER}}",
+    "{{SUBCON_PO_NO_COMPONENT_STOCK}}",
+    "{{SUPPLIER_ID_STANDARD}}",
+    "{{MATERIAL_ID_STANDARD}}",
+    "{{BOM_ALTERNATIVE}}"
+  ],
+  "resolvedValues": {}
+}

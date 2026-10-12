@@ -1,0 +1,20 @@
+{
+  "key": "CS-16",
+  "summary": "Create A Quality Inspection Lot Automatically Upon Goods Receipt For G",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:02.774Z",
+  "updated": "2026-08-21T08:41:03.254Z",
+  "description": "As a Quality Inspector, I want to create a Quality Inspection Lot automatically upon Goods Receipt for GMP-regulated raw materials, so that incoming materials are quarantined and cannot be used in production until QA has reviewed and released them.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Inspection Lots\" Fiori app.2. An inspection lot is automatically generated when goods receipt is posted for materials flagged with a quality inspection type in the material master.3. The received stock is automatically posted to Quality Inspection stock and is not available for unrestricted use or production consumption.4. The inspector can record results of physical/chemical tests against the inspection characteristics defined in the inspection plan.5. The system allows Usage Decision (UD) recording — Accept, Reject, or Conditional Accept.6. Upon \"Accept\" UD, the stock is automatically transferred from Quality Inspection to Unrestricted-Use stock.7. Upon \"Reject\" UD, the stock is transferred to Blocked stock and cannot be issued to production.8. The system maintains a complete audit trail of inspection results and UD decisions for regulatory traceability.",
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

@@ -1,0 +1,367 @@
+{
+  "userStory": "CS-47",
+  "summary": "Link A Customer Complaint Captured In Sales To A Formal Quality Notifi",
+  "module": "QM",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Assurance Specialist",
+  "businessObject": "Quality Notification (linked to Sales/Return Order)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Create Quality Notification\" Fiori app, initiated from the sales/return order.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system pre-populates the notification with the customer, material, batch, and complaint details from the originating document.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The notification routes to the QA team's worklist for investigation and root-cause analysis.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system tracks the notification status (Open, Under Investigation, Closed) and displays it back on the originating sales document.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["ST"],
+      "scenarioTypesRequired": ["HP", "AP", "INT"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The system prevents closure of the notification until a documented disposition and corrective action are recorded.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["DT"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "A report is available showing complaint volume and trends by material and batch.",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Quality Notification from Sales Order with complete customer complaint details",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create Quality Notification from Return Order with complete customer complaint details",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Status transition from 'Open' → 'Under Investigation' → 'Closed' with all required fields",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-5"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Access complaint report filtered by specific material",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Access complaint report filtered by specific batch",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create Quality Notification from Sales Order missing material data",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create Quality Notification from Sales Order missing batch data",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to create Quality Notification from Sales Order missing customer data",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to close Quality Notification without disposition code",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-05",
+        "description": "Attempt to close Quality Notification without corrective action",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "NEG-06",
+        "description": "Attempt to close Quality Notification without root cause analysis",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Defect Description field (mandatory at creation)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Defect Description"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Disposition Code (mandatory at closure)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Disposition Code"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Corrective Action (mandatory at closure)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Corrective Action"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Root Cause Analysis (mandatory at closure)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"],
+        "field": "Root Cause Analysis"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Defect Description at minimum length boundary (20 chars)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "defectDescription",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Defect Description at maximum length boundary (1000 chars)",
+        "risk": "LOW",
+        "acIds": ["AC-2"],
+        "parameter": "defectDescription",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Root Cause at minimum closure length boundary (50 chars)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "rootCause",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Corrective Action at minimum closure length boundary (50 chars)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "correctiveAction",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify Quality Notification status displays correctly on originating Sales Order",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"],
+        "integration": "SD-QM bidirectional link"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify Quality Notification routes to correct QA team member's worklist",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "integration": "QM-Workflow routing"
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify complaint report aggregates data from multiple Quality Notifications",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "integration": "QM-Reporting data aggregation"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 3,
+    "NEG": 6,
+    "ERR": 4,
+    "EDGE": 4,
+    "INT": 3,
+    "total": 22
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "salesReturnOrderNumber",
+        "label": "Originating Document",
+        "mandatory": true,
+        "validRange": "Existing Sales Order or Return Order in SAP"
+      },
+      {
+        "name": "notificationType",
+        "label": "Notification Type",
+        "mandatory": true,
+        "validRange": "Customer Complaint type code (system-configured)"
+      },
+      {
+        "name": "defectDescription",
+        "label": "Description / Complaint Details",
+        "mandatory": true,
+        "validRange": "Free text (min 20 chars for GMP compliance)"
+      },
+      {
+        "name": "dispositionCode",
+        "label": "Disposition",
+        "mandatory": true,
+        "validRange": "System-configured disposition codes (required at closure)"
+      },
+      {
+        "name": "correctiveAction",
+        "label": "Corrective Action",
+        "mandatory": true,
+        "validRange": "Documented action plan (min 50 chars for GMP compliance, required at closure)"
+      },
+      {
+        "name": "rootCauseAnalysis",
+        "label": "Root Cause",
+        "mandatory": true,
+        "validRange": "Documented root cause (min 50 chars for GMP compliance, required at closure)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "customerId",
+        "label": "Customer",
+        "trigger": "On initiation from Sales Order"
+      },
+      {
+        "name": "customerName",
+        "label": "Customer Name",
+        "trigger": "On initiation from Sales Order"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "trigger": "On initiation from Sales Order"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "On initiation from Sales Order"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "trigger": "On initiation from Sales/Return Order"
+      },
+      {
+        "name": "salesOrderNumber",
+        "label": "Reference Document",
+        "trigger": "On initiation"
+      },
+      {
+        "name": "complaintDate",
+        "label": "Notification Date",
+        "trigger": "On creation"
+      },
+      {
+        "name": "createdBy",
+        "label": "Created By",
+        "trigger": "On creation"
+      }
+    ],
+    "output": [
+      {
+        "name": "qualityNotificationNumber",
+        "label": "Quality Notification Number",
+        "format": "12-digit numeric"
+      },
+      {
+        "name": "notificationStatus",
+        "label": "Notification Status",
+        "format": "Text: 'Open' / 'Under Investigation' / 'Closed'"
+      },
+      {
+        "name": "qaTeamAssignment",
+        "label": "QA Team Assignment",
+        "format": "User ID or Team ID"
+      },
+      {
+        "name": "statusOnSalesOrder",
+        "label": "Status on Sales Document",
+        "format": "Status text visible in Sales Order UI"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "defectDescription",
+        "label": "Defect Description",
+        "lowerBoundary": "20 characters (min for GMP)",
+        "upperBoundary": "1000 characters (system max)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "rootCause",
+        "label": "Root Cause Analysis",
+        "lowerBoundary": "50 characters (min for closure)",
+        "upperBoundary": "2000 characters (system max)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "correctiveAction",
+        "label": "Corrective Action",
+        "lowerBoundary": "50 characters (min for closure)",
+        "upperBoundary": "2000 characters (system max)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

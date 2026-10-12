@@ -1,0 +1,54 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "analyzedAt": "2026-05-19T09:00:00.000Z",
+  "analyzedBy": "self-healing-agent/skills/analyze-failure (e2e-automation-v2 CS-2)",
+  "pipelineRun": "/e2e-automation-v2 CS-2",
+
+  "phase4FailureInput": {
+    "runResultFile": "automation/test-results/TC-CS-021-run-2026-05-19T08-41.json",
+    "status": "FAIL",
+    "errorType": "NAVIGATION_TIMEOUT",
+    "errorMessage": "TimeoutError: locator.click: Timeout 30000ms exceeded. waiting for [title='Open Search']",
+    "failingFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "failingLine": 106,
+    "failingMethod": "openSearch()",
+    "retries": 1
+  },
+
+  "errorClassification": {
+    "type": "LOCATOR_FAILURE",
+    "subType": "TIMEOUT_ON_NAVIGATION_STEP",
+    "failedLocator": "[title='Open Search']",
+    "failedStep": "Step 7 — Open search bar in Fiori shell",
+    "rootCauseHypothesis": "SAP Fiori shell bar not fully rendered when openSearch() is called; the [title='Open Search'] element may not be present at this point in the login flow. The Playwright runner's login sequence may not wait sufficiently for SAP to finish session initialization before attempting shell bar interactions.",
+    "designedToFailRelevance": "TC-CS-021 is designed to fail at Step 22 (assertion: success notification contains PO number). The Phase 4 runner failed before reaching Step 22 — this is an automation script timing issue, NOT the designed-to-fail assertion. The APP_DEFECT must be confirmed via MCP re-execution."
+  },
+
+  "phase3aConfirmation": {
+    "note": "Phase 3a (MCP exploration) already executed TC-CS-021 in full and reached Step 22.",
+    "executionFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+    "result": "ASSERTION_FAIL",
+    "criticalFinding": {
+      "step": 22,
+      "actualSAPBehavior": "role=alert 'Purchase order has been created.' — NO 10-digit PO number",
+      "containsPONumber": false,
+      "acViolated": "AC-6",
+      "failureClassification": "APP_DEFECT"
+    }
+  },
+
+  "selfHealDecision": {
+    "primaryClassification": "APP_DEFECT",
+    "secondaryClassification": "AUTOMATION_BUG",
+    "primaryBasis": "Phase 3a MCP execution confirmed SAP shows alert without PO number at Step 22 (AC-6 violated)",
+    "secondaryBasis": "Phase 4 Playwright runner failed at openSearch() due to timing — openSearch locator/wait needs patching",
+    "scriptPatchNeeded": true,
+    "scriptPatchDescription": "Add post-login wait for SAP shell bar to be fully visible before clicking Open Search. Consider waiting for the shell bar element or using waitForSelector on the search button.",
+    "scriptPatchNote": "Patching the navigation issue will allow future Playwright runs to reach Step 22 and produce the ASSERTION_FAILURE that demonstrates the APP_DEFECT.",
+    "escalateTo": "LOG_DEFECT",
+    "escalationBasis": "APP_DEFECT confirmed by Phase 3a MCP execution — SAP does not display PO number in success notification, violating AC-6"
+  },
+
+  "recommendation": "LOG_DEFECT"
+}

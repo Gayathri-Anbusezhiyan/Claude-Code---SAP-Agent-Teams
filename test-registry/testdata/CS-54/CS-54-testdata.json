@@ -1,0 +1,293 @@
+{
+  "userStory": "CS-54",
+  "module": "PP",
+  "feature": "MRP Run and Planned Order Generation",
+  "generatedAt": "2026-08-24T10:30:00.000Z",
+  "testDataSets": {
+    "TD-CS-054-001": {
+      "id": "TD-CS-054-001",
+      "name": "Valid MRP Run — Generate Planned Orders Based on Demand and Stock",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "processingKey": "{{PROCESSING_KEY_NETCH}}",
+        "planningHorizonFrom": "{{PLANNING_HORIZON_FROM_DATE}}",
+        "planningHorizonTo": "{{PLANNING_HORIZON_TO_DATE}}",
+        "currentStock": "{{CURRENT_STOCK_LEVEL}}",
+        "netRequirements": "{{NET_REQUIREMENTS_CALCULATED}}",
+        "minimumLotSize": "{{MINIMUM_LOT_SIZE}}",
+        "plannedOrderQuantity": "{{PLANNED_ORDER_QUANTITY}}",
+        "plannedStartDate": "{{PLANNED_START_DATE}}",
+        "capacityLoad": "{{CAPACITY_LOAD_PERCENTAGE}}"
+      },
+      "expectedOutcome": "Planned order(s) generated successfully covering net requirements; capacity overview displayed"
+    },
+    "TD-CS-054-002": {
+      "id": "TD-CS-054-002",
+      "name": "Valid Planned Order Conversion — Process Order",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "plannedOrderNumber": "{{PLANNED_ORDER_NUMBER_EXISTING}}",
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "plannedOrderQuantity": "{{PLANNED_ORDER_QUANTITY}}",
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_GENERATED}}"
+      },
+      "expectedOutcome": "Planned order converted to process order successfully; process order number generated"
+    },
+    "TD-CS-054-003": {
+      "id": "TD-CS-054-003",
+      "name": "Valid Planned Order Conversion — Purchase Requisition",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "plannedOrderNumber": "{{PLANNED_ORDER_NUMBER_EXISTING_EXTERNAL}}",
+        "materialNumber": "{{MATERIAL_NUMBER_EXTERNAL_PROCUREMENT}}",
+        "materialDesc": "{{MATERIAL_DESC_EXTERNAL_PROCUREMENT}}",
+        "plant": "{{PLANT_CODE}}",
+        "plannedOrderQuantity": "{{PLANNED_ORDER_QUANTITY}}",
+        "purchaseReqNumber": "{{PURCHASE_REQ_NUMBER_GENERATED}}",
+        "procurementType": "{{PROCUREMENT_TYPE_EXTERNAL}}"
+      },
+      "expectedOutcome": "Planned order converted to purchase requisition successfully; purchase requisition number generated"
+    },
+    "TD-CS-054-004": {
+      "id": "TD-CS-054-004",
+      "name": "Multi-Material MRP Run with Capacity Sequencing",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "materialNumber1": "{{MATERIAL_NUMBER_FINISHED_PRODUCT_1}}",
+        "materialDesc1": "{{MATERIAL_DESC_FINISHED_PRODUCT_1}}",
+        "materialNumber2": "{{MATERIAL_NUMBER_FINISHED_PRODUCT_2}}",
+        "materialDesc2": "{{MATERIAL_DESC_FINISHED_PRODUCT_2}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "plannedOrderQuantity1": "{{PLANNED_ORDER_QUANTITY_MATERIAL_1}}",
+        "plannedOrderQuantity2": "{{PLANNED_ORDER_QUANTITY_MATERIAL_2}}",
+        "workCenter": "{{WORK_CENTER_CODE}}",
+        "availableCapacity": "{{AVAILABLE_CAPACITY_UNITS}}",
+        "capacityUtilization": "{{CAPACITY_UTILIZATION_PERCENTAGE}}"
+      },
+      "expectedOutcome": "Planned orders generated for both materials; capacity overview shows combined load"
+    },
+    "TD-CS-054-NEG-001": {
+      "id": "TD-CS-054-NEG-001",
+      "name": "Invalid Material — Not Configured for MRP",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "materialNumberNotMRP": "{{MATERIAL_NUMBER_NOT_MRP_CONFIGURED}}",
+        "materialDesc": "{{MATERIAL_DESC_NOT_MRP}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "errorMessageNotConfigured": "{{ERROR_MESSAGE_MRP_NOT_CONFIGURED}}"
+      },
+      "expectedOutcome": "Error message displayed: Material not configured for MRP; no planned orders generated"
+    },
+    "TD-CS-054-NEG-002": {
+      "id": "TD-CS-054-NEG-002",
+      "name": "Raw Material Shortage — Exception Flagged",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "rawMaterialId": "{{RAW_MATERIAL_ID_SHORTAGE}}",
+        "rawMaterialDesc": "{{RAW_MATERIAL_DESC_SHORTAGE}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "currentStockRawMaterial": "{{CURRENT_STOCK_RAW_MATERIAL_INSUFFICIENT}}",
+        "requiredQuantityRawMaterial": "{{REQUIRED_QUANTITY_RAW_MATERIAL}}",
+        "shortageQuantity": "{{SHORTAGE_QUANTITY_CALCULATED}}",
+        "exceptionCodeShortage": "{{EXCEPTION_CODE_SHORTAGE}}",
+        "exceptionMessageShortage": "{{EXCEPTION_MESSAGE_SHORTAGE}}"
+      },
+      "expectedOutcome": "Planned order generated with exception flag indicating raw material shortage"
+    },
+    "TD-CS-054-NEG-003": {
+      "id": "TD-CS-054-NEG-003",
+      "name": "Shelf-Life Constraint — Exception Flagged",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "rawMaterialShelfLife": "{{RAW_MATERIAL_ID_SHELF_LIFE}}",
+        "rawMaterialDescShelfLife": "{{RAW_MATERIAL_DESC_SHELF_LIFE}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "remainingShelfLife": "{{REMAINING_SHELF_LIFE_DAYS}}",
+        "minimumShelfLife": "{{MINIMUM_SHELF_LIFE_DAYS}}",
+        "expiryDate": "{{EXPIRY_DATE_RAW_MATERIAL}}",
+        "exceptionCodeShelfLife": "{{EXCEPTION_CODE_SHELF_LIFE}}",
+        "exceptionMessageShelfLife": "{{EXCEPTION_MESSAGE_SHELF_LIFE}}"
+      },
+      "expectedOutcome": "Planned order generated with exception flag indicating shelf-life constraint"
+    },
+    "TD-CS-054-NEG-004": {
+      "id": "TD-CS-054-NEG-004",
+      "name": "Lot-Sizing Rule Violation — Quantity Below Minimum Batch Size",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "minimumLotSize": "{{MINIMUM_LOT_SIZE}}",
+        "netRequirementsBelowMin": "{{NET_REQUIREMENTS_BELOW_MIN_LOT_SIZE}}",
+        "plannedOrderQuantityRounded": "{{PLANNED_ORDER_QUANTITY_ROUNDED_TO_MIN}}",
+        "warningMessageLotSize": "{{WARNING_MESSAGE_LOT_SIZE_ADJUSTED}}"
+      },
+      "expectedOutcome": "Planned order generated with quantity rounded up to minimum lot size; warning message displayed"
+    },
+    "TD-CS-054-ERR-001": {
+      "id": "TD-CS-054-ERR-001",
+      "name": "Missing Material Number — Mandatory Field Validation",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "emptyValue": "",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "errorMessageMissingMaterial": "{{ERROR_MESSAGE_MATERIAL_REQUIRED}}"
+      },
+      "expectedOutcome": "Error message displayed: Material is required; MRP execution prevented"
+    },
+    "TD-CS-054-ERR-002": {
+      "id": "TD-CS-054-ERR-002",
+      "name": "Missing Plant — Mandatory Field Validation",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "emptyValue": "",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "errorMessageMissingPlant": "{{ERROR_MESSAGE_PLANT_REQUIRED}}"
+      },
+      "expectedOutcome": "Error message displayed: Plant is required; MRP execution prevented"
+    },
+    "TD-CS-054-ERR-003": {
+      "id": "TD-CS-054-ERR-003",
+      "name": "Missing MRP Controller — Mandatory Field Validation",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "emptyValue": "",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "errorMessageMissingMRPController": "{{ERROR_MESSAGE_MRP_CONTROLLER_REQUIRED}}"
+      },
+      "expectedOutcome": "Error message displayed: MRP Controller is required; MRP execution prevented"
+    },
+    "TD-CS-054-EDGE-001": {
+      "id": "TD-CS-054-EDGE-001",
+      "name": "Minimum Batch Size Boundary — Exact Match",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "minimumLotSize": "{{MINIMUM_LOT_SIZE}}",
+        "netRequirementsMin": "{{NET_REQUIREMENTS_EQUAL_TO_MIN_LOT_SIZE}}",
+        "plannedOrderQuantityMin": "{{PLANNED_ORDER_QUANTITY_EQUAL_TO_MIN}}"
+      },
+      "expectedOutcome": "Planned order generated with quantity exactly equal to minimum lot size; no warnings"
+    },
+    "TD-CS-054-EDGE-002": {
+      "id": "TD-CS-054-EDGE-002",
+      "name": "Maximum Batch Size Boundary — Triggers Rounding",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "fixedLotSize": "{{FIXED_LOT_SIZE}}",
+        "netRequirementsMax": "{{NET_REQUIREMENTS_EXCEEDS_LOT_SIZE_BY_ONE}}",
+        "plannedOrderQuantityRoundedMax": "{{PLANNED_ORDER_QUANTITY_ROUNDED_TO_NEXT_LOT}}",
+        "roundingIncrement": "{{ROUNDING_INCREMENT}}"
+      },
+      "expectedOutcome": "Planned order generated with quantity rounded up to next lot size; informational message may appear"
+    },
+    "TD-CS-054-EDGE-003": {
+      "id": "TD-CS-054-EDGE-003",
+      "name": "Zero Available Capacity — 100% Utilization",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "workCenter": "{{WORK_CENTER_CODE}}",
+        "totalCapacity": "{{TOTAL_CAPACITY_UNITS}}",
+        "loadedCapacity": "{{LOADED_CAPACITY_EQUALS_TOTAL}}",
+        "availableCapacityZero": "{{AVAILABLE_CAPACITY_ZERO}}",
+        "capacityUtilization100": "{{CAPACITY_UTILIZATION_100_PERCENT}}"
+      },
+      "expectedOutcome": "Planned order generated; capacity overview shows 100% utilization or overload"
+    },
+    "TD-CS-054-EDGE-004": {
+      "id": "TD-CS-054-EDGE-004",
+      "name": "Planning Horizon — 1 Day Minimum",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "planningHorizonFromMin": "{{PLANNING_HORIZON_FROM_TODAY}}",
+        "planningHorizonToMin": "{{PLANNING_HORIZON_TO_1_DAY_FROM_TODAY}}",
+        "netRequirements": "{{NET_REQUIREMENTS_1_DAY_PERIOD}}",
+        "plannedOrderQuantity": "{{PLANNED_ORDER_QUANTITY_1_DAY}}"
+      },
+      "expectedOutcome": "MRP run completes with 1-day planning horizon; planned order generated for requirements within 1 day"
+    },
+    "TD-CS-054-INT-001": {
+      "id": "TD-CS-054-INT-001",
+      "name": "Cross-Module Integration — SD Sales Orders and MM Stock",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_FINISHED_PRODUCT}}",
+        "materialDesc": "{{MATERIAL_DESC_FINISHED_PRODUCT}}",
+        "plant": "{{PLANT_CODE}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "planningMode": "{{PLANNING_MODE_NET_CHANGE}}",
+        "salesOrderNumber": "{{SALES_ORDER_NUMBER_SD}}",
+        "salesOrderQuantity": "{{SALES_ORDER_QUANTITY}}",
+        "customer": "{{CUSTOMER_ID}}",
+        "currentStockMM": "{{CURRENT_STOCK_LEVEL_MM}}",
+        "totalSalesDemand": "{{TOTAL_SALES_DEMAND_SD}}",
+        "netRequirementsCalc": "{{NET_REQUIREMENTS_SD_MINUS_MM}}",
+        "plannedOrderQuantity": "{{PLANNED_ORDER_QUANTITY_COVERING_NET_REQ}}"
+      },
+      "expectedOutcome": "MRP run integrates SD sales orders and MM stock; planned order generated covering net requirements"
+    }
+  }
+}

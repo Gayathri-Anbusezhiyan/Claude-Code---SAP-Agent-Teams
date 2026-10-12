@@ -1,0 +1,335 @@
+{
+  "userStory": "CS-32",
+  "module": "MM",
+  "feature": "Batch Expiration Management",
+  "generatedAt": "2026-08-23T18:12:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login step 2",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login step 4"
+  },
+  "testDataSets": {
+    "TD-CS-032-001": {
+      "id": "TD-CS-032-001",
+      "name": "Valid Batch Stock View — Manage Stock Navigation",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-031"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_ACTIVE}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_UNRESTRICTED}}"
+      },
+      "expectedOutcome": "Manage Stock app accessible; batch stock data visible with Material, Batch, Plant, Storage Location, Stock Quantity, Stock Type, and SLED"
+    },
+    "TD-CS-032-002": {
+      "id": "TD-CS-032-002",
+      "name": "Expired Batch — Background Job Auto-Restriction",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-032"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatchNumber": "{{BATCH_NUMBER_EXPIRED}}",
+        "expiredDate": "{{DATE_PAST_SLED}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_UNRESTRICTED}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}",
+        "unrestrictedStockQuantity": "{{STOCK_QUANTITY_STANDARD}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Background job runs; expired batch auto-transferred from Unrestricted to Blocked; notification generated"
+    },
+    "TD-CS-032-003": {
+      "id": "TD-CS-032-003",
+      "name": "DESTROY Disposition — Blocked Batch Removal",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-033"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "blockedBatchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "plant": "{{PLANT_CODE}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}",
+        "blockedStockQuantity": "{{STOCK_QUANTITY_STANDARD}}",
+        "dispositionActionDestroy": "DESTROY",
+        "dispositionUser": "{{USER_ID_QA_AUTHORIZED}}",
+        "dispositionReasonCode": "{{DISPOSITION_REASON_EXPIRED}}",
+        "dispositionComments": "{{DISPOSITION_COMMENT_DESTROY}}"
+      },
+      "expectedOutcome": "DESTROY disposition completed; batch removed from blocked stock; audit record created"
+    },
+    "TD-CS-032-004": {
+      "id": "TD-CS-032-004",
+      "name": "RETURN Disposition — Blocked Batch Removal",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-034"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "blockedBatchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "plant": "{{PLANT_CODE}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}",
+        "blockedStockQuantity": "{{STOCK_QUANTITY_STANDARD}}",
+        "dispositionActionReturn": "RETURN",
+        "dispositionUser": "{{USER_ID_QA_AUTHORIZED}}",
+        "dispositionReasonCode": "{{DISPOSITION_REASON_RETURN_TO_VENDOR}}",
+        "dispositionComments": "{{DISPOSITION_COMMENT_RETURN}}"
+      },
+      "expectedOutcome": "RETURN disposition completed; batch removed from blocked stock; audit record created"
+    },
+    "TD-CS-032-005": {
+      "id": "TD-CS-032-005",
+      "name": "REWORK Disposition — Blocked Batch Removal",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-035"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "blockedBatchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "plant": "{{PLANT_CODE}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}",
+        "blockedStockQuantity": "{{STOCK_QUANTITY_STANDARD}}",
+        "dispositionActionRework": "REWORK",
+        "dispositionUser": "{{USER_ID_QA_AUTHORIZED}}",
+        "dispositionReasonCode": "{{DISPOSITION_REASON_REPROCESS}}",
+        "dispositionComments": "{{DISPOSITION_COMMENT_REWORK}}"
+      },
+      "expectedOutcome": "REWORK disposition completed; batch removed from blocked stock; audit record created"
+    },
+    "TD-CS-032-006": {
+      "id": "TD-CS-032-006",
+      "name": "Audit Report — Disposition History Verification",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-036"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "disposedBatchNumber": "{{BATCH_NUMBER_DISPOSED}}",
+        "dispositionAction": "{{DISPOSITION_ACTION_ANY}}",
+        "dispositionDateFrom": "{{DATE_REPORT_START}}",
+        "dispositionDateTo": "{{DATE_REPORT_END}}",
+        "dispositionUser": "{{USER_ID_QA_AUTHORIZED}}"
+      },
+      "expectedOutcome": "Audit report displays all disposition records with Material, Batch, Action, Date (timestamp), User, and Comments"
+    },
+    "TD-CS-032-NEG-001": {
+      "id": "TD-CS-032-NEG-001",
+      "name": "No Expired Batches — Job Runs Successfully",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-037"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "nonExpiredBatchNumber": "{{BATCH_NUMBER_FUTURE_SLED}}",
+        "futureExpirationDate": "{{DATE_FUTURE_SLED}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_UNRESTRICTED}}",
+        "unrestrictedStockQuantity": "{{STOCK_QUANTITY_STANDARD}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Job runs; 0 batches identified as expired; no transfer occurs; no notification generated"
+    },
+    "TD-CS-032-NEG-002": {
+      "id": "TD-CS-032-NEG-002",
+      "name": "Batch Already Blocked — No Duplicate Transfer",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-038"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "alreadyBlockedBatchNumber": "{{BATCH_NUMBER_ALREADY_BLOCKED}}",
+        "expiredDate": "{{DATE_PAST_SLED}}",
+        "plant": "{{PLANT_CODE}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}",
+        "blockedStockQuantity": "{{STOCK_QUANTITY_STANDARD}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Job runs; batch already blocked — no duplicate transfer; no new material document created"
+    },
+    "TD-CS-032-NEG-003": {
+      "id": "TD-CS-032-NEG-003",
+      "name": "Non-Batch Material — System Skips Processing",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-039"],
+      "data": {
+        "nonBatchManagedMaterialId": "{{MATERIAL_ID_NON_BATCH_MANAGED}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Job runs; material skipped (no batch management enabled); warning logged; job completes successfully"
+    },
+    "TD-CS-032-NEG-004": {
+      "id": "TD-CS-032-NEG-004",
+      "name": "Missing Blocked Storage Location — Transfer Fails",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-040"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatchNumber": "{{BATCH_NUMBER_EXPIRED}}",
+        "expiredDate": "{{DATE_PAST_SLED}}",
+        "plantWithoutBlockedSloc": "{{PLANT_CODE_NO_BLOCKED_SLOC}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Job runs; transfer fails due to missing blocked storage location; error logged; batch remains unrestricted"
+    },
+    "TD-CS-032-ERR-001": {
+      "id": "TD-CS-032-ERR-001",
+      "name": "Background Job Failure — System Error",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Job fails with ABAP dump or authorization error; job status = Aborted/Error; no stock transfers occur; alert generated"
+    },
+    "TD-CS-032-ERR-002": {
+      "id": "TD-CS-032-ERR-002",
+      "name": "Material Document Creation Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatchNumber": "{{BATCH_NUMBER_EXPIRED}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Job runs; material document creation fails (e.g., fiscal year closed); error logged; batch remains unrestricted"
+    },
+    "TD-CS-032-ERR-003": {
+      "id": "TD-CS-032-ERR-003",
+      "name": "Notification Send Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatchNumber": "{{BATCH_NUMBER_EXPIRED}}"
+      },
+      "expectedOutcome": "Stock transfer succeeds; notification send fails (email/workflow error); error logged; no notification in inbox"
+    },
+    "TD-CS-032-ERR-004": {
+      "id": "TD-CS-032-ERR-004",
+      "name": "Unauthorized Disposition Attempt",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "blockedBatchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "unauthorizedUser": "{{USER_ID_WAREHOUSE_NO_DISP_AUTH}}",
+        "dispositionActionDestroy": "DESTROY"
+      },
+      "expectedOutcome": "Disposition rejected with authorization error; batch remains blocked; no disposition record created"
+    },
+    "TD-CS-032-ERR-005": {
+      "id": "TD-CS-032-ERR-005",
+      "name": "Missing Disposition Action — Validation Error",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-045"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "blockedBatchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "emptyValue": ""
+      },
+      "note": "Disposition Action field intentionally left blank to test mandatory field validation",
+      "expectedOutcome": "Submission blocked; error: 'Disposition Action is required'; Disposition Action field highlighted"
+    },
+    "TD-CS-032-ERR-006": {
+      "id": "TD-CS-032-ERR-006",
+      "name": "Audit Report Generation Failure",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-046"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "dispositionDateFrom": "{{DATE_REPORT_START}}"
+      },
+      "expectedOutcome": "Report execution fails (authorization/database error) OR report displays with missing/incomplete data"
+    },
+    "TD-CS-032-EDGE-001": {
+      "id": "TD-CS-032-EDGE-001",
+      "name": "Batch Expires Today — SLED Boundary Condition (Lower)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-047"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchExpiringToday": "{{BATCH_NUMBER_SLED_TODAY}}",
+        "expirationDateToday": "{{DATE_CURRENT_SYSTEM_DATE}}",
+        "plant": "{{PLANT_CODE}}",
+        "storageLocation": "{{STORAGE_LOCATION_UNRESTRICTED}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}",
+        "batchExpirationJobName": "{{BACKGROUND_JOB_BATCH_EXPIRATION}}"
+      },
+      "expectedOutcome": "Batch with SLED = today is identified as expired; stock transferred to blocked; notification generated"
+    },
+    "TD-CS-032-EDGE-002": {
+      "id": "TD-CS-032-EDGE-002",
+      "name": "Zero Unrestricted Stock — Stock Quantity Boundary (Lower)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-048"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatchZeroStock": "{{BATCH_NUMBER_EXPIRED_ZERO_STOCK}}",
+        "expiredDate": "{{DATE_PAST_SLED}}",
+        "unrestrictedStockQuantity": "0"
+      },
+      "expectedOutcome": "Batch identified as expired; no stock to transfer (unrestricted = 0); no material document created; notification generated"
+    },
+    "TD-CS-032-EDGE-003": {
+      "id": "TD-CS-032-EDGE-003",
+      "name": "Multiple Batches Expire Same Day — Batch Count Boundary (Upper)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-049"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "expiredBatch1": "{{BATCH_NUMBER_EXPIRED_1}}",
+        "expiredBatch2": "{{BATCH_NUMBER_EXPIRED_2}}",
+        "expiredBatch3": "{{BATCH_NUMBER_EXPIRED_3}}",
+        "expiredDate": "{{DATE_PAST_SLED_COMMON}}",
+        "plant": "{{PLANT_CODE}}",
+        "blockedStorageLocation": "{{STORAGE_LOCATION_BLOCKED}}"
+      },
+      "expectedOutcome": "All 3 batches identified as expired in single job run; all transferred to blocked; 3 material documents created"
+    },
+    "TD-CS-032-EDGE-004": {
+      "id": "TD-CS-032-EDGE-004",
+      "name": "Null SLED — Expiration Date Boundary (Null)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-050"],
+      "data": {
+        "materialId": "{{MATERIAL_ID_BATCH_MANAGED}}",
+        "batchWithNullSled": "{{BATCH_NUMBER_NULL_SLED}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "note": "Batch SLED field is null/blank/not maintained in batch master",
+      "expectedOutcome": "Batch skipped from expiration processing; warning logged; job completes; batch remains unrestricted"
+    }
+  },
+  "allPlaceholders": [
+    "{{MATERIAL_ID_BATCH_MANAGED}}",
+    "{{MATERIAL_ID_NON_BATCH_MANAGED}}",
+    "{{BATCH_NUMBER_ACTIVE}}",
+    "{{BATCH_NUMBER_EXPIRED}}",
+    "{{BATCH_NUMBER_BLOCKED}}",
+    "{{BATCH_NUMBER_DISPOSED}}",
+    "{{BATCH_NUMBER_FUTURE_SLED}}",
+    "{{BATCH_NUMBER_ALREADY_BLOCKED}}",
+    "{{BATCH_NUMBER_EXPIRED_ZERO_STOCK}}",
+    "{{BATCH_NUMBER_SLED_TODAY}}",
+    "{{BATCH_NUMBER_EXPIRED_1}}",
+    "{{BATCH_NUMBER_EXPIRED_2}}",
+    "{{BATCH_NUMBER_EXPIRED_3}}",
+    "{{BATCH_NUMBER_NULL_SLED}}",
+    "{{PLANT_CODE}}",
+    "{{PLANT_CODE_NO_BLOCKED_SLOC}}",
+    "{{STORAGE_LOCATION_UNRESTRICTED}}",
+    "{{STORAGE_LOCATION_BLOCKED}}",
+    "{{STOCK_QUANTITY_STANDARD}}",
+    "{{DATE_PAST_SLED}}",
+    "{{DATE_FUTURE_SLED}}",
+    "{{DATE_PAST_SLED_COMMON}}",
+    "{{DATE_CURRENT_SYSTEM_DATE}}",
+    "{{DATE_REPORT_START}}",
+    "{{DATE_REPORT_END}}",
+    "{{BACKGROUND_JOB_BATCH_EXPIRATION}}",
+    "{{USER_ID_QA_AUTHORIZED}}",
+    "{{USER_ID_WAREHOUSE_NO_DISP_AUTH}}",
+    "{{DISPOSITION_ACTION_ANY}}",
+    "{{DISPOSITION_REASON_EXPIRED}}",
+    "{{DISPOSITION_REASON_RETURN_TO_VENDOR}}",
+    "{{DISPOSITION_REASON_REPROCESS}}",
+    "{{DISPOSITION_COMMENT_DESTROY}}",
+    "{{DISPOSITION_COMMENT_RETURN}}",
+    "{{DISPOSITION_COMMENT_REWORK}}"
+  ]
+}

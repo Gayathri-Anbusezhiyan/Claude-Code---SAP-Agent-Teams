@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-24",
+  "type": "Task",
+  "summary": "Create A Subcontracting Purchase Order For Outsourced Fill-Finish Manu",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Procurement Officer, I want to create a Subcontracting Purchase Order for outsourced fill-finish manufacturing, so that raw materials can be provided to a Contract Manufacturing Organization (CMO) and the finished product received back into inventory.",
+  "acceptanceCriteria": "1. The user can access the \"Create Purchase Order\" Fiori app with item category \"Subcontracting.\"\n2. The system allows the user to specify the components to be provided to the CMO against the subcontracted finished material.\n3. The system tracks components issued to the vendor as \"Stock provided to vendor\" inventory.\n4. Upon goods receipt of the finished product, the system automatically consumes the corresponding component stock at the CMO.\n5. The system triggers a quality inspection lot for the received finished goods per standard GMP receipt rules.\n6. The user can view open component balances at the CMO through the \"Stock Overview\" app.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:11.606+0530",
+  "updated": "2026-08-21T14:11:11.690+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-24",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

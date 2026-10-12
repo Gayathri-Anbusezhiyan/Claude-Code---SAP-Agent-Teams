@@ -1,0 +1,137 @@
+{
+  "phaseNumber": 5,
+  "phaseName": "Self-Healing Agent — MCP Re-execution",
+  "timestamp": "2026-05-29T01:30:00.000Z",
+  "testId": "TC-CS-021",
+  "userStory": "CS-2",
+  "executionMode": "HEADED (Playwright MCP with visible browser)",
+  "reExecutionStatus": "PARTIAL_SUCCESS_WITH_LOCATOR_FIX_NEEDED",
+  "summary": {
+    "rootCauseIdentified": true,
+    "locatorStrategyFixed": true,
+    "workingLocator": "[title=\"Open Search\"]",
+    "infrastructureIssue": "Script uses wrong locator: getByRole('button', { name: 'Open Search' }). SAP renders search button with [title=\"Open Search\"], not matching the role-based selector used in the script.",
+    "applicableToAllTCs": true,
+    "applicableToOtherApps": false,
+    "severity": "HIGH"
+  },
+  "executionSteps": {
+    "step_1_navigate": {
+      "action": "Navigate to SAP Fiori URL",
+      "sapUrl": "https://my429998.s4hana.cloud.sap/ui?sap-language=en&help-mixedLanguages=false&help-autoStartTour=e8bc3755f84d8126e10000000a4450e5#Shell-home",
+      "result": "SUCCESS",
+      "redirectedToIdp": true,
+      "idpUrl": "https://accounts.sap.com/saml2/idp/sso"
+    },
+    "step_2_login": {
+      "action": "Login via IDP (email → Continue → password → Continue)",
+      "username": "sunil.yogi@capgemini.com",
+      "passwordProvided": true,
+      "result": "SUCCESS",
+      "pageAfterLogin": "SAP Fiori Home (Shell-home)"
+    },
+    "step_3_dismissGuidedTour": {
+      "action": "Dismiss Guided Tour dialog if shown",
+      "dialogShown": true,
+      "dialogType": "Start Guided Tour",
+      "dismissButtonLocator": "button[aria-label=\"Leave Tour\"]",
+      "result": "SUCCESS"
+    },
+    "step_4_searchButton": {
+      "action": "Attempt to locate and click search button",
+      "scriptLocator": "getByRole('button', { name: 'Open Search' })",
+      "scriptLocatorResult": "FAILED — does not match",
+      "strategy_1_tryOriginal": {
+        "locator": "getByRole('button', { name: 'Open Search' })",
+        "result": "FAIL — no match"
+      },
+      "strategy_2_byCssTitle": {
+        "locator": "[title=\"Open Search\"]",
+        "result": "SUCCESS — element found and clicked",
+        "elementRef": "e510 or similar",
+        "searchUIOpened": true
+      },
+      "workingStrategy": "CSS attribute selector [title=\"Open Search\"]",
+      "notes": "SAP Fiori shell bar renders search button with HTML title attribute, not matching role-based selectors. This is a SAP UI5 implementation detail."
+    },
+    "step_5_typeSearchText": {
+      "action": "Type 'Manage Purchase Orders' in search field",
+      "searchFieldLocator": "#searchFieldInShell-input-inner",
+      "searchText": "Manage Purchase Orders",
+      "result": "SUCCESS",
+      "searchUIState": "dropdown shown with results"
+    },
+    "step_6_selectSearchResult": {
+      "action": "Select 'Manage Purchase Orders' from search results",
+      "method": "Press ArrowDown then Enter",
+      "result": "SUCCESS",
+      "urlAfter": "https://my429998.s4hana.cloud.sap/ui?...#PurchaseOrder-manage&/?...",
+      "pageTitle": "Manage Purchase Orders"
+    },
+    "step_7_managePoPageLoads": {
+      "action": "Manage Purchase Orders app loads",
+      "pageState": "List view with filters",
+      "createPoButton": "FOUND",
+      "createPoButtonText": "Create PO",
+      "result": "SUCCESS"
+    },
+    "step_8_clickCreatePo": {
+      "action": "Click 'Create PO' button to start new PO creation",
+      "buttonLocator": "button:has-text(\"Create PO\")",
+      "result": "SUCCESS",
+      "pageAfter": "New Purchase Order form (draft mode, IsActiveEntity=false)",
+      "pageTitle": "New Purchase Order - Purchase Order"
+    },
+    "step_9_poFormLoads": {
+      "action": "Purchase Order creation form loads",
+      "formState": "Draft mode, ready for data entry",
+      "supplierFieldFound": true,
+      "result": "SUCCESS (partial — execution stopped due to timing constraints)"
+    }
+  },
+  "criticalFindings": {
+    "infrastructureBugRoot": "LOCATOR_MISMATCH",
+    "bugSummary": "The automation script in purchase-order.page.js method openSearch() uses getByRole('button', { name: 'Open Search' }) which does NOT match the SAP Fiori shell bar search button. The correct locator is [title=\"Open Search\"] (CSS attribute selector).",
+    "whyItFails": "Playwright's getByRole() uses accessibility tree lookups. SAP Fiori shell bar search button is rendered with role=button but does NOT have accessible name 'Open Search' — instead, it has an HTML title attribute. The accessibility tree does not expose this as the accessible name.",
+    "sapImplementationDetail": "SAP UI5 shell bar uses <button title=\"Open Search\"> — a button with a title attribute instead of aria-label or explicit accessible name.",
+    "affectedScripts": [
+      "automation/pages/mm/purchase-order/purchase-order.page.js — openSearch() method at line 130"
+    ],
+    "fixStrategy": "REPLACE_LOCATOR",
+    "fixDetails": "Change from getByRole('button', { name: 'Open Search' }) to page.locator('[title=\"Open Search\"]')",
+    "riskOfFix": "LOW — CSS attribute selector is more stable and specific than role-based for this UI5 element"
+  },
+  "sapBehaviorObservations": {
+    "loginFlow": "Two-step IDP (email → Continue → password → Continue) works as expected. SAP_USERNAME and SAP_PASSWORD from .env are correct.",
+    "guidedTourPresence": "Guided Tour dialog ALWAYS appears on login — must be dismissed.",
+    "searchFunction": "Search opens immediately when [title=\"Open Search\"] clicked. Results appear in a dropdown grid. Keyboard navigation (ArrowDown + Enter) works to select results.",
+    "appNavigation": "Once search result selected, app opens in new context (URL hash changes to #PurchaseOrder-manage). Page takes 2-3 seconds to fully load.",
+    "createPoButton": "Button is enabled on app list page. Clicking opens a new draft PO form.",
+    "draftMode": "New PO created immediately in draft mode (IsActiveEntity=false). URL shows draft UUID.",
+    "paginationBug": "During form data entry, MCP encountered performance delays (likely due to SAP UI5 rendering overhead on the MCP server side). This is not a SAP behavior issue but a test environment constraint."
+  },
+  "testDataValidation": {
+    "supplierId": "17300002 (Carbon Tec Inc.) — READY",
+    "materialId": "RMPI001 (Input 1 WATER) — READY",
+    "quantity": "10 — READY",
+    "price": "0.08 USD — READY",
+    "plant": "1710 — READY",
+    "purchasingOrg": "1710 — auto-populated from supplier",
+    "companyCode": "1710 — auto-populated from supplier"
+  },
+  "reExecutionOutcome": "INFRASTRUCTURE_BUG_CONFIRMED_AND_FIXABLE",
+  "nextAction": "PATCH_SCRIPTS",
+  "patchRequired": true,
+  "patchDetails": {
+    "file": "automation/pages/mm/purchase-order/purchase-order.page.js",
+    "method": "openSearch()",
+    "lineNumber": "~130",
+    "currentCode": "await this.page.getByRole('button', { name: 'Open Search' }).click();",
+    "newCode": "await this.page.locator('[title=\"Open Search\"]').click();",
+    "rationale": "SAP Fiori shell bar search button uses HTML title attribute, not accessible name. CSS selector is more reliable."
+  },
+  "escalationDecision": "DO_NOT_ESCALATE_TO_DEFECT_LOGGING",
+  "escalationReason": "This is an AUTOMATION_BUG (wrong locator strategy in script), not an APP_DEFECT (SAP behavior violation). The fix is straightforward and within the scripting layer. No need to log a Jira defect against SAP.",
+  "designedToFailNote": "TC-CS-021 is designed to fail at Step 22 (success notification assertion), but it currently fails at Step 7 (infrastructure bug). After applying the patch, TC execution will proceed to Step 22 where the actual assertion failure (EXPECTED) will occur. Only then can we validate the APP_DEFECT and proceed with /log-defect if warranted.",
+  "verificationPlan": "After patching purchase-order.page.js, re-run TC-CS-021 via Playwright runner. Expected outcome: Test proceeds to Step 22, fails at the success notification assertion (as designed), and can be escalated to /log-defect to validate the defect logging pipeline."
+}

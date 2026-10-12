@@ -1,0 +1,57 @@
+{
+  "issueKey": "CS-2",
+  "type": "Story",
+  "summary": "Create a New Standard Purchase Order in SAP S/4HANA Cloud",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": 2,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [],
+  "components": [],
+  "description": "As a **Procurement Officer**, I want to create a new Standard Purchase Order by specifying a supplier, material, quantity, and price, so that I can formally initiate a procurement transaction that is tracked with a unique PO number in the system.",
+  "acceptanceCriteria": "- The user can access the \"Manage Purchase Orders\" application from the SAP Fiori launchpad.\n\n- A new Purchase Order form is available by clicking \"Create\" on the Manage Purchase Orders page.\n\n- The system validates the entered Supplier ID and auto-populates supplier details upon confirmation.\n\n- The user can add one or more line items to the order by specifying a material, order quantity, and net order price.\n\n- The system validates the material number and auto-populates material details upon confirmation.\n\n- A unique Standard Purchase Order number is generated and displayed upon successful order submission.\n\n- The system prevents submission if any mandatory field (Supplier, Material, Quantity, Price) is missing and clearly indicates which fields need to be filled.\n\n- The system displays a descriptive error message if the supplier or material entered does not exist in the system.",
+  "linkedIssues": [
+    {
+      "direction": "inward",
+      "linkType": "Defect",
+      "key": "CS-6",
+      "summary": "[MM] TC-CS-021: PO success notification does not display generated PO number — AC-6 violated",
+      "status": "To Do",
+      "issueType": "Bug"
+    }
+  ],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [
+    {
+      "author": "Pabbathi Sai Chand Reddy",
+      "created": "2026-05-18T16:19:01.275+0530",
+      "body": "Defect \\[CS-6|https://jira-naqet.atlassian.net/browse/CS-6\\] detected by automation.\n\n_Test Case:_ TC-CS-021 — Verify System Displays a Formal Success Confirmation After PO Submission\n_AC Violated:_ AC-6: A unique Standard Purchase Order number is generated and displayed upon successful order submission.\n_Status:_ Open — logged automatically by Defect Logging Agent on 2026-05-18\n\n_Summary of Defect:_ After clicking the Order button with valid PO data, SAP displays a generic alert \"Purchase order has been created.\" that does NOT include the 10-digit PO number. The system then navigates to the list page. The PO number is absent from the success confirmation flow, violating AC-6's \"displayed\" requirement.\n\n_Evidence:_ Confirmed across 3 executions (Phase 3 MCP exploration + 2 Playwright test runner runs). All executions produced identical behavior."
+    },
+    {
+      "author": "Pabbathi Sai Chand Reddy",
+      "created": "2026-05-19T11:16:41.473+0530",
+      "body": "**Re-run confirmation (2026-05-19):** Defect \\[CS-6|https://jira-naqet.atlassian.net/browse/CS-6\\] re-confirmed by automated pipeline re-run (/e2e-automation-v2 CS-2).\n\n_Test Case:_ TC-CS-021 — Verify System Displays a Formal Success Confirmation After PO Submission\n_AC Violated:_ AC-6: A unique Standard Purchase Order number is generated and displayed upon successful order submission.\n_Status:_ Open (CS-6 unchanged) — re-confirmed automatically by Defect Logging Agent on 2026-05-19\n\n_Evidence:_ Confirmed across 2 additional MCP executions (Phase 3a + Phase 5b, 2026-05-19T05:36:13Z). SAP consistently shows role=alert \"Purchase order has been created.\" without the 10-digit PO number. Behavior unchanged since initial defect report on 2026-05-18."
+    },
+    {
+      "author": "Pabbathi Sai Chand Reddy",
+      "created": "2026-05-21T19:12:40.538+0530",
+      "body": "**Re-run confirmation (2026-05-21 v7):** Defect [CS-6](https://jira-naqet.atlassian.net/browse/CS-6) re-confirmed by automated pipeline re-run (/e2e-automation-v2 CS-2 v7).\n\n_Test Case:_ TC-CS-021 — Verify System Displays a Formal Success Confirmation After PO Submission\n_AC Violated:_ AC-6: A unique Standard Purchase Order number is generated and displayed upon successful order submission.\n_Status:_ Open (CS-6 unchanged) — re-confirmed automatically by Defect Logging Agent on 2026-05-21\n\n_Evidence:_ Confirmed across 2 additional MCP executions in this run (Phase 3a + Phase 5b, 2026-05-21T13:32:00Z). SAP consistently shows role=alert \"Purchase order has been created.\" without the 10-digit PO number. This is the 5th consecutive confirmation across pipeline runs on 2026-05-18, 2026-05-19, and 2026-05-21. Behavior unchanged since initial defect report."
+    }
+  ],
+  "created": "2026-05-10T18:40:01.565+0530",
+  "updated": "2026-05-21T19:12:40.538+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-2",
+  "fetchedAt": "2026-08-21T08:55:02.125Z"
+}

@@ -1,0 +1,43 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-05-19T05:36:00.000Z",
+  "classifiedBy": "defect-logging-agent/skills/classify-failure (e2e-automation-v2 Phase 6a)",
+  "reExecutionFile": "self-healing/re-executions/20260519-0536-TC-CS-021/TC-CS-021-reexecution.json",
+  "reExecutionStatus": "FAIL",
+  "sapBehavior": "DIFFERENT",
+  "classification": "APP_DEFECT",
+
+  "evidence": {
+    "sapActualBehavior": "After clicking Order with valid PO data (Supplier 17300002, Material RMPI001, Qty 10, Price 0.08, Plant 1710), SAP displays a transient role=alert 'Purchase order has been created.' that does NOT include the 10-digit PO number. The page immediately navigates to the Manage Purchase Orders list. The PO IS created (verifiable via list search), but the success notification omits the PO number.",
+    "acViolated": "AC-6",
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission.",
+    "acSource": "jira/userstories/CS-2/CS-2.json",
+    "tcExpectedResult": "A dedicated success confirmation notification is displayed immediately after clicking Order, containing the generated PO number (e.g., 'Purchase Order 4500065XXX created successfully').",
+    "explorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+    "runCount": 2,
+    "consistentAcrossRuns": true
+  },
+
+  "defectMetadata": {
+    "module": "MM",
+    "jiraPriority": "High",
+    "labels": ["defect", "automation-detected", "mm", "CS-2"],
+    "acViolated": "AC-6",
+    "acText": "A unique Standard Purchase Order number is generated and displayed upon successful order submission."
+  },
+
+  "duplicateCheck": {
+    "existingDefectFound": true,
+    "existingBugKey": "CS-6",
+    "existingBugUrl": "https://jira-naqet.atlassian.net/browse/CS-6",
+    "existingDefectFile": "defects/CS-2/TC-CS-021-20260518-111500-defect.json",
+    "existingLoggedAt": "2026-05-18T11:15:00.000Z",
+    "action": "SKIP_JIRA_CREATION — defect already exists",
+    "note": "CS-6 was logged on 2026-05-18 for the same AC-6 violation by the same TC-CS-021. This re-run confirms the same behavior. No new Jira Bug created."
+  },
+
+  "recommendation": "LOG_DEFECT (existing: CS-6)",
+  "confidence": "HIGH",
+  "notes": "SAP consistently shows generic alert without PO number across all runs. AC-6 violation confirmed. Existing Jira Bug CS-6 covers this defect — no new Bug created."
+}

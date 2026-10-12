@@ -1,0 +1,364 @@
+{
+  "userStory": "CS-53",
+  "summary": "Review And Electronically Sign Off The Electronic Batch Record (Ebr) G",
+  "module": "PP-QM",
+  "analysedAt": "2026-08-21T00:00:00Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "QA Reviewer",
+  "businessObject": "Electronic Batch Record (EBR) / Batch",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Review Batch Records\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system compiles all process order data — component consumption, in-process controls, confirmations, and deviations — into a structured batch record.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system prevents batch record approval if any mandatory in-process control result is missing or out of specification without a documented deviation.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["NEG", "HP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The reviewer can add electronic signatures with a timestamp and user ID compliant with 21 CFR Part 11 requirements.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The batch cannot be transferred to Unrestricted-Use stock until the batch record is fully approved.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The completed, signed batch record is archived and retrievable for regulatory inspection.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Review and approve batch record with all in-spec results, no deviations",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Review and approve batch record with out-of-spec result AND documented/approved deviation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Retrieve archived batch record for regulatory inspection",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Review batch record, add comments, and approve",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to approve batch record with missing mandatory in-process control result",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to approve batch record with out-of-spec result and NO documented deviation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to access \"Review Batch Records\" app without QA authorization",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to transfer batch to Unrestricted-Use stock before batch record approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Process Order Number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Process Order"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Batch Number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Batch"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Electronic Signature Password",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Signature Password"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Invalid Electronic Signature Password",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "field": "Signature Password"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Non-existent Process Order Number",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Process Order"
+      },
+      {
+        "id": "ERR-06",
+        "description": "Non-existent Batch Number",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Batch"
+      },
+      {
+        "id": "ERR-07",
+        "description": "Process Order not in TECO status (not technically complete)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "field": "Process Order"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Batch record with zero deviations (all in-spec)",
+        "risk": "LOW",
+        "acIds": ["AC-3"],
+        "parameter": "deviation count",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Batch record with maximum allowed reviewer comments length",
+        "risk": "LOW",
+        "acIds": ["AC-4"],
+        "parameter": "reviewer comments",
+        "boundary": "upper"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify PP-QM integration: process order confirmations + inspection results compiled into batch record",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "linkedIssue": null
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify MM-QM integration: batch release decision enables Unrestricted-Use stock transfer",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "linkedIssue": null
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify 21 CFR Part 11 compliance: electronic signature includes timestamp, user ID, and audit trail",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"],
+        "linkedIssue": null
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 7,
+    "EDGE": 2,
+    "INT": 3,
+    "total": 20
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "processOrderNumber",
+        "label": "Process Order",
+        "mandatory": true,
+        "validRange": "Existing completed process order in SAP (status = TECO)"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch linked to process order"
+      },
+      {
+        "name": "reviewerComments",
+        "label": "Comments / Review Notes",
+        "mandatory": false,
+        "validRange": "Free text (max 255 chars typical)"
+      },
+      {
+        "name": "electronicSignature",
+        "label": "Signature / User ID",
+        "mandatory": true,
+        "validRange": "Current logged-in user with QA authorization"
+      },
+      {
+        "name": "signaturePassword",
+        "label": "Password / Confirm Identity",
+        "mandatory": true,
+        "validRange": "User's SAP password for signature authentication"
+      },
+      {
+        "name": "deviationReference",
+        "label": "Deviation Number / Quality Notification",
+        "mandatory": false,
+        "validRange": "Existing approved QM notification (conditional: if out-of-spec result exists)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "batchRecordStatus",
+        "label": "Status",
+        "trigger": "Process order confirmation"
+      },
+      {
+        "name": "componentConsumption",
+        "label": "Components Used",
+        "trigger": "Process order confirmation"
+      },
+      {
+        "name": "inProcessControlResults",
+        "label": "Inspection Results",
+        "trigger": "Inspection lot completion"
+      },
+      {
+        "name": "processOrderConfirmations",
+        "label": "Operation Confirmations",
+        "trigger": "Operation confirmation"
+      },
+      {
+        "name": "deviationRecords",
+        "label": "Deviations",
+        "trigger": "Quality notification creation"
+      },
+      {
+        "name": "reviewerName",
+        "label": "Reviewed By",
+        "trigger": "Electronic signature entry"
+      },
+      {
+        "name": "signatureTimestamp",
+        "label": "Signed On",
+        "trigger": "Electronic signature entry"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material",
+        "trigger": "Batch number entry"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "trigger": "Batch number entry"
+      }
+    ],
+    "output": [
+      {
+        "name": "ebrDocumentNumber",
+        "label": "EBR Document Number",
+        "format": "Alphanumeric (e.g., EBR-2026-00001 or SAP archive object ID)"
+      },
+      {
+        "name": "approvalStatus",
+        "label": "Approval Status",
+        "format": "APPROVED / PENDING / REJECTED"
+      },
+      {
+        "name": "archiveReference",
+        "label": "Archive Reference",
+        "format": "Alphanumeric (SAP ArchiveLink object ID)"
+      },
+      {
+        "name": "stockTypeAfterRelease",
+        "label": "Stock Type After Release",
+        "format": "UR (Unrestricted-Use) if approved"
+      },
+      {
+        "name": "auditTrailEntry",
+        "label": "Audit Trail Entry",
+        "format": "Timestamp + User ID + Action (21 CFR Part 11 compliant)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "reviewerComments",
+        "label": "Reviewer Comments",
+        "lowerBoundary": "0 characters",
+        "upperBoundary": "255 characters",
+        "zeroInvalid": false
+      },
+      {
+        "name": "inProcessControlResultCount",
+        "label": "In-Process Control Result Count",
+        "lowerBoundary": "1",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": true
+      },
+      {
+        "name": "deviationCount",
+        "label": "Deviation Count",
+        "lowerBoundary": "0",
+        "upperBoundary": "system-configured",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,347 @@
+{
+  "userStory": "CS-56",
+  "summary": "View A Batch Genealogy Report Showing The Complete Lineage From Raw Ma",
+  "module": "PP/QM",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Supervisor",
+  "businessObject": "Batch Genealogy Report / Batch Record",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Batch Information Cockpit\" or equivalent genealogy Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can search by finished goods batch number to view all consumed component batches and their originating vendors.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system displays the full where-used chain if the finished batch was further processed or repackaged.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The report includes relevant dates: manufacturing, in-process control results, and release date.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The report can be exported for inclusion in a regulatory recall response or customer quality inquiry.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system returns genealogy results within an acceptable time frame to support time-critical recall investigations.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["Performance Testing"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "View genealogy for a finished goods batch with single-level BOM",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "View genealogy for a finished goods batch with multi-level BOM (raw → intermediate → finished)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-03",
+        "description": "View where-used chain for a batch that was further processed (finished → repackaged)",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-3", "AC-4", "AC-6"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Export genealogy report to file (PDF or Excel)",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Search by batch number without specifying material (system derives material)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Search with both component view and where-used view enabled (bidirectional genealogy)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Search by non-existent finished goods batch number",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-6"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Search by batch number in wrong format (invalid characters or length)",
+        "risk": "LOW",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Access Batch Information Cockpit without required authorization",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Search by batch that has no component batches (never consumed anything)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Batch Number field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Batch Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Export fails due to system authorization or technical error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "field": "Export Functionality"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Genealogy query with maximum BOM depth (10+ levels)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-6"],
+        "parameter": "genealogyDepth",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Genealogy query for batch with hundreds of component batches (complex assembly)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-6"],
+        "parameter": "componentBatchCount",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Query genealogy at exactly the acceptable time threshold",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "parameter": "queryResponseTime",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Batch with incomplete dates (e.g., released but no inspection date recorded)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "dateCompleteness",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify vendor batch number linkage from MM goods receipt to PP batch genealogy",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "linkedIssue": "Implicit: MM/PP integration"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify inspection lot results from QM appear in genealogy report",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "linkedIssue": "Implicit: QM/PP integration"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 2,
+    "NEG": 4,
+    "ERR": 2,
+    "EDGE": 4,
+    "INT": 2,
+    "total": 18
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "finishedGoodsBatchNumber",
+        "label": "Batch",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing batch in SAP batch master (MCHA), max 10 characters"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": false,
+        "validRange": "Existing material master, max 18 characters"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric",
+        "mandatory": false,
+        "validRange": "Existing plant in SAP, 4 characters"
+      },
+      {
+        "name": "searchScope",
+        "label": "Direction (Usage/Origin)",
+        "dataType": "Selection",
+        "mandatory": false,
+        "validRange": "Where Used, Components, or Both"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Name",
+        "trigger": "Select Batch Number",
+        "source": "Material Master MAKT"
+      },
+      {
+        "name": "manufacturingDate",
+        "label": "Production Date",
+        "trigger": "Batch Confirmed",
+        "source": "Manufacturing Order Confirmation"
+      },
+      {
+        "name": "vendorBatchNumber",
+        "label": "Vendor Batch",
+        "trigger": "Component Batch Selected",
+        "source": "Batch Classification AUSP/INOB"
+      },
+      {
+        "name": "vendorName",
+        "label": "Supplier",
+        "trigger": "Vendor Batch Loaded",
+        "source": "Vendor Master LFA1"
+      },
+      {
+        "name": "batchStatus",
+        "label": "Release Status",
+        "trigger": "Batch Loaded",
+        "source": "Batch Status (CHVW)"
+      },
+      {
+        "name": "inspectionLotNumber",
+        "label": "Quality Lot",
+        "trigger": "Batch Loaded",
+        "source": "Quality Inspection Lot (QALS)"
+      }
+    ],
+    "output": [
+      {
+        "name": "componentBatchList",
+        "label": "Component Batches",
+        "description": "Multi-level list of consumed raw material and intermediate batches",
+        "format": "Hierarchical tree structure"
+      },
+      {
+        "name": "whereUsedChain",
+        "label": "Where-Used Chain",
+        "description": "List of finished goods or repackaged batches that consumed the searched batch",
+        "format": "Hierarchical tree or list"
+      },
+      {
+        "name": "manufacturingOrderNumbers",
+        "label": "Production Orders",
+        "description": "Production orders that consumed or produced the batches",
+        "format": "12-digit numeric"
+      },
+      {
+        "name": "inspectionResults",
+        "label": "In-Process Control Results",
+        "description": "In-process control results and final release decisions",
+        "format": "Pass/Fail + characteristics"
+      },
+      {
+        "name": "releaseDate",
+        "label": "Release Date",
+        "description": "Batch release to unrestricted use date",
+        "format": "Date (YYYY-MM-DD)"
+      },
+      {
+        "name": "vendorInformation",
+        "label": "Vendor Info",
+        "description": "Originating vendor name and vendor batch number for each raw material batch",
+        "format": "Text + alphanumeric"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "genealogyDepth",
+        "label": "BOM Levels",
+        "lowerBoundary": "1 level (immediate components or where-used)",
+        "upperBoundary": "System-configured maximum (typically 10-15 levels)",
+        "zeroInvalid": false,
+        "notes": "Performance degrades with depth"
+      },
+      {
+        "name": "queryResponseTime",
+        "label": "Query Response Time",
+        "lowerBoundary": "0 seconds (cached)",
+        "upperBoundary": "Acceptable threshold per AC-6 (suggest 10 seconds for complex genealogy)",
+        "zeroInvalid": false,
+        "notes": "Regulatory recall time-criticality"
+      },
+      {
+        "name": "componentBatchCount",
+        "label": "Number of Component Batches",
+        "lowerBoundary": "1 (simple BOM)",
+        "upperBoundary": "Thousands (complex assemblies with multiple BOM levels)",
+        "zeroInvalid": true,
+        "notes": "Test with varying BOM complexity"
+      }
+    ]
+  }
+}

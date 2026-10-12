@@ -1,0 +1,20 @@
+{
+  "key": "CS-56",
+  "summary": "View A Batch Genealogy Report Showing The Complete Lineage From Raw Ma",
+  "status": "To Do",
+  "priority": "Critical",
+  "reporter": "Pabbathi Sai Chand Reddy",
+  "assignee": null,
+  "created": "2026-08-21T08:41:39.869Z",
+  "updated": "2026-08-21T08:41:39.946Z",
+  "description": "As a Production Supervisor, I want to view a Batch Genealogy report showing the complete lineage from raw material batches through to the finished product batch, so that I can respond quickly to a suspected quality issue or regulatory recall request.",
+  "acceptanceCriteria": "1. The user can access the \"Batch Information Cockpit\" or equivalent genealogy Fiori app.2. The user can search by finished goods batch number to view all consumed component batches and their originating vendors.3. The system displays the full where-used chain if the finished batch was further processed or repackaged.4. The report includes relevant dates: manufacturing, in-process control results, and release date.5. The report can be exported for inclusion in a regulatory recall response or customer quality inquiry.6. The system returns genealogy results within an acceptable time frame to support time-critical recall investigations.",
+  "labels": [
+    "Planning",
+    "Production"
+  ],
+  "components": [],
+  "issuelinks": [],
+  "subtasks": [],
+  "fetchedAt": "2026-08-21T09:45:00.000Z"
+}

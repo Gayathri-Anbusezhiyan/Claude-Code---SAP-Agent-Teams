@@ -1,0 +1,172 @@
+{
+  "userStory": "CS-61",
+  "summary": "View A Capacity Planning Overview For Cleanroom/Sterile Manufacturing",
+  "module": "PP",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 16,
+  "byCoverageType": {
+    "HP": 4,
+    "AP": 1,
+    "NEG": 2,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 6,
+    "MEDIUM": 4,
+    "LOW": 2
+  },
+  "automationCandidates": 13,
+  "testCases": [
+    {
+      "id": "TC-CS-167",
+      "title": "View Capacity Planning Overview with Planned and Confirmed Load Displayed",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-001",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "Identify Overload Situation Highlighted on Work Center Capacity View",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-002",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "Reschedule Process Order from Capacity Overview and Verify Updated Start Date",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-003",
+      "acsCovered": ["AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "View Capacity Load Including Cleaning/Changeover Time Between Different Products",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-004",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Resequence Multiple Process Orders Without Changing Dates",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-005",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Attempt to Schedule Process Order into Time Period with Insufficient Capacity (Overload)",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-NEG-001",
+      "acsCovered": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Schedule Two Incompatible Products Back-to-Back Without Accounting for Required Changeover Time",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-NEG-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Attempt to Reschedule Process Order to a Past Date",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-ERR-001",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Attempt to Reschedule Process Order to a Work Center Without Capability for the Material",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-ERR-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Attempt to Access Capacity Planning for Non-Existent Work Center",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-ERR-003",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "View Capacity Planning at 100% Utilization (No Overload)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-EDGE-001",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "View Capacity Planning at 0% Utilization (Idle Work Center)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-EDGE-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Reschedule Process Order with Zero Changeover Time (Same Product Continuation)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "automationCandidate": "YES",
+      "testDataset": "TD-CS-061-EDGE-003",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Reschedule Process Order from Capacity Planning and Verify Process Order Header Updated in Manage Process Orders App",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-061-INT-001",
+      "acsCovered": ["AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Reschedule Process Order and Verify Material Availability Dates Re-Calculated in MRP",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-061-INT-002",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Confirm Operation in Shop Floor Execution and Verify Capacity Load Updated in Capacity Planning",
+      "scenarioType": "INTEGRATION",
+      "priority": "MEDIUM",
+      "automationCandidate": "PARTIAL",
+      "testDataset": "TD-CS-061-INT-003",
+      "acsCovered": ["AC-6"]
+    }
+  ],
+  "testdataFile": "testdata/CS-61/CS-61-testdata.json",
+  "testdataGuideFile": "testdata/CS-61/CS-61-testdata-guide.md"
+}

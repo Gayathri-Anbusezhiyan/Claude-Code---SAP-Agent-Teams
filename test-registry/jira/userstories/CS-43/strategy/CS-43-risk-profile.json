@@ -1,0 +1,359 @@
+{
+  "userStory": "CS-43",
+  "summary": "Create Customer Master with credit limit and regulatory license",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Master Data Specialist",
+  "businessObject": "Customer Master (SD-MD Customer)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create a Customer Master record in the system with General Data, Company Code Data, and Sales Area Data.",
+      "type": "NAVIGATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system requires the user to enter a credit limit for the customer in the Company Code Data section.",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "The system allows the user to capture regulatory license information (e.g., Pharmacy License Number, DEA Number, Wholesaler License) in customer master extensions or custom fields.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "The system validates that the license number is not blank and has a valid expiration date (future date) before saving the customer master.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 4
+    },
+    {
+      "id": "AC-5",
+      "text": "The system assigns a unique customer number upon successful creation of the customer master.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system sends a notification to the Sales and Credit teams when a new pharmaceutical customer is created.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["INT"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Customer Master with all three sections (General, Company Code, Sales Area), valid credit limit, valid license with future expiration date, verify customer number generated and notification sent",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create Customer Master with multiple regulatory licenses (Pharmacy License + DEA Number + Wholesaler License all provided)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create Customer Master with blank Pharmacy License Number",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to create Customer Master with expired license (past expiration date)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Credit Limit field in Company Code Data section",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Credit Limit"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing mandatory General Data fields (Name, Address, Country)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "General Data (Name/Address/Country)"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Sales Area Data (Sales Org, Distribution Channel, Division)",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Sales Area Data"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Credit Limit = 0.01 (minimum positive value)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "creditLimit",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Credit Limit = maximum allowable value (999999999999.99)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "creditLimit",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "License Expiration Date = today (boundary date)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "licenseExpirationDate",
+        "boundary": "today"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "License Expiration Date = tomorrow (minimum valid future date)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "licenseExpirationDate",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "License Expiration Date = far future (e.g., 50 years from today)",
+        "risk": "LOW",
+        "acIds": ["AC-4"],
+        "parameter": "licenseExpirationDate",
+        "boundary": "upper"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify created customer can be used in Sales Order creation (implicit SD-OTC integration)",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-5"],
+        "linkedIssue": null
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify credit limit is respected during Sales Order credit check (implicit FI-AR-CR integration)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "linkedIssue": null
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 2,
+    "ERR": 3,
+    "EDGE": 5,
+    "INT": 2,
+    "total": 14
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "customerName",
+        "label": "Name",
+        "mandatory": true,
+        "validRange": "Any valid business name (max 40 chars)"
+      },
+      {
+        "name": "streetAddress",
+        "label": "Street / House number",
+        "mandatory": true,
+        "validRange": "Valid address format"
+      },
+      {
+        "name": "city",
+        "label": "City",
+        "mandatory": true,
+        "validRange": "Existing city in country master"
+      },
+      {
+        "name": "postalCode",
+        "label": "Postal Code",
+        "mandatory": true,
+        "validRange": "Valid postal code for country"
+      },
+      {
+        "name": "country",
+        "label": "Country",
+        "mandatory": true,
+        "validRange": "Valid country key (e.g., US, DE)"
+      },
+      {
+        "name": "accountGroup",
+        "label": "Account Group",
+        "mandatory": true,
+        "validRange": "Configured account group (e.g., Z001-Pharma)"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "mandatory": true,
+        "validRange": "Existing company code in SAP"
+      },
+      {
+        "name": "creditLimit",
+        "label": "Credit Limit",
+        "mandatory": true,
+        "validRange": "> 0, valid currency amount"
+      },
+      {
+        "name": "currency",
+        "label": "Currency",
+        "mandatory": true,
+        "validRange": "Valid currency (e.g., USD, EUR)"
+      },
+      {
+        "name": "salesOrganization",
+        "label": "Sales Organization",
+        "mandatory": true,
+        "validRange": "Existing sales org"
+      },
+      {
+        "name": "distributionChannel",
+        "label": "Distribution Channel",
+        "mandatory": true,
+        "validRange": "Valid distribution channel"
+      },
+      {
+        "name": "division",
+        "label": "Division",
+        "mandatory": true,
+        "validRange": "Valid division"
+      },
+      {
+        "name": "pharmacyLicenseNumber",
+        "label": "Pharmacy License Number",
+        "mandatory": true,
+        "validRange": "Not blank, alphanumeric"
+      },
+      {
+        "name": "licenseExpirationDate",
+        "label": "License Expiry Date",
+        "mandatory": true,
+        "validRange": "Future date (> today)"
+      },
+      {
+        "name": "deaNumber",
+        "label": "DEA Number",
+        "mandatory": false,
+        "validRange": "Alphanumeric, format varies"
+      },
+      {
+        "name": "wholesalerLicense",
+        "label": "Wholesaler License",
+        "mandatory": false,
+        "validRange": "Alphanumeric"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "creditControlArea",
+        "label": "Credit Control Area",
+        "trigger": "Select Company Code"
+      },
+      {
+        "name": "countryName",
+        "label": "Country Name",
+        "trigger": "Select Country Code"
+      },
+      {
+        "name": "languageKey",
+        "label": "Language Key",
+        "trigger": "Select Country Code"
+      },
+      {
+        "name": "taxClassification",
+        "label": "Tax Classification",
+        "trigger": "Select Country Code + Account Group"
+      },
+      {
+        "name": "partnerFunctions",
+        "label": "Partner Functions (Sold-to, Ship-to, Bill-to, Payer)",
+        "trigger": "Create Customer"
+      }
+    ],
+    "output": [
+      {
+        "name": "customerNumber",
+        "label": "Customer Number",
+        "format": "10-digit numeric (e.g., 0000100001) or alphanumeric per number range config"
+      },
+      {
+        "name": "customerStatus",
+        "label": "Customer Status",
+        "format": "Active status after creation"
+      },
+      {
+        "name": "notificationId",
+        "label": "Notification ID/Log",
+        "format": "Email or workflow notification ID confirming Sales/Credit team notification"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "creditLimit",
+        "label": "Credit Limit",
+        "lowerBoundary": "0.01",
+        "upperBoundary": "999999999999.99",
+        "zeroInvalid": true
+      },
+      {
+        "name": "licenseExpirationDate",
+        "label": "License Expiration Date",
+        "lowerBoundary": "tomorrow",
+        "upperBoundary": "9999-12-31",
+        "zeroInvalid": false
+      },
+      {
+        "name": "customerName",
+        "label": "Customer Name",
+        "lowerBoundary": "1 char",
+        "upperBoundary": "40 chars",
+        "zeroInvalid": true
+      }
+    ]
+  }
+}

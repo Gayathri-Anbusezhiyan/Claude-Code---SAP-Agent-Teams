@@ -1,0 +1,234 @@
+{
+  "module": "MM",
+  "app": "purchase-order",
+  "sapApp": "Manage Purchase Orders",
+  "sapHash": "#PurchaseOrder-manage",
+  "capturedAt": "2026-05-12T07:58:36.000Z",
+  "capturedBy": "e2e-pipeline-agent/phase3",
+  "sourceStory": "CS-2",
+  "sapTenant": "my429998.s4hana.cloud.sap",
+  "loginFlow": {
+    "idpUrl": "a1vzdfrar.accounts.ondemand.com",
+    "usernameFieldId": "j_username",
+    "passwordFieldId": "j_password",
+    "continueButtonText": "Continue",
+    "welcomePopupDismiss": "Close or press Escape if welcome/intro dialog appears after login"
+  },
+  "appNavigation": {
+    "method": "search",
+    "note": "Use Shell Bar search icon (top-right), type app name, click result — do NOT use tiles",
+    "searchButtonRole": "button",
+    "searchButtonName": "Open Search"
+  },
+  "pages": {
+    "listPage": {
+      "title": "Purchase Orders",
+      "url": "#PurchaseOrder-manage",
+      "description": "List of existing POs with filter bar and table",
+      "keyElements": {
+        "createButton": {
+          "role": "button",
+          "name": "Create PO",
+          "location": "toolbar",
+          "note": "Toolbar button above the PO list table"
+        },
+        "tableRows": {
+          "role": "row",
+          "location": "Purchase Orders table"
+        }
+      }
+    },
+    "createEditPage": {
+      "title": "New Purchase Order",
+      "description": "Draft PO creation/edit form — Object Page layout",
+      "sections": {
+        "generalInformation": {
+          "sectionTitle": "General Information",
+          "fields": {
+            "supplier": {
+              "role": "textbox",
+              "label": "Supplier",
+              "idPattern": "GeneralInformation.*Supplier",
+              "inputType": "text",
+              "behaviour": "Lookup — auto-populates supplier name, currency, purchasing group, org, company code on Enter",
+              "autoPopulates": ["supplierName", "currency", "purchasingGroup", "purchasingOrg", "companyCode"]
+            },
+            "currency": {
+              "role": "textbox",
+              "label": "Currency",
+              "autoPopulated": true,
+              "typicalValue": "USD"
+            },
+            "purchasingGroup": {
+              "role": "textbox",
+              "label": "Purchasing Group",
+              "autoPopulated": true,
+              "typicalValue": "001"
+            },
+            "purchasingOrg": {
+              "role": "textbox",
+              "label": "Purchasing Organization",
+              "autoPopulated": true,
+              "typicalValue": "1710"
+            },
+            "companyCode": {
+              "role": "textbox",
+              "label": "Company Code",
+              "autoPopulated": true,
+              "typicalValue": "1710 (Velotics Inc.)"
+            }
+          }
+        },
+        "items": {
+          "sectionTitle": "Items",
+          "description": "Grid/table section for line items",
+          "addFirstRowButton": {
+            "cssIdPattern": "C_PurchaseOrderTP--ItemsFacet::addEntry",
+            "role": "button",
+            "name": "Create",
+            "location": "Items section toolbar",
+            "note": "Visible and clickable only when no items exist yet"
+          },
+          "addSubsequentRowShortcut": {
+            "key": "Control+Enter",
+            "note": "After first item exists, the Create button moves to toolbar overflow (invisible). Use Ctrl+Enter with focus on an existing row to add a new row."
+          },
+          "itemRowFields": {
+            "material": {
+              "role": "textbox",
+              "label": "Material",
+              "location": "grid row",
+              "behaviour": "Lookup — auto-populates short text (description), UoM, material group on Enter",
+              "autoPopulates": ["materialDescription", "unitOfMeasure", "materialGroup"]
+            },
+            "orderQuantity": {
+              "role": "textbox",
+              "label": "Order Quantity",
+              "location": "grid row",
+              "validRange": "must be > 0"
+            },
+            "netOrderPrice": {
+              "role": "textbox",
+              "label": "Net Order Price",
+              "location": "grid row",
+              "validRange": "must be > 0 (zero price rejected in this SAP config)",
+              "validatedValue": "0.00 rejected with: Net price must be greater than 0"
+            },
+            "plant": {
+              "role": "textbox",
+              "label": "Plant",
+              "location": "grid row"
+            },
+            "deliveryDate": {
+              "role": "textbox",
+              "label": "Delivery Date",
+              "location": "grid row",
+              "note": "May be defaulted; must be a future date"
+            }
+          }
+        }
+      },
+      "footerActions": {
+        "orderButton": {
+          "role": "button",
+          "name": "Order",
+          "location": "footer toolbar",
+          "note": "Primary submit action — creates the PO. Also triggers validation."
+        },
+        "discardDraftButton": {
+          "role": "button",
+          "name": "Discard Draft",
+          "location": "footer toolbar"
+        },
+        "discardConfirmButton": {
+          "cssIdPattern": "C_PurchaseOrderTP--DiscardDraftConfirmButton",
+          "role": "button",
+          "name": "Discard",
+          "location": "confirmation dialog",
+          "note": "Appears in a dialog after clicking Discard Draft"
+        },
+        "messagesButton": {
+          "role": "button",
+          "namePattern": "Messages N",
+          "location": "footer toolbar",
+          "note": "N = count of messages. Opens Messages dialog with error/warning groups."
+        }
+      }
+    },
+    "displayPage": {
+      "description": "Read-only view of a saved PO",
+      "poNumberLocation": "page header title area",
+      "statusLocation": "header status field",
+      "observedStatuses": {
+        "Sent": "Auto-approved PO (Automatic Release active in this SAP config)"
+      }
+    }
+  },
+  "sessionManagement": {
+    "signOut": {
+      "step1": "Click Profile button in Shell Bar (top-right, 'Profile of Trial...' or username)",
+      "step2": "Click 'Sign Out' list item",
+      "signOutListItemCssId": "__list80-8-logoutBtn",
+      "step3": "Click OK in the confirmation alertdialog",
+      "okButtonCssId": "__mbox-btn-0"
+    }
+  },
+  "observedMessages": {
+    "success": {
+      "poCreated": "Purchase Order {PO_NUMBER} has been saved / PO number appears in page title"
+    },
+    "validationErrors": {
+      "emptySupplier": [
+        "Enter Purchasing Org.",
+        "Address is incomplete. Please enter country/region.",
+        "The following PO items contain errors"
+      ],
+      "emptyMaterial": [
+        "Please enter material number or account assignment category",
+        "Address is incomplete. Please enter country/region.",
+        "Please enter a delivery date"
+      ],
+      "emptyQuantity": [
+        "Enter a quantity",
+        "Please enter an order quantity"
+      ],
+      "emptyPrice": [
+        "Net price must be greater than 0"
+      ],
+      "zeroQuantity": [
+        "Enter a quantity",
+        "Please enter an order quantity"
+      ],
+      "zeroPrice": [
+        "Net price must be greater than 0"
+      ]
+    }
+  },
+  "sapAutoPopulatedValues": {
+    "supplier_17300002": {
+      "supplierName": "Carbon Tec Inc.",
+      "currency": "USD",
+      "purchasingGroup": "001",
+      "purchasingOrg": "1710",
+      "companyCode": "1710"
+    },
+    "material_RMPI001": {
+      "shortText": "Input 1 (WATER)",
+      "unitOfMeasure": "KG",
+      "materialGroup": "L002"
+    }
+  },
+  "testCaseResults": {
+    "TC-CS-001": { "status": "PASS", "poCreated": "4500065467", "supplierName": "Carbon Tec Inc.", "netValue": "0.80 USD", "note": "Status=Sent (auto-approved). Plant=1710. PurchOrg=1710. PurchGroup=001." },
+    "TC-CS-002": { "status": "PASS", "poCreated": "4500065425", "note": "2 line items; materialId2 substituted with RMPI001 (placeholder unresolved)" },
+    "TC-CS-003": { "status": "SKIP", "reason": "SUPPLIER_ID_INVALID placeholder unresolved" },
+    "TC-CS-004": { "status": "SKIP", "reason": "MATERIAL_ID_INVALID placeholder unresolved" },
+    "TC-CS-005": { "status": "PASS", "note": "Empty supplier: 3 validation errors shown" },
+    "TC-CS-006": { "status": "PASS", "note": "Empty material: 3 validation errors shown" },
+    "TC-CS-007": { "status": "PASS", "note": "Empty quantity: 2 validation errors shown" },
+    "TC-CS-008": { "status": "PASS", "note": "Empty price: 1 validation error shown" },
+    "TC-CS-009": { "status": "PASS", "poCreated": "4500065426", "note": "Min qty=1 accepted" },
+    "TC-CS-010": { "status": "PASS", "note": "Zero qty rejected — same errors as empty qty" },
+    "TC-CS-011": { "status": "PASS", "outcome": "C (Reject)", "note": "Zero price rejected — same error as empty price; SAP config does NOT allow zero-price POs" }
+  }
+}

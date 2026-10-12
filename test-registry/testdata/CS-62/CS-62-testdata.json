@@ -1,0 +1,235 @@
+{
+  "userStory": "CS-62",
+  "module": "PP",
+  "feature": "Process Order Technical Completion (TECO)",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login email step",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login password step"
+  },
+  "testDataSets": {
+    "TD-CS-062-001": {
+      "id": "TD-CS-062-001",
+      "name": "Valid Process Order with All Quality Requirements Met",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-167"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "materialId": "{{MATERIAL_ID_VALID}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "openDeviationsCount": "0",
+        "missingIPCCount": "0",
+        "unsignedSectionsCount": "0",
+        "expectedStatusTECO": "TECO",
+        "expectedStockStatusQI": "QI"
+      },
+      "expectedOutcome": "Process order technically completed; status updated to TECO; stock remains QI; audit log created"
+    },
+    "TD-CS-062-NEG-001": {
+      "id": "TD-CS-062-NEG-001",
+      "name": "Process Order with Open Deviations",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-168"],
+      "data": {
+        "processOrderNumberWithOpenDev": "{{PROCESS_ORDER_NUMBER_WITH_OPEN_DEVIATION}}",
+        "openDeviationId": "{{DEVIATION_ID_OPEN}}",
+        "deviationStatus": "{{DEVIATION_STATUS_OPEN}}",
+        "expectedErrorOpenDev": "Technical Completion blocked. Open deviations: [DEVIATION_ID]"
+      },
+      "expectedOutcome": "TECO blocked; system lists open deviation ID; order status remains Released"
+    },
+    "TD-CS-062-NEG-002": {
+      "id": "TD-CS-062-NEG-002",
+      "name": "Process Order with Missing IPC Results",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-169"],
+      "data": {
+        "processOrderNumberMissingIPC": "{{PROCESS_ORDER_NUMBER_MISSING_IPC}}",
+        "ipcOperationNumber": "{{IPC_OPERATION_NUMBER}}",
+        "missingIPCCharacteristic": "{{IPC_CHARACTERISTIC_NAME}}",
+        "expectedErrorMissingIPC": "Technical Completion blocked. Missing in-process control results for operation [OPERATION], characteristic [CHARACTERISTIC]"
+      },
+      "expectedOutcome": "TECO blocked; system lists missing IPC operation and characteristic; order status remains Released"
+    },
+    "TD-CS-062-NEG-003": {
+      "id": "TD-CS-062-NEG-003",
+      "name": "Process Order with Unsigned Batch Record Sections",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-170"],
+      "data": {
+        "processOrderNumberUnsignedBR": "{{PROCESS_ORDER_NUMBER_UNSIGNED_BR}}",
+        "unsignedSectionName": "{{BATCH_RECORD_SECTION_NAME}}",
+        "expectedErrorUnsignedBR": "Technical Completion blocked. Unsigned batch record sections: [SECTION_NAME]"
+      },
+      "expectedOutcome": "TECO blocked; system lists unsigned batch record section; order status remains Released"
+    },
+    "TD-CS-062-ERR-001": {
+      "id": "TD-CS-062-ERR-001",
+      "name": "Non-Existent Process Order Number",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-171"],
+      "data": {
+        "invalidOrderNumber": "{{PROCESS_ORDER_NUMBER_INVALID}}",
+        "expectedErrorInvalidOrder": "Order [ORDER_NUMBER] not found"
+      },
+      "expectedOutcome": "System displays error: Order not found; TECO action not accessible"
+    },
+    "TD-CS-062-ERR-002": {
+      "id": "TD-CS-062-ERR-002",
+      "name": "User Without TECO Authorization",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-172"],
+      "data": {
+        "processOrderNumberNoAuth": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "unauthorizedUser": "{{USER_WITHOUT_TECO_AUTH}}",
+        "unauthorizedUserPassword": "{{USER_PASSWORD_NO_AUTH}}",
+        "expectedErrorNoAuth": "You are not authorized to execute Technical Completion"
+      },
+      "expectedOutcome": "System displays authorization error; TECO action not executed; order status remains Released"
+    },
+    "TD-CS-062-EDGE-001": {
+      "id": "TD-CS-062-EDGE-001",
+      "name": "Process Order with Zero Open Deviations (Lower Boundary Valid)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-173"],
+      "data": {
+        "processOrderNumberZeroDev": "{{PROCESS_ORDER_NUMBER_ZERO_DEVIATIONS}}",
+        "openDeviationsCountZero": "0"
+      },
+      "expectedOutcome": "TECO successful; order status updated to TECO; boundary 0 is valid"
+    },
+    "TD-CS-062-EDGE-002": {
+      "id": "TD-CS-062-EDGE-002",
+      "name": "Process Order with Exactly One Open Deviation (Lower Boundary Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "processOrderNumberOneDev": "{{PROCESS_ORDER_NUMBER_ONE_DEVIATION}}",
+        "singleOpenDeviationId": "{{DEVIATION_ID_SINGLE}}",
+        "openDeviationsCountOne": "1",
+        "expectedErrorOneDev": "Technical Completion blocked. Open deviations: [DEVIATION_ID]"
+      },
+      "expectedOutcome": "TECO blocked; system lists single open deviation; boundary 1 is invalid"
+    },
+    "TD-CS-062-EDGE-003": {
+      "id": "TD-CS-062-EDGE-003",
+      "name": "Process Order Already Technically Completed",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "processOrderNumberAlreadyTECO": "{{PROCESS_ORDER_NUMBER_ALREADY_TECO}}",
+        "orderStatusTECO": "TECO",
+        "expectedErrorDuplicateTECO": "Order is already technically completed"
+      },
+      "expectedOutcome": "Duplicate TECO blocked or prevented; order status remains TECO; no duplicate audit log entry"
+    },
+    "TD-CS-062-INT-001": {
+      "id": "TD-CS-062-INT-001",
+      "name": "Stock Status Remains QI After TECO (MM Integration)",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "processOrderNumberIntStock": "{{PROCESS_ORDER_NUMBER_INT_STOCK}}",
+        "batchNumberIntStock": "{{BATCH_NUMBER_INT_STOCK}}",
+        "materialIdIntStock": "{{MATERIAL_ID_VALID}}",
+        "plantIntStock": "{{PLANT_CODE}}",
+        "stockStatusBeforeTECO": "QI",
+        "stockStatusAfterTECO": "QI"
+      },
+      "expectedOutcome": "TECO successful; stock status remains QI (does NOT auto-transition to UR)"
+    },
+    "TD-CS-062-INT-002": {
+      "id": "TD-CS-062-INT-002",
+      "name": "Open Deviations from QM Deviation Management Block TECO",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "processOrderNumberIntQMDev": "{{PROCESS_ORDER_NUMBER_INT_QM_DEV}}",
+        "qmDeviationIdInt": "{{QM_DEVIATION_ID}}",
+        "qmDeviationStatusInt": "{{DEVIATION_STATUS_OPEN}}",
+        "expectedErrorQMDevInt": "Technical Completion blocked. Open deviations: [DEVIATION_ID]"
+      },
+      "expectedOutcome": "TECO blocked by QM deviation; integration between PP and QM validated"
+    },
+    "TD-CS-062-INT-003": {
+      "id": "TD-CS-062-INT-003",
+      "name": "Missing IPC Results from QM In-Process Control Block TECO",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "processOrderNumberIntQMIPC": "{{PROCESS_ORDER_NUMBER_INT_QM_IPC}}",
+        "ipcOperationNumberInt": "{{IPC_OPERATION_NUMBER_INT}}",
+        "missingIPCCharacteristicInt": "{{IPC_CHARACTERISTIC_NAME_INT}}",
+        "expectedErrorQMIPCInt": "Technical Completion blocked. Missing in-process control results for operation [OPERATION], characteristic [CHARACTERISTIC]"
+      },
+      "expectedOutcome": "TECO blocked by missing QM IPC results; integration between PP and QM IPC validated"
+    },
+    "TD-CS-062-INT-004": {
+      "id": "TD-CS-062-INT-004",
+      "name": "Unsigned Batch Record Sections from e-Signature Module Block TECO",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "processOrderNumberIntESig": "{{PROCESS_ORDER_NUMBER_INT_ESIG}}",
+        "unsignedSectionNameInt": "{{BATCH_RECORD_SECTION_NAME_INT}}",
+        "expectedErrorESigInt": "Technical Completion blocked. Unsigned batch record sections: [SECTION_NAME]"
+      },
+      "expectedOutcome": "TECO blocked by unsigned e-Signature batch record; integration between PP and e-Signature validated"
+    },
+    "TD-CS-062-INT-005": {
+      "id": "TD-CS-062-INT-005",
+      "name": "QM Inspection Lot Status Unaffected by TECO",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "processOrderNumberIntInspLot": "{{PROCESS_ORDER_NUMBER_INT_INSPLOT}}",
+        "batchNumberInspLot": "{{BATCH_NUMBER_INT_INSPLOT}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER}}",
+        "materialIdInspLot": "{{MATERIAL_ID_VALID}}",
+        "plantInspLot": "{{PLANT_CODE}}",
+        "inspLotStatusBeforeTECO": "{{INSPECTION_LOT_STATUS_BEFORE}}",
+        "inspLotStatusAfterTECO": "{{INSPECTION_LOT_STATUS_AFTER}}"
+      },
+      "expectedOutcome": "TECO successful; inspection lot status remains unchanged (CRTD or REL); integration between PP and QM Inspection Lot validated"
+    }
+  },
+  "allPlaceholders": [
+    "{{BATCH_NUMBER_INT_INSPLOT}}",
+    "{{BATCH_NUMBER_INT_STOCK}}",
+    "{{BATCH_NUMBER_VALID}}",
+    "{{BATCH_RECORD_SECTION_NAME}}",
+    "{{BATCH_RECORD_SECTION_NAME_INT}}",
+    "{{COMPANY_CODE}}",
+    "{{DEVIATION_ID_OPEN}}",
+    "{{DEVIATION_ID_SINGLE}}",
+    "{{DEVIATION_STATUS_OPEN}}",
+    "{{INSPECTION_LOT_NUMBER}}",
+    "{{INSPECTION_LOT_STATUS_AFTER}}",
+    "{{INSPECTION_LOT_STATUS_BEFORE}}",
+    "{{IPC_CHARACTERISTIC_NAME}}",
+    "{{IPC_CHARACTERISTIC_NAME_INT}}",
+    "{{IPC_OPERATION_NUMBER}}",
+    "{{IPC_OPERATION_NUMBER_INT}}",
+    "{{MATERIAL_ID_VALID}}",
+    "{{PLANT_CODE}}",
+    "{{PROCESS_ORDER_NUMBER_ALREADY_TECO}}",
+    "{{PROCESS_ORDER_NUMBER_INT_ESIG}}",
+    "{{PROCESS_ORDER_NUMBER_INT_INSPLOT}}",
+    "{{PROCESS_ORDER_NUMBER_INT_QM_DEV}}",
+    "{{PROCESS_ORDER_NUMBER_INT_QM_IPC}}",
+    "{{PROCESS_ORDER_NUMBER_INT_STOCK}}",
+    "{{PROCESS_ORDER_NUMBER_INVALID}}",
+    "{{PROCESS_ORDER_NUMBER_MISSING_IPC}}",
+    "{{PROCESS_ORDER_NUMBER_ONE_DEVIATION}}",
+    "{{PROCESS_ORDER_NUMBER_UNSIGNED_BR}}",
+    "{{PROCESS_ORDER_NUMBER_VALID}}",
+    "{{PROCESS_ORDER_NUMBER_WITH_OPEN_DEVIATION}}",
+    "{{PROCESS_ORDER_NUMBER_ZERO_DEVIATIONS}}",
+    "{{QM_DEVIATION_ID}}",
+    "{{USER_PASSWORD_NO_AUTH}}",
+    "{{USER_WITHOUT_TECO_AUTH}}"
+  ]
+}

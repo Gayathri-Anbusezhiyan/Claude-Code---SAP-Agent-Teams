@@ -1,0 +1,74 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "timestamp": "2026-06-10T00:00:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "TIMEOUT_ERROR",
+  "retryErrorType": "LOCATOR_FAILURE",
+  "failingStep": {
+    "phase": "FIXTURE_SETUP",
+    "fixtureFile": "automation/pages/mm/purchase-order/purchase-order.fixtures.js",
+    "fixtureLine": 48,
+    "context": "After login, waiting for shell bar to load before navigating to app",
+    "firstAttempt": {
+      "errorType": "TIMEOUT_ERROR",
+      "location": "purchase-order.fixtures.js:48",
+      "code": "await page.waitForSelector('[title=\"Open Search\"]', { state: 'visible', timeout: 20000 })",
+      "errorMessage": "TimeoutError: page.waitForSelector: Timeout 20000ms exceeded. Call log: - waiting for locator('[title=\"Open Search\"]') to be visible",
+      "interpretation": "Shell bar search button did not appear within 20 seconds after login completed"
+    },
+    "retryAttempt": {
+      "errorType": "LOCATOR_FAILURE",
+      "location": "purchase-order.page.js:61 (called from fixtures.js:40)",
+      "method": "login",
+      "locatorName": "login.usernameInput",
+      "errorMessage": "All locator strategies failed for: login.usernameInput",
+      "interpretation": "On retry, even the login page username field could not be found",
+      "locatorUsed": {
+        "primary": {
+          "strategy": "role",
+          "role": "textbox",
+          "name": "Email, User ID or Login Name"
+        },
+        "fallbacks": [
+          { "strategy": "css", "value": "input[type=\"email\"]" },
+          { "strategy": "css", "value": "input[name=\"username\"]" }
+        ]
+      }
+    }
+  },
+  "testCaseContext": {
+    "tcId": "TC-CS-021",
+    "testType": "FUNCTIONAL",
+    "scenarioType": "NEGATIVE",
+    "purpose": "Verify system displays formal success confirmation after PO submission (designed to fail at assertion — expects dedicated success notification that SAP does not provide)",
+    "expectedFailurePoint": "Step 22 — assertion that success alert contains PO number",
+    "actualFailurePoint": "Fixture setup — login/shell bar loading",
+    "note": "Test never reached the intended failure point (success message assertion) because fixture setup failed"
+  },
+  "rootCauseAnalysis": {
+    "primaryIssue": "Shell bar lazy-loading timeout exceeded after login",
+    "secondaryIssue": "Login page elements not found on retry attempt",
+    "possibleCauses": [
+      "SAP IDP page structure change (locators outdated)",
+      "SAP Fiori shell bar taking longer than 20s to load",
+      "Browser session state issue between test retry",
+      "Transient SAP tenant availability issue",
+      "Rate limiting or session conflict from previous test runs"
+    ],
+    "confidence": "MEDIUM"
+  },
+  "explorationComparison": {
+    "explorationDataAvailable": true,
+    "explorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json (if exists)",
+    "note": "Need to check if exploration data exists for TC-CS-021. If Phase 3 exploration succeeded, compare login locators and shell bar wait times."
+  },
+  "recommendation": "SELF_HEAL",
+  "recommendationReason": "Login fixture setup failure — likely automation script issue (stale locators, insufficient wait time) rather than SAP application defect. Re-execution via MCP will reveal if SAP IDP structure changed or if wait timeout needs adjustment.",
+  "nextStep": "Run re-execute-scriptless to attempt fresh login and capture current SAP IDP element structure + shell bar load time",
+  "notes": [
+    "TC-CS-021 is intentionally designed to fail at Step 22 (success message assertion)",
+    "This failure occurred earlier (fixture setup) so test never reached the designed failure point",
+    "Need to fix login/shell bar loading before the intended assertion failure can be tested"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "module": "MM",
+  "app": "purchase-order",
+  "timestamp": "2026-06-04T15:19:00.000Z",
+  "reExecutedBy": "self-healing-agent/skills/re-execute-scriptless",
+  "failureReportRef": "self-healing/failures/20260604-000000-TC-CS-021-failure.json",
+  "reExecutionStatus": "PASS",
+  "failingStepResult": {
+    "stepNumber": 7,
+    "stepDescription": "Click the search icon in the shell bar",
+    "method": "navigateToApp",
+    "locatorName": "shellBar.searchButton",
+    "triedLocators": [
+      {
+        "attempt": 1,
+        "strategy": "css",
+        "selector": "[title=\"Open Search\"]",
+        "result": "PASS",
+        "ref": "e436",
+        "timing": "Element available after 15 seconds post-login",
+        "note": "CSS selector with title attribute works perfectly — NO LOCATOR ISSUE"
+      },
+      {
+        "attempt": 2,
+        "strategy": "role",
+        "selector": "button",
+        "name": "Open Search",
+        "result": "NOT_TESTED",
+        "note": "Skipped — primary CSS locator succeeded"
+      }
+    ],
+    "workingLocator": {
+      "strategy": "css",
+      "value": "[title=\"Open Search\"]"
+    },
+    "workingRef": "e436",
+    "resolutionNote": "Locator is correct and works reliably. The failure is NOT a locator issue."
+  },
+  "rootCauseAnalysis": {
+    "errorType": "TIMING_ISSUE",
+    "subtype": "FIXTURE_INITIALIZATION_TOO_EARLY",
+    "detailedExplanation": "The Playwright test fixture `purchaseOrderPage` calls `navigateToApp()` immediately during fixture setup (purchase-order.fixtures.js:46), which happens right after login completes. However, the SAP Fiori shell bar (including the Open Search button) is lazy-loaded and takes 10-15 seconds to render after the page redirect. When the fixture tries to call `loc('shellBar.searchButton')` during initialization, the shell bar is not yet in the DOM, causing all locator strategies to fail and throw 'All locator strategies failed for: shellBar.searchButton'.",
+    "observedShellBarLoadTime": "10-15 seconds after login redirect",
+    "fixtureSetupTiming": "Executes immediately after login (before shell bar is ready)",
+    "locNotAtFault": true,
+    "locatorValidationResult": "Both CSS and role locators work correctly when shell bar is rendered",
+    "priorPatchesApplied": [
+      {
+        "date": "2026-05-29",
+        "patch": "Added prerequisite 'Open Menu' click to trigger shell bar render"
+      },
+      {
+        "date": "2026-06-02",
+        "patch": "Increased loc() timeout: primary 5000ms → 15000ms, fallbacks 3000ms → 8000ms"
+      }
+    ],
+    "whyPatchesDidNotWork": "Increasing timeout to 15s in loc() method is correct, but the issue is that loc() is called DURING FIXTURE SETUP, which runs before the shell bar is loaded. The 15s timeout expires before the shell bar ever appears. The fixture needs to WAIT for shell bar readiness before calling navigateToApp()."
+  },
+  "stepsExecuted": 7,
+  "executionSummary": [
+    {
+      "stepNumber": 1,
+      "description": "Navigate to SAP Fiori URL",
+      "result": "PASS",
+      "timing": "Immediate",
+      "snapshot": "step-01-login-page.md"
+    },
+    {
+      "stepNumber": 2,
+      "description": "Login (email + password + Continue)",
+      "result": "PASS",
+      "timing": "~5 seconds",
+      "snapshot": "step-02-password-page.md"
+    },
+    {
+      "stepNumber": 3,
+      "description": "Wait 5 seconds after login redirect",
+      "result": "PASS",
+      "observation": "Shell bar NOT yet visible",
+      "snapshot": "step-03-fiori-launchpad-after-login.md"
+    },
+    {
+      "stepNumber": 4,
+      "description": "Wait additional 10 seconds (total 15s)",
+      "result": "PASS",
+      "observation": "Shell bar NOW visible — Open Search button appears at ref=e436",
+      "snapshot": "step-04-fiori-launchpad-after-15s-wait.md",
+      "criticalFinding": "Shell bar lazy-loads between 10-15 seconds after login"
+    },
+    {
+      "stepNumber": 5,
+      "description": "Dismiss Guided Tour dialog",
+      "result": "PASS",
+      "snapshot": "step-05-before-search-click.md"
+    },
+    {
+      "stepNumber": 6,
+      "description": "Click 'Open Search' button using CSS [title='Open Search']",
+      "result": "PASS",
+      "locatorUsed": "[title=\"Open Search\"]",
+      "snapshot": "step-06-after-search-click.md",
+      "criticalFinding": "Locator works perfectly — NO LOCATOR ISSUE"
+    },
+    {
+      "stepNumber": 7,
+      "description": "Type 'Manage Purchase Orders' and press Enter",
+      "result": "PASS",
+      "snapshot": "step-07-search-results.md"
+    }
+  ],
+  "sapBehavior": "NOT_TESTED",
+  "sapBehaviorNotes": "Re-execution stopped after validating the failing step. The Open Search button works correctly. SAP behavior for the rest of the TC (PO creation and success notification) was not re-tested in this run, as the original failure point was at fixture initialization (step 7 navigation), not at the designed-to-fail assertion (step 22 success notification).",
+  "recommendation": "PATCH_SCRIPTS",
+  "patchTarget": "FIXTURE",
+  "patchScope": "automation/pages/mm/purchase-order/purchase-order.fixtures.js",
+  "patchType": "WAIT_FOR_SHELL_BAR",
+  "patchDescription": "Add explicit wait for shell bar button visibility BEFORE calling navigateToApp() in the purchaseOrderPage fixture. The fixture currently calls navigateToApp() immediately at line 46, but the shell bar is not yet rendered. Options:\n\n**Option 1 (Recommended):** Add shell bar readiness check in fixture:\n```js\n// Wait for shell bar to be fully loaded (10-15s after login)\nawait page.waitForSelector('[title=\"Open Search\"]', { state: 'visible', timeout: 20000 });\nawait purchaseOrderPage.navigateToApp();\n```\n\n**Option 2 (Alternative):** Move navigateToApp() call from fixture to test body:\n- Remove line 46 from purchase-order.fixtures.js\n- Add `await purchaseOrderPage.navigateToApp()` as first line in each test\n- This gives tests control over when navigation happens\n\n**Option 3 (Lazy fixture):** Make navigateToApp() call conditional or lazy (only on first use)",
+  "verificationCommand": "npx playwright test --config=automation/config/playwright.config.js --grep \"TC-CS-021\"",
+  "snapshots": [
+    "step-01-login-page.md",
+    "step-02-password-page.md",
+    "step-03-fiori-launchpad-after-login.md",
+    "step-04-fiori-launchpad-after-15s-wait.md",
+    "step-05-before-search-click.md",
+    "step-06-after-search-click.md",
+    "step-07-search-results.md"
+  ],
+  "keyFindings": [
+    "Locator is NOT the issue — both CSS [title='Open Search'] and role 'button' name 'Open Search' work correctly",
+    "Shell bar lazy-loads 10-15 seconds after login redirect — buttons not in DOM initially",
+    "Fixture initialization timing is the problem — navigateToApp() called before shell bar renders",
+    "Prior patches (increased timeout to 15s) are correct but insufficient because they don't address fixture timing",
+    "Solution: Wait for shell bar visibility BEFORE calling navigateToApp() in fixture setup"
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "userStory": "CS-45",
+  "summary": "Capture Serialization/Track-And-Trace Data At The Point Of Outbound De",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 12,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 1
+  },
+  "byPriority": {
+    "CRITICAL": 2,
+    "HIGH": 6,
+    "MEDIUM": 4,
+    "LOW": 0
+  },
+  "automationCandidates": 11,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Capture Serial Numbers for Outbound Delivery with Serialized Pharmaceutical Material",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-045-001"
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Attempt to Capture Serial Number with Invalid GS1 Format",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-NEG-001"
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Attempt to Capture Duplicate Serial Number Within Same Outbound Delivery",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-NEG-002"
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt to Capture Serial Numbers for Non-Serialized Material",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-NEG-003"
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Attempt Goods Issue Posting Without Complete Serialization Data",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-ERR-001"
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt to Capture Serialization Data with Missing Batch Number",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-ERR-002"
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Attempt to Capture Serialization Data with Missing or Invalid Expiry Date",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-ERR-003"
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Capture Serialization for Single Unit (Minimum Quantity Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-EDGE-001"
+    },
+    {
+      "id": "TC-CS-029",
+      "title": "Capture Serialization for Maximum Quantity (Upper Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-045-EDGE-002"
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Capture Serial Number at Minimum Length (15 Characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-EDGE-003"
+    },
+    {
+      "id": "TC-CS-031",
+      "title": "Capture Serial Number at Maximum Length (34 Characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-045-EDGE-004"
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "EPCIS Transmission Failure to National Traceability System",
+      "scenarioType": "INTEGRATION",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-045-INT-001"
+    }
+  ],
+  "testdataFile": "testdata/CS-45/CS-45-testdata.json"
+}

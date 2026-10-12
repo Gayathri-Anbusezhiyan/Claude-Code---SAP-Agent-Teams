@@ -1,0 +1,324 @@
+{
+  "userStory": "CS-21",
+  "module": "MM",
+  "feature": "Return Delivery for Rejected Batch",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-021-001": {
+      "id": "TD-CS-021-001",
+      "name": "Valid Return Delivery from Blocked Stock with Debit Memo — Happy Path 01",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "purchaseOrderNumber": "{{PURCHASE_ORDER_VALID}}",
+        "batchNumber": "{{BATCH_BLOCKED_STOCK}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "returnQuantity": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonCode": "{{REJECTION_REASON_CODE}}",
+        "plant": "{{PLANT}}",
+        "storageLocation": "{{STORAGE_LOCATION}}",
+        "triggerDebitMemo": "{{TRIGGER_DEBIT_MEMO_YES}}",
+        "vendorId": "{{VENDOR_ID}}",
+        "vendorName": "{{VENDOR_NAME}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "inspectionLotNumber": "{{INSPECTION_LOT_NUMBER}}"
+      },
+      "expectedOutcome": "Material Document posted with movement type 122; batch stock in Blocked Stock reduced; Debit Memo Request created"
+    },
+    "TD-CS-021-002": {
+      "id": "TD-CS-021-002",
+      "name": "Valid Return Delivery from Quality Inspection Stock without Debit Memo — Happy Path 02",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "purchaseOrderNumberQI": "{{PURCHASE_ORDER_VALID_QI}}",
+        "batchNumberQI": "{{BATCH_QI_STOCK}}",
+        "materialNumberQI": "{{MATERIAL_NUMBER_QI}}",
+        "returnQuantityQI": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonCodeQI": "{{REJECTION_REASON_CODE}}",
+        "plantQI": "{{PLANT}}",
+        "storageLocationQI": "{{STORAGE_LOCATION}}",
+        "triggerDebitMemoNo": "{{TRIGGER_DEBIT_MEMO_NO}}",
+        "vendorIdQI": "{{VENDOR_ID}}",
+        "vendorNameQI": "{{VENDOR_NAME}}",
+        "materialDescriptionQI": "{{MATERIAL_DESCRIPTION_QI}}",
+        "uomQI": "{{UNIT_OF_MEASURE}}",
+        "inspectionLotNumberQI": "{{INSPECTION_LOT_NUMBER_QI}}"
+      },
+      "expectedOutcome": "Material Document posted with movement type 122; batch stock in Quality Inspection Stock reduced; No Debit Memo Request created"
+    },
+    "TD-CS-021-AP-001": {
+      "id": "TD-CS-021-AP-001",
+      "name": "Return Batch from Blocked Stock (Stock Type S) — Alternative Path 01",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "purchaseOrderBlockedStock": "{{PURCHASE_ORDER_VALID}}",
+        "batchBlockedStock": "{{BATCH_BLOCKED_STOCK}}",
+        "materialBlockedStock": "{{MATERIAL_NUMBER}}",
+        "returnQuantityBlockedStock": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonBlockedStock": "{{REJECTION_REASON_CODE}}",
+        "plantBlockedStock": "{{PLANT}}",
+        "storageLocationBlockedStock": "{{STORAGE_LOCATION}}"
+      },
+      "expectedOutcome": "Material Document posted; stock removed from Blocked Stock (stock type 'S') only"
+    },
+    "TD-CS-021-AP-002": {
+      "id": "TD-CS-021-AP-002",
+      "name": "Return Batch from Quality Inspection Stock (Stock Type X) — Alternative Path 02",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "purchaseOrderQIStock": "{{PURCHASE_ORDER_VALID_QI}}",
+        "batchQIStock": "{{BATCH_QI_STOCK}}",
+        "materialQIStock": "{{MATERIAL_NUMBER_QI}}",
+        "returnQuantityQIStock": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonQIStock": "{{REJECTION_REASON_CODE}}",
+        "plantQIStock": "{{PLANT}}",
+        "storageLocationQIStock": "{{STORAGE_LOCATION}}"
+      },
+      "expectedOutcome": "Material Document posted; stock removed from Quality Inspection Stock (stock type 'X') only"
+    },
+    "TD-CS-021-AP-003": {
+      "id": "TD-CS-021-AP-003",
+      "name": "Trigger Debit Memo Request for Vendor Cost Recovery — Alternative Path 03",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "purchaseOrderDebitMemo": "{{PURCHASE_ORDER_VALID}}",
+        "batchDebitMemo": "{{BATCH_BLOCKED_STOCK}}",
+        "materialDebitMemo": "{{MATERIAL_NUMBER}}",
+        "returnQuantityDebitMemo": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonDebitMemo": "{{REJECTION_REASON_CODE}}",
+        "plantDebitMemo": "{{PLANT}}",
+        "storageLocationDebitMemo": "{{STORAGE_LOCATION}}",
+        "purchasingOrgDebitMemo": "{{PURCHASING_ORG_CODE}}",
+        "triggerDebitMemoYes": "{{TRIGGER_DEBIT_MEMO_YES}}"
+      },
+      "expectedOutcome": "Material Document posted; Debit Memo Request created and linked"
+    },
+    "TD-CS-021-AP-004": {
+      "id": "TD-CS-021-AP-004",
+      "name": "Skip Debit Memo Request (Manual Processing Later) — Alternative Path 04",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "purchaseOrderNoDebitMemo": "{{PURCHASE_ORDER_VALID}}",
+        "batchNoDebitMemo": "{{BATCH_BLOCKED_STOCK}}",
+        "materialNoDebitMemo": "{{MATERIAL_NUMBER}}",
+        "returnQuantityNoDebitMemo": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonNoDebitMemo": "{{REJECTION_REASON_CODE}}",
+        "plantNoDebitMemo": "{{PLANT}}",
+        "storageLocationNoDebitMemo": "{{STORAGE_LOCATION}}",
+        "skipDebitMemo": "{{TRIGGER_DEBIT_MEMO_NO}}"
+      },
+      "expectedOutcome": "Material Document posted; No Debit Memo Request created"
+    },
+    "TD-CS-021-NEG-001": {
+      "id": "TD-CS-021-NEG-001",
+      "name": "Invalid or Non-existent Purchase Order Number — Negative 01",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-181"],
+      "data": {
+        "purchaseOrderInvalid": "{{PURCHASE_ORDER_INVALID}}",
+        "batchNumberValid": "{{BATCH_BLOCKED_STOCK}}",
+        "materialNumberValid": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Purchase Order does not exist; Material Document NOT created"
+    },
+    "TD-CS-021-NEG-002": {
+      "id": "TD-CS-021-NEG-002",
+      "name": "Invalid or Non-existent Batch Number — Negative 02",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-182"],
+      "data": {
+        "purchaseOrderValidForBatch": "{{PURCHASE_ORDER_VALID}}",
+        "batchInvalid": "{{BATCH_INVALID}}",
+        "materialValidForBatch": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: Batch does not exist; Material Document NOT created"
+    },
+    "TD-CS-021-NEG-003": {
+      "id": "TD-CS-021-NEG-003",
+      "name": "Batch with Zero Quantity in Restricted Stock — Negative 03",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-183"],
+      "data": {
+        "purchaseOrderZeroStock": "{{PURCHASE_ORDER_VALID}}",
+        "batchZeroStock": "{{BATCH_ZERO_QTY}}",
+        "materialZeroStock": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: No stock available for batch; Material Document NOT created"
+    },
+    "TD-CS-021-NEG-004": {
+      "id": "TD-CS-021-NEG-004",
+      "name": "Batch in Unrestricted Stock (Not Blocked or QI) — Negative 04",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-184"],
+      "data": {
+        "purchaseOrderUnrestricted": "{{PURCHASE_ORDER_VALID}}",
+        "batchUnrestricted": "{{BATCH_UNRESTRICTED_STOCK}}",
+        "materialUnrestricted": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Batch not in Blocked or Quality Inspection stock; Material Document NOT created"
+    },
+    "TD-CS-021-NEG-005": {
+      "id": "TD-CS-021-NEG-005",
+      "name": "Purchase Order with No Goods Receipt Posted — Negative 05",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-185"],
+      "data": {
+        "purchaseOrderNoGR": "{{PURCHASE_ORDER_NO_GR}}",
+        "batchNumberValid": "{{BATCH_BLOCKED_STOCK}}",
+        "materialNumberValid": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP displays error: No goods receipt found for Purchase Order; Material Document NOT created"
+    },
+    "TD-CS-021-ERR-001": {
+      "id": "TD-CS-021-ERR-001",
+      "name": "Missing Rejection Reason Code — Error 01",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-186"],
+      "data": {
+        "purchaseOrderValidERR": "{{PURCHASE_ORDER_VALID}}",
+        "batchValidERR": "{{BATCH_BLOCKED_STOCK}}",
+        "materialValidERR": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonCode": ""
+      },
+      "note": "rejectionReasonCode intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP displays error: Reason for Movement is required; Material Document NOT created"
+    },
+    "TD-CS-021-ERR-002": {
+      "id": "TD-CS-021-ERR-002",
+      "name": "Missing Return Quantity — Error 02",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-187"],
+      "data": {
+        "purchaseOrderValidERR2": "{{PURCHASE_ORDER_VALID}}",
+        "batchValidERR2": "{{BATCH_BLOCKED_STOCK}}",
+        "materialValidERR2": "{{MATERIAL_NUMBER}}",
+        "returnQuantity": "",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "note": "returnQuantity intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP displays error: Quantity is required; Material Document NOT created"
+    },
+    "TD-CS-021-ERR-003": {
+      "id": "TD-CS-021-ERR-003",
+      "name": "Missing Purchase Order — Error 03",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-188"],
+      "data": {
+        "purchaseOrder": "",
+        "batchNumberValid": "{{BATCH_BLOCKED_STOCK}}",
+        "materialNumberValid": "{{MATERIAL_NUMBER}}",
+        "returnQuantityStandard": "{{RETURN_QUANTITY_STANDARD}}",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "note": "purchaseOrder intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP displays error: Purchase Order is required; Material Document NOT created"
+    },
+    "TD-CS-021-EDGE-001": {
+      "id": "TD-CS-021-EDGE-001",
+      "name": "Minimum UoM Precision Return Quantity — Edge Case 01",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-189"],
+      "data": {
+        "purchaseOrderMinQty": "{{PURCHASE_ORDER_VALID}}",
+        "batchMinQty": "{{BATCH_BLOCKED_STOCK}}",
+        "materialMinQty": "{{MATERIAL_NUMBER}}",
+        "returnQuantityMin": "{{RETURN_QUANTITY_MIN}}",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "expectedOutcome": "Material Document posted with minimum UoM precision quantity (e.g., 0.001 KG)"
+    },
+    "TD-CS-021-EDGE-002": {
+      "id": "TD-CS-021-EDGE-002",
+      "name": "Full Batch Quantity (Complete Return) — Edge Case 02",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-190"],
+      "data": {
+        "purchaseOrderFullQty": "{{PURCHASE_ORDER_VALID}}",
+        "batchFullQty": "{{BATCH_FULL_RETURN}}",
+        "materialFullQty": "{{MATERIAL_NUMBER}}",
+        "returnQuantityFull": "{{RETURN_QUANTITY_FULL}}",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "expectedOutcome": "Material Document posted; batch stock reduced to zero (full return)"
+    },
+    "TD-CS-021-EDGE-003": {
+      "id": "TD-CS-021-EDGE-003",
+      "name": "Quantity Exceeding Available Batch Stock — Edge Case 03",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-191"],
+      "data": {
+        "purchaseOrderOverQty": "{{PURCHASE_ORDER_VALID}}",
+        "batchOverQty": "{{BATCH_BLOCKED_STOCK}}",
+        "materialOverQty": "{{MATERIAL_NUMBER}}",
+        "returnQuantityOver": "{{RETURN_QUANTITY_OVER}}",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Quantity exceeds available stock; Material Document NOT created"
+    },
+    "TD-CS-021-EDGE-004": {
+      "id": "TD-CS-021-EDGE-004",
+      "name": "Zero Quantity — Edge Case 04",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-192"],
+      "data": {
+        "purchaseOrderZeroQty": "{{PURCHASE_ORDER_VALID}}",
+        "batchZeroQty": "{{BATCH_BLOCKED_STOCK}}",
+        "materialZeroQty": "{{MATERIAL_NUMBER}}",
+        "returnQuantity": "0",
+        "rejectionReasonStandard": "{{REJECTION_REASON_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Quantity must be greater than 0; Material Document NOT created"
+    }
+  },
+  "allPlaceholders": [
+    "{{PURCHASE_ORDER_VALID}}",
+    "{{PURCHASE_ORDER_VALID_QI}}",
+    "{{PURCHASE_ORDER_INVALID}}",
+    "{{PURCHASE_ORDER_NO_GR}}",
+    "{{BATCH_BLOCKED_STOCK}}",
+    "{{BATCH_QI_STOCK}}",
+    "{{BATCH_UNRESTRICTED_STOCK}}",
+    "{{BATCH_INVALID}}",
+    "{{BATCH_ZERO_QTY}}",
+    "{{BATCH_FULL_RETURN}}",
+    "{{MATERIAL_NUMBER}}",
+    "{{MATERIAL_NUMBER_QI}}",
+    "{{MATERIAL_DESCRIPTION}}",
+    "{{MATERIAL_DESCRIPTION_QI}}",
+    "{{RETURN_QUANTITY_STANDARD}}",
+    "{{RETURN_QUANTITY_MIN}}",
+    "{{RETURN_QUANTITY_FULL}}",
+    "{{RETURN_QUANTITY_OVER}}",
+    "{{REJECTION_REASON_CODE}}",
+    "{{PLANT}}",
+    "{{STORAGE_LOCATION}}",
+    "{{PURCHASING_ORG_CODE}}",
+    "{{TRIGGER_DEBIT_MEMO_YES}}",
+    "{{TRIGGER_DEBIT_MEMO_NO}}",
+    "{{VENDOR_ID}}",
+    "{{VENDOR_NAME}}",
+    "{{UNIT_OF_MEASURE}}",
+    "{{INSPECTION_LOT_NUMBER}}",
+    "{{INSPECTION_LOT_NUMBER_QI}}"
+  ]
+}

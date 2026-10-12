@@ -1,0 +1,385 @@
+{
+  "userStory": "CS-52",
+  "summary": "Confirm Yield And Scrap Quantities Against A Process Order Operation",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Supervisor",
+  "businessObject": "Process Order Confirmation",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Confirm Process Order\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can enter yield quantity, scrap quantity, and scrap reason code at each relevant operation.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-3",
+      "text": "The system calculates and displays the yield variance percentage against the planned batch quantity.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "A yield variance exceeding a configured tolerance triggers a mandatory deviation record before the order can be technically completed.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["DT"],
+      "scenarioTypesRequired": ["HP", "NEG", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The system updates the finished goods batch quantity based on confirmed yield.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "A report is available showing yield trends by material, line, and shift for continuous improvement analysis.",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Confirm single operation with yield within tolerance, no scrap",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Confirm yield with scrap and valid scrap reason code within tolerance",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3", "AC-5"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Confirm multiple operations in sequence (multi-step order)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Yield variance within tolerance (positive variance)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Yield variance within tolerance (negative variance)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Yield variance exceeds tolerance, deviation record created, order completed after deviation approval",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Non-existent Process Order number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Invalid Operation number for the given Process Order",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Invalid Scrap Reason Code",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Yield variance exceeds tolerance, user attempts to complete order without creating deviation record",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Process Order field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Process Order"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Operation Number field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Operation"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Yield Quantity field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Yield"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Scrap Reason Code when Scrap > 0",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Scrap Reason"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Yield Quantity = 0 (full scrap scenario)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3", "AC-5"],
+        "parameter": "yield",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Yield Quantity = Maximum Order Quantity (no scrap, exact plan match)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "yield",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Yield + Scrap = Maximum Order Quantity",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-3"],
+        "parameter": "combined",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Yield + Scrap > Maximum Order Quantity (over-confirmation)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "parameter": "combined",
+        "boundary": "exceeded"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Yield Variance = exact tolerance boundary (lower)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "variance",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-06",
+        "description": "Yield Variance = exact tolerance boundary (upper)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3", "AC-4"],
+        "parameter": "variance",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-07",
+        "description": "Scrap Quantity = 0 (no scrap)",
+        "risk": "LOW",
+        "acIds": ["AC-2"],
+        "parameter": "scrap",
+        "boundary": "lower"
+      }
+    ],
+    "INT": [],
+    "REPORT": [
+      {
+        "id": "REPORT-01",
+        "description": "Access yield trend report and verify data aggregation by material",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "REPORT-02",
+        "description": "Access yield trend report and verify data aggregation by line",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      },
+      {
+        "id": "REPORT-03",
+        "description": "Access yield trend report and verify data aggregation by shift",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 3,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 7,
+    "INT": 0,
+    "REPORT": 3,
+    "total": 24
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "processOrderNumber",
+        "label": "Process Order",
+        "mandatory": true,
+        "validRange": "Existing process order in SAP (AUFK table, AUTYP='30')"
+      },
+      {
+        "name": "operationNumber",
+        "label": "Operation",
+        "mandatory": true,
+        "validRange": "Valid operation number from order routing (AFVC table)"
+      },
+      {
+        "name": "yieldQuantity",
+        "label": "Yield",
+        "mandatory": true,
+        "validRange": "0 to Maximum Order Quantity (per UoM)"
+      },
+      {
+        "name": "scrapQuantity",
+        "label": "Scrap",
+        "mandatory": false,
+        "validRange": "0 to (Max Order Qty - Yield)"
+      },
+      {
+        "name": "scrapReasonCode",
+        "label": "Scrap Reason",
+        "mandatory": true,
+        "validRange": "Valid scrap reason code (QMFE master data), conditional mandatory if Scrap > 0"
+      },
+      {
+        "name": "confirmationDateTime",
+        "label": "Execution Date/Time",
+        "mandatory": true,
+        "validRange": "Current or past date/time (shift-aligned)"
+      },
+      {
+        "name": "workCenter",
+        "label": "Work Center",
+        "mandatory": false,
+        "validRange": "Valid work center from operation (CRHD table), auto-populated or manual"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "plannedBatchQuantity",
+        "label": "Target Quantity",
+        "trigger": "Load Process Order"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "trigger": "Load Process Order"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Load Material"
+      },
+      {
+        "name": "uom",
+        "label": "Unit of Measure",
+        "trigger": "Load Material"
+      },
+      {
+        "name": "operationDescription",
+        "label": "Operation Text",
+        "trigger": "Load Operation"
+      },
+      {
+        "name": "workCenter",
+        "label": "Work Center",
+        "trigger": "Load Operation"
+      },
+      {
+        "name": "varianceTolerance",
+        "label": "Configured Tolerance",
+        "trigger": "Load Material/Plant Config"
+      }
+    ],
+    "output": [
+      {
+        "name": "yieldVariance",
+        "label": "Yield Variance (%)",
+        "format": "Numeric (decimal, 2 decimal places), with +/- sign"
+      },
+      {
+        "name": "deviationRecordNumber",
+        "label": "Deviation Record Number",
+        "format": "Alphanumeric, system-defined format (if variance exceeds tolerance)"
+      },
+      {
+        "name": "updatedBatchQuantity",
+        "label": "Updated Batch Quantity",
+        "format": "Numeric (matches Yield quantity and UoM)"
+      },
+      {
+        "name": "confirmationNumber",
+        "label": "Confirmation Number",
+        "format": "Numeric, 10-12 digits (CO02/AFRU table)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "yieldQuantity",
+        "label": "Yield Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "Maximum Order Quantity (AFPO-GAMNG)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "scrapQuantity",
+        "label": "Scrap Quantity",
+        "lowerBoundary": "0",
+        "upperBoundary": "(Max Order Qty - Yield)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "yieldVariance",
+        "label": "Yield Variance (%)",
+        "lowerBoundary": "Tolerance lower bound (e.g., -10%)",
+        "upperBoundary": "Tolerance upper bound (e.g., +10%)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

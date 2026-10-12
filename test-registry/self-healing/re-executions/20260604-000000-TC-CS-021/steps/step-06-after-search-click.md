@@ -1,0 +1,118 @@
+- generic [ref=e1]:
+  - generic:
+    - status
+    - status
+    - img [ref=e3]
+    - img [ref=e27]
+  - generic [ref=e34]:
+    - banner "Shell Bar" [ref=e36]:
+      - generic [ref=e37]:
+        - button "" [ref=e38] [cursor=pointer]:
+          - generic [ref=e39]: 
+        - button "SAP Logo" [ref=e40] [cursor=pointer]:
+          - img "SAP Logo" [ref=e41]
+        - generic [ref=e42] [cursor=pointer]:
+          - heading "Home" [level=1]
+          - button "Home" [ref=e43]:
+            - generic [ref=e44]: Home
+            - generic [ref=e46]: 
+      - generic [ref=e464]:
+        - generic [ref=e466] [cursor=pointer]:
+          - combobox "Search In" [ref=e467]: All
+          - textbox [ref=e468]: All
+          - generic [ref=e469]: All
+          - generic [ref=e470]: 
+        - generic "Search" [ref=e472]:
+          - searchbox "Search" [active] [ref=e474]
+        - button "Close Search" [ref=e476] [cursor=pointer]:
+          - generic [ref=e478]: 
+      - generic [ref=e49]:
+        - button "Joule" [ref=e447] [cursor=pointer]:
+          - generic [ref=e448]: 
+        - button "Open Help" [ref=e449] [cursor=pointer]:
+          - generic [ref=e450]: 
+        - button "Notifications" [ref=e438] [cursor=pointer]:
+          - generic [ref=e439]: 
+        - button "Profile of Trial 0034157 User" [ref=e50] [cursor=pointer]:
+          - generic: 
+    - generic [ref=e54]:
+      - navigation "Space Page" [ref=e59]:
+        - tablist [ref=e60]:
+          - tab "My Home" [selected] [ref=e61] [cursor=pointer]:
+            - generic [ref=e64]: My Home
+          - separator
+          - tab "Finance" [ref=e66] [cursor=pointer]:
+            - generic [ref=e69]: Finance
+          - tab "Manufacturing and Supply Chain" [ref=e71] [cursor=pointer]:
+            - generic [ref=e74]: Manufacturing and Supply Chain
+          - tab "Procurement" [ref=e76] [cursor=pointer]:
+            - generic [ref=e79]: Procurement
+          - tab "Project Management" [ref=e81] [cursor=pointer]:
+            - generic [ref=e84]: Project Management
+          - tab "Sales" [ref=e86] [cursor=pointer]:
+            - generic [ref=e89]: Sales
+          - tab "Other" [ref=e91] [cursor=pointer]:
+            - generic [ref=e94]: Other
+          - tab "Inbox" [ref=e96] [cursor=pointer]:
+            - generic [ref=e99]: Inbox
+      - main "Content" [ref=e106]:
+        - generic [ref=e115]:
+          - toolbar [ref=e117]:
+            - generic [ref=e118]:
+              - generic [ref=e120]: Thursday, June 4, 2026
+              - heading "Hi Trial 0034157, great to see you!" [level=4] [ref=e122]
+            - button "Recap" [ref=e124] [cursor=pointer]:
+              - generic [ref=e126]: Recap
+            - button "My Home Settings" [ref=e127] [cursor=pointer]:
+              - generic [ref=e129]: My Home Settings
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - heading "News" [level=4] [ref=e137]
+                - button "News" [ref=e140] [cursor=pointer]:
+                  - generic [ref=e142]: 
+              - figure [ref=e147]:
+                - generic [ref=e148]:
+                  - img "No action items for now" [ref=e149]
+                  - generic [ref=e151]:
+                    - heading "No action items for now" [level=2] [ref=e152]
+                    - generic [ref=e153]: You can view other items by changing the filter
+                - button "Manage News" [ref=e155] [cursor=pointer]:
+                  - generic [ref=e157]: Manage News
+            - generic [ref=e158]:
+              - generic [ref=e159]:
+                - heading "Pages" [level=4] [ref=e161]
+                - button "Pages" [ref=e164] [cursor=pointer]:
+                  - generic [ref=e166]: 
+              - generic [ref=e167]:
+                - listitem "Finance Tile" [ref=e168] [cursor=pointer]:
+                  - generic [ref=e170]:
+                    - generic [ref=e479]: 
+                    - generic [ref=e176]: Finance
+                - listitem "Manufacturing and Supply Chain Tile" [ref=e177] [cursor=pointer]:
+                  - generic [ref=e179]:
+                    - generic [ref=e480]: 
+                    - generic [ref=e185]: Manufacturing and Supply Chain
+                - listitem "Procurement Tile" [ref=e186] [cursor=pointer]:
+                  - generic [ref=e188]:
+                    - generic [ref=e481]: 
+                    - generic [ref=e194]: Procurement
+                - listitem "Project Management Tile" [ref=e195] [cursor=pointer]:
+                  - generic [ref=e197]:
+                    - generic [ref=e482]: 
+                    - generic [ref=e203]: Project Management
+                - listitem "Sales Tile" [ref=e204] [cursor=pointer]:
+                  - generic [ref=e206]:
+                    - generic [ref=e483]: 
+                    - generic [ref=e212]: Sales
+                - listitem "Other Tile" [ref=e213] [cursor=pointer]:
+                  - generic [ref=e215]:
+                    - generic [ref=e484]: 
+                    - generic [ref=e221]: Other
+                - listitem "Inbox Tile" [ref=e222] [cursor=pointer]:
+                  - generic [ref=e224]:
+                    - generic [ref=e485]: 
+                    - generic [ref=e230]: Inbox
+    - contentinfo
+  - generic:
+    - region "Notification"

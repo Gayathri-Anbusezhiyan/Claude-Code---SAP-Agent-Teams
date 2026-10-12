@@ -1,0 +1,83 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "timestamp": "2026-08-24T05:35:21.634Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "testStatus": "flaky",
+  "attemptsFailed": 1,
+  "attemptsTotal": 2,
+  "errorType": "TIMEOUT_ERROR",
+  "failingStep": {
+    "specFile": "test-registry/automation/tests/mm-purchase-order.spec.js",
+    "specLine": 34,
+    "methodCall": "purchaseOrderPage.navigateToManagePurchaseOrders()",
+    "pageFile": "test-registry/automation/pages/mm/purchase-order/purchase-order.page.js",
+    "failingMethod": "selectSearchResult",
+    "failingLine": 197,
+    "locatorUsed": {
+      "code": "this.page.getByRole('row', { name: appName })",
+      "strategy": "role",
+      "role": "row",
+      "name": "Manage Purchase Orders",
+      "timeout": "WAITS.SEARCH_RESULTS (3000ms)"
+    },
+    "errorMessage": "TimeoutError: locator.waitFor: Timeout 3000ms exceeded.\nCall log:\n  - waiting for getByRole('row', { name: 'Manage Purchase Orders' }) to be visible",
+    "stackTrace": "    at PurchaseOrderPage.selectSearchResult (c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\automation\\pages\\mm\\purchase-order\\purchase-order.page.js:197:21)\n    at PurchaseOrderPage.navigateToManagePurchaseOrders (c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\automation\\pages\\mm\\purchase-order\\purchase-order.page.js:223:16)\n    at c:\\Users\\pabbredd\\OneDrive - Capgemini\\Documents\\Claude Code Implementation\\Claude Code - SAP Agent Teams\\test-registry\\automation\\tests\\mm-purchase-order.spec.js:34:3"
+  },
+  "rootCauseAnalysis": {
+    "primaryCause": "TIMEOUT_TOO_SHORT",
+    "secondaryCause": "LOCATOR_STRATEGY_STRICT",
+    "description": "The search results row locator waits only 3 seconds for SAP Fiori's search autocomplete to populate results. On the first attempt, SAP's backend response took longer than 3s, causing timeout. On retry (with warmed network/cache), results loaded faster and the test passed.",
+    "evidenceFromRetry": "Retry #1 passed successfully with identical locator strategy, proving SAP app behavior is correct but timing is inconsistent."
+  },
+  "locatorAnalysis": {
+    "currentStrategy": "getByRole('row', { name: 'Manage Purchase Orders' })",
+    "issues": [
+      {
+        "type": "TIMEOUT_INSUFFICIENT",
+        "description": "WAITS.SEARCH_RESULTS = 3000ms is too aggressive for SAP Fiori search autocomplete under variable network conditions"
+      },
+      {
+        "type": "FIXED_WAIT_BEFORE_LOCATOR",
+        "description": "Line 192 uses waitForTimeout(WAITS.SEARCH_RESULTS) — fixed 3s wait instead of dynamic wait for search results container to appear",
+        "location": "purchase-order.page.js:192"
+      }
+    ],
+    "strengths": [
+      "Role-based locator is semantically correct for SAP Fiori table rows",
+      "Exact name match avoids ambiguity"
+    ]
+  },
+  "recommendation": "PATCH_SCRIPTS",
+  "confidence": "HIGH",
+  "rationale": "Test passed on retry with identical code, proving SAP app works correctly. Failure is purely due to insufficient timeout for search results to appear. This is a classic flaky test pattern caused by overly aggressive timing constraints.",
+  "recommendedFixes": [
+    {
+      "priority": 1,
+      "type": "INCREASE_TIMEOUT",
+      "file": "test-registry/automation/pages/mm/purchase-order/purchase-order.locators.js",
+      "change": "Increase WAITS.SEARCH_RESULTS from 3000ms to 10000ms (10 seconds) to accommodate SAP Fiori search backend latency"
+    },
+    {
+      "priority": 2,
+      "type": "REPLACE_FIXED_WAIT_WITH_DYNAMIC_WAIT",
+      "file": "test-registry/automation/pages/mm/purchase-order/purchase-order.page.js",
+      "method": "searchForApp",
+      "line": 192,
+      "change": "Replace `await this.page.waitForTimeout(WAITS.SEARCH_RESULTS)` with dynamic wait for search results dropdown/container to appear (e.g., waitForSelector on search results list)"
+    },
+    {
+      "priority": 3,
+      "type": "ADD_RETRY_LOGIC",
+      "file": "test-registry/automation/pages/mm/purchase-order/purchase-order.page.js",
+      "method": "selectSearchResult",
+      "change": "Wrap resultRow.waitFor() in a retry loop (2-3 attempts) to handle transient SAP search delays"
+    }
+  ],
+  "explorationComparison": {
+    "status": "NOT_CHECKED",
+    "note": "Exploration data not consulted for this analysis because retry succeeded with identical code, proving locator strategy is correct. Issue is timing only."
+  },
+  "notes": "This is a textbook flaky test caused by insufficient timeout. The locator strategy itself is correct (proven by retry success). SAP Fiori search autocomplete has variable backend response time. Fix: increase timeout from 3s to 10s.",
+  "nextStep": "Apply timeout increase to WAITS.SEARCH_RESULTS in purchase-order.locators.js and re-run test to verify stability"
+}

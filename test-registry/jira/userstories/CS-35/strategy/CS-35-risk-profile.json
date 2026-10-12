@@ -1,0 +1,314 @@
+{
+  "userStory": "CS-35",
+  "summary": "Create Outbound Delivery with Cold-Chain shipping for biologics",
+  "module": "SD",
+  "analysedAt": "2026-08-21T09:30:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Warehouse Supervisor",
+  "businessObject": "Outbound Delivery with Cold-Chain shipping configuration",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can create an Outbound Delivery from a released Sales Order for a biologics material.",
+      "type": "NAVIGATION + VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically assigns a \"Cold-Chain\" shipping condition to the delivery based on the material's temperature requirements (e.g., 2-8°C, -20°C).",
+      "type": "BUSINESS_RULE + VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system requires the user to specify a temperature-controlled shipping method and carrier that is certified for cold-chain transport.",
+      "type": "MANDATORY_FIELD + VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG", "ERR"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-4",
+      "text": "The system blocks picking and packing if the warehouse does not have temperature-controlled storage locations available for the material.",
+      "type": "ERROR_HANDLING + BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system prints or attaches a \"Temperature-Sensitive\" label and handling instructions to the delivery documentation.",
+      "type": "SUCCESS_CONFIRMATION + INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-6",
+      "text": "The system records the temperature range and duration requirements in the delivery header for carrier visibility.",
+      "type": "SUCCESS_CONFIRMATION + BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create Outbound Delivery from released SO with biologics material (2-8°C), verify Cold-Chain shipping condition auto-assigned, specify certified carrier + temp-controlled method, confirm temperature-sensitive label printed, verify temp range recorded in delivery header",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Create Outbound Delivery for biologics with -20°C (frozen) temperature requirement, verify different cold-chain shipping condition assigned based on temperature range",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Create Outbound Delivery for biologics with ultra-cold-chain requirement (-80°C), verify specialized shipping condition and carrier selection",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to create Outbound Delivery with non-certified carrier (no cold-chain certification) — system must reject or warn",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to proceed with delivery when warehouse has no temperature-controlled storage locations available — system must block picking/packing",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to create Outbound Delivery from non-released Sales Order — system must reject",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Attempt to create Outbound Delivery with standard (non-cold-chain) shipping method for biologics material — system must reject or warn",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Shipping Method (temperature-controlled) — system must prompt user or block save",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Shipping Method"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Carrier specification — system must prompt user or block save",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "field": "Carrier"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Sales Order Number — system must reject (cannot create delivery without reference)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1"],
+        "field": "Sales Order Number"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Temperature-Sensitive label printing fails (printer error, output determination not configured) — system must warn or log error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Label Output"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Biologics material with borderline temperature requirement (e.g., 15-25°C) — verify correct shipping condition assignment (ambient vs. controlled)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2"],
+        "parameter": "temperatureRange",
+        "boundary": "decision"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Outbound Delivery for minimum quantity (1 unit) of biologics — verify all cold-chain requirements applied",
+        "risk": "LOW",
+        "acIds": ["AC-1", "AC-2"],
+        "parameter": "deliveryQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Multiple line items with different temperature requirements in same Sales Order — verify system handles or blocks mixed-temp delivery creation",
+        "risk": "HIGH",
+        "acIds": ["AC-1", "AC-2"],
+        "parameter": "multipleTemperatureRequirements",
+        "boundary": "complex"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 14
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "salesOrderNumber",
+        "label": "Shipping / Sales Order",
+        "dataType": "Alphanumeric (10 digits)",
+        "mandatory": true,
+        "validRange": "Existing Sales Order in Released status with biologics material"
+      },
+      {
+        "name": "shippingMethod",
+        "label": "Shipping Conditions / Route",
+        "dataType": "Code (2-4 chars)",
+        "mandatory": true,
+        "validRange": "Temperature-controlled shipping methods only (e.g., COLD, FROZ)"
+      },
+      {
+        "name": "carrier",
+        "label": "Forwarding Agent / Carrier",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Carriers certified for cold-chain transport (must have certification flag in vendor master)"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "dataType": "Code (4 chars)",
+        "mandatory": true,
+        "validRange": "Temperature-controlled storage locations only"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "coldChainShippingCondition",
+        "label": "Shipping Condition",
+        "trigger": "Material temperature requirements detected",
+        "source": "Material Master (MARA-RAUBE or custom Z-field for temp requirements)"
+      },
+      {
+        "name": "temperatureRange",
+        "label": "Temperature Range (custom field)",
+        "trigger": "Material temperature requirements + Shipping Condition assignment",
+        "source": "Material Master temperature configuration (2-8°C, -20°C)"
+      },
+      {
+        "name": "durationRequirements",
+        "label": "Temperature Duration (custom field)",
+        "trigger": "Material + Route transit time",
+        "source": "Material Master + Route configuration"
+      },
+      {
+        "name": "materialDescription",
+        "label": "Material",
+        "trigger": "Sales Order reference",
+        "source": "Sales Order item data"
+      },
+      {
+        "name": "temperatureSensitiveLabelIndicator",
+        "label": "Output Type (label)",
+        "trigger": "Cold-Chain Shipping Condition assigned",
+        "source": "Output determination condition records"
+      },
+      {
+        "name": "handlingInstructions",
+        "label": "Delivery Instructions",
+        "trigger": "Cold-Chain Shipping Condition + Material type",
+        "source": "Material Master + Shipping Condition master"
+      }
+    ],
+    "output": [
+      {
+        "name": "outboundDeliveryNumber",
+        "label": "Outbound Delivery Number",
+        "description": "Unique SAP-generated delivery document number",
+        "format": "10-digit numeric (e.g., 80xxxxxxxx)"
+      },
+      {
+        "name": "coldChainFlag",
+        "label": "Cold-Chain Flag",
+        "description": "Indicator that delivery requires cold-chain handling",
+        "format": "Boolean / Checkbox"
+      },
+      {
+        "name": "temperatureLabelOutput",
+        "label": "Temperature Label Output",
+        "description": "PDF or printed label with Temperature-Sensitive marking + handling instructions",
+        "format": "Document output (PDF/print spool)"
+      },
+      {
+        "name": "deliveryStatus",
+        "label": "Delivery Status",
+        "description": "Initial status after creation (e.g., Not yet picked, Blocked for picking)",
+        "format": "Status code + text"
+      },
+      {
+        "name": "temperatureRangeInHeader",
+        "label": "Temperature Range in Header",
+        "description": "Recorded temperature requirements (e.g., 2-8°C for 48 hours)",
+        "format": "Text field in delivery header"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "temperatureRange",
+        "label": "Temperature Range",
+        "lowerBoundary": "-80°C (ultra-cold)",
+        "upperBoundary": "+25°C (controlled room temp)",
+        "zeroInvalid": false,
+        "notes": "Material-dependent; must match carrier capability"
+      },
+      {
+        "name": "durationRequirement",
+        "label": "Duration Requirement",
+        "lowerBoundary": "1 hour (minimum transit)",
+        "upperBoundary": "System-configured max (e.g., 7 days)",
+        "zeroInvalid": true,
+        "notes": "Depends on material stability profile"
+      },
+      {
+        "name": "deliveryQuantity",
+        "label": "Delivery Quantity",
+        "lowerBoundary": "1 (minimum per UoM)",
+        "upperBoundary": "Sales Order open quantity",
+        "zeroInvalid": true,
+        "notes": "Cannot exceed SO open quantity"
+      }
+    ]
+  }
+}

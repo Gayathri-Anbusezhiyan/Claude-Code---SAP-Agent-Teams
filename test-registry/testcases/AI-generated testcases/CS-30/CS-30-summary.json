@@ -1,0 +1,205 @@
+{
+  "userStory": "CS-30",
+  "summary": "Create A Material Master Record For A New Api With A Defined Shelf-Lif",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 15,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 3,
+    "ERR": 4,
+    "EDGE": 7,
+    "INT": 0
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 6,
+    "MEDIUM": 2,
+    "LOW": 2
+  },
+  "automationCandidates": 15,
+  "testCases": [
+    {
+      "id": "TC-CS-101",
+      "title": "Create GMP-Regulated API Material Master with Complete Mandatory Fields",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+      "estimatedEffort": "LARGE"
+    },
+    {
+      "id": "TC-CS-102",
+      "title": "Attempt to Create GMP Material Without Batch Management Indicator",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-NEG-001",
+      "acsCovered": ["AC-2", "AC-5"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-103",
+      "title": "Attempt to Create GMP Material Without QM Inspection Type",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-NEG-002",
+      "acsCovered": ["AC-4", "AC-5"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-104",
+      "title": "Attempt to Release Material for Procurement with Incomplete GMP Fields",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-NEG-003",
+      "acsCovered": ["AC-5"],
+      "estimatedEffort": "MEDIUM"
+    },
+    {
+      "id": "TC-CS-105",
+      "title": "Create Material with Missing Total Shelf Life Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-ERR-001",
+      "acsCovered": ["AC-3", "AC-5"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-106",
+      "title": "Create Material with Missing Minimum Remaining Shelf Life Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-ERR-002",
+      "acsCovered": ["AC-3", "AC-5"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-107",
+      "title": "Create Material with Missing Batch Management Indicator",
+      "scenarioType": "ERROR",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-ERR-003",
+      "acsCovered": ["AC-2", "AC-5"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-108",
+      "title": "Create Material with Missing QM Inspection Type",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-ERR-004",
+      "acsCovered": ["AC-4", "AC-5"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-109",
+      "title": "Create Material with Total Shelf Life at Minimum Boundary (1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-001",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-110",
+      "title": "Create Material with Total Shelf Life at Maximum Boundary (3650 Days)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-002",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-111",
+      "title": "Create Material with Minimum Remaining Shelf Life at Lower Boundary (1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-003",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-112",
+      "title": "Create Material with Minimum Remaining Shelf Life at Maximum Valid Boundary (Total - 1 Day)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-004",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-113",
+      "title": "Attempt to Create Material with Minimum Remaining Shelf Life Equal to Total Shelf Life (Invalid)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-005",
+      "acsCovered": ["AC-3"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-114",
+      "title": "Create Material with Material Description at Minimum Length (1 Character)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-006",
+      "acsCovered": ["AC-1"],
+      "estimatedEffort": "SMALL"
+    },
+    {
+      "id": "TC-CS-115",
+      "title": "Create Material with Material Description at Maximum Length (40 Characters)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-030-EDGE-007",
+      "acsCovered": ["AC-1"],
+      "estimatedEffort": "SMALL"
+    }
+  ],
+  "testdataFile": "testdata/CS-30/CS-30-testdata.json",
+  "coverageQuality": {
+    "acCoveragePercentage": 100,
+    "acsCovered": 6,
+    "acsTotal": 6,
+    "qualityGatesStatus": {
+      "QG1_AC_Traceability": "PASS",
+      "QG2_HappyPath_Coverage": "PASS",
+      "QG3_Negative_Coverage": "PASS",
+      "QG4_Error_Coverage": "PASS",
+      "QG5_Edge_Coverage": "PASS",
+      "QG7_Automation_Eligibility": "PASS"
+    }
+  }
+}

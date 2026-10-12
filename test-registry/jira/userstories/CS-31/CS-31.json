@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-31",
+  "type": "Task",
+  "summary": "Review And Approve A Change Request Affecting An Approved Vendor'S Man",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Quality Assurance Manager, I want to review and approve a Change Request affecting an approved vendor's manufacturing site, so that materials are not procured from an unapproved or unverified manufacturing location.",
+  "acceptanceCriteria": "1. The user can access the \"My Inbox\" Fiori app to review pending vendor change requests.\n2. The system flags any change to a vendor's registered manufacturing site as requiring QA approval before it takes effect.\n3. The requestor can attach supporting documentation (e.g., site audit report) to the change request.\n4. The system prevents purchase orders from being created against the changed vendor record until QA approval is granted.\n5. The system logs the approver, decision, and timestamp for audit trail purposes.\n6. Rejected changes return the vendor record to its previous approved state automatically.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:17.865+0530",
+  "updated": "2026-08-21T14:11:17.968+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-31",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

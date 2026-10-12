@@ -1,0 +1,300 @@
+{
+  "userStory": "CS-8",
+  "summary": "As a Quality Doc SME, I want to initiate the Send for Review And Verification workflow on a Draft document so that a designated reviewer is formally assigned to evaluate the document",
+  "module": "QualityDocs",
+  "analysedAt": "2026-08-21T08:55:02.103Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Quality Doc SME",
+  "businessObject": "Quality Document (Veeva Vault QualityDocs)",
+  "complexity": "Medium",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The Quality Doc SME can log in to Veeva Vault QualityDocs using valid credentials and is presented with the QualityDocs interface",
+      "type": "NAVIGATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-2",
+      "text": "After login, the Quality Doc SME can navigate to the Full Library view",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-3",
+      "text": "The Quality Doc SME can search for a document by name (\"Test1 for Workflow\") and the document appears in search results",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The Quality Doc SME can open the document and view it in Draft state",
+      "type": "NAVIGATION",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The \"Send for Review And Verification\" user action is visible and available on the Draft document",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The Quality Doc SME can click \"Send for Review And Verification\" and a reviewer selection prompt or form is displayed",
+      "type": "NAVIGATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-7",
+      "text": "The Quality Doc SME can select a reviewer account (Test_user01) and submit the workflow initiation",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "ERR"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-8",
+      "text": "After submission, the document transitions from Draft state to In Review",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-9",
+      "text": "The assigned reviewer (Test_user01) receives or has access to the workflow task",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-10",
+      "text": "If the Quality Doc SME navigates to QualityDocs via the module URL directly, the Full Library is accessible from the navigation",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["AP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-11",
+      "text": "The \"Send for Review And Verification\" action is not available on a document that is not in Draft state",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-12",
+      "text": "The workflow cannot be initiated without selecting a reviewer — submission without a reviewer is prevented",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-13",
+      "text": "Only the Quality Doc SME role can initiate the workflow; the Reviewer role does not have access to the \"Send for Review And Verification\" action",
+      "type": "ERROR_HANDLING",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-14",
+      "text": "The document must be in Draft state for the \"Send for Review And Verification\" action to be available (RP-BIZ-001)",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-15",
+      "text": "Only a user with the Quality Doc SME role can trigger this workflow action (RP-BIZ-002)",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["NEG"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-16",
+      "text": "Selecting a reviewer is a mandatory step when initiating the workflow — the system enforces this requirement (RP-BIZ-003)",
+      "type": "MANDATORY_FIELD",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["ERR"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Complete workflow initiation — SME logs in, searches for Draft document, opens it, initiates \"Send for Review And Verification\", selects reviewer, submits successfully, document transitions to In Review, reviewer receives task",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Alternative navigation path — SME navigates via module URL directly to Full Library and executes workflow",
+        "risk": "LOW",
+        "acIds": ["AC-10"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Invalid login credentials — SME attempts login with incorrect username or password",
+        "risk": "HIGH",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Non-existent document search — SME searches for a document name that does not exist in the library",
+        "risk": "HIGH",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Non-Draft document state — SME opens a document that is not in Draft state (e.g., In Review, Approved) and \"Send for Review And Verification\" action is not available",
+        "risk": "HIGH",
+        "acIds": ["AC-5", "AC-11", "AC-14"]
+      },
+      {
+        "id": "NEG-04",
+        "description": "Wrong role access — User with Reviewer role attempts to initiate \"Send for Review And Verification\" workflow and is denied access to the action",
+        "risk": "HIGH",
+        "acIds": ["AC-13", "AC-15"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing reviewer selection — SME clicks \"Send for Review And Verification\", does not select a reviewer, and attempts to submit; system prevents submission",
+        "risk": "HIGH",
+        "acIds": ["AC-7", "AC-12", "AC-16"],
+        "field": "Reviewer"
+      }
+    ],
+    "EDGE": [],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Reviewer task assignment verification — After SME submits workflow, verify that Test_user01 has the workflow task in their task inbox with correct document reference",
+        "risk": "CRITICAL",
+        "acIds": ["AC-9"]
+      },
+      {
+        "id": "INT-02",
+        "description": "Document state persistence — After workflow submission, verify document state is \"In Review\" across all library views and document detail pages",
+        "risk": "CRITICAL",
+        "acIds": ["AC-8"]
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 1,
+    "NEG": 4,
+    "ERR": 1,
+    "EDGE": 0,
+    "INT": 2,
+    "total": 9
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "username",
+        "label": "Username",
+        "mandatory": true,
+        "validRange": "Valid QualDocSme.01 account (APP_USERNAME)"
+      },
+      {
+        "name": "password",
+        "label": "Password",
+        "mandatory": true,
+        "validRange": "Valid password for QualDocSme.01 (APP_PASSWORD)"
+      },
+      {
+        "name": "documentName",
+        "label": "Search field",
+        "mandatory": true,
+        "validRange": "\"Test1 for Workflow\""
+      },
+      {
+        "name": "reviewerAccount",
+        "label": "Reviewer selection field",
+        "mandatory": true,
+        "validRange": "Test_user01 (valid Reviewer user)"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "documentState",
+        "label": "State / Lifecycle",
+        "trigger": "Document open"
+      },
+      {
+        "name": "availableUserActions",
+        "label": "User Actions menu",
+        "trigger": "Role + Document State"
+      },
+      {
+        "name": "workflowTaskId",
+        "label": "(System-generated)",
+        "trigger": "Workflow submission"
+      }
+    ],
+    "output": [
+      {
+        "name": "documentState",
+        "label": "Document State",
+        "format": "Text: \"In Review\""
+      },
+      {
+        "name": "workflowTask",
+        "label": "Workflow Task",
+        "format": "Task object with document reference"
+      },
+      {
+        "name": "taskAssignment",
+        "label": "Task Assignment",
+        "format": "User reference in workflow task (Test_user01)"
+      }
+    ],
+    "boundary": []
+  }
+}

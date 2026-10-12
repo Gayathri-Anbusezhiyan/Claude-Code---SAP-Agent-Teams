@@ -1,0 +1,220 @@
+{
+  "userStory": "CS-52",
+  "summary": "Confirm Yield And Scrap Quantities Against A Process Order Operation",
+  "module": "PP",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 24,
+  "byCoverageType": {
+    "HP": 3,
+    "AP": 3,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 7,
+    "INT": 0,
+    "REPORT": 3
+  },
+  "byPriority": {
+    "CRITICAL": 8,
+    "HIGH": 9,
+    "MEDIUM": 7,
+    "LOW": 0
+  },
+  "automationCandidates": 18,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Confirm Single Operation with Yield Within Tolerance and No Scrap",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-001"
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Confirm Yield with Scrap and Valid Scrap Reason Code Within Tolerance",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-002"
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Confirm Multiple Operations in Sequence for Multi-Step Order",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-003"
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Confirm Yield with Positive Variance Within Tolerance",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-004"
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Confirm Yield with Negative Variance Within Tolerance",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-005"
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Confirm Yield with Variance Exceeding Tolerance and Create Deviation Record",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-006"
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Attempt Confirmation with Non-Existent Process Order Number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-NEG-001"
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Attempt Confirmation with Invalid Operation Number for the Process Order",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-NEG-002"
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Attempt Confirmation with Invalid Scrap Reason Code",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-NEG-003"
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Attempt to Complete Order with Variance Exceeding Tolerance Without Creating Deviation Record",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-NEG-004"
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Attempt Confirmation with Missing Process Order Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-ERR-001"
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Attempt Confirmation with Missing Operation Number Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-ERR-002"
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Attempt Confirmation with Missing Yield Quantity Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-ERR-003"
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Attempt Confirmation with Missing Scrap Reason Code When Scrap Greater Than Zero",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-ERR-004"
+    },
+    {
+      "id": "TC-CS-139",
+      "title": "Confirm with Yield Quantity Equal to Zero (Full Scrap Scenario)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-EDGE-001"
+    },
+    {
+      "id": "TC-CS-140",
+      "title": "Confirm with Yield Quantity Equal to Maximum Order Quantity (Exact Match)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-EDGE-002"
+    },
+    {
+      "id": "TC-CS-141",
+      "title": "Confirm with Yield Plus Scrap Equal to Maximum Order Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-EDGE-003"
+    },
+    {
+      "id": "TC-CS-142",
+      "title": "Attempt Confirmation with Yield Plus Scrap Exceeding Maximum Order Quantity",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-EDGE-004"
+    },
+    {
+      "id": "TC-CS-143",
+      "title": "Confirm with Yield Variance at Exact Lower Tolerance Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-52-EDGE-005"
+    },
+    {
+      "id": "TC-CS-144",
+      "title": "Confirm with Yield Variance at Exact Upper Tolerance Boundary",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-52-EDGE-006"
+    },
+    {
+      "id": "TC-CS-145",
+      "title": "Confirm with Scrap Quantity Equal to Zero (No Scrap)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "automationCandidate": true,
+      "testDataset": "TD-CS-52-EDGE-007"
+    },
+    {
+      "id": "TC-CS-146",
+      "title": "Access Yield Trend Report and Verify Data Aggregation by Material",
+      "scenarioType": "REPORTING",
+      "priority": "MEDIUM",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-52-REPORT-001"
+    },
+    {
+      "id": "TC-CS-147",
+      "title": "Access Yield Trend Report and Verify Data Aggregation by Production Line",
+      "scenarioType": "REPORTING",
+      "priority": "MEDIUM",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-52-REPORT-002"
+    },
+    {
+      "id": "TC-CS-148",
+      "title": "Access Yield Trend Report and Verify Data Aggregation by Shift",
+      "scenarioType": "REPORTING",
+      "priority": "MEDIUM",
+      "automationCandidate": false,
+      "testDataset": "TD-CS-52-REPORT-003"
+    }
+  ],
+  "testdataFile": "testdata/CS-52/CS-52-testdata.json"
+}

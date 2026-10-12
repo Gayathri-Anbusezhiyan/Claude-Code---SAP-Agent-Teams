@@ -1,0 +1,277 @@
+{
+  "userStory": "CS-50",
+  "summary": "Create A Process Order For A Validated Master Recipe To Manufacture A",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Supervisor",
+  "businessObject": "Process Order (pharmaceutical manufacturing)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Create Process Order\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system only allows selection of a master recipe with an \"Approved/Released\" status.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "The system automatically pulls the Bill of Material (active ingredients and excipients) and routing/operations from the released recipe.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-4",
+      "text": "The process order is assigned a unique batch number linked to the finished product batch record.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-5",
+      "text": "The system prevents release of the process order if any component material is on quality hold.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "DT"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The order displays required in-process control (IPC) steps as defined in the master recipe.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Create process order with approved master recipe, verify BOM + routing auto-population, batch number generation, IPC steps display, and order creation success",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"]
+      }
+    ],
+    "AP": [],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to select master recipe with \"Draft\" status — system must prevent selection or display error",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to release process order when a component material is on quality hold — system must prevent release and display error",
+        "risk": "CRITICAL",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Master Recipe field",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Master Recipe"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Plant field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Order Quantity field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Order Quantity"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Production Start Date field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Production Start Date"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Material Number field",
+        "risk": "HIGH",
+        "acIds": [],
+        "field": "Material Number"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Order Quantity = minimum lot size (lower boundary per recipe)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "orderQuantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Order Quantity = maximum lot size (upper boundary per recipe)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "orderQuantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Production Start Date = current date (earliest valid date)",
+        "risk": "LOW",
+        "acIds": [],
+        "parameter": "productionStartDate",
+        "boundary": "lower"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 1,
+    "AP": 0,
+    "NEG": 2,
+    "ERR": 5,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 11
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "masterRecipeId",
+        "label": "Master Recipe",
+        "mandatory": true,
+        "validRange": "Existing recipe with \"Approved/Released\" status"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "mandatory": true,
+        "validRange": "Valid pharmaceutical manufacturing plant"
+      },
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "mandatory": true,
+        "validRange": "> 0, within recipe capacity constraints"
+      },
+      {
+        "name": "productionStartDate",
+        "label": "Start Date",
+        "mandatory": true,
+        "validRange": "Current date or future"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Valid finished product with batch management active"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "billOfMaterial",
+        "label": "BOM / Components",
+        "trigger": "Select Master Recipe"
+      },
+      {
+        "name": "routing",
+        "label": "Routing / Operations",
+        "trigger": "Select Master Recipe"
+      },
+      {
+        "name": "activeIngredients",
+        "label": "Components (Active)",
+        "trigger": "Select Master Recipe"
+      },
+      {
+        "name": "excipients",
+        "label": "Components (Excipients)",
+        "trigger": "Select Master Recipe"
+      },
+      {
+        "name": "ipcSteps",
+        "label": "In-Process Control / Control Steps",
+        "trigger": "Select Master Recipe"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "trigger": "Create Process Order (Order Button)"
+      },
+      {
+        "name": "productionVersion",
+        "label": "Production Version",
+        "trigger": "Select Material + Plant"
+      }
+    ],
+    "output": [
+      {
+        "name": "processOrderNumber",
+        "label": "Process Order Number",
+        "format": "10-12 digit numeric (begins with 1 or 2)"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch Number",
+        "format": "Alphanumeric, format per client config (e.g., YYYYMMDD-XXX)"
+      },
+      {
+        "name": "orderStatus",
+        "label": "Order Status",
+        "format": "\"CRTD\" (Created) or \"REL\" (Released)"
+      },
+      {
+        "name": "orderType",
+        "label": "Order Type",
+        "format": "\"PP01\" or client-configured type"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "orderQuantity",
+        "label": "Order Quantity",
+        "lowerBoundary": "Minimum lot size (per recipe)",
+        "upperBoundary": "Maximum lot size (per recipe)",
+        "zeroInvalid": true
+      },
+      {
+        "name": "productionStartDate",
+        "label": "Production Start Date",
+        "lowerBoundary": "Current date",
+        "upperBoundary": "None (future dates allowed)",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

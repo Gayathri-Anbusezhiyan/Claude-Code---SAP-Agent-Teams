@@ -1,0 +1,101 @@
+{
+  "tcId": "TC-CS-001",
+  "storyKey": "CS-2",
+  "timestamp": "2026-07-20T00:00:00.000Z",
+  "analysedBy": "self-healing-agent/skills/analyze-failure",
+  "errorType": "LOCATOR_FAILURE",
+  "failingStep": {
+    "primaryFailure": {
+      "specFile": "automation/tests/mm-purchase-order.spec.js",
+      "specLine": 35,
+      "methodCall": "await openCreateForm(purchaseOrderPage)",
+      "pageFile": "automation/pages/mm/purchase-order/purchase-order.page.js",
+      "pageMethod": "clickCreate",
+      "pageMethodLine": 87,
+      "locatorName": "createPOButton",
+      "locatorFile": "automation/pages/mm/purchase-order/purchase-order.locators.js",
+      "locatorLine": 51,
+      "locatorUsed": {
+        "primary": {
+          "strategy": "role",
+          "role": "button",
+          "name": "Create"
+        },
+        "fallbacks": [
+          {
+            "strategy": "css",
+            "value": "button:has-text('Create')"
+          }
+        ]
+      },
+      "errorMessage": "strict mode violation: getByRole('button', { name: 'Create' }) resolved to 2 elements",
+      "elementsFound": [
+        {
+          "index": 1,
+          "description": "Actual Create PO button",
+          "element": "<button data-sap-ui-render=\"\" data-ui5-accesskey=\"c\" aria-keyshortcuts=\"Ctrl+Enter\" class=\"sapMBtnBase sapMBtn sapMBarChild\" id=\"ui.ssuite.s2p.mm.pur.po.manage.st.s1::sap.suite.ui.generic.template.ListReport.view.ListReport::C_PurchaseOrderTP--addEntry\">"
+        },
+        {
+          "index": 2,
+          "description": "Help tour hotspot (overlay)",
+          "element": "<div tabindex=\"1\" role=\"button\" aria-pressed=\"false\" aria-haspopup=\"dialog\" id=\"__2PAVUISUSQY8YGJP01MCEXXA-h\" aria-label=\"Create Purchase Order\" class=\"help4-control help4-control-hotspot help4-circle\">"
+        }
+      ]
+    },
+    "secondaryFailure": {
+      "description": "Retry attempt also failed during sign-out",
+      "pageMethod": "confirmSignOut",
+      "pageMethodLine": 199,
+      "locatorName": "signOutConfirmOK",
+      "errorMessage": "Timeout 30000ms exceeded clicking OK button",
+      "rootCause": "Help tour overlay (<div class=\"help4-adapter-fiori help4 help4-tour\">) intercepted pointer events, blocking the OK button click"
+    }
+  },
+  "explorationComparison": {
+    "explorationFile": "exploration-data/execution/CS-2/TC-CS-001/TC-CS-001-execution.json",
+    "explorationDate": "2026-07-08T14:42:00.000Z",
+    "explorationStatus": "PASS",
+    "explorationLocator": {
+      "primary": {
+        "strategy": "role",
+        "role": "button",
+        "name": "Create"
+      }
+    },
+    "match": true,
+    "keyDifference": "Exploration notes: 'No guided tour popup in this session'. Current run: guided tour appeared and created ambiguous locator",
+    "explorationNote": "During exploration, the Create button locator worked because the guided tour did NOT appear. In current test run, the guided tour IS appearing, creating a second element with role=button and aria-label='Create Purchase Order'"
+  },
+  "rootCause": {
+    "summary": "SAP guided tour overlay creates ambiguous locator",
+    "details": [
+      "The help tour (class='help4-adapter-fiori help4 help4-tour') creates a hotspot element with role=button and aria-label='Create Purchase Order'",
+      "The generic locator getByRole('button', { name: 'Create' }) matches both the actual Create button AND the help tour hotspot",
+      "During exploration, the guided tour did not appear, so the locator was unambiguous",
+      "The guided tour appearance is non-deterministic (possibly session-based or configuration-driven)",
+      "The locators file already includes leaveTourButton and guidedTourDialog entries, indicating this was anticipated but not handled in the test flow"
+    ]
+  },
+  "recommendation": "SELF_HEAL",
+  "confidence": "HIGH",
+  "suggestedFixes": [
+    {
+      "approach": "Dismiss guided tour proactively",
+      "description": "Add guided tour detection and dismissal logic after login (before navigating to app)",
+      "files": [
+        "automation/pages/mm/purchase-order/purchase-order.fixtures.js",
+        "automation/pages/mm/purchase-order/purchase-order.page.js"
+      ],
+      "priority": "PRIMARY"
+    },
+    {
+      "approach": "Make Create button locator more specific",
+      "description": "Add exact: true to Create button locator OR filter by element type (exclude div role=button)",
+      "files": [
+        "automation/pages/mm/purchase-order/purchase-order.locators.js"
+      ],
+      "priority": "SECONDARY"
+    }
+  ],
+  "nextStep": "Execute /re-execute-scriptless TC-CS-001 to find working locator strategy and guided tour dismissal pattern"
+}

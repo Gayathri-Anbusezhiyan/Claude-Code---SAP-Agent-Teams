@@ -1,0 +1,79 @@
+{
+  "feature": "sd-sales-order",
+  "testData": {
+    "TC_SD_SO_001": {
+      "description": "Create Sales Order via VA01",
+      "input": {
+        "appName": "Create Sales Order - VA01",
+        "orderTypeCode": "OR",
+        "orderType": "OR Standard order",
+        "salesOrganization": "1710",
+        "distributionChannel": "10",
+        "division": "00",
+        "soldToParty": "USCU_L01",
+        "shipToParty": "USCU_L01",
+        "custReference": "ABC",
+        "custRefDate": "04/14/2026",
+        "material": "RMPI001",
+        "orderQuantity": "10",
+        "grossWeight": "10",
+        "netWeight": "10",
+        "pricingCondition": "PPR0",
+        "conditionAmount": "100"
+      },
+      "expected": {
+        "orderType": "Standard Order",
+        "overviewPageTitle": "Create Standard Order: Overview",
+        "soldToPartyName": "Company Skymart Corp",
+        "materialDescription": "Input 1 (WATER)",
+        "unit": "KG",
+        "itemCategory": "TAN",
+        "netValue": "1,000.00",
+        "currency": "USD",
+        "documentCompleteMessage": "Document is complete",
+        "orderSavedMessagePattern": "Standard Order \\d+ has been saved",
+        "signOutPageText": "You have been logged off",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "scriptlessVerification": {
+        "source": "test-results/scriptless/2026-04-21T05-27-00/execution-data.json",
+        "salesOrderNumber": "321089",
+        "netValue": "1,000.00 USD",
+        "soldToParty": "USCU_L01",
+        "soldToPartyName": "Company Skymart Corp",
+        "material": "RMPI001",
+        "materialDescription": "Input 1 (WATER)",
+        "orderQuantity": "10 KG",
+        "pricingCondition": "PPR0 @ 100 USD per unit"
+      }
+    },
+    "TC_SD_SO_002": {
+      "description": "Change Sales Order via VA02",
+      "input": {
+        "appName": "Change Sales Order - VA02",
+        "salesOrderNumber": "319776",
+        "newQuantity": "5"
+      },
+      "expected": {
+        "successMessagePattern": "Standard Order 319776 has been saved",
+        "signOutPageText": "You have been logged off",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "notes": "Uses existing SO number 319776. Changes quantity from 10 to 5."
+    },
+    "TC_SD_SO_003": {
+      "description": "Display Sales Order via VA03",
+      "input": {
+        "appName": "Display Sales Order - VA03",
+        "salesOrderNumber": "319776"
+      },
+      "expected": {
+        "displayPageTitle": "Display Standard Order",
+        "isReadOnly": true,
+        "signOutPageText": "You have been logged off",
+        "signOutRedirectUrl": "/sap/public/bc/icf/logoff"
+      },
+      "notes": "Read-only view of SO 319776. Verify no edit capabilities are available without switching to VA02."
+    }
+  }
+}

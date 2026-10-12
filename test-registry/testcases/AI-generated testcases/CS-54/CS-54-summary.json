@@ -1,0 +1,210 @@
+{
+  "userStory": "CS-54",
+  "summary": "User Story PP-005",
+  "module": "PP",
+  "generatedAt": "2026-08-24T10:30:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 16,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 2,
+    "NEG": 4,
+    "ERR": 3,
+    "EDGE": 4,
+    "INT": 1
+  },
+  "byPriority": {
+    "CRITICAL": 1,
+    "HIGH": 8,
+    "MEDIUM": 6,
+    "LOW": 1
+  },
+  "automationCandidates": 16,
+  "testCases": [
+    {
+      "id": "TC-CS-125",
+      "title": "Run MRP and Generate Planned Orders for Finished Product Based on Demand and Stock",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-054-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-3", "AC-6"]
+    },
+    {
+      "id": "TC-CS-126",
+      "title": "Convert Planned Order to Process Order",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-002",
+      "acsCovered": ["AC-1", "AC-4"]
+    },
+    {
+      "id": "TC-CS-127",
+      "title": "Convert Planned Order to Purchase Requisition for External Procurement",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-003",
+      "acsCovered": ["AC-1", "AC-4"]
+    },
+    {
+      "id": "TC-CS-128",
+      "title": "Run MRP with Multiple Materials and Sequence by Capacity",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-054-004",
+      "acsCovered": ["AC-1", "AC-6"]
+    },
+    {
+      "id": "TC-CS-129",
+      "title": "Attempt MRP Run with Material Not Configured for MRP Planning",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-NEG-001",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-130",
+      "title": "Planned Order Affected by Raw Material Shortage",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-NEG-002",
+      "acsCovered": ["AC-1", "AC-5"]
+    },
+    {
+      "id": "TC-CS-131",
+      "title": "Planned Order Affected by Shelf-Life Constraint",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-NEG-003",
+      "acsCovered": ["AC-1", "AC-5"]
+    },
+    {
+      "id": "TC-CS-132",
+      "title": "Material Lot-Sizing Rule Not Satisfied - Quantity Below Minimum Batch Size",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-NEG-004",
+      "acsCovered": ["AC-1", "AC-3"]
+    },
+    {
+      "id": "TC-CS-133",
+      "title": "Missing Material Number Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-054-ERR-001",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-134",
+      "title": "Missing Plant Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-054-ERR-002",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-135",
+      "title": "Missing MRP Controller Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-054-ERR-003",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-136",
+      "title": "Minimum Batch Size Boundary - Quantity Exactly Equals Minimum Lot Size",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-EDGE-001",
+      "acsCovered": ["AC-1", "AC-3"]
+    },
+    {
+      "id": "TC-CS-137",
+      "title": "Maximum Batch Size Boundary - Quantity Triggers Rounding to Next Lot",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-EDGE-002",
+      "acsCovered": ["AC-1", "AC-3"]
+    },
+    {
+      "id": "TC-CS-138",
+      "title": "Zero Available Capacity - 100% Capacity Utilization",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-054-EDGE-003",
+      "acsCovered": ["AC-1", "AC-6"]
+    },
+    {
+      "id": "TC-CS-139",
+      "title": "Planning Horizon - Minimum Future Period of 1 Day",
+      "scenarioType": "EDGE_CASE",
+      "priority": "LOW",
+      "severity": "TRIVIAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-054-EDGE-004",
+      "acsCovered": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-140",
+      "title": "Run MRP with Live Sales Orders from SD and Current Stock from MM",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-054-INT-001",
+      "acsCovered": ["AC-1", "AC-2"]
+    }
+  ],
+  "testdataFile": "testdata/CS-54/CS-54-testdata.json",
+  "coverageMatrixFile": "testcases/AI-generated testcases/CS-54/CS-54-coverage-matrix.md",
+  "qualityGateStatus": "PASS",
+  "acCoverage": {
+    "total": 6,
+    "covered": 6,
+    "percentage": 100
+  }
+}

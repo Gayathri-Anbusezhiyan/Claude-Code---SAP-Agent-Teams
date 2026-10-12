@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-43",
+  "type": "Task",
+  "summary": "Create Customer Master with credit limit and regulatory license",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Master Data Specialist, I want to create a Customer Master record with credit limit and regulatory license information, so that all pharmaceutical customers are properly validated and credit-controlled before processing sales orders.",
+  "acceptanceCriteria": "1. The user can create a Customer Master record in the system with General Data, Company Code Data, and Sales Area Data.\n2. The system requires the user to enter a credit limit for the customer in the Company Code Data section.\n3. The system allows the user to capture regulatory license information (e.g., Pharmacy License Number, DEA Number, Wholesaler License) in customer master extensions or custom fields.\n4. The system validates that the license number is not blank and has a valid expiration date (future date) before saving the customer master.\n5. The system assigns a unique customer number upon successful creation of the customer master.\n6. The system sends a notification to the Sales and Credit teams when a new pharmaceutical customer is created.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:38:44.584+0530",
+  "updated": "2026-08-21T14:38:44.670+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-43",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

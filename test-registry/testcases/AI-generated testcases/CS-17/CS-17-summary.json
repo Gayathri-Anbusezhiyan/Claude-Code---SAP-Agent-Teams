@@ -1,0 +1,288 @@
+{
+  "userStory": "CS-17",
+  "summary": "Maintain An Approved Vendor List (Source List) For Critical Gmp Raw Ma",
+  "module": "MM",
+  "feature": "Source List Management (Approved Vendor List)",
+  "generatedAt": "2026-08-21T09:05:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "strategyFile": "jira/userstories/CS-17/strategy/CS-17-strategy.md",
+  "riskProfileFile": "jira/userstories/CS-17/strategy/CS-17-risk-profile.json",
+  "totalTestCases": 18,
+  "byCoverageType": {
+    "HP": 2,
+    "AP": 1,
+    "NEG": 2,
+    "ERR": 6,
+    "EDGE": 6,
+    "INT": 1
+  },
+  "byPriority": {
+    "CRITICAL": 3,
+    "HIGH": 8,
+    "MEDIUM": 7,
+    "LOW": 0
+  },
+  "bySeverity": {
+    "CRITICAL": 3,
+    "MAJOR": 8,
+    "MINOR": 7,
+    "TRIVIAL": 0
+  },
+  "automationCandidates": 13,
+  "automationBreakdown": {
+    "YES": 13,
+    "NO": 3,
+    "PARTIAL": 2
+  },
+  "testCases": [
+    {
+      "id": "TC-CS-021",
+      "title": "Create source list with single approved vendor for material-plant combination with valid dates",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-017-001",
+      "acCoverage": ["AC-1", "AC-2", "AC-5"]
+    },
+    {
+      "id": "TC-CS-022",
+      "title": "Create source list with multiple approved vendors for material-plant combination",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-017-002",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-023",
+      "title": "Create source list with indefinite validity (no end date)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-003",
+      "acCoverage": ["AC-2", "AC-5"]
+    },
+    {
+      "id": "TC-CS-024",
+      "title": "Attempt to create PO with non-approved vendor for source list restricted material",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-017-NEG-001",
+      "acCoverage": ["AC-3", "AC-4"]
+    },
+    {
+      "id": "TC-CS-025",
+      "title": "Select non-approved vendor and verify error message displayed",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-017-NEG-002",
+      "acCoverage": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-026",
+      "title": "Attempt to create source list with missing Material field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-ERR-001",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-027",
+      "title": "Attempt to create source list with missing Vendor field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-ERR-002",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-028",
+      "title": "Attempt to create source list with missing Plant field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-ERR-003",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-029",
+      "title": "Attempt to create source list with missing Validity Start Date",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-ERR-004",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-030",
+      "title": "Attempt to create source list with invalid Material ID (non-existent)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-ERR-005",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-031",
+      "title": "Attempt to create source list with invalid Vendor ID (non-existent)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-ERR-006",
+      "acCoverage": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-032",
+      "title": "Create source list with Validity Start Date equal to today (minimum valid start)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-EDGE-001",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-033",
+      "title": "Create source list with Validity End Date equal to Start Date plus 1 day (minimum duration)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-EDGE-002",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-034",
+      "title": "Create source list with Validity End Date in the past (expired approval)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-EDGE-003",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-035",
+      "title": "Create source list with Validity End Date far in the future (long-term approval)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-017-EDGE-004",
+      "acCoverage": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-036",
+      "title": "Configure source list with notification lead time equal to 1 day (minimum warning)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-017-EDGE-005",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-037",
+      "title": "Configure source list with notification lead time equal to 365 days (maximum warning)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-017-EDGE-006",
+      "acCoverage": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-038",
+      "title": "Verify notification sent when approval validity approaching expiry (configurable lead time)",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-017-INT-001",
+      "acCoverage": ["AC-6"]
+    }
+  ],
+  "testdataFile": "testdata/CS-17/CS-17-testdata.json",
+  "testdataGuideFile": "testdata/CS-17/CS-17-testdata-guide.md",
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "actual": "100%",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "2",
+      "actual": "2",
+      "status": "PASS"
+    },
+    "apCoverage": {
+      "threshold": "1",
+      "actual": "1",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "2",
+      "actual": "2",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "6",
+      "actual": "6",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "6",
+      "actual": "6",
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "threshold": "1",
+      "actual": "1",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "actual": "0 hardcoded values",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 9 TCs",
+      "actual": "13 TCs",
+      "status": "PASS"
+    }
+  },
+  "overallStatus": "COMPLETE"
+}

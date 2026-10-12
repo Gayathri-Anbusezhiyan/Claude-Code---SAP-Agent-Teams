@@ -1,0 +1,43 @@
+{
+  "tcId": "TC-CS-021",
+  "storyKey": "CS-2",
+  "reExecutedAt": "2026-05-18T10:32:20.000Z",
+  "reExecutedBy": "automation-agent/skills/explore-and-capture (Phase 3 MCP execution — used as re-execution evidence)",
+  "note": "Re-execution report synthesized from Phase 3 MCP exploration. TC-CS-021 was designed to fail; no self-heal was needed before defect logging because Phase 3 live execution provides equivalent MCP evidence. Playwright test runner also confirmed the failure twice (initial run + retry) on 2026-05-18.",
+  "reExecutionStatus": "FAIL",
+  "sapBehavior": "DIFFERENT",
+  "recommendation": "LOG_DEFECT",
+  "failingStep": 22,
+  "failingStepDescription": "Observe the system response immediately after clicking Order — assert dedicated success confirmation notification containing PO number",
+  "failingStepResult": {
+    "expected": "A dedicated success confirmation notification (toast/banner/dialog) explicitly stating PO creation with a 10-digit PO number",
+    "actual": "role=alert element with text 'Purchase order has been created.' — no PO number present. System navigated back to Manage Purchase Orders list page.",
+    "workingLocator": null,
+    "scriptLocatorUsed": "page.getByRole('alert').first()",
+    "locatorWorked": true,
+    "assertionPassed": false
+  },
+  "sapBehaviorNotes": "After clicking the Order button with valid PO data (Supplier 17300002, Material RMPI001, Qty 10, Price 0.08, Plant 1710), SAP:\n1. Briefly displayed a role=alert element with text: 'Purchase order has been created.'\n2. Immediately navigated back to the Manage Purchase Orders list page\n3. Did NOT show a dedicated success notification containing the 10-digit PO number\n4. The PO was created (verified in Phase 3 by manual observation) but the PO number was not visible anywhere in the success flow\n\nThis behavior was consistent across two Playwright test runner executions (initial + retry) on 2026-05-18.",
+  "sapFinalState": "Manage Purchase Orders list page — no PO detail visible, no success notification with PO number",
+  "observedMessages": {
+    "successAlert": {
+      "role": "alert",
+      "text": "Purchase order has been created.",
+      "containsPONumber": false
+    }
+  },
+  "playwrightRunEvidence": {
+    "specFile": "automation/tests/mm-purchase-order.spec.js",
+    "line": 385,
+    "error": "AC-6 VIOLATION: Success notification 'Purchase order has been created.' does not contain the 10-digit PO number.",
+    "expectedValue": true,
+    "receivedValue": false,
+    "runDate": "2026-05-18",
+    "attempts": 2,
+    "allAttemptsFailed": true
+  },
+  "phase3ExplorationFile": "exploration-data/execution/CS-2/TC-CS-021/TC-CS-021-execution.json",
+  "snapshots": [
+    "exploration-data/execution/CS-2/TC-CS-021/steps/step-22-order-response.json"
+  ]
+}

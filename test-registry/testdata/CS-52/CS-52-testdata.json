@@ -1,0 +1,358 @@
+{
+  "userStory": "CS-52",
+  "module": "PP",
+  "feature": "Process Order Confirmation",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-52-001": {
+      "id": "TD-CS-52-001",
+      "name": "Valid Confirmation — Single Operation, No Scrap, Within Tolerance",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-125"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "materialDesc": "{{MATERIAL_DESCRIPTION}}",
+        "uom": "{{UNIT_OF_MEASURE}}",
+        "workCenter": "{{WORK_CENTER}}",
+        "operationDesc": "{{OPERATION_DESCRIPTION}}"
+      },
+      "expectedOutcome": "Confirmation created with unique confirmation number; yield variance within tolerance; batch quantity updated"
+    },
+    "TD-CS-52-002": {
+      "id": "TD-CS-52-002",
+      "name": "Valid Confirmation — Yield with Scrap and Scrap Reason Code",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-126"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_WITH_SCRAP}}",
+        "scrapQuantity": "{{SCRAP_QUANTITY_STANDARD}}",
+        "scrapReasonCode": "{{SCRAP_REASON_CODE_VALID}}",
+        "scrapReasonDesc": "{{SCRAP_REASON_DESCRIPTION}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "Confirmation created with unique confirmation number; scrap recorded with reason code; batch quantity updated to yield only"
+    },
+    "TD-CS-52-003": {
+      "id": "TD-CS-52-003",
+      "name": "Valid Confirmation — Multiple Operations in Sequence",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-127"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_MULTI_OPERATION}}",
+        "operationNumber1": "{{OPERATION_NUMBER_1}}",
+        "operationNumber2": "{{OPERATION_NUMBER_2}}",
+        "yieldQuantity1": "{{YIELD_QUANTITY_OPERATION_1}}",
+        "yieldQuantity2": "{{YIELD_QUANTITY_OPERATION_2}}",
+        "scrapQuantity1": "0",
+        "scrapQuantity2": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}"
+      },
+      "expectedOutcome": "Two confirmations created (one per operation); both operations marked confirmed; batch quantity reflects final operation yield"
+    },
+    "TD-CS-52-004": {
+      "id": "TD-CS-52-004",
+      "name": "Positive Variance Within Tolerance",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-128"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_POSITIVE_VARIANCE}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "varianceToleranceUpper": "{{VARIANCE_TOLERANCE_UPPER}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "Confirmation created; positive variance displayed; no deviation record triggered"
+    },
+    "TD-CS-52-005": {
+      "id": "TD-CS-52-005",
+      "name": "Negative Variance Within Tolerance",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-129"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_NEGATIVE_VARIANCE}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "varianceToleranceLower": "{{VARIANCE_TOLERANCE_LOWER}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "uom": "{{UNIT_OF_MEASURE}}"
+      },
+      "expectedOutcome": "Confirmation created; negative variance displayed; no deviation record triggered"
+    },
+    "TD-CS-52-006": {
+      "id": "TD-CS-52-006",
+      "name": "Variance Exceeds Tolerance — Deviation Record Created",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-130"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "varianceToleranceUpper": "{{VARIANCE_TOLERANCE_UPPER}}",
+        "deviationReason": "{{DEVIATION_REASON}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}"
+      },
+      "expectedOutcome": "Deviation warning displayed; deviation record created; confirmation created after deviation approval"
+    },
+    "TD-CS-52-NEG-001": {
+      "id": "TD-CS-52-NEG-001",
+      "name": "Invalid Process Order — Non-Existent",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-131"],
+      "data": {
+        "invalidProcessOrderNumber": "{{PROCESS_ORDER_NUMBER_INVALID}}"
+      },
+      "expectedOutcome": "Error message: Process Order does not exist; no confirmation created"
+    },
+    "TD-CS-52-NEG-002": {
+      "id": "TD-CS-52-NEG-002",
+      "name": "Invalid Operation Number — Not in Order Routing",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-132"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "invalidOperationNumber": "{{OPERATION_NUMBER_INVALID}}",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Error message: Operation does not exist for this Process Order; no confirmation created"
+    },
+    "TD-CS-52-NEG-003": {
+      "id": "TD-CS-52-NEG-003",
+      "name": "Invalid Scrap Reason Code",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-133"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "scrapQuantity": "{{SCRAP_QUANTITY_STANDARD}}",
+        "invalidScrapReasonCode": "{{SCRAP_REASON_CODE_INVALID}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Error message: Scrap Reason Code does not exist; no confirmation created"
+    },
+    "TD-CS-52-NEG-004": {
+      "id": "TD-CS-52-NEG-004",
+      "name": "Variance Exceeds Tolerance — Deviation Bypass Attempt",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-134"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_EXCEEDS_TOLERANCE}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "varianceToleranceUpper": "{{VARIANCE_TOLERANCE_UPPER}}"
+      },
+      "expectedOutcome": "Error message: Deviation record required; confirmation blocked; no confirmation created"
+    },
+    "TD-CS-52-ERR-001": {
+      "id": "TD-CS-52-ERR-001",
+      "name": "Missing Process Order Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-135"],
+      "data": {
+        "emptyValue": ""
+      },
+      "expectedOutcome": "Mandatory field error: Process Order is required; no confirmation created"
+    },
+    "TD-CS-52-ERR-002": {
+      "id": "TD-CS-52-ERR-002",
+      "name": "Missing Operation Number Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-136"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "emptyValue": "",
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Mandatory field error: Operation is required; no confirmation created"
+    },
+    "TD-CS-52-ERR-003": {
+      "id": "TD-CS-52-ERR-003",
+      "name": "Missing Yield Quantity Field",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-137"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "emptyValue": "",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Mandatory field error: Yield Quantity is required; no confirmation created"
+    },
+    "TD-CS-52-ERR-004": {
+      "id": "TD-CS-52-ERR-004",
+      "name": "Missing Scrap Reason Code When Scrap > 0",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-138"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "scrapQuantity": "{{SCRAP_QUANTITY_STANDARD}}",
+        "emptyValue": "",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Mandatory field error: Scrap Reason is required when Scrap > 0; no confirmation created"
+    },
+    "TD-CS-52-EDGE-001": {
+      "id": "TD-CS-52-EDGE-001",
+      "name": "Yield = 0 (Full Scrap Scenario)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-139"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "zeroYieldQuantity": "0",
+        "scrapQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "scrapReasonCode": "{{SCRAP_REASON_CODE_VALID}}",
+        "scrapReasonDesc": "{{SCRAP_REASON_DESCRIPTION}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Confirmation created; yield variance = -100%; batch quantity = 0; full scrap recorded"
+    },
+    "TD-CS-52-EDGE-002": {
+      "id": "TD-CS-52-EDGE-002",
+      "name": "Yield = Maximum Order Quantity (Exact Match)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-140"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "maxYieldQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Confirmation created; yield variance = 0%; batch quantity = planned quantity"
+    },
+    "TD-CS-52-EDGE-003": {
+      "id": "TD-CS-52-EDGE-003",
+      "name": "Yield + Scrap = Maximum Order Quantity",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-141"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_PARTIAL}}",
+        "scrapQuantity": "{{SCRAP_QUANTITY_PARTIAL}}",
+        "scrapReasonCode": "{{SCRAP_REASON_CODE_VALID}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Confirmation created; Yield + Scrap = Planned; batch quantity = yield only"
+    },
+    "TD-CS-52-EDGE-004": {
+      "id": "TD-CS-52-EDGE-004",
+      "name": "Yield + Scrap > Maximum Order Quantity (Over-Confirmation)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-142"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_OVER}}",
+        "scrapQuantity": "{{SCRAP_QUANTITY_OVER}}",
+        "scrapReasonCode": "{{SCRAP_REASON_CODE_VALID}}",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Error message: Over-confirmation not allowed; no confirmation created"
+    },
+    "TD-CS-52-EDGE-005": {
+      "id": "TD-CS-52-EDGE-005",
+      "name": "Yield Variance at Exact Lower Tolerance Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-143"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantityLowerBoundary": "{{YIELD_QUANTITY_AT_LOWER_BOUNDARY}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "varianceToleranceLower": "{{VARIANCE_TOLERANCE_LOWER}}"
+      },
+      "expectedOutcome": "Confirmation created; variance = exact lower boundary; no deviation record"
+    },
+    "TD-CS-52-EDGE-006": {
+      "id": "TD-CS-52-EDGE-006",
+      "name": "Yield Variance at Exact Upper Tolerance Boundary",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-144"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantityUpperBoundary": "{{YIELD_QUANTITY_AT_UPPER_BOUNDARY}}",
+        "scrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}",
+        "varianceToleranceUpper": "{{VARIANCE_TOLERANCE_UPPER}}"
+      },
+      "expectedOutcome": "Confirmation created; variance = exact upper boundary; no deviation record"
+    },
+    "TD-CS-52-EDGE-007": {
+      "id": "TD-CS-52-EDGE-007",
+      "name": "Scrap = 0 (No Scrap)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-145"],
+      "data": {
+        "processOrderNumber": "{{PROCESS_ORDER_NUMBER_VALID}}",
+        "operationNumber": "{{OPERATION_NUMBER_VALID}}",
+        "yieldQuantity": "{{YIELD_QUANTITY_STANDARD}}",
+        "zeroScrapQuantity": "0",
+        "plannedBatchQuantity": "{{PLANNED_BATCH_QUANTITY}}"
+      },
+      "expectedOutcome": "Confirmation created; no scrap recorded; scrap reason not mandatory"
+    },
+    "TD-CS-52-REPORT-001": {
+      "id": "TD-CS-52-REPORT-001",
+      "name": "Yield Trend Report by Material",
+      "scenarioType": "REPORTING",
+      "usedByTestCases": ["TC-CS-146"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER}}",
+        "dateRangeStart": "{{DATE_RANGE_START}}",
+        "dateRangeEnd": "{{DATE_RANGE_END}}"
+      },
+      "expectedOutcome": "Report displays yield trends aggregated by material"
+    },
+    "TD-CS-52-REPORT-002": {
+      "id": "TD-CS-52-REPORT-002",
+      "name": "Yield Trend Report by Production Line",
+      "scenarioType": "REPORTING",
+      "usedByTestCases": ["TC-CS-147"],
+      "data": {
+        "workCenter": "{{WORK_CENTER}}",
+        "dateRangeStart": "{{DATE_RANGE_START}}",
+        "dateRangeEnd": "{{DATE_RANGE_END}}"
+      },
+      "expectedOutcome": "Report displays yield trends aggregated by production line (work center)"
+    },
+    "TD-CS-52-REPORT-003": {
+      "id": "TD-CS-52-REPORT-003",
+      "name": "Yield Trend Report by Shift",
+      "scenarioType": "REPORTING",
+      "usedByTestCases": ["TC-CS-148"],
+      "data": {
+        "shift": "{{SHIFT_IDENTIFIER}}",
+        "dateRangeStart": "{{DATE_RANGE_START}}",
+        "dateRangeEnd": "{{DATE_RANGE_END}}"
+      },
+      "expectedOutcome": "Report displays yield trends aggregated by shift"
+    }
+  }
+}

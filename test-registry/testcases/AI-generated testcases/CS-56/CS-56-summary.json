@@ -1,0 +1,243 @@
+{
+  "userStory": "CS-56",
+  "summary": "View A Batch Genealogy Report Showing The Complete Lineage From Raw Ma",
+  "module": "PP/QM",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "prompts/testcase-generation-from-userstory.md",
+  "totalTestCases": 18,
+  "byCoverageType": {
+    "HP": 4,
+    "AP": 2,
+    "NEG": 4,
+    "ERR": 2,
+    "EDGE": 4,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 3,
+    "HIGH": 9,
+    "MEDIUM": 6,
+    "LOW": 0
+  },
+  "automationCandidates": 14,
+  "testCases": [
+    {
+      "id": "TC-CS-167",
+      "title": "View genealogy for a finished goods batch with single-level BOM",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-056-001",
+      "acsCovered": ["AC-1", "AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-168",
+      "title": "View genealogy for a finished goods batch with multi-level BOM (raw → intermediate → finished)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-056-002",
+      "acsCovered": ["AC-1", "AC-2", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-169",
+      "title": "View where-used chain for a batch that was further processed (finished → repackaged)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-056-003",
+      "acsCovered": ["AC-1", "AC-3", "AC-4", "AC-6"]
+    },
+    {
+      "id": "TC-CS-170",
+      "title": "Export genealogy report to file (PDF or Excel)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-056-004",
+      "acsCovered": ["AC-1", "AC-5"]
+    },
+    {
+      "id": "TC-CS-171",
+      "title": "Search by batch number without specifying material (system derives material)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-005",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-172",
+      "title": "Search with both component view and where-used view enabled (bidirectional genealogy)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-056-006",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-173",
+      "title": "Search by non-existent finished goods batch number",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-NEG-001",
+      "acsCovered": ["AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-174",
+      "title": "Search by batch number in wrong format (invalid characters or length)",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-NEG-002",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-175",
+      "title": "Access Batch Information Cockpit without required authorization",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL - Requires unauthorized user account setup",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-NEG-003",
+      "acsCovered": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-176",
+      "title": "Search by batch that has no component batches (never consumed anything)",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-NEG-004",
+      "acsCovered": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-177",
+      "title": "Missing Batch Number field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-ERR-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-178",
+      "title": "Export fails due to system authorization or technical error",
+      "scenarioType": "ERROR",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL - Requires authorization restriction or simulated failure",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-ERR-002",
+      "acsCovered": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-179",
+      "title": "Genealogy query with maximum BOM depth (10+ levels)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL - Requires test data with 10+ BOM levels",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-056-EDGE-001",
+      "acsCovered": ["AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-180",
+      "title": "Genealogy query for batch with hundreds of component batches (complex assembly)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL - Requires test data with hundreds of component batches",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-056-EDGE-002",
+      "acsCovered": ["AC-2", "AC-6"]
+    },
+    {
+      "id": "TC-CS-181",
+      "title": "Query genealogy at exactly the acceptable time threshold",
+      "scenarioType": "EDGE_CASE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-056-EDGE-003",
+      "acsCovered": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-182",
+      "title": "Batch with incomplete dates (released but no inspection date recorded)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-056-EDGE-004",
+      "acsCovered": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-183",
+      "title": "Verify vendor batch number linkage from MM goods receipt to PP batch genealogy",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL - Requires multi-module data orchestration (MM goods receipt → PP production)",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-056-INT-001",
+      "acsCovered": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-184",
+      "title": "Verify inspection lot results from QM appear in genealogy report",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "automationNote": "PARTIAL - Requires multi-module data orchestration (PP production → QM inspection)",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-056-INT-002",
+      "acsCovered": ["AC-4"]
+    }
+  ],
+  "testdataFile": "testdata/CS-56/CS-56-testdata.json",
+  "testdataGuideFile": "testdata/CS-56/CS-56-testdata-guide.md",
+  "coverageMatrixFile": "testcases/AI-generated testcases/CS-56/CS-56-coverage-matrix.md",
+  "qualityGatesStatus": {
+    "acTraceability": "PASS",
+    "hpCoverage": "PASS",
+    "negCoverage": "PASS",
+    "errCoverage": "PASS",
+    "edgeCoverage": "PASS",
+    "parameterization": "PASS",
+    "automationEligibility": "PASS",
+    "overall": "PASS"
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "userStory": "CS-22",
+  "summary": "View An Aggregated Vendor Quality Scorecard Based On Inspection Reject",
+  "module": "MM",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "strategyFile": "test-registry/jira/userstories/CS-22/strategy/CS-22-strategy.md",
+  "riskProfileFile": "test-registry/jira/userstories/CS-22/strategy/CS-22-risk-profile.json",
+  "overallRisk": "CRITICAL",
+  "totalTestCases": 27,
+  "byCoverageType": {
+    "HP": 5,
+    "AP": 4,
+    "NEG": 5,
+    "ERR": 3,
+    "EDGE": 8,
+    "INT": 2
+  },
+  "byPriority": {
+    "CRITICAL": 5,
+    "HIGH": 14,
+    "MEDIUM": 6,
+    "LOW": 2
+  },
+  "bySeverity": {
+    "CRITICAL": 5,
+    "MAJOR": 16,
+    "MINOR": 6,
+    "TRIVIAL": 0
+  },
+  "automationCandidates": 18,
+  "automationPartial": 2,
+  "automationNo": 2,
+  "allQualityGatesPassed": true,
+  "qualityGates": {
+    "acTraceability": {
+      "threshold": "100%",
+      "result": "6/6 ACs covered",
+      "status": "PASS"
+    },
+    "hpCoverage": {
+      "threshold": "All 5 HP scenarios",
+      "result": "5 generated",
+      "status": "PASS"
+    },
+    "negCoverage": {
+      "threshold": "All 5 NEG scenarios",
+      "result": "5 generated",
+      "status": "PASS"
+    },
+    "errCoverage": {
+      "threshold": "All 3 ERR scenarios",
+      "result": "3 generated",
+      "status": "PASS"
+    },
+    "edgeCoverage": {
+      "threshold": "All 8 EDGE scenarios",
+      "result": "8 generated",
+      "status": "PASS"
+    },
+    "intCoverage": {
+      "threshold": "All 2 INT scenarios",
+      "result": "2 generated",
+      "status": "PASS"
+    },
+    "parameterization": {
+      "threshold": "0 hardcoded values",
+      "result": "0 found",
+      "status": "PASS"
+    },
+    "automationEligibility": {
+      "threshold": "≥ 14 TCs flagged YES",
+      "result": "18 flagged YES",
+      "status": "PASS"
+    }
+  },
+  "testCases": [
+    {
+      "id": "TC-CS-200",
+      "title": "View Vendor Quality Scorecard for Valid Vendor with Inspection History",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-001",
+      "acIds": ["AC-1", "AC-2", "AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-201",
+      "title": "View Batch Acceptance Rate for Standard Time Period (Last 90 Days)",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-002",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-202",
+      "title": "View On-Time Delivery Performance with Valid PO and GR Data",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-003",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-203",
+      "title": "Drill Down from Scorecard to Inspection Lot Details for Rejected Lots",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-004",
+      "acIds": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-204",
+      "title": "Export Vendor Quality Scorecard to Audit-Compliant Report Format",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-005",
+      "acIds": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-205",
+      "title": "View Scorecard with Custom Time Period (Last 12 Months)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-AP-001",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-206",
+      "title": "View Scorecard Filtered by Specific Purchasing Organization",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-AP-002",
+      "acIds": ["AC-2", "AC-3"]
+    },
+    {
+      "id": "TC-CS-207",
+      "title": "View Vendor with Quality Threshold Met (Above Threshold, Green Status)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-AP-003",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-208",
+      "title": "View Vendor with Quality Threshold Warning (Near Threshold, Yellow Status)",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-AP-004",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-209",
+      "title": "Attempt to View Scorecard for Non-Existent Vendor ID",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-NEG-001",
+      "acIds": ["AC-1", "AC-2"]
+    },
+    {
+      "id": "TC-CS-210",
+      "title": "Attempt to View Scorecard for Vendor with No Inspection History",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-NEG-002",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-211",
+      "title": "Attempt to Drill Down When No Rejected Inspection Lots Exist",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-NEG-003",
+      "acIds": ["AC-4"]
+    },
+    {
+      "id": "TC-CS-212",
+      "title": "View On-Time Delivery When Vendor Has No Purchase Orders or Goods Receipts",
+      "scenarioType": "NEGATIVE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-NEG-004",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-213",
+      "title": "Vendor Falls Below Quality Threshold (Red Flag)",
+      "scenarioType": "NEGATIVE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-022-NEG-005",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-214",
+      "title": "Attempt to Execute Query with Missing Vendor ID Field",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-ERR-001",
+      "acIds": ["AC-1"]
+    },
+    {
+      "id": "TC-CS-215",
+      "title": "Attempt to Execute Query with Invalid Date Range (To Date Before From Date)",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-ERR-002",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-216",
+      "title": "Export Fails Due to Insufficient Authorization",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-ERR-003",
+      "acIds": ["AC-6"]
+    },
+    {
+      "id": "TC-CS-217",
+      "title": "View Scorecard with Time Period = 1 Day (Minimum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-001",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-218",
+      "title": "View Scorecard with Time Period = 3 Years (Maximum Boundary)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-002",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-219",
+      "title": "View Scorecard with Quality Threshold = 0% (All Vendors Flagged)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-003",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-220",
+      "title": "View Scorecard with Quality Threshold = 100% (No Vendors Flagged)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-004",
+      "acIds": ["AC-5"]
+    },
+    {
+      "id": "TC-CS-221",
+      "title": "View Vendor with Batch Acceptance Rate = 0% (All Lots Rejected)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-005",
+      "acIds": ["AC-2", "AC-5"]
+    },
+    {
+      "id": "TC-CS-222",
+      "title": "View Vendor with Batch Acceptance Rate = 100% (All Lots Accepted)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-006",
+      "acIds": ["AC-2", "AC-5"]
+    },
+    {
+      "id": "TC-CS-223",
+      "title": "View Vendor with On-Time Delivery Rate = 0% (All Deliveries Late)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-007",
+      "acIds": ["AC-3", "AC-5"]
+    },
+    {
+      "id": "TC-CS-224",
+      "title": "View Vendor with On-Time Delivery Rate = 100% (All Deliveries On-Time)",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": true,
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-022-EDGE-008",
+      "acIds": ["AC-3"]
+    },
+    {
+      "id": "TC-CS-225",
+      "title": "Verify Batch Acceptance Rate Aggregates Inspection Lot Results from QM Module",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-022-INT-001",
+      "acIds": ["AC-2"]
+    },
+    {
+      "id": "TC-CS-226",
+      "title": "Verify On-Time Delivery Calculation Uses PO Delivery Dates and GR Actual Dates",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": false,
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-022-INT-002",
+      "acIds": ["AC-3"]
+    }
+  ],
+  "testdataFile": "test-registry/testdata/CS/CS-testdata.json"
+}

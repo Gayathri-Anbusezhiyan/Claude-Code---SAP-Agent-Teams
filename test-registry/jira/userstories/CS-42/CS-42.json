@@ -1,0 +1,31 @@
+{
+  "issueKey": "CS-42",
+  "type": "Task",
+  "summary": "Generate Billing Document only after batch QA release",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Sales & Distribution"
+  ],
+  "components": [],
+  "description": "As a Billing Clerk, I want the system to generate a Billing Document only after the shipped batch has received Quality Assurance release, so that we do not invoice customers for pharmaceutical products that may fail final QA inspection.",
+  "acceptanceCriteria": "1. The user can perform goods issue for an Outbound Delivery containing a batch-managed pharmaceutical material.\n2. The system checks the QA release status of all batches in the delivery before allowing billing.\n3. The system blocks automatic billing if any batch in the delivery does not have a QA release status of \"Released\" or \"Approved\".\n4. The system sends a notification to the Billing team when a batch receives QA release, triggering billing eligibility.\n5. The user can manually create a Billing Document only after all batches in the delivery have been QA-released.\n6. The system logs the QA release date and approver information in the Billing Document for traceability.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:37:51.250+0530",
+  "updated": "2026-08-21T14:37:51.336+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-42",
+  "fetchedAt": "2026-08-21T09:30:00.000Z"
+}

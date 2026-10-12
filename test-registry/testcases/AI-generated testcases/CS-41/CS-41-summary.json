@@ -1,0 +1,189 @@
+{
+  "userStory": "CS-41",
+  "summary": "User Story SD-009",
+  "module": "SD",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/generate-testcases",
+  "promptVersion": "ai-engine/prompts/testcase-generation-from-userstory.md",
+  "strategyUsed": true,
+  "totalTestCases": 16,
+  "byCoverageType": {
+    "HP": 1,
+    "AP": 2,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 4
+  },
+  "byPriority": {
+    "CRITICAL": 4,
+    "HIGH": 10,
+    "MEDIUM": 2,
+    "LOW": 0
+  },
+  "automationCandidates": 10,
+  "allQualityGatesPassed": true,
+  "testCases": [
+    {
+      "id": "TC-CS-041",
+      "title": "Create Cross-Border Sales Order with Valid Compliance Screening and Controlled Product",
+      "scenarioType": "HAPPY_PATH",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-041-001"
+    },
+    {
+      "id": "TC-CS-042",
+      "title": "Create Domestic Sales Order to Verify Screening is Bypassed",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-AP-001"
+    },
+    {
+      "id": "TC-CS-043",
+      "title": "Create Cross-Border Sales Order with Non-Controlled Product to Verify Reduced Screening",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-AP-002"
+    },
+    {
+      "id": "TC-CS-044",
+      "title": "Attempt to Create Cross-Border Sales Order with Customer on Denied-Party List",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-NEG-001"
+    },
+    {
+      "id": "TC-CS-045",
+      "title": "Attempt to Create Cross-Border Sales Order with No Valid Export License",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-NEG-002"
+    },
+    {
+      "id": "TC-CS-046",
+      "title": "Attempt to Create Cross-Border Sales Order with Expired Export License",
+      "scenarioType": "NEGATIVE",
+      "priority": "CRITICAL",
+      "severity": "CRITICAL",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-NEG-003"
+    },
+    {
+      "id": "TC-CS-047",
+      "title": "Attempt to Submit Sales Order with Customer Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-041-ERR-001"
+    },
+    {
+      "id": "TC-CS-048",
+      "title": "Attempt to Submit Sales Order with Material Field Empty",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-041-ERR-002"
+    },
+    {
+      "id": "TC-CS-049",
+      "title": "Attempt to Submit Sales Order with Destination Country Missing",
+      "scenarioType": "ERROR",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "YES",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-041-ERR-003"
+    },
+    {
+      "id": "TC-CS-050",
+      "title": "Create Sales Order with Export License Expiring During Processing",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-041-EDGE-001"
+    },
+    {
+      "id": "TC-CS-051",
+      "title": "Create Sales Order with Customer Added to Denied-Party List During Processing",
+      "scenarioType": "EDGE_CASE",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-041-EDGE-002"
+    },
+    {
+      "id": "TC-CS-052",
+      "title": "Create Sales Order with Minimum Order Quantity for Controlled Product",
+      "scenarioType": "EDGE_CASE",
+      "priority": "MEDIUM",
+      "severity": "MINOR",
+      "automationCandidate": "PARTIAL",
+      "estimatedEffort": "SMALL",
+      "testDataset": "TD-CS-041-EDGE-003"
+    },
+    {
+      "id": "TC-CS-053",
+      "title": "Attempt to Create Sales Order When Denied-Party Screening API Unavailable",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-041-INT-001"
+    },
+    {
+      "id": "TC-CS-054",
+      "title": "Attempt to Create Sales Order When Export License System Unavailable",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "LARGE",
+      "testDataset": "TD-CS-041-INT-002"
+    },
+    {
+      "id": "TC-CS-055",
+      "title": "Attempt to Create Sales Order with Customer Master Missing Destination Country",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-INT-003"
+    },
+    {
+      "id": "TC-CS-056",
+      "title": "Attempt to Create Sales Order with Material Master Missing Export Control Classification",
+      "scenarioType": "INTEGRATION",
+      "priority": "HIGH",
+      "severity": "MAJOR",
+      "automationCandidate": "NO",
+      "estimatedEffort": "MEDIUM",
+      "testDataset": "TD-CS-041-INT-004"
+    }
+  ],
+  "testdataFile": "testdata/CS-41/CS-41-testdata.json"
+}

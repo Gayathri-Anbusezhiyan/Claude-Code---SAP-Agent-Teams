@@ -1,0 +1,319 @@
+{
+  "userStory": "CS-26",
+  "summary": "Generate A Batch Traceability Report Showing All Goods Movements For A",
+  "module": "MM",
+  "analysedAt": "2026-08-21T09:15:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Compliance Officer",
+  "businessObject": "Batch Traceability Report / Batch Where-Used List",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Batch Where-Used List\" or equivalent traceability Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The user can search by batch number, material, or vendor batch reference.",
+      "type": "VALIDATION_POSITIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR"],
+      "minTCCount": 5
+    },
+    {
+      "id": "AC-3",
+      "text": "The system displays all goods receipts, transfers, consumption, and issues associated with the batch, including dates and quantities.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system displays downstream linkage to any process orders or deliveries that consumed the batch.",
+      "type": "INTEGRATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-5",
+      "text": "The report can be exported to Excel/PDF for inclusion in a regulatory response package.",
+      "type": "SUCCESS_CONFIRMATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 3
+    },
+    {
+      "id": "AC-6",
+      "text": "The system completes the search and generates results within an acceptable performance threshold for time-critical recall situations.",
+      "type": "BUSINESS_RULE",
+      "risk": "MEDIUM",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Batch Where-Used List app, search by batch number, verify all movements displayed (GR/transfer/consumption/issue), verify downstream process order linkage, export to Excel",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Search by batch number, verify downstream delivery linkage",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-4"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Search by batch number, verify performance threshold met",
+        "risk": "MEDIUM",
+        "acIds": ["AC-2", "AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Search by material number (instead of batch)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Search by vendor batch reference (instead of batch number)",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Batch with no downstream linkage (not consumed in process orders or deliveries)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "AP-04",
+        "description": "Export report to PDF (instead of Excel)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Search with non-existent batch number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Search with material not configured for batch management",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Export fails due to system error",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Batch Number field (when batch search selected)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Batch Number"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material field (when material search selected)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Vendor Batch field (when vendor batch search selected)",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Vendor Batch"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Batch with zero goods movements (created but never used)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "movements",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Batch with very large number of movements (performance test)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-6"],
+        "parameter": "movements",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Export very large report (file size limit test)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "fileSize",
+        "boundary": "upper"
+      }
+    ],
+    "INT": []
+  },
+  "recommendedTCCount": {
+    "HP": 3,
+    "AP": 4,
+    "NEG": 3,
+    "ERR": 3,
+    "EDGE": 3,
+    "INT": 0,
+    "total": 16
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "mandatory": true,
+        "validRange": "Existing batch in SAP master (MCHA)"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "mandatory": true,
+        "validRange": "Existing material with batch management enabled"
+      },
+      {
+        "name": "vendorBatch",
+        "label": "Vendor Batch",
+        "mandatory": true,
+        "validRange": "Vendor batch reference from GR"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Enter Material Number"
+      },
+      {
+        "name": "baseUoM",
+        "label": "Base UoM",
+        "trigger": "Enter Material Number"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "trigger": "Select from batch results"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "trigger": "Select from batch results"
+      }
+    ],
+    "output": [
+      {
+        "name": "goodsReceiptDate",
+        "label": "Goods Receipt Date",
+        "format": "DD.MM.YYYY"
+      },
+      {
+        "name": "goodsReceiptQuantity",
+        "label": "Goods Receipt Quantity",
+        "format": "Decimal (with UoM)"
+      },
+      {
+        "name": "transferDate",
+        "label": "Transfer Date",
+        "format": "DD.MM.YYYY"
+      },
+      {
+        "name": "transferQuantity",
+        "label": "Transfer Quantity",
+        "format": "Decimal (with UoM)"
+      },
+      {
+        "name": "consumptionDate",
+        "label": "Consumption Date",
+        "format": "DD.MM.YYYY"
+      },
+      {
+        "name": "consumptionQuantity",
+        "label": "Consumption Quantity",
+        "format": "Decimal (with UoM)"
+      },
+      {
+        "name": "issueDate",
+        "label": "Issue Date",
+        "format": "DD.MM.YYYY"
+      },
+      {
+        "name": "issueQuantity",
+        "label": "Issue Quantity",
+        "format": "Decimal (with UoM)"
+      },
+      {
+        "name": "processOrderNumber",
+        "label": "Process Order Number",
+        "format": "12-digit numeric"
+      },
+      {
+        "name": "deliveryNumber",
+        "label": "Delivery Number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "materialDocument",
+        "label": "Material Document",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "movementType",
+        "label": "Movement Type",
+        "format": "3-digit numeric (101, 311, 261, etc.)"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "movements",
+        "label": "Batch movements count",
+        "lowerBoundary": "0",
+        "upperBoundary": "system-configured (10000+)",
+        "zeroInvalid": false
+      },
+      {
+        "name": "exportFileSize",
+        "label": "Export file size",
+        "lowerBoundary": "0 KB",
+        "upperBoundary": "Excel 1MB+ / PDF 10MB+",
+        "zeroInvalid": false
+      }
+    ]
+  }
+}

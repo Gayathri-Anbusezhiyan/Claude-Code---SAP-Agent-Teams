@@ -1,0 +1,669 @@
+{
+  "userStory": "CS-28",
+  "summary": "Transfer Consignment Stock Of A High-Value Biologic From Vendor-Owned",
+  "module": "MM",
+  "analysedAt": "2026-08-22T00:00:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Warehouse Operator",
+  "businessObject": "Consignment Stock (high-value biologic material)",
+  "sapTransaction": "Post Goods Movement (Fiori app) - Movement Type 411",
+  "businessProcess": "Consignment Stock Withdrawal & Settlement",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Post Goods Movement\" Fiori app for consignment withdrawal.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP", "NEG"],
+      "scenarioTypesRequired": ["HP", "NEG"],
+      "minTCCount": 1,
+      "authorizationObjects": ["M_MSEG_BWA", "F_LFA1_BUK"]
+    },
+    {
+      "id": "AC-2",
+      "text": "The system tracks consignment stock separately by vendor and batch, excluded from company-owned inventory valuation until withdrawn.",
+      "type": "DATA_SEGREGATION",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST", "DI"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG"],
+      "minTCCount": 2,
+      "sapConfig": "Special Stock Indicator 'K' (Consignment Stock), MB5K report"
+    },
+    {
+      "id": "AC-3",
+      "text": "Upon withdrawal for production or sale, the system automatically transfers ownership and triggers the liability posting to the vendor.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST", "IT"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR", "EDGE"],
+      "minTCCount": 2,
+      "sapMovementType": "411",
+      "sapPosting": "Debit: Inventory (BSX), Credit: Vendor Liability (GBB)"
+    },
+    {
+      "id": "AC-4",
+      "text": "The system generates a consignment settlement document listing all withdrawals for a defined settlement period.",
+      "type": "DOCUMENT_GENERATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "DV", "PT"],
+      "scenarioTypesRequired": ["HP", "AP", "NEG", "ERR", "EDGE"],
+      "minTCCount": 2,
+      "sapTransaction": "MRKO (Consignment Settlement)"
+    },
+    {
+      "id": "AC-5",
+      "text": "The settlement document can be used to generate the vendor's invoice verification automatically.",
+      "type": "INTEGRATION",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "ST", "IT"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2,
+      "sapTransaction": "MIRO (Invoice Verification) or ERS (Evaluated Receipt Settlement)"
+    },
+    {
+      "id": "AC-6",
+      "text": "The system maintains batch traceability throughout the consignment-to-owned stock transition.",
+      "type": "DATA_INTEGRITY",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "BF", "TC"],
+      "scenarioTypesRequired": ["HP", "AP", "EDGE", "INT"],
+      "minTCCount": 2,
+      "sapTransaction": "MB51 (Material Document List), MCX* (Batch where-used)",
+      "regulatoryRequirement": "FDA 21 CFR Part 11, ISO 9001"
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-1",
+        "description": "Complete Consignment Withdrawal Flow",
+        "details": "Access app → Select valid material/vendor/batch → Enter withdrawal quantity → Post movement → Verify ownership transfer → Verify financial posting → Verify batch traceability maintained",
+        "risk": "CRITICAL",
+        "acIds": ["AC-1", "AC-2", "AC-3", "AC-6"]
+      },
+      {
+        "id": "HP-2",
+        "description": "Settlement Document Generation and Invoice Creation",
+        "details": "Execute consignment settlement for period → Verify all withdrawals included → Verify batch details present → Generate invoice automatically → Verify invoice matches settlement → Verify GR/IR clearing",
+        "risk": "CRITICAL",
+        "acIds": ["AC-4", "AC-5"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-1",
+        "description": "Partial Withdrawal (Less Than Available Stock)",
+        "details": "Withdraw 50% of available consignment stock → Verify remaining stock still vendor-owned → Verify liability posted only for withdrawn quantity",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-2",
+        "description": "Full Withdrawal (Exact Available Stock)",
+        "details": "Withdraw 100% of available consignment stock → Verify consignment stock balance = zero → Verify all stock transferred to company-owned",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "AP-3",
+        "description": "Multiple Batches Withdrawal in Same Period",
+        "details": "Withdraw Batch A → Withdraw Batch B → Generate settlement → Verify both batches listed separately in settlement document",
+        "risk": "HIGH",
+        "acIds": ["AC-2", "AC-4", "AC-6"]
+      },
+      {
+        "id": "AP-4",
+        "description": "Cross-Month Settlement Period",
+        "details": "Withdraw in January and February → Settle for Jan 1 - Feb 28 → Verify all withdrawals included regardless of posting date",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "AP-5",
+        "description": "Backdated Withdrawal Posting",
+        "details": "Post withdrawal with past posting date (within allowed period) → Verify financial posting uses backdated values → Verify settlement includes backdated withdrawal",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3", "AC-4"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-1",
+        "description": "Insufficient Consignment Stock",
+        "details": "Attempt to withdraw quantity > available consignment stock → System rejects with error \"Insufficient consignment stock available\"",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "expectedError": "Insufficient consignment stock available"
+      },
+      {
+        "id": "NEG-2",
+        "description": "Invalid Vendor-Batch Combination",
+        "details": "Select Material X, Vendor A, Batch owned by Vendor B → System rejects with error \"Batch not found for selected vendor\"",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "expectedError": "Batch not found for selected vendor"
+      },
+      {
+        "id": "NEG-3",
+        "description": "Material Not Consignment-Enabled",
+        "details": "Attempt consignment withdrawal for non-consignment material → System rejects with error \"Material not enabled for consignment stock\"",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "expectedError": "Material not enabled for consignment stock"
+      },
+      {
+        "id": "NEG-4",
+        "description": "Unauthorized User Access",
+        "details": "User without M_MSEG_BWA authorization attempts to access app → System denies access with authorization error",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"],
+        "expectedError": "Authorization error / Access denied"
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-1",
+        "description": "Zero Withdrawal Quantity",
+        "details": "Enter withdrawal quantity = 0 → System rejects with error \"Quantity must be greater than zero\"",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "field": "Quantity",
+        "expectedError": "Quantity must be greater than zero"
+      },
+      {
+        "id": "ERR-2",
+        "description": "Negative Withdrawal Quantity",
+        "details": "Enter withdrawal quantity = -10 → System rejects with error \"Negative quantities not allowed\"",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "field": "Quantity",
+        "expectedError": "Negative quantities not allowed"
+      },
+      {
+        "id": "ERR-3",
+        "description": "Missing Mandatory Field (Plant)",
+        "details": "Leave Plant field blank → Attempt to post → System rejects with error \"Plant is a required field\"",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Plant",
+        "expectedError": "Plant is a required field"
+      },
+      {
+        "id": "ERR-4",
+        "description": "Missing Mandatory Field (Storage Location)",
+        "details": "Leave Storage Location field blank → Attempt to post → System rejects with error \"Storage Location is required\"",
+        "risk": "HIGH",
+        "acIds": ["AC-1"],
+        "field": "Storage Location",
+        "expectedError": "Storage Location is required"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-1",
+        "description": "Expired Batch Withdrawal",
+        "details": "Attempt to withdraw batch with expiry date in the past → System blocks with error \"Batch has expired\"",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "parameter": "batchExpiry",
+        "boundary": "expired",
+        "expectedError": "Batch has expired"
+      },
+      {
+        "id": "EDGE-2",
+        "description": "Same-Day Settlement",
+        "details": "Withdraw material → Immediately settle for same day → Verify settlement document generated correctly",
+        "risk": "MEDIUM",
+        "acIds": ["AC-4"],
+        "parameter": "settlementPeriod",
+        "boundary": "minimum"
+      },
+      {
+        "id": "EDGE-3",
+        "description": "Settlement Period with No Withdrawals",
+        "details": "Execute settlement for period with zero consignment withdrawals → Verify system displays \"No data found\" or empty settlement document",
+        "risk": "LOW",
+        "acIds": ["AC-4"],
+        "parameter": "withdrawalCount",
+        "boundary": "zero"
+      },
+      {
+        "id": "EDGE-4",
+        "description": "Price Change During Settlement Period",
+        "details": "Material price changes mid-period → Withdraw before and after price change → Verify settlement uses price at time of each withdrawal",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-5"],
+        "parameter": "price",
+        "boundary": "dynamic"
+      },
+      {
+        "id": "EDGE-5",
+        "description": "Maximum Decimal Precision Quantity",
+        "details": "Enter withdrawal quantity with 3 decimal places (e.g., 10.125 KG) → Verify posting accepts and processes correctly",
+        "risk": "LOW",
+        "acIds": ["AC-3"],
+        "parameter": "quantity",
+        "boundary": "precision"
+      },
+      {
+        "id": "EDGE-6",
+        "description": "Zero-Price Consignment Material",
+        "details": "Withdraw consignment material with moving average price = 0 → Verify posting succeeds with zero-value accounting entry",
+        "risk": "MEDIUM",
+        "acIds": ["AC-3"],
+        "parameter": "price",
+        "boundary": "zero"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-1",
+        "description": "Production Order Integration",
+        "details": "Consignment withdrawal triggered by production order goods issue → Verify automatic Movement Type 411 posted → Verify production order references consignment withdrawal",
+        "risk": "HIGH",
+        "acIds": ["AC-3", "AC-6"],
+        "integrationType": "MM-PP"
+      },
+      {
+        "id": "INT-2",
+        "description": "Quality Inspection Post-Withdrawal",
+        "details": "Withdraw consignment stock to quality inspection → Approve batch → Transfer to unrestricted → Verify batch chain maintained",
+        "risk": "MEDIUM",
+        "acIds": ["AC-6"],
+        "integrationType": "MM-QM"
+      },
+      {
+        "id": "INT-3",
+        "description": "Invoice Verification with Price Variance",
+        "details": "Settlement document price differs from vendor invoice price → Verify invoice blocked for review → Manual price adjustment → Invoice posted",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "integrationType": "MM-FI"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 2,
+    "AP": 5,
+    "NEG": 4,
+    "ERR": 4,
+    "EDGE": 6,
+    "INT": 3,
+    "total": 24
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "dataType": "String (18)",
+        "mandatory": true,
+        "validRange": "Must exist, batch-managed, consignment-enabled",
+        "exampleValue": "BIO-HV-001"
+      },
+      {
+        "name": "batchNumber",
+        "label": "Batch",
+        "dataType": "String (10)",
+        "mandatory": true,
+        "validRange": "Must exist for material, vendor consignment batch",
+        "exampleValue": "BATCH-2024-001"
+      },
+      {
+        "name": "vendorCode",
+        "label": "Vendor",
+        "dataType": "String (10)",
+        "mandatory": true,
+        "validRange": "Must exist, consignment vendor",
+        "exampleValue": "17300005"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "String (4)",
+        "mandatory": true,
+        "validRange": "Must exist, user authorized",
+        "exampleValue": "1710"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "dataType": "String (4)",
+        "mandatory": true,
+        "validRange": "Must exist in plant",
+        "exampleValue": "0001"
+      },
+      {
+        "name": "withdrawalQuantity",
+        "label": "Quantity",
+        "dataType": "Decimal (13,3)",
+        "mandatory": true,
+        "validRange": "> 0, ≤ available consignment stock",
+        "exampleValue": "50.000 KG"
+      },
+      {
+        "name": "movementType",
+        "label": "Movement Type",
+        "dataType": "String (3)",
+        "mandatory": true,
+        "validRange": "Fixed: 411 (Consignment Withdrawal)",
+        "exampleValue": "411"
+      },
+      {
+        "name": "movementReason",
+        "label": "Reason",
+        "dataType": "String (4)",
+        "mandatory": false,
+        "validRange": "User-defined reason code",
+        "exampleValue": "0001"
+      },
+      {
+        "name": "settlementPeriod",
+        "label": "Settlement Period",
+        "dataType": "Date Range",
+        "mandatory": true,
+        "validRange": "Start ≤ End, must cover withdrawal dates",
+        "exampleValue": "01.01.2026 - 31.01.2026"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "materialDescription",
+        "label": "Material Description",
+        "trigger": "Confirm Material",
+        "source": "Material Master (MAKT)"
+      },
+      {
+        "name": "batchStatus",
+        "label": "Batch Status",
+        "trigger": "Confirm Batch",
+        "source": "Batch Master (MCH1)"
+      },
+      {
+        "name": "unitOfMeasure",
+        "label": "UoM",
+        "trigger": "Confirm Material",
+        "source": "Material Master (MARA) - Base UoM"
+      },
+      {
+        "name": "consignmentStockQuantity",
+        "label": "Available Consignment Stock",
+        "trigger": "Enter Material + Plant + Storage Location + Vendor + Batch",
+        "source": "Real-time inventory (MB52 - Special stock 'K')"
+      },
+      {
+        "name": "price",
+        "label": "Price (Moving Average)",
+        "trigger": "Confirm Material + Plant",
+        "source": "Material Valuation (MBEW)"
+      },
+      {
+        "name": "vendorName",
+        "label": "Vendor Name",
+        "trigger": "Confirm Vendor",
+        "source": "Vendor Master (LFA1)"
+      },
+      {
+        "name": "companyCode",
+        "label": "Company Code",
+        "trigger": "Confirm Plant",
+        "source": "Plant Master - Company Code assignment"
+      },
+      {
+        "name": "postingDate",
+        "label": "Posting Date",
+        "trigger": "System date",
+        "source": "Current date (can be backdated with authorization)"
+      },
+      {
+        "name": "documentDate",
+        "label": "Document Date",
+        "trigger": "System date",
+        "source": "Current date"
+      },
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document Number",
+        "trigger": "After posting",
+        "source": "Number range (50xxxxxxxx)"
+      },
+      {
+        "name": "accountingDocumentNumber",
+        "label": "Accounting Document Number",
+        "trigger": "After posting",
+        "source": "Number range (50xxxxxxxx) in FI"
+      },
+      {
+        "name": "settlementDocumentNumber",
+        "label": "Settlement Document Number",
+        "trigger": "MRKO execution",
+        "source": "Number range auto-generated"
+      }
+    ],
+    "output": [
+      {
+        "name": "materialDocumentNumber",
+        "label": "Material Document Number",
+        "description": "Generated after successful posting",
+        "verificationMethod": "Display on confirmation screen"
+      },
+      {
+        "name": "consignmentStockBalance",
+        "label": "Consignment Stock Balance",
+        "description": "Reduced by withdrawal quantity",
+        "verificationMethod": "MB52 - Special stock 'K' for vendor"
+      },
+      {
+        "name": "unrestrictedStockBalance",
+        "label": "Unrestricted Stock Balance",
+        "description": "Increased by withdrawal quantity",
+        "verificationMethod": "MB52 - Unrestricted stock"
+      },
+      {
+        "name": "vendorLiabilityPosting",
+        "label": "Vendor Liability Posting",
+        "description": "FI document with credit to vendor account",
+        "verificationMethod": "FB03 - Display accounting document"
+      },
+      {
+        "name": "inventoryValuationIncrease",
+        "label": "Inventory Valuation Increase",
+        "description": "Inventory account debited by price × quantity",
+        "verificationMethod": "FB03 - BSX account posting"
+      },
+      {
+        "name": "grirClearingEntry",
+        "label": "GR/IR Clearing Entry",
+        "description": "GR/IR account cleared if PO-based consignment",
+        "verificationMethod": "FB03 - WRX account"
+      },
+      {
+        "name": "settlementDocumentItems",
+        "label": "Settlement Document Items",
+        "description": "All withdrawals listed with batch details",
+        "verificationMethod": "MRKO display"
+      },
+      {
+        "name": "invoiceDocument",
+        "label": "Invoice Document",
+        "description": "Automatically created with settlement reference",
+        "verificationMethod": "MIRO or MIR7 (invoice list)"
+      },
+      {
+        "name": "batchDocumentFlow",
+        "label": "Batch Document Flow",
+        "description": "Material document linked to batch in genealogy",
+        "verificationMethod": "MB03 - Batch display, Classification tab"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "withdrawalQuantity",
+        "label": "Withdrawal Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "Available consignment stock",
+        "zeroInvalid": true,
+        "edgeCases": "Exact stock match, decimal precision"
+      },
+      {
+        "name": "settlementPeriod",
+        "label": "Settlement Period",
+        "lowerBoundary": "1 day",
+        "upperBoundary": "1 fiscal year",
+        "zeroInvalid": false,
+        "edgeCases": "Same-day withdrawal, cross-year settlement"
+      },
+      {
+        "name": "batchExpiryDate",
+        "label": "Batch Expiry Date",
+        "lowerBoundary": "Current date",
+        "upperBoundary": "No limit",
+        "zeroInvalid": false,
+        "edgeCases": "Expired batch withdrawal (should be blocked)"
+      },
+      {
+        "name": "materialPrice",
+        "label": "Material Price",
+        "lowerBoundary": "0.00",
+        "upperBoundary": "No limit",
+        "zeroInvalid": false,
+        "edgeCases": "Zero-price consignment, price change during period"
+      },
+      {
+        "name": "numberOfWithdrawals",
+        "label": "Number of Withdrawals in Period",
+        "lowerBoundary": "1",
+        "upperBoundary": "No limit",
+        "zeroInvalid": false,
+        "edgeCases": "Single withdrawal, bulk settlement (100+ items)"
+      }
+    ]
+  },
+  "riskAssessment": {
+    "scenarioAreas": [
+      {
+        "name": "Consignment Stock Access and Availability",
+        "businessImpact": "MEDIUM",
+        "failureProbability": "LOW",
+        "overallRisk": "LOW-MEDIUM",
+        "failureScenarios": [
+          "User cannot access Post Goods Movement app → Production delay",
+          "No consignment stock available for material/vendor/batch → Withdrawal blocked",
+          "Wrong storage location selected → Incorrect stock reduced"
+        ],
+        "mitigation": "Authorization testing, Stock availability validation, Location verification"
+      },
+      {
+        "name": "Ownership Transfer and Financial Posting",
+        "businessImpact": "CRITICAL",
+        "failureProbability": "MEDIUM",
+        "overallRisk": "CRITICAL",
+        "failureScenarios": [
+          "Ownership transfer fails → Material remains vendor-owned",
+          "Liability posting missing → Vendor not credited, financial statement incorrect",
+          "Wrong price used → Valuation error, vendor underpaid/overpaid",
+          "Accounting document not generated → Financial reconciliation failure"
+        ],
+        "mitigation": "Financial integration testing, Price validation, Posting verification, Accounting reconciliation"
+      },
+      {
+        "name": "Batch Traceability",
+        "businessImpact": "CRITICAL",
+        "failureProbability": "LOW",
+        "overallRisk": "HIGH",
+        "failureScenarios": [
+          "Batch number lost in transfer → Regulatory non-compliance (FDA audit failure)",
+          "Batch genealogy broken → Cannot trace material in recall scenario",
+          "Expired batch allowed → Quality violation, patient safety risk"
+        ],
+        "mitigation": "Batch flow verification, Expiry date validation, Genealogy chain testing"
+      },
+      {
+        "name": "Settlement Document Generation",
+        "businessImpact": "HIGH",
+        "failureProbability": "MEDIUM",
+        "overallRisk": "HIGH",
+        "failureScenarios": [
+          "Settlement document incomplete → Vendor under-billed, revenue loss",
+          "Wrong period applied → Billing disputes, delayed payment",
+          "Batch details missing → Cannot reconcile with vendor records",
+          "Settlement fails for cross-plant withdrawals → Manual intervention required"
+        ],
+        "mitigation": "Period boundary testing, Data completeness verification, Multi-plant scenario testing"
+      },
+      {
+        "name": "Invoice Verification Automation",
+        "businessImpact": "HIGH",
+        "failureProbability": "MEDIUM",
+        "overallRisk": "HIGH",
+        "failureScenarios": [
+          "Automatic invoice creation fails → Manual processing required, delay",
+          "Price mismatch → Invoice blocked, requires manual clearing",
+          "GR/IR account not cleared → Open items accumulate, month-end reconciliation issue"
+        ],
+        "mitigation": "Invoice matching validation, Price consistency check, GR/IR clearing verification"
+      },
+      {
+        "name": "Error Handling and Data Validation",
+        "businessImpact": "MEDIUM",
+        "failureProbability": "MEDIUM",
+        "overallRisk": "MEDIUM",
+        "failureScenarios": [
+          "Zero/negative quantity accepted → Invalid movement posted",
+          "Insufficient consignment stock not detected → Overdrawn stock, negative inventory",
+          "Invalid vendor/batch combination allowed → Incorrect liability posting",
+          "Backdated posting without authorization → Audit violation"
+        ],
+        "mitigation": "Input validation testing, Negative testing, Authorization boundary testing"
+      }
+    ],
+    "criticalRiskAreas": [
+      "Ownership transfer accuracy (AC-3)",
+      "Financial posting correctness (AC-3)",
+      "Batch traceability integrity (AC-6)",
+      "Settlement completeness (AC-4)",
+      "Invoice automation reliability (AC-5)"
+    ],
+    "justification": "1. Financial Impact: Direct impact on inventory valuation (balance sheet) and vendor liability (accounts payable). 2. Regulatory Compliance: Batch traceability is mandatory for FDA/EMA-regulated biologics. 3. Business Criticality: High-value materials (biologics cost $1,000-$100,000/kg) — errors = significant financial loss. 4. Process Complexity: Multi-module integration (MM + FI + Batch Management) with automatic postings. 5. Data Integrity: Consignment stock segregation failure = financial misstatement (audit risk). 6. Vendor Relationship: Incorrect settlement = vendor disputes, payment delays, supply disruption."
+  },
+  "dependencies": {
+    "masterData": [
+      "Material Master with consignment indicator active (MARC-KZECH = 'X')",
+      "Batch Management active for material (MARC-XCHPF = 'X')",
+      "Vendor Master with consignment agreement (LFM1 consignment info record)",
+      "Info Record with consignment liabilities account (EINE)",
+      "Consignment stock already posted via GR against consignment PO (Movement Type 101, special stock 'K')"
+    ],
+    "configuration": [
+      "Movement Type 411 configured for consignment withdrawal",
+      "Automatic account determination for consignment liability (GBB account)",
+      "Number ranges for material documents, accounting documents, settlement documents",
+      "Batch determination strategy configured",
+      "Evaluated Receipt Settlement (ERS) configured for automatic invoice creation (if AC-5 required)"
+    ],
+    "authorization": [
+      "M_MSEG_BWA with activity 01 (Create) for Movement Type 411",
+      "F_LFA1_BUK for vendor liability postings",
+      "S_TCODE for MRKO (Consignment Settlement)",
+      "M_MSEG_BWE for backdated postings (if AP-5 required)"
+    ]
+  },
+  "testCoverageRecommendation": {
+    "minimumTestCases": 24,
+    "mandatoryCoverageTypes": ["HP", "AP", "NEG", "ERR", "EDGE", "INT"],
+    "testDataRequirements": [
+      "At least 2 consignment vendors",
+      "At least 3 batch-managed materials (1 high-value biologic)",
+      "Multiple batches per material/vendor",
+      "Historical withdrawals for settlement testing"
+    ],
+    "testEnvironment": "Dedicated system with pre-configured consignment stock and vendor agreements",
+    "estimatedTestEffort": "40-50 hours (includes test data setup, execution, verification)",
+    "specialSkills": "SAP MM module knowledge, financial accounting understanding, batch management expertise"
+  }
+}

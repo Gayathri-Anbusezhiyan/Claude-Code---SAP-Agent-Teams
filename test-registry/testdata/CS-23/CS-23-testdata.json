@@ -1,0 +1,191 @@
+{
+  "userStory": "CS-23",
+  "module": "MM",
+  "feature": "MRP with Shelf-Life Management for GMP Materials",
+  "generatedAt": "2026-08-24T00:00:00.000Z",
+  "testDataSets": {
+    "TD-CS-23-001": {
+      "id": "TD-CS-23-001",
+      "name": "Access Stock/Requirements List and run MRP end-to-end",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-174"],
+      "data": {
+        "materialId": "{{GMP_MATERIAL_ID_STANDARD}}",
+        "plant": "{{PLANT_CODE_MRP}}",
+        "mrpController": "{{MRP_CONTROLLER_CODE}}",
+        "processingKey": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLife": "{{MIN_SHELF_LIFE_STANDARD}}",
+        "totalShelfLife": "{{TOTAL_SHELF_LIFE_STANDARD}}",
+        "batchNumber": "{{BATCH_NUMBER_NEAR_EXPIRED}}",
+        "expectedMRPElementType": "{{MRP_ELEMENT_TYPE_PA_OR_BA}}"
+      },
+      "expectedOutcome": "MRP run completes; Planned Order or Purchase Requisition generated; near-expired batch excluded from available stock"
+    },
+    "TD-CS-23-002": {
+      "id": "TD-CS-23-002",
+      "name": "MRP for in-house production (Planned Order)",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-175"],
+      "data": {
+        "materialIdInhouse": "{{GMP_MATERIAL_ID_INHOUSE}}",
+        "plantInhouse": "{{PLANT_CODE_INHOUSE}}",
+        "mrpControllerInhouse": "{{MRP_CONTROLLER_CODE_INHOUSE}}",
+        "processingKeyInhouse": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeInhouse": "{{MIN_SHELF_LIFE_INHOUSE}}",
+        "totalShelfLifeInhouse": "{{TOTAL_SHELF_LIFE_INHOUSE}}",
+        "procurementTypeInhouse": "{{PROCUREMENT_TYPE_INHOUSE}}"
+      },
+      "expectedOutcome": "Planned Order (PA) generated; shelf-life constraints applied; receipt date adjusted"
+    },
+    "TD-CS-23-003": {
+      "id": "TD-CS-23-003",
+      "name": "MRP for external procurement (Purchase Requisition)",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-176"],
+      "data": {
+        "materialIdExternal": "{{GMP_MATERIAL_ID_EXTERNAL}}",
+        "plantExternal": "{{PLANT_CODE_EXTERNAL}}",
+        "mrpControllerExternal": "{{MRP_CONTROLLER_CODE_EXTERNAL}}",
+        "processingKeyExternal": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeExternal": "{{MIN_SHELF_LIFE_EXTERNAL}}",
+        "totalShelfLifeExternal": "{{TOTAL_SHELF_LIFE_EXTERNAL}}",
+        "vendorIdExternal": "{{VENDOR_ID_EXTERNAL}}",
+        "procurementTypeExternal": "{{PROCUREMENT_TYPE_EXTERNAL}}"
+      },
+      "expectedOutcome": "Purchase Requisition (BA) generated; shelf-life constraints applied; delivery date adjusted; vendor auto-filled"
+    },
+    "TD-CS-23-004": {
+      "id": "TD-CS-23-004",
+      "name": "Convert Planned Order to Production Order",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-177"],
+      "data": {
+        "materialIdConvertPA": "{{GMP_MATERIAL_ID_CONVERT_PA}}",
+        "plantConvertPA": "{{PLANT_CODE_CONVERT_PA}}",
+        "plannedOrderNumber": "{{PLANNED_ORDER_NUMBER_TO_CONVERT}}"
+      },
+      "expectedOutcome": "Planned Order converted to Production Order; conversion confirmed with Production Order number"
+    },
+    "TD-CS-23-005": {
+      "id": "TD-CS-23-005",
+      "name": "Convert Purchase Requisition to Purchase Order",
+      "scenarioType": "ALTERNATIVE_PATH",
+      "usedByTestCases": ["TC-CS-178"],
+      "data": {
+        "materialIdConvertPR": "{{GMP_MATERIAL_ID_CONVERT_PR}}",
+        "plantConvertPR": "{{PLANT_CODE_CONVERT_PR}}",
+        "purchaseRequisitionNumber": "{{PURCHASE_REQUISITION_NUMBER_TO_CONVERT}}"
+      },
+      "expectedOutcome": "Purchase Requisition converted to Purchase Order; conversion confirmed with PO number"
+    },
+    "TD-CS-23-006": {
+      "id": "TD-CS-23-006",
+      "name": "Material without minimum shelf-life configured",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-179"],
+      "data": {
+        "materialIdNoShelfLife": "{{MATERIAL_ID_NO_SHELF_LIFE}}",
+        "plantNoShelfLife": "{{PLANT_CODE_NO_SHELF_LIFE}}",
+        "mrpControllerNoShelfLife": "{{MRP_CONTROLLER_CODE_NO_SHELF_LIFE}}",
+        "processingKeyNoShelfLife": "{{MRP_PROCESSING_KEY_NETCH}}"
+      },
+      "expectedOutcome": "MRP run completes as standard MRP without shelf-life constraints; all stock counted as available; no exception messages"
+    },
+    "TD-CS-23-007": {
+      "id": "TD-CS-23-007",
+      "name": "All batches below minimum shelf-life",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-180"],
+      "data": {
+        "materialIdAllExpired": "{{GMP_MATERIAL_ID_ALL_EXPIRED}}",
+        "plantAllExpired": "{{PLANT_CODE_ALL_EXPIRED}}",
+        "mrpControllerAllExpired": "{{MRP_CONTROLLER_CODE_ALL_EXPIRED}}",
+        "processingKeyAllExpired": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeAllExpired": "{{MIN_SHELF_LIFE_ALL_EXPIRED}}",
+        "expiredBatch1": "{{EXPIRED_BATCH_1}}",
+        "expiredBatch2": "{{EXPIRED_BATCH_2}}",
+        "expectedFullReplenishmentQty": "{{FULL_REPLENISHMENT_QUANTITY}}"
+      },
+      "expectedOutcome": "All batches excluded; MRP proposal quantity equals full requirement (no stock available)"
+    },
+    "TD-CS-23-008": {
+      "id": "TD-CS-23-008",
+      "name": "Batch expiration exactly equals minimum threshold (exclusion boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-181"],
+      "data": {
+        "materialIdExactBoundary": "{{GMP_MATERIAL_ID_EXACT_BOUNDARY}}",
+        "plantExactBoundary": "{{PLANT_CODE_EXACT_BOUNDARY}}",
+        "mrpControllerExactBoundary": "{{MRP_CONTROLLER_CODE_EXACT_BOUNDARY}}",
+        "processingKeyExactBoundary": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeExactBoundary": "{{MIN_SHELF_LIFE_EXACT_BOUNDARY}}",
+        "batchExactBoundary": "{{BATCH_EXACT_BOUNDARY}}"
+      },
+      "expectedOutcome": "Batch with remaining shelf life = min threshold is EXCLUDED from available stock (boundary rule: ≤ threshold)"
+    },
+    "TD-CS-23-009": {
+      "id": "TD-CS-23-009",
+      "name": "Batch expiration 1 day above minimum threshold (inclusion boundary)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-182"],
+      "data": {
+        "materialIdOneDayAbove": "{{GMP_MATERIAL_ID_ONE_DAY_ABOVE}}",
+        "plantOneDayAbove": "{{PLANT_CODE_ONE_DAY_ABOVE}}",
+        "mrpControllerOneDayAbove": "{{MRP_CONTROLLER_CODE_ONE_DAY_ABOVE}}",
+        "processingKeyOneDayAbove": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeOneDayAbove": "{{MIN_SHELF_LIFE_ONE_DAY_ABOVE}}",
+        "batchOneDayAbove": "{{BATCH_ONE_DAY_ABOVE}}",
+        "batchQuantityOneDayAbove": "{{BATCH_QUANTITY_ONE_DAY_ABOVE}}"
+      },
+      "expectedOutcome": "Batch with remaining shelf life = min threshold + 1 day is INCLUDED in available stock (boundary rule: > threshold)"
+    },
+    "TD-CS-23-010": {
+      "id": "TD-CS-23-010",
+      "name": "Total shelf life equal to minimum remaining shelf-life (edge configuration)",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-183"],
+      "data": {
+        "materialIdEqualShelfLife": "{{GMP_MATERIAL_ID_EQUAL_SHELF_LIFE}}",
+        "plantEqualShelfLife": "{{PLANT_CODE_EQUAL_SHELF_LIFE}}",
+        "mrpControllerEqualShelfLife": "{{MRP_CONTROLLER_CODE_EQUAL_SHELF_LIFE}}",
+        "processingKeyEqualShelfLife": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "totalShelfLifeEqual": "{{TOTAL_SHELF_LIFE_EQUAL}}",
+        "minShelfLifeEqual": "{{MIN_SHELF_LIFE_EQUAL}}",
+        "standardLeadTimeEqual": "{{STANDARD_LEAD_TIME_EQUAL}}"
+      },
+      "expectedOutcome": "MRP proposals generated with adjusted lead time; material must arrive with full shelf-life (min = total edge case)"
+    },
+    "TD-CS-23-011": {
+      "id": "TD-CS-23-011",
+      "name": "Exception message at exact minimum threshold",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-184"],
+      "data": {
+        "materialIdExceptionExact": "{{GMP_MATERIAL_ID_EXCEPTION_EXACT}}",
+        "plantExceptionExact": "{{PLANT_CODE_EXCEPTION_EXACT}}",
+        "mrpControllerExceptionExact": "{{MRP_CONTROLLER_CODE_EXCEPTION_EXACT}}",
+        "processingKeyExceptionExact": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeExceptionExact": "{{MIN_SHELF_LIFE_EXCEPTION_EXACT}}",
+        "batchExceptionExact": "{{BATCH_EXCEPTION_EXACT}}",
+        "expectedExceptionCode": "{{EXCEPTION_CODE_SHELF_LIFE}}"
+      },
+      "expectedOutcome": "Exception message (code 10) triggered when remaining shelf life = min threshold exactly"
+    },
+    "TD-CS-23-012": {
+      "id": "TD-CS-23-012",
+      "name": "Exception message 1 day below minimum threshold",
+      "scenarioType": "EDGE_CASE",
+      "usedByTestCases": ["TC-CS-185"],
+      "data": {
+        "materialIdExceptionBelow": "{{GMP_MATERIAL_ID_EXCEPTION_BELOW}}",
+        "plantExceptionBelow": "{{PLANT_CODE_EXCEPTION_BELOW}}",
+        "mrpControllerExceptionBelow": "{{MRP_CONTROLLER_CODE_EXCEPTION_BELOW}}",
+        "processingKeyExceptionBelow": "{{MRP_PROCESSING_KEY_NETCH}}",
+        "minShelfLifeExceptionBelow": "{{MIN_SHELF_LIFE_EXCEPTION_BELOW}}",
+        "batchExceptionBelow": "{{BATCH_EXCEPTION_BELOW}}",
+        "expectedExceptionCodeBelow": "{{EXCEPTION_CODE_SHELF_LIFE}}"
+      },
+      "expectedOutcome": "Exception message (code 10) triggered when remaining shelf life = min threshold - 1 day; batch also excluded"
+    }
+  }
+}

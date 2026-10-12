@@ -1,0 +1,32 @@
+{
+  "issueKey": "CS-27",
+  "type": "Task",
+  "summary": "Maintain A Purchasing Contract (Outline Agreement) With Negotiated Pri",
+  "status": "To Do",
+  "resolution": null,
+  "priority": "Critical",
+  "assignee": null,
+  "reporter": {
+    "displayName": "Pabbathi Sai Chand Reddy",
+    "accountId": "61aaf98ac15977006a033317"
+  },
+  "storyPoints": null,
+  "sprint": null,
+  "fixVersions": [],
+  "epic": null,
+  "labels": [
+    "Management",
+    "Materials"
+  ],
+  "components": [],
+  "description": "As a Procurement Officer, I want to maintain a Purchasing Contract (Outline Agreement) with negotiated pricing for a validated API (Active Pharmaceutical Ingredient) supplier, so that release orders can be issued quickly against pre-agreed terms.",
+  "acceptanceCriteria": "1. The user can access the \"Manage Purchase Contracts\" Fiori app.\n2. The user can define target quantity/value, validity period, and tiered pricing conditions on the contract.\n3. The system tracks cumulative release quantities/values against the contract limit.\n4. The system warns the user when a release order would exceed the remaining contract balance.\n5. The contract can be linked to a specific approved vendor and material combination consistent with the source list.\n6. The system alerts the Procurement team a configurable number of days before contract expiration.",
+  "linkedIssues": [],
+  "subtasks": [],
+  "attachments": [],
+  "comments": [],
+  "created": "2026-08-21T14:11:14.274+0530",
+  "updated": "2026-08-21T14:11:14.368+0530",
+  "url": "https://jira-naqet.atlassian.net/browse/CS-27",
+  "fetchedAt": "2026-08-21T09:15:00.000Z"
+}

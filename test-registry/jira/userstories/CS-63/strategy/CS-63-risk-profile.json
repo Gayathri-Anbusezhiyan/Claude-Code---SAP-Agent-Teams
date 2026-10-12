@@ -1,0 +1,391 @@
+{
+  "userStory": "CS-63",
+  "summary": "User Story PP-014",
+  "module": "PP",
+  "analysedAt": "2026-08-21T09:45:00.000Z",
+  "analysedBy": "test-strategy-agent/skills/analyze-userstory",
+  "actor": "Production Planner",
+  "businessObject": "Reservation (component reservation against Planned Order / Process Order)",
+  "complexity": "Complex",
+  "storyPoints": null,
+  "overallRisk": "CRITICAL",
+  "hasLinkedIssues": false,
+  "linkedIssueCount": 0,
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "The user can access the \"Stock/Requirements List\" Fiori app.",
+      "type": "NAVIGATION",
+      "risk": "LOW",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP"],
+      "minTCCount": 1
+    },
+    {
+      "id": "AC-2",
+      "text": "The system automatically creates component reservations when a planned order is converted to a process order.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-3",
+      "text": "Reserved quantities are excluded from available stock shown to other planning or sales processes.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP"],
+      "scenarioTypesRequired": ["HP", "INT"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-4",
+      "text": "The system displays a shortage warning if reserved component quantities exceed current available stock.",
+      "type": "VALIDATION_NEGATIVE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["NEG", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-5",
+      "text": "The planner can manually adjust reservation quantities or dates prior to process order release.",
+      "type": "BUSINESS_RULE",
+      "risk": "HIGH",
+      "testTechniques": ["EP", "BVA"],
+      "scenarioTypesRequired": ["AP", "EDGE"],
+      "minTCCount": 2
+    },
+    {
+      "id": "AC-6",
+      "text": "The system releases the reservation automatically upon backflush consumption or order cancellation.",
+      "type": "BUSINESS_RULE",
+      "risk": "CRITICAL",
+      "testTechniques": ["EP", "ST"],
+      "scenarioTypesRequired": ["HP", "AP", "INT"],
+      "minTCCount": 3
+    }
+  ],
+  "scenarioInventory": {
+    "HP": [
+      {
+        "id": "HP-01",
+        "description": "Access Stock/Requirements List app and view existing reservations",
+        "risk": "LOW",
+        "acIds": ["AC-1"]
+      },
+      {
+        "id": "HP-02",
+        "description": "Convert Planned Order to Process Order and verify automatic component reservation creation",
+        "risk": "CRITICAL",
+        "acIds": ["AC-2", "AC-3"]
+      },
+      {
+        "id": "HP-03",
+        "description": "Confirm reserved quantities are excluded from available stock in other processes",
+        "risk": "CRITICAL",
+        "acIds": ["AC-3"]
+      },
+      {
+        "id": "HP-04",
+        "description": "Execute backflush consumption and verify automatic reservation release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "AP": [
+      {
+        "id": "AP-01",
+        "description": "Manually adjust reservation quantity before process order release",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-02",
+        "description": "Manually adjust reservation date before process order release",
+        "risk": "HIGH",
+        "acIds": ["AC-5"]
+      },
+      {
+        "id": "AP-03",
+        "description": "Cancel process order and verify automatic reservation release",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"]
+      }
+    ],
+    "NEG": [
+      {
+        "id": "NEG-01",
+        "description": "Attempt to reserve component quantity exceeding current available stock and verify shortage warning",
+        "risk": "HIGH",
+        "acIds": ["AC-4"]
+      },
+      {
+        "id": "NEG-02",
+        "description": "Attempt to convert planned order with no BOM and verify error handling",
+        "risk": "HIGH",
+        "acIds": ["AC-2"]
+      },
+      {
+        "id": "NEG-03",
+        "description": "Attempt to access Stock/Requirements List app without authorization",
+        "risk": "MEDIUM",
+        "acIds": ["AC-1"]
+      }
+    ],
+    "ERR": [
+      {
+        "id": "ERR-01",
+        "description": "Missing Planned Order Number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Planned Order"
+      },
+      {
+        "id": "ERR-02",
+        "description": "Missing Material Number",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Material"
+      },
+      {
+        "id": "ERR-03",
+        "description": "Missing Plant",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Plant"
+      },
+      {
+        "id": "ERR-04",
+        "description": "Missing Requirement Date",
+        "risk": "HIGH",
+        "acIds": ["AC-2"],
+        "field": "Requirement Date"
+      },
+      {
+        "id": "ERR-05",
+        "description": "Missing Reservation Quantity (when manual adjustment attempted)",
+        "risk": "HIGH",
+        "acIds": ["AC-5"],
+        "field": "Reservation Quantity"
+      }
+    ],
+    "EDGE": [
+      {
+        "id": "EDGE-01",
+        "description": "Reservation quantity at minimum boundary (0.001 or smallest UoM unit)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "quantity",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-02",
+        "description": "Reservation quantity equal to planned quantity (maximum valid boundary)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "quantity",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-03",
+        "description": "Requirement date set to current date (earliest valid date)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "date",
+        "boundary": "lower"
+      },
+      {
+        "id": "EDGE-04",
+        "description": "Requirement date set to end of planning horizon (furthest valid date)",
+        "risk": "MEDIUM",
+        "acIds": ["AC-5"],
+        "parameter": "date",
+        "boundary": "upper"
+      },
+      {
+        "id": "EDGE-05",
+        "description": "Available stock exactly zero when reservation attempted (boundary for shortage warning)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "parameter": "availableStock",
+        "boundary": "zero"
+      }
+    ],
+    "INT": [
+      {
+        "id": "INT-01",
+        "description": "Verify reservation prevents concurrent allocation to sales order (PP→SD integration)",
+        "risk": "HIGH",
+        "acIds": ["AC-3"],
+        "integration": "Sales Order ATP check"
+      },
+      {
+        "id": "INT-02",
+        "description": "Verify backflush goods issue releases reservation (PP→MM integration)",
+        "risk": "CRITICAL",
+        "acIds": ["AC-6"],
+        "integration": "Goods Movement posting"
+      },
+      {
+        "id": "INT-03",
+        "description": "Verify shortage warning reflects real-time stock updates from warehouse (MM→PP integration)",
+        "risk": "HIGH",
+        "acIds": ["AC-4"],
+        "integration": "Stock update event"
+      }
+    ]
+  },
+  "recommendedTCCount": {
+    "HP": 4,
+    "AP": 3,
+    "NEG": 3,
+    "ERR": 5,
+    "EDGE": 5,
+    "INT": 3,
+    "total": 23
+  },
+  "dataParameters": {
+    "input": [
+      {
+        "name": "plannedOrderNumber",
+        "label": "Planned Order",
+        "dataType": "Alphanumeric (10 digits)",
+        "mandatory": true,
+        "validRange": "Existing planned order in SAP (PP-specific)"
+      },
+      {
+        "name": "materialNumber",
+        "label": "Material",
+        "dataType": "Alphanumeric",
+        "mandatory": true,
+        "validRange": "Existing material in material master (MARA)"
+      },
+      {
+        "name": "plant",
+        "label": "Plant",
+        "dataType": "Alphanumeric (4 chars)",
+        "mandatory": true,
+        "validRange": "Valid plant code in SAP organizational structure"
+      },
+      {
+        "name": "requirementDate",
+        "label": "Requirement Date",
+        "dataType": "Date",
+        "mandatory": true,
+        "validRange": "Future date within planning horizon"
+      },
+      {
+        "name": "reservationQuantity",
+        "label": "Reservation Quantity",
+        "dataType": "Numeric (decimal)",
+        "mandatory": true,
+        "validRange": "Greater than 0, less than or equal to planned quantity"
+      },
+      {
+        "name": "storageLocation",
+        "label": "Storage Location",
+        "dataType": "Alphanumeric (4 chars)",
+        "mandatory": false,
+        "validRange": "Valid storage location for the plant"
+      }
+    ],
+    "autoPopulated": [
+      {
+        "name": "reservationNumber",
+        "label": "Reservation",
+        "trigger": "Conversion of Planned Order to Process Order",
+        "source": "SAP number range (NRIV)"
+      },
+      {
+        "name": "componentList",
+        "label": "Components",
+        "trigger": "Selection of finished product material",
+        "source": "Bill of Materials (BOM) master (STKO/STPO)"
+      },
+      {
+        "name": "baseUoM",
+        "label": "Base UoM",
+        "trigger": "Material selection",
+        "source": "Material master (MARA-MEINS)"
+      },
+      {
+        "name": "availableStock",
+        "label": "Available Quantity",
+        "trigger": "Plant + Material + Storage Location entry",
+        "source": "Stock master (MARD) minus existing reservations"
+      },
+      {
+        "name": "mrpController",
+        "label": "MRP Controller",
+        "trigger": "Plant + Material entry",
+        "source": "Material master plant data (MARC-DISPO)"
+      },
+      {
+        "name": "productionSupervisor",
+        "label": "Production Supervisor",
+        "trigger": "Plant entry",
+        "source": "Plant parameters or work center data"
+      }
+    ],
+    "output": [
+      {
+        "name": "reservationNumber",
+        "label": "Reservation Number",
+        "description": "Unique SAP-generated reservation document number",
+        "format": "10-digit numeric"
+      },
+      {
+        "name": "reservationStatus",
+        "label": "Reservation Status",
+        "description": "Status indicator (Open, Partially Fulfilled, Completed, Cancelled)",
+        "format": "Status code"
+      },
+      {
+        "name": "reservedQuantity",
+        "label": "Reserved Quantity",
+        "description": "Total quantity reserved for this production order",
+        "format": "Numeric with UoM"
+      },
+      {
+        "name": "shortageIndicator",
+        "label": "Shortage Indicator",
+        "description": "Flag indicating insufficient available stock",
+        "format": "Boolean (warning icon or message)"
+      },
+      {
+        "name": "updatedAvailableStock",
+        "label": "Updated Available Stock",
+        "description": "Recalculated available stock after reservation",
+        "format": "Numeric with UoM"
+      }
+    ],
+    "boundary": [
+      {
+        "name": "reservationQuantity",
+        "label": "Reservation Quantity",
+        "lowerBoundary": "0.001",
+        "upperBoundary": "Planned quantity from order",
+        "zeroInvalid": true,
+        "notes": "Depends on UoM precision"
+      },
+      {
+        "name": "requirementDate",
+        "label": "Requirement Date",
+        "lowerBoundary": "Current date (today)",
+        "upperBoundary": "End of planning horizon (typically 1-2 years)",
+        "zeroInvalid": false,
+        "notes": "Past date is invalid per business rule enforcement"
+      },
+      {
+        "name": "availableStock",
+        "label": "Available Stock",
+        "lowerBoundary": "0",
+        "upperBoundary": "Current physical stock",
+        "zeroInvalid": false,
+        "notes": "Zero triggers shortage warning; negative depends on system settings"
+      }
+    ]
+  }
+}

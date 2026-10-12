@@ -1,0 +1,169 @@
+{
+  "userStory": "CS-36",
+  "module": "QM-SD",
+  "feature": "Batch Recall with Sales & Distribution Block Placement",
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "generatedBy": "testcase-agent/skills/extract-testdata",
+  "envDependencies": {
+    "SAP_FIORI_URL": "Read from .env — used as {ENV.SAP_FIORI_URL} in navigation steps",
+    "SAP_USERNAME": "Read from .env — used as {ENV.SAP_USERNAME} in login steps",
+    "SAP_PASSWORD": "Read from .env — used as {ENV.SAP_PASSWORD} in login steps"
+  },
+  "testDataSets": {
+    "TD-CS-036-001": {
+      "id": "TD-CS-036-001",
+      "name": "Valid Batch-Managed Material with Existing Batch — Primary Happy Path",
+      "scenarioType": "HAPPY_PATH",
+      "usedByTestCases": ["TC-CS-036"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "batchStatus": "{{BATCH_STATUS_UNRESTRICTED}}",
+        "plant": "{{PLANT_CODE}}",
+        "blockTimestamp": "{{TIMESTAMP_CURRENT}}"
+      },
+      "expectedOutcome": "Sales & Distribution block successfully placed on batch; confirmation message displayed; batch status updated to SD block active"
+    },
+    "TD-CS-036-NEG-001": {
+      "id": "TD-CS-036-NEG-001",
+      "name": "Sales Order Creation for Blocked Batch — Negative Validation",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-037"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "customerName": "{{CUSTOMER_NAME_VALID}}",
+        "salesOrg": "{{SALES_ORG_CODE}}",
+        "distributionChannel": "{{DISTRIBUTION_CHANNEL_CODE}}",
+        "quantity": "{{ORDER_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP prevents sales order creation; error message displayed: Batch is blocked for sales and distribution; no sales order number generated"
+    },
+    "TD-CS-036-NEG-002": {
+      "id": "TD-CS-036-NEG-002",
+      "name": "Delivery Processing for Blocked Batch — Negative Validation",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-038"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_BLOCKED}}",
+        "customerId": "{{CUSTOMER_ID_VALID}}",
+        "shippingPoint": "{{SHIPPING_POINT_CODE}}",
+        "plant": "{{PLANT_CODE}}",
+        "quantity": "{{DELIVERY_QUANTITY_STANDARD}}"
+      },
+      "expectedOutcome": "SAP prevents delivery creation and processing; error message displayed: Batch is blocked for sales and distribution; no delivery number generated"
+    },
+    "TD-CS-036-NEG-003": {
+      "id": "TD-CS-036-NEG-003",
+      "name": "SD Block on Non-Existent Batch — Negative Validation",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-039"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "invalidBatchNumber": "{{BATCH_NUMBER_INVALID}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Batch does not exist; batch details not loaded; SD block placement disabled; no SD block applied"
+    },
+    "TD-CS-036-NEG-004": {
+      "id": "TD-CS-036-NEG-004",
+      "name": "SD Block on Non-Batch-Managed Material — Negative Validation",
+      "scenarioType": "NEGATIVE",
+      "usedByTestCases": ["TC-CS-040"],
+      "data": {
+        "nonBatchManagedMaterial": "{{MATERIAL_NUMBER_NON_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_NON_BATCH_MANAGED}}",
+        "anyBatchNumber": "{{BATCH_NUMBER_ANY}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "expectedOutcome": "SAP displays error: Material is not batch-managed; batch field disabled or inaccessible; SD block placement disabled; no SD block applied"
+    },
+    "TD-CS-036-ERR-001": {
+      "id": "TD-CS-036-ERR-001",
+      "name": "Missing Batch Number — Mandatory Field Validation",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-041"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "note": "batchNumber intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Batch field as mandatory; validation message displayed: Batch number is required; SD block placement disabled"
+    },
+    "TD-CS-036-ERR-002": {
+      "id": "TD-CS-036-ERR-002",
+      "name": "Missing Material Number — Mandatory Field Validation",
+      "scenarioType": "ERROR",
+      "usedByTestCases": ["TC-CS-042"],
+      "data": {
+        "materialNumber": "",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "plant": "{{PLANT_CODE}}"
+      },
+      "note": "materialNumber intentionally empty to test mandatory field enforcement",
+      "expectedOutcome": "SAP highlights Material field as mandatory; validation message displayed: Material number is required; batch search disabled; SD block placement disabled"
+    },
+    "TD-CS-036-INT-001": {
+      "id": "TD-CS-036-INT-001",
+      "name": "QM Batch Status Change Triggers SD Block — Integration Test",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-043"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_UNRESTRICTED}}",
+        "batchStatus": "{{BATCH_STATUS_UNRESTRICTED}}",
+        "plant": "{{PLANT_CODE}}",
+        "restrictedQualityStatus": "{{QUALITY_STATUS_RESTRICTED}}",
+        "blockTimestamp": "{{TIMESTAMP_CURRENT}}"
+      },
+      "expectedOutcome": "Quality status changed in QM module; SD block automatically propagated to SD module; confirmation message displayed; audit trail logged with timestamp and user ID"
+    },
+    "TD-CS-036-INT-002": {
+      "id": "TD-CS-036-INT-002",
+      "name": "Existing Sales Orders Flagged for Blocked Batch — Integration Test",
+      "scenarioType": "INTEGRATION",
+      "usedByTestCases": ["TC-CS-044"],
+      "data": {
+        "materialNumber": "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+        "materialDescription": "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+        "batchNumber": "{{BATCH_NUMBER_VALID}}",
+        "plant": "{{PLANT_CODE}}",
+        "existingSalesOrderNumber": "{{SALES_ORDER_NUMBER_EXISTING}}",
+        "salesOrg": "{{SALES_ORG_CODE}}"
+      },
+      "expectedOutcome": "SD block placed on batch; existing sales order flagged with warning; sales order or delivery status shows blocked; impact report lists affected sales orders with recommended actions"
+    }
+  },
+  "allPlaceholders": [
+    "{{MATERIAL_NUMBER_BATCH_MANAGED}}",
+    "{{MATERIAL_DESCRIPTION_BATCH_MANAGED}}",
+    "{{BATCH_NUMBER_VALID}}",
+    "{{BATCH_NUMBER_BLOCKED}}",
+    "{{BATCH_NUMBER_UNRESTRICTED}}",
+    "{{BATCH_NUMBER_INVALID}}",
+    "{{BATCH_NUMBER_ANY}}",
+    "{{BATCH_STATUS_UNRESTRICTED}}",
+    "{{MATERIAL_NUMBER_NON_BATCH_MANAGED}}",
+    "{{MATERIAL_DESCRIPTION_NON_BATCH_MANAGED}}",
+    "{{PLANT_CODE}}",
+    "{{CUSTOMER_ID_VALID}}",
+    "{{CUSTOMER_NAME_VALID}}",
+    "{{SALES_ORG_CODE}}",
+    "{{DISTRIBUTION_CHANNEL_CODE}}",
+    "{{SHIPPING_POINT_CODE}}",
+    "{{ORDER_QUANTITY_STANDARD}}",
+    "{{DELIVERY_QUANTITY_STANDARD}}",
+    "{{QUALITY_STATUS_RESTRICTED}}",
+    "{{TIMESTAMP_CURRENT}}",
+    "{{SALES_ORDER_NUMBER_EXISTING}}"
+  ]
+}
